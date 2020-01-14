@@ -1,0 +1,48 @@
+
+<p-toast></p-toast>
+<!-- form group info -->
+<form *ngIf="'Group'|editable" class="form" role="form" #groupForm="ngForm" autocomplete="off" (ngSubmit)="updateGroup()">
+  <p-fieldset legend="Modification utilisateur" [toggleable]="true">
+    <p-toolbar>
+      <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
+          class="fa fa-eraser" aria-hidden="true"></i>
+        Retour</button>
+      <button [disabled]="groupForm.invalid" type="submit" class="btn btn-warning pull-right">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+        Enregistrer</button>
+    </p-toolbar>
+    <!-- debut body -->
+    <div class="row">
+                    <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="name">Name</label>
+                    <input [(ngModel)]="group.name" class="form-control" type="text" name="name" id="name">
+                </div>
+            </div>
+                            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="roles">Roles</label>
+                    <input [(ngModel)]="group.roles" class="form-control" type="text" name="roles" id="roles">
+                </div>
+            </div>
+                                    <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="code">Code</label>
+                    <input [(ngModel)]="group.code" class="form-control" type="text" name="code" id="code">
+                </div>
+            </div>
+                
+      
+    </div>
+    <!-- fin body -->
+    <p-toolbar>
+      <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
+          class="fa fa-eraser" aria-hidden="true"></i>
+        Retour</button>
+      <button [disabled]="groupForm.invalid" type="submit" class="btn btn-warning pull-right">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+        Enregistrer</button>
+    </p-toolbar>
+  </p-fieldset>
+</form>
+<!-- /form group info -->

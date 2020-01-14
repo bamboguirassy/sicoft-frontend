@@ -2,6 +2,7 @@ import { Component, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { AuthService } from './shared/services/auth.service';
 
 @Component({
     selector: 'app-root',
@@ -11,7 +12,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     subscription: Subscription;
 
-    constructor(private router: Router) {
+    constructor(private router: Router, public authSrv:AuthService) {
     }
 
     ngOnInit() {
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 filter(event => event instanceof NavigationEnd)
             )
             .subscribe(() => window.scrollTo(0, 0));
+            this.authSrv.getCurrentUser();
     }
 
 

@@ -1,7 +1,17 @@
 import { RouteInfo } from './sidebar.metadata';
 
 export const ROUTES: RouteInfo[] = [
-
+    {
+        path: '', title: 'Paramètrage', icon: 'ft-settings', class: 'has-sub', badge: '2', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false,
+        submenu: [
+            {
+                path: '/user', title: 'Utilisateurs', icon: 'ft-users', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []
+            },
+            {
+                path: '/group', title: "Groupes", icon: 'ft-list', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []
+            },
+        ]
+    },
     {
         path: '/full-layout', title: 'Full Layout', icon: 'ft-layout', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []
     },

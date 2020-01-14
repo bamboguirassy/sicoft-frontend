@@ -1,0 +1,99 @@
+<p-toast></p-toast>
+<p-fieldset *ngIf="'User'|showable" legend="Affichage des informations - Utilisateur" [toggleable]="true">
+  <p-toolbar>
+    <button *ngIf="'User'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+      [routerLink]="['/'+userSrv.getRoutePrefix(),user.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+      Modifier</button>
+    <button *ngIf="'User'|clonable" [routerLink]="['/'+userSrv.getRoutePrefix(),user.id,'clone']" type="button"
+      class="btn btn-outline-secondary pull-right ml-1">
+      <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+    </button>
+    <button *ngIf="'User'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1"
+      (click)="removeUser()"><i class="fa fa-trash-o"></i> Supprimer</button>
+    <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+        class="fa fa-reply"></i> Retour</button>
+  </p-toolbar>
+  <p-tabView>
+    <p-tabPanel header="Détails">
+      <p-fieldset [legend]="user.id">
+        <table class="table">
+          <tr>
+            <th>Username</th>
+            <td>{{ user.username }}</td>
+          </tr>
+          <tr>
+            <th>UsernameCanonical</th>
+            <td>{{ user.usernameCanonical }}</td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td>{{ user.email }}</td>
+          </tr>
+          <tr>
+            <th>EmailCanonical</th>
+            <td>{{ user.emailCanonical }}</td>
+          </tr>
+          <tr>
+            <th>Enabled</th>
+            <td>{{ user.enabled ? 'Yes' : 'No' }}</td>
+          </tr>
+          <tr>
+            <th>Salt</th>
+            <td>{{ user.salt }}</td>
+          </tr>
+          <tr>
+            <th>Password</th>
+            <td>{{ user.password }}</td>
+          </tr>
+          <tr>
+            <th>LastLogin</th>
+            <td>{{ user.lastLogin}}</td>
+          </tr>
+          <tr>
+            <th>ConfirmationToken</th>
+            <td>{{ user.confirmationToken }}</td>
+          </tr>
+          <tr>
+            <th>PasswordRequestedAt</th>
+            <td>{{ user.passwordRequestedAt}}</td>
+          </tr>
+          <tr>
+            <th>Roles</th>
+            <td>{{ user.roles}}</td>
+          </tr>
+          <tr>
+            <th>Prenom</th>
+            <td>{{ user.prenom }}</td>
+          </tr>
+          <tr>
+            <th>Nom</th>
+            <td>{{ user.nom }}</td>
+          </tr>
+          <tr>
+            <th>Telephone</th>
+            <td>{{ user.telephone }}</td>
+          </tr>
+        </table>
+        <p-toolbar>
+          <button *ngIf="'User'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+            [routerLink]="['/'+userSrv.getRoutePrefix(),user.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+            Modifier</button>
+          <button *ngIf="'User'|clonable" [routerLink]="['/'+userSrv.getRoutePrefix(),user.id,'clone']" type="button"
+            class="btn btn-outline-secondary pull-right ml-1">
+            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+          </button>
+          <button *ngIf="'User'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1"
+            (click)="removeUser()"><i class="fa fa-trash-o"></i> Supprimer</button>
+          <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+              class="fa fa-reply"></i> Retour</button>
+          <button *ngIf="'User'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
+            <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+          </button>
+        </p-toolbar>
+      </p-fieldset>
+    </p-tabPanel>
+    <p-tabPanel header="Liste associée">
+
+    </p-tabPanel>
+  </p-tabView>
+</p-fieldset>

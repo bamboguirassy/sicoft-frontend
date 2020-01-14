@@ -17,6 +17,6 @@ export class NotificationService {
   }
 
   showWarning(message: any){
-    this.messageService.add({ severity: 'info', summary: 'Information', detail: message });
+    this.messageService.add({ severity: 'warn', summary: 'Information', detail: message });
   }
 }

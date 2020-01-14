@@ -19,6 +19,12 @@ import { SidebarLinkDirective } from './directives/sidebarlink.directive';
 import { SidebarListDirective } from './directives/sidebarlist.directive';
 import { SidebarAnchorToggleDirective } from './directives/sidebaranchortoggle.directive';
 import { SidebarToggleDirective } from './directives/sidebartoggle.directive';
+import { ClonablePipe } from './pipes/clonable.pipe';
+import { EditablePipe } from './pipes/editable.pipe';
+import { CreablePipe } from './pipes/creable.pipe';
+import { ListablePipe } from './pipes/listable.pipe';
+import { ShowablePipe } from './pipes/showable.pipe';
+import { DeletablePipe } from './pipes/deletable.pipe';
 
 @NgModule({
     exports: [
@@ -30,7 +36,13 @@ import { SidebarToggleDirective } from './directives/sidebartoggle.directive';
         ToggleFullscreenDirective,
         SidebarDirective,
         NgbModule,
-        TranslateModule
+        TranslateModule,
+        ClonablePipe,
+        EditablePipe,
+        CreablePipe,
+        ListablePipe,
+        ShowablePipe,
+        DeletablePipe
     ],
     imports: [
         RouterModule,
@@ -49,7 +61,13 @@ import { SidebarToggleDirective } from './directives/sidebartoggle.directive';
         SidebarLinkDirective,
         SidebarListDirective,
         SidebarAnchorToggleDirective,
-        SidebarToggleDirective
+        SidebarToggleDirective,
+        ClonablePipe,
+        EditablePipe,
+        CreablePipe,
+        ListablePipe,
+        ShowablePipe,
+        DeletablePipe
     ]
 })
 export class SharedModule { }
