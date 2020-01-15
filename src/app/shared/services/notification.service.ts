@@ -9,7 +9,7 @@ export class NotificationService {
   constructor(public messageService:MessageService) { }
 
   showError(message: any){
-    this.messageService.add({ severity: 'error', summary: 'Attention', detail: message });
+    this.messageService.add({ severity: 'error', summary: 'Erreur', detail: message });
   }
 
   showInfo(message: any){
@@ -17,6 +17,6 @@ export class NotificationService {
   }
 
   showWarning(message: any){
-    this.messageService.add({ severity: 'warn', summary: 'Information', detail: message });
+    this.messageService.add({ severity: 'warn', summary: 'Attention', detail: message });
   }
 }

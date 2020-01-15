@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div class="row" *ngIf="'User'|listable">
   <div class="col-sm-12 col-md-12 col-lg-12">
-    <p-fieldset legend="Liste des users" [toggleable]="true">
+    <p-fieldset legend="Liste des utilisateurs" [toggleable]="true">
       <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
           <p-toolbar>
@@ -22,7 +22,7 @@
             [(contextMenuSelection)]="selectedUser" [scrollable]="true" scrollHeight="400px"
             [globalFilterFields]="globalFilterFields" dataKey="id">
             <ng-template pTemplate="caption">
-              Liste des users<br>
+              Liste des utilisateurs<br>
               <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
               <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
                 (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
@@ -44,12 +44,6 @@
                 <col>
                 <col>
                 <col>
-                <col>
-                <col>
-                <col>
-                <col>
-                <col>
-                <col>
               </colgroup>
             </ng-template>
             <ng-template pTemplate="header">
@@ -57,41 +51,8 @@
                 <th style="width: 3em">
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th [pSortableColumn]="'username'" pResizableColumn>
-                  Username <p-sortIcon [field]="'username'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'usernameCanonical'" pResizableColumn>
-                  UsernameCanonical <p-sortIcon [field]="'usernameCanonical'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'email'" pResizableColumn>
-                  Email <p-sortIcon [field]="'email'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'emailCanonical'" pResizableColumn>
-                  EmailCanonical <p-sortIcon [field]="'emailCanonical'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'enabled'" pResizableColumn>
-                  Enabled <p-sortIcon [field]="'enabled'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'salt'" pResizableColumn>
-                  Salt <p-sortIcon [field]="'salt'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'password'" pResizableColumn>
-                  Password <p-sortIcon [field]="'password'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'lastLogin'" pResizableColumn>
-                  LastLogin <p-sortIcon [field]="'lastLogin'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'confirmationToken'" pResizableColumn>
-                  ConfirmationToken <p-sortIcon [field]="'confirmationToken'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'passwordRequestedAt'" pResizableColumn>
-                  PasswordRequestedAt <p-sortIcon [field]="'passwordRequestedAt'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'roles'" pResizableColumn>
-                  Roles <p-sortIcon [field]="'roles'"></p-sortIcon>
-                </th>
                 <th [pSortableColumn]="'prenom'" pResizableColumn>
-                  Prenom <p-sortIcon [field]="'prenom'"></p-sortIcon>
+                  Prénom <p-sortIcon [field]="'prenom'"></p-sortIcon>
                 </th>
                 <th [pSortableColumn]="'nom'" pResizableColumn>
                   Nom <p-sortIcon [field]="'nom'"></p-sortIcon>
@@ -99,45 +60,24 @@
                 <th [pSortableColumn]="'telephone'" pResizableColumn>
                   Telephone <p-sortIcon [field]="'telephone'"></p-sortIcon>
                 </th>
+                <th [pSortableColumn]="'username'" pResizableColumn>
+                  Nom d'utilisateur <p-sortIcon [field]="'username'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'email'" pResizableColumn>
+                  Email <p-sortIcon [field]="'email'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'enabled'" pResizableColumn>
+                  Compte Actif <p-sortIcon [field]="'enabled'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'lastLogin'" pResizableColumn>
+                  Vue à <p-sortIcon [field]="'lastLogin'"></p-sortIcon>
+                </th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-user let-editing="editing">
               <tr [pEditableRow]="user" [pSelectableRow]="user" [pContextMenuRow]="user">
                 <td style="width: 3em">
                   <p-tableCheckbox [value]="user"></p-tableCheckbox>
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.username }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.usernameCanonical }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.email }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.emailCanonical }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.enabled ? 'Yes' : 'No' }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.salt }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.password }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.lastLogin}}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.confirmationToken }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.passwordRequestedAt }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.roles }}
                 </td>
                 <td class="ui-resizable-column">
                   {{ user.prenom }}
@@ -148,6 +88,18 @@
                 <td class="ui-resizable-column">
                   {{ user.telephone }}
                 </td>
+                <td class="ui-resizable-column">
+                  {{ user.username }}
+                </td>
+                <td class="ui-resizable-column">
+                  {{ user.email }}
+                </td>
+                <td class="ui-resizable-column text-center">
+                  {{ user.enabled ? 'Oui' : 'Non' }}
+                </td>
+                <td class="ui-resizable-column">
+                  {{ user.lastLogin }}
+                </td>
               </tr>
             </ng-template>
             <ng-template pTemplate="footer" let-columns>
@@ -155,20 +107,13 @@
                 <td style="width: 3em">
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </td>
-                <td>Username</td>
-                <td>UsernameCanonical</td>
-                <td>Email</td>
-                <td>EmailCanonical</td>
-                <td>Enabled</td>
-                <td>Salt</td>
-                <td>Password</td>
-                <td>LastLogin</td>
-                <td>ConfirmationToken</td>
-                <td>PasswordRequestedAt</td>
-                <td>Roles</td>
-                <td>Prenom</td>
+                <td>Prénom</td>
                 <td>Nom</td>
                 <td>Telephone</td>
+                <td>Username</td>
+                <td>Email</td>
+                <td>Compte Actif</td>
+                <td>Vue à</td>
               </tr>
             </ng-template>
           </p-table>

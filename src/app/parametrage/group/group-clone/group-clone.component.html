@@ -1,8 +1,7 @@
-
 <p-toast></p-toast>
 <!-- form group info -->
 <form *ngIf="'Group'|clonable" class="form" role="form" #groupForm="ngForm" autocomplete="off">
-    <p-fieldset legend="Clonage group" [toggleable]="true">
+    <p-fieldset legend="Clonage groupe - {{original.name}}" [toggleable]="true">
         <p-toolbar>
             <button type="button" (click)="location.back()" class="btn btn-outline-secondary mr-1 pull-left"><i
                     class="fa fa-reply" aria-hidden="true"></i>
@@ -15,25 +14,122 @@
         </p-toolbar>
         <!-- debut body -->
         <div class="row">
-                        <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="name">Name</label>
-                    <input [(ngModel)]="group.name" class="form-control" type="text" name="name" id="name">
-                </div>
-            </div>
-                                    <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="roles">Roles</label>
-                    <input [(ngModel)]="group.roles" class="form-control" type="text" name="roles" id="roles">
-                </div>
-            </div>
-                                                <div class="col-lg-6">
+            <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="code">Code</label>
-                    <input [(ngModel)]="group.code" class="form-control" type="text" name="code" id="code">
+                    <input required [(ngModel)]="group.code" class="form-control" type="text" name="code" id="code">
                 </div>
             </div>
-                    </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="name">Nom</label>
+                    <input required [(ngModel)]="group.name" class="form-control" type="text" name="name" id="name">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6" *ngFor="let accessGroup of accessGroups">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="8" class="text-center">
+                                {{accessGroup.groupName}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                    <input (change)="handleGroupSelection($event,accessGroup)" type="checkbox"
+                                        class="custom-control-input" id="check{{accessGroup.groupName}}Group">
+                                    <label class="custom-control-label"
+                                        for="check{{accessGroup.groupName}}Group"></label>
+                                </div>
+                            </th>
+                            <th>Nom</th>
+                            <th>
+                                <i class="fa fa-list" aria-hidden="true"></i>
+                            </th>
+                            <th>
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </th>
+                            <th>
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            </th>
+                            <th>
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </th>
+                            <th>
+                                <i class="fa fa-clone" aria-hidden="true"></i>
+                            </th>
+                            <th>
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let accessModel of accessGroup.accessModels; let i=index">
+                            <td>
+                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                    <input (change)="handleAccessSelection($event,accessModel)"
+                                        [(ngModel)]="accessModel.checkAll" type="checkbox" class="custom-control-input"
+                                        id="check{{accessModel.tableName}}Access"
+                                        name="check{{accessModel.tableName}}Access">
+                                    <label class="custom-control-label"
+                                        for="check{{accessModel.tableName}}Access"></label>
+                                </div>
+                            </td>
+                            <td scope="row">{{accessModel.tableName}}</td>
+                            <td>
+                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                    <input name="{{accessModel.tableName}}Index"
+                                        [(ngModel)]="accessModel.isIndexAllowed" type="checkbox"
+                                        class="custom-control-input" id="{{accessModel.tableName}}Index">
+                                    <label class="custom-control-label" for="{{accessModel.tableName}}Index"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                    <input name="{{accessModel.tableName}}Show" [(ngModel)]="accessModel.isShowAllowed"
+                                        type="checkbox" class="custom-control-input" id="{{accessModel.tableName}}Show">
+                                    <label class="custom-control-label" for="{{accessModel.tableName}}Show"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                    <input name="{{accessModel.tableName}}Create"
+                                        [(ngModel)]="accessModel.isCreateAllowed" type="checkbox"
+                                        class="custom-control-input" id="{{accessModel.tableName}}Create">
+                                    <label class="custom-control-label" for="{{accessModel.tableName}}Create"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                    <input name="{{accessModel.tableName}}Edit" [(ngModel)]="accessModel.isEditAllowed"
+                                        type="checkbox" class="custom-control-input" id="{{accessModel.tableName}}Edit">
+                                    <label class="custom-control-label" for="{{accessModel.tableName}}Edit"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                    <input name="{{accessModel.tableName}}Clone"
+                                        [(ngModel)]="accessModel.isCloneAllowed" type="checkbox"
+                                        class="custom-control-input" id="{{accessModel.tableName}}Clone">
+                                    <label class="custom-control-label" for="{{accessModel.tableName}}Clone"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                    <input name="{{accessModel.tableName}}Delete"
+                                        [(ngModel)]="accessModel.isDeleteAllowed" type="checkbox"
+                                        class="custom-control-input" id="{{accessModel.tableName}}Delete">
+                                    <label class="custom-control-label" for="{{accessModel.tableName}}Delete"></label>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <!-- fin body -->
         <p-toolbar>
             <button type="button" (click)="location.back()" class="btn btn-outline-secondary mr-1 pull-left"><i

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GroupService } from '../group.service';
 import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
+import { AccessGroup } from '../access-group.model';
 
 @Component({
   selector: 'app-group-show',
@@ -13,6 +14,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class GroupShowComponent implements OnInit {
 
   group: Group;
+  accessGroups: AccessGroup[] = [];
   constructor(public activatedRoute: ActivatedRoute,
     public groupSrv: GroupService, public location: Location,
     public router: Router, public notificationSrv: NotificationService) {
@@ -20,6 +22,7 @@ export class GroupShowComponent implements OnInit {
 
   ngOnInit() {
     this.group = this.activatedRoute.snapshot.data['group'];
+    this.accessGroups=this.group.roles;
   }
 
   removeGroup() {

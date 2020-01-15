@@ -15,52 +15,8 @@
   </p-toolbar>
   <p-tabView>
     <p-tabPanel header="Détails">
-      <p-fieldset [legend]="user.id">
+      <p-fieldset [legend]="user.prenom+' '+user.nom+' ('+user.email+')'">
         <table class="table">
-          <tr>
-            <th>Username</th>
-            <td>{{ user.username }}</td>
-          </tr>
-          <tr>
-            <th>UsernameCanonical</th>
-            <td>{{ user.usernameCanonical }}</td>
-          </tr>
-          <tr>
-            <th>Email</th>
-            <td>{{ user.email }}</td>
-          </tr>
-          <tr>
-            <th>EmailCanonical</th>
-            <td>{{ user.emailCanonical }}</td>
-          </tr>
-          <tr>
-            <th>Enabled</th>
-            <td>{{ user.enabled ? 'Yes' : 'No' }}</td>
-          </tr>
-          <tr>
-            <th>Salt</th>
-            <td>{{ user.salt }}</td>
-          </tr>
-          <tr>
-            <th>Password</th>
-            <td>{{ user.password }}</td>
-          </tr>
-          <tr>
-            <th>LastLogin</th>
-            <td>{{ user.lastLogin}}</td>
-          </tr>
-          <tr>
-            <th>ConfirmationToken</th>
-            <td>{{ user.confirmationToken }}</td>
-          </tr>
-          <tr>
-            <th>PasswordRequestedAt</th>
-            <td>{{ user.passwordRequestedAt}}</td>
-          </tr>
-          <tr>
-            <th>Roles</th>
-            <td>{{ user.roles}}</td>
-          </tr>
           <tr>
             <th>Prenom</th>
             <td>{{ user.prenom }}</td>
@@ -72,6 +28,26 @@
           <tr>
             <th>Telephone</th>
             <td>{{ user.telephone }}</td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td>{{ user.email }}</td>
+          </tr>
+          <tr>
+            <th>Etat Compte</th>
+            <td>{{ user.enabled ? 'Actif' : 'Inactif' }}</td>
+          </tr>
+          <tr>
+            <th>Dernierement connecté</th>
+            <td>{{ user.lastLogin|date:'dd/MM/yyyy à HH:mm:ss' }}</td>
+          </tr>
+          <tr>
+            <th>Groupes associés</th>
+            <td><p-chips disabled="true" [(ngModel)]="user.groups">
+              <ng-template let-item pTemplate="item">
+                  {{item.name}} - ({{item.code}}) <i class="fa fa-gift" aria-hidden="true"></i>
+              </ng-template>
+          </p-chips></td>
           </tr>
         </table>
         <p-toolbar>

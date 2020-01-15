@@ -14,7 +14,10 @@ import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import {CheckboxModule} from 'primeng/checkbox';
-
+import {InputSwitchModule} from 'primeng/inputswitch';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {InputMaskModule} from 'primeng/inputmask';
+import {ChipsModule} from 'primeng/chips';
 
 import { GroupCloneComponent } from './group/group-clone/group-clone.component';
 import { GroupEditComponent } from './group/group-edit/group-edit.component';
@@ -50,7 +53,11 @@ import { GroupShowComponent } from './group/group-show/group-show.component';
     FieldsetModule,
     ToolbarModule,
     TabViewModule,
-    CheckboxModule
+    CheckboxModule,
+    InputSwitchModule,
+    MultiSelectModule,
+    InputMaskModule,
+    ChipsModule
   ]
 })
 export class ParametrageModule { }
