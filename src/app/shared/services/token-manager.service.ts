@@ -24,5 +24,11 @@ export class TokenManagerService {
 
   public setToken(token: string) {
     this.token = token;
+    this.localStorage.setItem(this.getTokenName(), token);
+  }
+
+  removeToken() {
+    this.token = '';
+    this.localStorage.removeItem(this.getTokenName());
   }
 }

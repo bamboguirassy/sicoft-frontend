@@ -67,10 +67,10 @@
                   Email <p-sortIcon [field]="'email'"></p-sortIcon>
                 </th>
                 <th [pSortableColumn]="'enabled'" pResizableColumn>
-                  Compte Actif <p-sortIcon [field]="'enabled'"></p-sortIcon>
+                  Etat Compte <p-sortIcon [field]="'enabled'"></p-sortIcon>
                 </th>
                 <th [pSortableColumn]="'lastLogin'" pResizableColumn>
-                  Vue à <p-sortIcon [field]="'lastLogin'"></p-sortIcon>
+                  Dernière connexion <p-sortIcon [field]="'lastLogin'"></p-sortIcon>
                 </th>
               </tr>
             </ng-template>
@@ -95,10 +95,10 @@
                   {{ user.email }}
                 </td>
                 <td class="ui-resizable-column text-center">
-                  {{ user.enabled ? 'Oui' : 'Non' }}
+                  {{ user.enabled ? 'Actif' : 'Inactif' }}
                 </td>
                 <td class="ui-resizable-column">
-                  {{ user.lastLogin }}
+                  {{ user.lastLogin | date:'dd/MM/yyyy à HH:mm:ss' }}
                 </td>
               </tr>
             </ng-template>
@@ -112,8 +112,8 @@
                 <td>Telephone</td>
                 <td>Username</td>
                 <td>Email</td>
-                <td>Compte Actif</td>
-                <td>Vue à</td>
+                <td>Etat Compte</td>
+                <td>Dernière connexion</td>
               </tr>
             </ng-template>
           </p-table>

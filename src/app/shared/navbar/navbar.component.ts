@@ -3,6 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { LayoutService } from '../services/layout.service';
 import { ConfigService } from '../services/config.service';
+import { TokenManagerService } from '../services/token-manager.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-navbar",
@@ -19,7 +21,11 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   public config: any = {};
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService:ConfigService) {
+  constructor(public translate: TranslateService,
+    private layoutService: LayoutService,
+    private configService: ConfigService,
+    public tokenMgr: TokenManagerService,
+    private router: Router) {
     const browserLang: string = translate.getBrowserLang();
     translate.use(browserLang.match(/en|es|pt|de/) ? browserLang : "en");
 
@@ -30,13 +36,13 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if(this.config.layout.dir) {
+    if (this.config.layout.dir) {
       const dir = this.config.layout.dir;
-        if (dir === "rtl") {
-          this.placement = "bottom-left";
-        } else if (dir === "ltr") {
-          this.placement = "bottom-right";
-        }
+      if (dir === "rtl") {
+        this.placement = "bottom-left";
+      } else if (dir === "ltr") {
+        this.placement = "bottom-right";
+      }
     }
   }
 
@@ -64,5 +70,10 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     } else {
       this.toggleHideSidebar.emit(true);
     }
+  }
+
+  logout() {
+    this.tokenMgr.removeToken();
+    this.router.navigate(['login']);
   }
 }

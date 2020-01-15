@@ -76,25 +76,25 @@
                     <li class="nav-item" ngbDropdown [placement]="placement">
                         <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
                             <i class="ft-user font-medium-3 blue-grey darken-4"></i>
-                            <p class="d-none">User Settings</p>
+                            <p class="d-none">Compte utilisateur</p>
                         </a>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic3" class="text-left">                           
                             <a class="dropdown-item py-1" href="javascript:;">
                                 <i class="ft-edit mr-2"></i>
-                                <span>My Profile</span>
+                                <span>Mon profil</span>
                             </a>
                             <a class="dropdown-item py-1" href="javascript:;">
                                 <i class="ft-mail mr-2"></i>
-                                <span>My Inbox</span>
+                                <span>Boite de reception</span>
                             </a>
                             <a class="dropdown-item py-1" href="javascript:;">
                                 <i class="ft-settings mr-2"></i>
-                                <span>Settings</span>
+                                <span>Paramètres</span>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="javascript:;">
+                            <a (click)="logout()" class="dropdown-item" href="javascript:;">
                                 <i class="ft-power mr-2"></i>
-                                <span>Logout</span>
+                                <span>Deconnexion</span>
                             </a>
                         </div>
                     </li>
