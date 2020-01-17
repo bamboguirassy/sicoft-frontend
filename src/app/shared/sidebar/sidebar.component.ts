@@ -1,20 +1,24 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit, OnDestroy } from "@angular/core";
 
 import { ROUTES } from './sidebar-routes.config';
 import { Router, ActivatedRoute } from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
 import { customAnimations } from "../animations/custom-animations";
 import { ConfigService } from '../services/config.service';
+import { RouteInfo } from './sidebar.metadata';
+import { AuthService } from '../services/auth.service';
+import { MapPipe, ContainsPipe } from 'ng-pipes';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",
   animations: customAnimations
 })
-export class SidebarComponent implements OnInit, AfterViewInit {
+export class SidebarComponent implements OnInit, AfterViewInit,OnDestroy {
 
-  @ViewChild('toggleIcon', {static: false} ) toggleIcon: ElementRef;
-  public menuItems: any[];
+  @ViewChild('toggleIcon', { static: false }) toggleIcon: ElementRef;
+  public menuItems: RouteInfo[];
   depth: number;
   activeTitle: string;
   activeTitles: string[] = [];
@@ -22,6 +26,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   nav_collapsed_open = false;
   logoUrl = 'assets/img/logo.png';
   public config: any = {};
+  subscription: Subscription;
 
 
   constructor(
@@ -31,6 +36,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     public translate: TranslateService,
     private configService: ConfigService,
+    public authSrv: AuthService,
+    private mapPipe: MapPipe,
+    private containsPipe: ContainsPipe
   ) {
     if (this.depth === undefined) {
       this.depth = 0;
@@ -38,10 +46,51 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
 
   ngOnInit() {
     this.config = this.configService.templateConf;
     this.menuItems = ROUTES;
+    //handle menu views
+    this.subscription=this.authSrv.getCurrentUser().subscribe(() => {
+      this.menuItems.forEach(menuItem => {
+        if (menuItem.submenu.length) {
+          menuItem.submenu.forEach(submenu => {
+            if (submenu.submenu.length) {
+              submenu.submenu.forEach(subSubmenu => {
+                if (subSubmenu.submenu.length) {
+                  alert("L'hierarchie des routes est limitée à 3...");
+                } else {
+                  if (!subSubmenu.display) {
+                    subSubmenu.display = this.authSrv.checkListAccess(subSubmenu.path.substr(1));
+                  }
+                }
+              });
+              //check if at least one submenu of menuItem is visible
+              if (this.containsPipe.transform(this.mapPipe.transform(submenu.submenu, 'display'), true)) {
+                submenu.display = true;
+              }
+            } else {
+              if (!submenu.display) {
+                submenu.display = this.authSrv.checkListAccess(submenu.path.substr(1));
+              }
+            }
+          });
+          //check if at least one submenu of menuItem is visible
+          if (this.containsPipe.transform(this.mapPipe.transform(menuItem.submenu, 'display'), true)) {
+            menuItem.display = true;
+          }
+        } else {
+          if (!menuItem.display) {
+            menuItem.display = this.authSrv.checkListAccess(menuItem.path.substr(1));
+          }
+        }
+      });
+    });
+
 
 
 

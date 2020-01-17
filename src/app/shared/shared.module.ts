@@ -5,6 +5,7 @@ import { RouterModule } from "@angular/router";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { NgPipesModule, ContainsPipe, MapPipe } from 'ng-pipes';
 
 //COMPONENTS
 import { FooterComponent } from "./footer/footer.component";
@@ -49,7 +50,8 @@ import { DeletablePipe } from './pipes/deletable.pipe';
         CommonModule,
         NgbModule,
         TranslateModule,
-        PerfectScrollbarModule
+        PerfectScrollbarModule,
+        NgPipesModule
     ],
     declarations: [
         FooterComponent,
@@ -68,6 +70,10 @@ import { DeletablePipe } from './pipes/deletable.pipe';
         ListablePipe,
         ShowablePipe,
         DeletablePipe
+    ],
+    providers: [
+        ContainsPipe,
+        MapPipe
     ]
 })
 export class SharedModule { }

@@ -6,6 +6,8 @@ import { ComingSoonPageComponent } from './coming-soon/coming-soon-page.componen
 import { ForgotPasswordPageComponent } from './forgot-password/forgot-password-page.component';
 import { LockScreenPageComponent } from './lock-screen/lock-screen-page.component';
 import { MaintenancePageComponent } from './maintenance/maintenance-page.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { TokenResolver } from './token.resolver';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent},
@@ -13,7 +15,8 @@ const routes: Routes = [
   { path: 'comingsoon', component: ComingSoonPageComponent},
   { path: 'forgotpassword', component: ForgotPasswordPageComponent},
   { path: 'lockscreen', component: LockScreenPageComponent},
-  { path: 'maintenance', component: MaintenancePageComponent}
+  { path: 'maintenance', component: MaintenancePageComponent},
+  { path: 'reset-password/:token', component: ResetPasswordComponent, resolve: {user: TokenResolver}},
 ];
 
 @NgModule({

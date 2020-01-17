@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpService } from './http.service';
 import { User } from 'app/parametrage/user/user';
+import { TitleCasePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class AuthService {
 
   public localStorage = window.localStorage;
 
-  constructor(public httpSrv: HttpService) { }
+  constructor(public httpSrv: HttpService,
+    private titleCasePipe: TitleCasePipe) { }
 
   getCurrentUser() {
     let req = this.httpSrv.get('auth/current_user/');
@@ -22,7 +24,7 @@ export class AuthService {
       this.currentUserManager.next(data);
       this.currentUser = data;
     },
-      error => this.httpSrv.handleError(error));
+      error => console.log(error));
     return req;
   }
 
@@ -61,6 +63,7 @@ export class AuthService {
   }
 
   checkListAccess(entityName: string) {
+    entityName=this.titleCasePipe.transform(entityName);
     let role = 'ROLE_' + entityName + '_INDEX';
     return this.getRoles().includes(role);
   }

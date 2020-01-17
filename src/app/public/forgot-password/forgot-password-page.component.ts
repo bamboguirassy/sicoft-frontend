@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
+import { UserService } from 'app/parametrage/user/user.service';
 
 @Component({
     selector: 'app-forgot-password-page',
@@ -9,14 +10,20 @@ import { Router, ActivatedRoute } from "@angular/router";
 })
 
 export class ForgotPasswordPageComponent {
-    @ViewChild('f', {static: false}) forogtPasswordForm: NgForm;
-
+    email: string;
     constructor(private router: Router,
-        private route: ActivatedRoute) { }
+        private route: ActivatedRoute,
+        public userSrv: UserService) { }
 
     // On submit click, reset form fields
     onSubmit() {
-        this.forogtPasswordForm.reset();
+        this.userSrv.askResetPassword(this.email)
+            .subscribe(data => {
+                this.email = '';
+                this.userSrv.httpSrv.notificationSrv.showInfo('Un lien de réinitialisation est envoyé au mail indiqué')
+            },
+                error => this.userSrv.httpSrv.notificationSrv.showError(error.error.message));
+
     }
 
     // On login link click
