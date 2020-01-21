@@ -1,0 +1,75 @@
+<p-toast></p-toast>
+<p-fieldset *ngIf="'Fournisseur'|showable" legend="Affichage des informations - fournisseur" [toggleable]="true">
+  <p-toolbar>
+    <button *ngIf="'Fournisseur'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+      [routerLink]="['/'+fournisseurSrv.getRoutePrefix(),fournisseur.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+      Modifier</button>
+    <button *ngIf="'Fournisseur'|clonable" [routerLink]="['/'+fournisseurSrv.getRoutePrefix(),fournisseur.id,'clone']" type="button"
+      class="btn btn-outline-secondary pull-right ml-1">
+      <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+    </button>
+    <button *ngIf="'Fournisseur'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeFournisseur()"><i
+        class="fa fa-trash-o"></i> Supprimer</button>
+    <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+        class="fa fa-reply"></i> Retour</button>
+  </p-toolbar>
+  <p-tabView>
+    <p-tabPanel header="Détails">
+      <p-fieldset [legend]="fournisseur.id">
+        <table class="table">
+                                    <tr>
+                <th>Nom</th>
+                <td>{{ fournisseur.nom }}</td>
+            </tr>
+                                    <tr>
+                <th>Telephone</th>
+                <td>{{ fournisseur.telephone }}</td>
+            </tr>
+                                    <tr>
+                <th>Email</th>
+                <td>{{ fournisseur.email }}</td>
+            </tr>
+                                    <tr>
+                <th>Adresse</th>
+                <td>{{ fournisseur.adresse }}</td>
+            </tr>
+                                    <tr>
+                <th>Ninea</th>
+                <td>{{ fournisseur.ninea }}</td>
+            </tr>
+                                    <tr>
+                <th>NomContact</th>
+                <td>{{ fournisseur.nomContact }}</td>
+            </tr>
+                                    <tr>
+                <th>TelephoneContact</th>
+                <td>{{ fournisseur.telephoneContact }}</td>
+            </tr>
+                                    <tr>
+                <th>FonctionContact</th>
+                <td>{{ fournisseur.fonctionContact }}</td>
+            </tr>
+                    </table>
+        <p-toolbar>
+          <button *ngIf="'Fournisseur'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+            [routerLink]="['/'+fournisseurSrv.getRoutePrefix(),fournisseur.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+            Modifier</button>
+          <button *ngIf="'Fournisseur'|clonable" [routerLink]="['/'+fournisseurSrv.getRoutePrefix(),fournisseur.id,'clone']" type="button"
+            class="btn btn-outline-secondary pull-right ml-1">
+            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+          </button>
+          <button *ngIf="'Fournisseur'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeFournisseur()"><i
+              class="fa fa-trash-o"></i> Supprimer</button>
+          <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+              class="fa fa-reply"></i> Retour</button>
+          <button *ngIf="'Fournisseur'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
+              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+          </button>
+        </p-toolbar>
+      </p-fieldset>
+    </p-tabPanel>
+    <p-tabPanel header="Liste associée">
+      
+    </p-tabPanel>
+  </p-tabView>
+</p-fieldset>

@@ -1,0 +1,141 @@
+<p-toast></p-toast>
+<div class="row" *ngIf="'Fournisseur'|listable">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <p-fieldset legend="Liste des fournisseurs" [toggleable]="true">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <p-toolbar>
+            <button *ngIf="'Fournisseur'|listable" type="button" class="btn btn-outline-secondary" (click)="refreshList()">
+              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+            </button>
+            <button *ngIf="'Fournisseur'|deletable" (click)="deleteSelectedFournisseurs()" type="button"
+              class="btn btn-outline-danger pull-right ml-1">
+              <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
+            </button>
+            <button *ngIf="'Fournisseur'|creable" [routerLink]="['/'+fournisseurSrv.getRoutePrefix(),'new']"
+              routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
+              <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
+            </button>
+          </p-toolbar>
+          <p-table #tt [value]="fournisseurs" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple"
+            [(selection)]="selectedFournisseurs" [resizableColumns]="true" [responsive]="true"
+            [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedFournisseur" [scrollable]="true"
+            scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
+            <ng-template pTemplate="caption">
+              Liste des fournisseurs<br>
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
+                (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+              <div class="ui-helper-clearfix" style="text-align: left">
+                <button *ngIf="'Fournisseur'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF"
+                  (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>
+                <button *ngIf="'Fournisseur'|listable" type="button" pButton icon="pi pi-file-excel" iconPos="left"
+                  label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="colgroup">
+              <colgroup>
+                                  <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                    </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3em">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                                <th [pSortableColumn]="'nom'" pResizableColumn>
+                  Nom <p-sortIcon [field]="'nom'"></p-sortIcon>
+              </th>
+                          <th [pSortableColumn]="'telephone'" pResizableColumn>
+                  Telephone <p-sortIcon [field]="'telephone'"></p-sortIcon>
+              </th>
+                          <th [pSortableColumn]="'email'" pResizableColumn>
+                  Email <p-sortIcon [field]="'email'"></p-sortIcon>
+              </th>
+                          <th [pSortableColumn]="'adresse'" pResizableColumn>
+                  Adresse <p-sortIcon [field]="'adresse'"></p-sortIcon>
+              </th>
+                          <th [pSortableColumn]="'ninea'" pResizableColumn>
+                  Ninea <p-sortIcon [field]="'ninea'"></p-sortIcon>
+              </th>
+                          <th [pSortableColumn]="'nomContact'" pResizableColumn>
+                  NomContact <p-sortIcon [field]="'nomContact'"></p-sortIcon>
+              </th>
+                          <th [pSortableColumn]="'telephoneContact'" pResizableColumn>
+                  TelephoneContact <p-sortIcon [field]="'telephoneContact'"></p-sortIcon>
+              </th>
+                          <th [pSortableColumn]="'fonctionContact'" pResizableColumn>
+                  FonctionContact <p-sortIcon [field]="'fonctionContact'"></p-sortIcon>
+              </th>
+                    </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-fournisseur let-editing="editing">
+              <tr [pEditableRow]="fournisseur" [pSelectableRow]="fournisseur" [pContextMenuRow]="fournisseur">
+                <td style="width: 3em">
+                  <p-tableCheckbox [value]="fournisseur"></p-tableCheckbox>
+                </td>
+                                                  <td class="ui-resizable-column">
+                  {{ fournisseur.nom }}
+                </td>
+                                        <td class="ui-resizable-column">
+                  {{ fournisseur.telephone }}
+                </td>
+                                        <td class="ui-resizable-column">
+                  {{ fournisseur.email }}
+                </td>
+                                        <td class="ui-resizable-column">
+                  {{ fournisseur.adresse }}
+                </td>
+                                        <td class="ui-resizable-column">
+                  {{ fournisseur.ninea }}
+                </td>
+                                        <td class="ui-resizable-column">
+                  {{ fournisseur.nomContact }}
+                </td>
+                                        <td class="ui-resizable-column">
+                  {{ fournisseur.telephoneContact }}
+                </td>
+                                        <td class="ui-resizable-column">
+                  {{ fournisseur.fonctionContact }}
+                </td>
+                          </tr>
+            </ng-template>
+            <ng-template pTemplate="footer" let-columns>
+              <tr>
+                <td style="width: 3em">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </td>
+                                   <td>Nom</td>
+                             <td>Telephone</td>
+                             <td>Email</td>
+                             <td>Adresse</td>
+                             <td>Ninea</td>
+                             <td>NomContact</td>
+                             <td>TelephoneContact</td>
+                             <td>FonctionContact</td>
+                    </tr>
+            </ng-template>
+          </p-table>
+          <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
+          <p-toolbar>
+            <button *ngIf="'Fournisseur'|deletable" (click)="deleteSelectedFournisseurs()" type="button"
+              class="btn btn-outline-danger mr-1">
+              <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
+            </button>
+            <button *ngIf="'Fournisseur'|creable" [routerLink]="['/'+fournisseurSrv.getRoutePrefix(),'new']"
+              routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
+              <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
+            </button>
+          </p-toolbar>
+        </div>
+      </div>
+    </p-fieldset>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<p-toast></p-toast>
+<p-fieldset *ngIf="'TypeSourceFinancement'|showable" legend="Affichage des informations - type_source_financement" [toggleable]="true">
+  <p-toolbar>
+    <button *ngIf="'TypeSourceFinancement'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+      [routerLink]="['/'+type_source_financementSrv.getRoutePrefix(),type_source_financement.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+      Modifier</button>
+    <button *ngIf="'TypeSourceFinancement'|clonable" [routerLink]="['/'+type_source_financementSrv.getRoutePrefix(),type_source_financement.id,'clone']" type="button"
+      class="btn btn-outline-secondary pull-right ml-1">
+      <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+    </button>
+    <button *ngIf="'TypeSourceFinancement'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeTypeSourceFinancement()"><i
+        class="fa fa-trash-o"></i> Supprimer</button>
+    <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+        class="fa fa-reply"></i> Retour</button>
+  </p-toolbar>
+  <p-tabView>
+    <p-tabPanel header="Détails">
+      <p-fieldset [legend]="type_source_financement.id">
+        <table class="table">
+                                    <tr>
+                <th>Libelle</th>
+                <td>{{ type_source_financement.libelle }}</td>
+            </tr>
+                                    <tr>
+                <th>Description</th>
+                <td>{{ type_source_financement.description }}</td>
+            </tr>
+                    </table>
+        <p-toolbar>
+          <button *ngIf="'TypeSourceFinancement'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+            [routerLink]="['/'+type_source_financementSrv.getRoutePrefix(),type_source_financement.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+            Modifier</button>
+          <button *ngIf="'TypeSourceFinancement'|clonable" [routerLink]="['/'+type_source_financementSrv.getRoutePrefix(),type_source_financement.id,'clone']" type="button"
+            class="btn btn-outline-secondary pull-right ml-1">
+            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+          </button>
+          <button *ngIf="'TypeSourceFinancement'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeTypeSourceFinancement()"><i
+              class="fa fa-trash-o"></i> Supprimer</button>
+          <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+              class="fa fa-reply"></i> Retour</button>
+          <button *ngIf="'TypeSourceFinancement'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
+              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+          </button>
+        </p-toolbar>
+      </p-fieldset>
+    </p-tabPanel>
+    <p-tabPanel header="Liste associée">
+      
+    </p-tabPanel>
+  </p-tabView>
+</p-fieldset>

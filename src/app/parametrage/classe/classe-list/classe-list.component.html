@@ -1,0 +1,101 @@
+<p-toast></p-toast>
+<div class="row" *ngIf="'Classe'|listable">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <p-fieldset legend="Liste des classes" [toggleable]="true">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <p-toolbar>
+            <button *ngIf="'Classe'|listable" type="button" class="btn btn-outline-secondary" (click)="refreshList()">
+              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+            </button>
+            <button *ngIf="'Classe'|deletable" (click)="deleteSelectedClasses()" type="button"
+              class="btn btn-outline-danger pull-right ml-1">
+              <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
+            </button>
+            <button *ngIf="'Classe'|creable" [routerLink]="['/'+classeSrv.getRoutePrefix(),'new']"
+              routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
+              <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
+            </button>
+          </p-toolbar>
+          <p-table #tt [value]="classes" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple"
+            [(selection)]="selectedClasses" [resizableColumns]="true" [responsive]="true"
+            [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedClasse" [scrollable]="true"
+            scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
+            <ng-template pTemplate="caption">
+              Liste des classes<br>
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
+                (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+              <div class="ui-helper-clearfix" style="text-align: left">
+                <button *ngIf="'Classe'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF"
+                  (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>
+                <button *ngIf="'Classe'|listable" type="button" pButton icon="pi pi-file-excel" iconPos="left"
+                  label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="colgroup">
+              <colgroup>
+                                  <col>
+                            <col>
+                            <col>
+                    </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3em">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                                <th [pSortableColumn]="'numero'" pResizableColumn>
+                  Numero <p-sortIcon [field]="'numero'"></p-sortIcon>
+              </th>
+                          <th [pSortableColumn]="'libelle'" pResizableColumn>
+                  Libelle <p-sortIcon [field]="'libelle'"></p-sortIcon>
+              </th>
+                          <th [pSortableColumn]="'description'" pResizableColumn>
+                  Description <p-sortIcon [field]="'description'"></p-sortIcon>
+              </th>
+                    </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-classe let-editing="editing">
+              <tr [pEditableRow]="classe" [pSelectableRow]="classe" [pContextMenuRow]="classe">
+                <td style="width: 3em">
+                  <p-tableCheckbox [value]="classe"></p-tableCheckbox>
+                </td>
+                                                  <td class="ui-resizable-column">
+                  {{ classe.numero }}
+                </td>
+                                        <td class="ui-resizable-column">
+                  {{ classe.libelle }}
+                </td>
+                                        <td class="ui-resizable-column">
+                  {{ classe.description }}
+                </td>
+                          </tr>
+            </ng-template>
+            <ng-template pTemplate="footer" let-columns>
+              <tr>
+                <td style="width: 3em">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </td>
+                                   <td>Numero</td>
+                             <td>Libelle</td>
+                             <td>Description</td>
+                    </tr>
+            </ng-template>
+          </p-table>
+          <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
+          <p-toolbar>
+            <button *ngIf="'Classe'|deletable" (click)="deleteSelectedClasses()" type="button"
+              class="btn btn-outline-danger mr-1">
+              <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
+            </button>
+            <button *ngIf="'Classe'|creable" [routerLink]="['/'+classeSrv.getRoutePrefix(),'new']"
+              routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
+              <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
+            </button>
+          </p-toolbar>
+        </div>
+      </div>
+    </p-fieldset>
+  </div>
+</div>

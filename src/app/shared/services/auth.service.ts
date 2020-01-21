@@ -63,7 +63,7 @@ export class AuthService {
   }
 
   checkListAccess(entityName: string) {
-    entityName=this.titleCasePipe.transform(entityName);
+    entityName=entityName[0].toUpperCase()+entityName.substr(1);
     let role = 'ROLE_' + entityName + '_INDEX';
     return this.getRoles().includes(role);
   }

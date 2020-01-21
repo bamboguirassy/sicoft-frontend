@@ -1,0 +1,55 @@
+<p-toast></p-toast>
+<p-fieldset *ngIf="'Secteur'|showable" legend="Affichage des informations - secteur" [toggleable]="true">
+  <p-toolbar>
+    <button *ngIf="'Secteur'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+      [routerLink]="['/'+secteurSrv.getRoutePrefix(),secteur.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+      Modifier</button>
+    <button *ngIf="'Secteur'|clonable" [routerLink]="['/'+secteurSrv.getRoutePrefix(),secteur.id,'clone']" type="button"
+      class="btn btn-outline-secondary pull-right ml-1">
+      <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+    </button>
+    <button *ngIf="'Secteur'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeSecteur()"><i
+        class="fa fa-trash-o"></i> Supprimer</button>
+    <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+        class="fa fa-reply"></i> Retour</button>
+  </p-toolbar>
+  <p-tabView>
+    <p-tabPanel header="Détails">
+      <p-fieldset [legend]="secteur.id">
+        <table class="table">
+                                    <tr>
+                <th>Code</th>
+                <td>{{ secteur.code }}</td>
+            </tr>
+                                    <tr>
+                <th>Libelle</th>
+                <td>{{ secteur.libelle }}</td>
+            </tr>
+                                    <tr>
+                <th>Description</th>
+                <td>{{ secteur.description }}</td>
+            </tr>
+                    </table>
+        <p-toolbar>
+          <button *ngIf="'Secteur'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+            [routerLink]="['/'+secteurSrv.getRoutePrefix(),secteur.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+            Modifier</button>
+          <button *ngIf="'Secteur'|clonable" [routerLink]="['/'+secteurSrv.getRoutePrefix(),secteur.id,'clone']" type="button"
+            class="btn btn-outline-secondary pull-right ml-1">
+            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+          </button>
+          <button *ngIf="'Secteur'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeSecteur()"><i
+              class="fa fa-trash-o"></i> Supprimer</button>
+          <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+              class="fa fa-reply"></i> Retour</button>
+          <button *ngIf="'Secteur'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
+              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+          </button>
+        </p-toolbar>
+      </p-fieldset>
+    </p-tabPanel>
+    <p-tabPanel header="Liste associée">
+      
+    </p-tabPanel>
+  </p-tabView>
+</p-fieldset>

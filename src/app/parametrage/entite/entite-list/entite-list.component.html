@@ -1,0 +1,101 @@
+<p-toast></p-toast>
+<div class="row" *ngIf="'Entite'|listable">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <p-fieldset legend="Liste des entites" [toggleable]="true">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <p-toolbar>
+            <button *ngIf="'Entite'|listable" type="button" class="btn btn-outline-secondary" (click)="refreshList()">
+              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+            </button>
+            <button *ngIf="'Entite'|deletable" (click)="deleteSelectedEntites()" type="button"
+              class="btn btn-outline-danger pull-right ml-1">
+              <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
+            </button>
+            <button *ngIf="'Entite'|creable" [routerLink]="['/'+entiteSrv.getRoutePrefix(),'new']"
+              routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
+              <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
+            </button>
+          </p-toolbar>
+          <p-table #tt [value]="entites" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple"
+            [(selection)]="selectedEntites" [resizableColumns]="true" [responsive]="true"
+            [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedEntite" [scrollable]="true"
+            scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
+            <ng-template pTemplate="caption">
+              Liste des entites<br>
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
+                (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+              <div class="ui-helper-clearfix" style="text-align: left">
+                <button *ngIf="'Entite'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF"
+                  (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>
+                <button *ngIf="'Entite'|listable" type="button" pButton icon="pi pi-file-excel" iconPos="left"
+                  label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="colgroup">
+              <colgroup>
+                                  <col>
+                            <col>
+                            <col>
+                    </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3em">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                                <th [pSortableColumn]="'entite'" pResizableColumn>
+                  Entite <p-sortIcon [field]="'entite'"></p-sortIcon>
+              </th>
+                          <th [pSortableColumn]="'code'" pResizableColumn>
+                  Code <p-sortIcon [field]="'code'"></p-sortIcon>
+              </th>
+                          <th [pSortableColumn]="'etat'" pResizableColumn>
+                  Etat <p-sortIcon [field]="'etat'"></p-sortIcon>
+              </th>
+                    </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-entite let-editing="editing">
+              <tr [pEditableRow]="entite" [pSelectableRow]="entite" [pContextMenuRow]="entite">
+                <td style="width: 3em">
+                  <p-tableCheckbox [value]="entite"></p-tableCheckbox>
+                </td>
+                                                  <td class="ui-resizable-column">
+                  {{ entite.entite }}
+                </td>
+                                        <td class="ui-resizable-column">
+                  {{ entite.code }}
+                </td>
+                                        <td class="ui-resizable-column">
+                  {{ entite.etat ? 'Yes' : 'No' }}
+                </td>
+                          </tr>
+            </ng-template>
+            <ng-template pTemplate="footer" let-columns>
+              <tr>
+                <td style="width: 3em">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </td>
+                                   <td>Entite</td>
+                             <td>Code</td>
+                             <td>Etat</td>
+                    </tr>
+            </ng-template>
+          </p-table>
+          <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
+          <p-toolbar>
+            <button *ngIf="'Entite'|deletable" (click)="deleteSelectedEntites()" type="button"
+              class="btn btn-outline-danger mr-1">
+              <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
+            </button>
+            <button *ngIf="'Entite'|creable" [routerLink]="['/'+entiteSrv.getRoutePrefix(),'new']"
+              routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
+              <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
+            </button>
+          </p-toolbar>
+        </div>
+      </div>
+    </p-fieldset>
+  </div>
+</div>

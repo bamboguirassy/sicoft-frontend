@@ -1,0 +1,55 @@
+<p-toast></p-toast>
+<p-fieldset *ngIf="'TypePassation'|showable" legend="Affichage des informations - type_passation" [toggleable]="true">
+  <p-toolbar>
+    <button *ngIf="'TypePassation'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+      [routerLink]="['/'+type_passationSrv.getRoutePrefix(),type_passation.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+      Modifier</button>
+    <button *ngIf="'TypePassation'|clonable" [routerLink]="['/'+type_passationSrv.getRoutePrefix(),type_passation.id,'clone']" type="button"
+      class="btn btn-outline-secondary pull-right ml-1">
+      <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+    </button>
+    <button *ngIf="'TypePassation'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeTypePassation()"><i
+        class="fa fa-trash-o"></i> Supprimer</button>
+    <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+        class="fa fa-reply"></i> Retour</button>
+  </p-toolbar>
+  <p-tabView>
+    <p-tabPanel header="Détails">
+      <p-fieldset [legend]="type_passation.id">
+        <table class="table">
+                                    <tr>
+                <th>Code</th>
+                <td>{{ type_passation.code }}</td>
+            </tr>
+                                    <tr>
+                <th>Libelle</th>
+                <td>{{ type_passation.libelle }}</td>
+            </tr>
+                                    <tr>
+                <th>Descritpion</th>
+                <td>{{ type_passation.descritpion }}</td>
+            </tr>
+                    </table>
+        <p-toolbar>
+          <button *ngIf="'TypePassation'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+            [routerLink]="['/'+type_passationSrv.getRoutePrefix(),type_passation.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+            Modifier</button>
+          <button *ngIf="'TypePassation'|clonable" [routerLink]="['/'+type_passationSrv.getRoutePrefix(),type_passation.id,'clone']" type="button"
+            class="btn btn-outline-secondary pull-right ml-1">
+            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+          </button>
+          <button *ngIf="'TypePassation'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeTypePassation()"><i
+              class="fa fa-trash-o"></i> Supprimer</button>
+          <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+              class="fa fa-reply"></i> Retour</button>
+          <button *ngIf="'TypePassation'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
+              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+          </button>
+        </p-toolbar>
+      </p-fieldset>
+    </p-tabPanel>
+    <p-tabPanel header="Liste associée">
+      
+    </p-tabPanel>
+  </p-tabView>
+</p-fieldset>

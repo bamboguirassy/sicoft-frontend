@@ -1,0 +1,51 @@
+<p-toast></p-toast>
+<p-fieldset *ngIf="'TypeEntite'|showable" legend="Affichage des informations - type_entite" [toggleable]="true">
+  <p-toolbar>
+    <button *ngIf="'TypeEntite'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+      [routerLink]="['/'+type_entiteSrv.getRoutePrefix(),type_entite.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+      Modifier</button>
+    <button *ngIf="'TypeEntite'|clonable" [routerLink]="['/'+type_entiteSrv.getRoutePrefix(),type_entite.id,'clone']" type="button"
+      class="btn btn-outline-secondary pull-right ml-1">
+      <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+    </button>
+    <button *ngIf="'TypeEntite'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeTypeEntite()"><i
+        class="fa fa-trash-o"></i> Supprimer</button>
+    <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+        class="fa fa-reply"></i> Retour</button>
+  </p-toolbar>
+  <p-tabView>
+    <p-tabPanel header="Détails">
+      <p-fieldset [legend]="type_entite.id">
+        <table class="table">
+                                    <tr>
+                <th>Libelle</th>
+                <td>{{ type_entite.libelle }}</td>
+            </tr>
+                                    <tr>
+                <th>Code</th>
+                <td>{{ type_entite.code }}</td>
+            </tr>
+                    </table>
+        <p-toolbar>
+          <button *ngIf="'TypeEntite'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+            [routerLink]="['/'+type_entiteSrv.getRoutePrefix(),type_entite.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+            Modifier</button>
+          <button *ngIf="'TypeEntite'|clonable" [routerLink]="['/'+type_entiteSrv.getRoutePrefix(),type_entite.id,'clone']" type="button"
+            class="btn btn-outline-secondary pull-right ml-1">
+            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+          </button>
+          <button *ngIf="'TypeEntite'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeTypeEntite()"><i
+              class="fa fa-trash-o"></i> Supprimer</button>
+          <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+              class="fa fa-reply"></i> Retour</button>
+          <button *ngIf="'TypeEntite'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
+              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+          </button>
+        </p-toolbar>
+      </p-fieldset>
+    </p-tabPanel>
+    <p-tabPanel header="Liste associée">
+      
+    </p-tabPanel>
+  </p-tabView>
+</p-fieldset>

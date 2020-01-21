@@ -1,0 +1,42 @@
+
+<p-toast></p-toast>
+<!-- form type_document info -->
+<form *ngIf="'TypeDocument'|editable" class="form" role="form" #type_documentForm="ngForm" autocomplete="off" (ngSubmit)="updateTypeDocument()">
+  <p-fieldset legend="Modification type_document" [toggleable]="true">
+    <p-toolbar>$entity_twig_var_singular ?>" [toggleable]="true">
+      <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
+          class="fa fa-eraser" aria-hidden="true"></i>
+        Retour</button>
+      <button [disabled]="type_documentForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+        Enregistrer</button>
+    </p-toolbar>
+    <!-- debut body -->
+    <div class="row">
+                            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
+                    <input [(ngModel)]="type_document.libelle" class="form-control" type="text" name="libelle" id="libelle">
+                </div>
+            </div>
+                            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="description">Description</label>
+                    <input [(ngModel)]="type_document.description" class="form-control" type="text" name="description" id="description">
+                </div>
+            </div>
+                
+      
+    </div>
+    <!-- fin body -->
+    <p-toolbar>
+      <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
+          class="fa fa-eraser" aria-hidden="true"></i>
+        Retour</button>
+      <button [disabled]="type_documentForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+        Enregistrer</button>
+    </p-toolbar>
+  </p-fieldset>
+</form>
+<!-- /form type_document info -->

@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Apex - Angular Bootstrap Admin Template</title>
+  <title>SICOFT - App</title>
   <base href="/">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -12,13 +13,14 @@
   <link href="assets/fonts/simple-line-icons/style.css" rel="stylesheet">
   <link href='https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900|Montserrat:300,400,500,600,700,800,900'
     rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="assets/vendor/pace/themes/black/pace-theme-flash.css"/>
+  <link rel="stylesheet" href="assets/vendor/pace/themes/black/pace-theme-flash.css" />
   <style type="text/css">
     .pace .pace-activity {
       top: 19px;
       right: 19px;
       display: none;
     }
+
     .page-loading {
       position: fixed;
       left: 0;
@@ -31,6 +33,7 @@
       transition: opacity 1s ease-in-out;
       z-index: -1;
     }
+
     .loading-icon {
       position: absolute;
       left: 50%;
@@ -40,16 +43,47 @@
       margin-left: -19px;
       margin-top: -19px;
     }
-    app-root:empty ~ .page-loading {
+
+    app-root:empty~.page-loading {
       opacity: 1;
       z-index: 1;
     }
   </style>
+  <!-- Start of Async Drift Code -->
+  <script>
+    "use strict";
+
+    !function () {
+      var t = window.driftt = window.drift = window.driftt || [];
+      if (!t.init) {
+        if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+        t.invoked = !0, t.methods = ["identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on"],
+          t.factory = function (e) {
+            return function () {
+              var n = Array.prototype.slice.call(arguments);
+              return n.unshift(e), t.push(n), t;
+            };
+          }, t.methods.forEach(function (e) {
+            t[e] = t.factory(e);
+          }), t.load = function (t) {
+            var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+            o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+            var i = document.getElementsByTagName("script")[0];
+            i.parentNode.insertBefore(o, i);
+          };
+      }
+    }();
+    drift.SNIPPET_VERSION = '0.3.1';
+    drift.load('si73yakm3x5r');
+  </script>
+  <!-- End of Async Drift Code -->
 </head>
+
 <body>
   <app-root></app-root>
   <div class="page-loading">
     <img src="assets/img/oval.svg" class="loading-icon" />
   </div>
 </body>
+
 </html>
