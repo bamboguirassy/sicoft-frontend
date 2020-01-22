@@ -18,6 +18,8 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {InputMaskModule} from 'primeng/inputmask';
 import {ChipsModule} from 'primeng/chips';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 import { GroupCloneComponent } from './group/group-clone/group-clone.component';
 import { GroupEditComponent } from './group/group-edit/group-edit.component';
@@ -121,7 +123,8 @@ import { SourceFinancementShowComponent } from './source_financement/source_fina
     InputSwitchModule,
     MultiSelectModule,
     InputMaskModule,
-    ChipsModule
+    ChipsModule,
+    NgSelectModule
   ]
 })
 export class ParametrageModule { }

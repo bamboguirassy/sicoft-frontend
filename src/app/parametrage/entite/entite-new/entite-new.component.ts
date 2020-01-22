@@ -29,6 +29,7 @@ export class EntiteNewComponent implements OnInit {
   }
 
   saveEntite() {
+    this.entite.typeEntite=this.entite.typeEntite.id;
     this.entiteSrv.create(this.entite)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Entite créé avec succès');
@@ -37,6 +38,7 @@ export class EntiteNewComponent implements OnInit {
   }
 
   saveEntiteAndExit() {
+    this.entite.typeEntite=this.entite.typeEntite.id;
     this.entiteSrv.create(this.entite)
       .subscribe((data: any) => {
         this.router.navigate([this.entiteSrv.getRoutePrefix(), data.id]);
