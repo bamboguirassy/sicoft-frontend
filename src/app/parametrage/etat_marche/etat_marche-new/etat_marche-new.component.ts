@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EtatMarche } from '../etat_marche';
 import { EtatMarcheService } from '../etat_marche.service';
 import { NotificationService } from 'app/shared/services/notification.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -12,17 +12,25 @@ import { Location } from '@angular/common';
 })
 export class EtatMarcheNewComponent implements OnInit {
   etat_marche: EtatMarche;
+  etats: EtatMarche[];
   constructor(public etat_marcheSrv: EtatMarcheService,
     public notificationSrv: NotificationService,
+    public activatedRoute: ActivatedRoute,
     public router: Router, public location: Location) {
     this.etat_marche = new EtatMarche();
   }
 
   ngOnInit() {
+    this.etats = this.activatedRoute.snapshot.data['etats'];
   }
 
   saveEtatMarche() {
-    this.etat_marcheSrv.create(this.etat_marche)
+    if (this.etat_marche.etatSuivant) {
+      this.etat_marche.etatSuivant = this.etat_marche.etatSuivant.id;
+    }
+    const etatMarcheCopy = this.etat_marche;
+    this.etat_marche = new EtatMarche();
+    this.etat_marcheSrv.create(etatMarcheCopy)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('EtatMarche créé avec succès');
         this.etat_marche = new EtatMarche();
@@ -30,11 +38,19 @@ export class EtatMarcheNewComponent implements OnInit {
   }
 
   saveEtatMarcheAndExit() {
-    this.etat_marcheSrv.create(this.etat_marche)
+    if (this.etat_marche.etatSuivant) {
+      this.etat_marche.etatSuivant = this.etat_marche.etatSuivant.id;
+    }
+    const etatMarcheCopy = this.etat_marche;
+    this.etat_marche = new EtatMarche();
+    this.etat_marcheSrv.create(etatMarcheCopy)
       .subscribe((data: any) => {
         this.router.navigate([this.etat_marcheSrv.getRoutePrefix(), data.id]);
-      }, error => this.etat_marcheSrv.httpSrv.handleError(error));
+        this.etat_marche = new EtatMarche();
+      },  error => this.etat_marcheSrv.httpSrv.handleError(error));
   }
+
+
 
 }
 
