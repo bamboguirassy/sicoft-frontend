@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class EtatMarcheCloneComponent implements OnInit {
   etat_marche: EtatMarche;
   original: EtatMarche;
+  etats: EtatMarche[];
   constructor(public etat_marcheSrv: EtatMarcheService, public location: Location,
     public activatedRoute: ActivatedRoute, public router: Router) { }
 
@@ -20,6 +21,7 @@ export class EtatMarcheCloneComponent implements OnInit {
     this.original = this.activatedRoute.snapshot.data['etat_marche'];
     this.etat_marche = Object.assign({}, this.original);
     this.etat_marche.id = null;
+    this.etats = this.activatedRoute.snapshot.data['etats'];
   }
 
   cloneEtatMarche() {
