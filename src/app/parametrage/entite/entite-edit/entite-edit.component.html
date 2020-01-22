@@ -1,7 +1,7 @@
-
 <p-toast></p-toast>
 <!-- form entite info -->
-<form *ngIf="'Entite'|editable" class="form" role="form" #entiteForm="ngForm" autocomplete="off" (ngSubmit)="updateEntite()">
+<form *ngIf="'Entite'|editable" class="form" role="form" #entiteForm="ngForm" autocomplete="off"
+  (ngSubmit)="updateEntite()">
   <p-fieldset legend="Modification entite" [toggleable]="true">
     <p-toolbar>$entity_twig_var_singular ?>" [toggleable]="true">
       <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
@@ -13,26 +13,26 @@
     </p-toolbar>
     <!-- debut body -->
     <div class="row">
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="entite">Entite</label>
-                    <input [(ngModel)]="entite.entite" class="form-control" type="text" name="entite" id="entite">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="code">Code</label>
-                    <input [(ngModel)]="entite.code" class="form-control" type="text" name="code" id="code">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="etat">Etat</label>
-                    <input [(ngModel)]="entite.etat" class="form-control" type="text" name="etat" id="etat">
-                </div>
-            </div>
-                
-      
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="entite">Nom</label>
+          <input [(ngModel)]="entite.nom" class="form-control" type="text" name="nom" id="nom">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="code">Code</label>
+          <input [(ngModel)]="entite.code" class="form-control" type="text" name="code" id="code">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="etat">Etat</label>
+          <input [(ngModel)]="entite.etat" class="form-control" type="text" name="etat" id="etat">
+        </div>
+      </div>
+
+
     </div>
     <!-- fin body -->
     <p-toolbar>
