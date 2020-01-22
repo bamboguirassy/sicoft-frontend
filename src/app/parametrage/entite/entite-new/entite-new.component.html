@@ -6,20 +6,37 @@
     <div class="row">
       <div class="col-lg-6">
         <div class="form-group">
+          <label class="col-form-label form-control-label" for="typeEntite">Type Entité</label>
+          <ng-select required name="typeEtat" [items]="typeEntites" bindLabel="libelle"
+            placeholder="Selectionner type entité" appendTo="body" [multiple]="false" [searchable]="true"
+            [(ngModel)]="entite.typeEntite">
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="entiteParent">Entité Parent</label>
+          <ng-select name="entiteParent" [items]="entites" bindLabel="nom" placeholder="Selectionner entité parent"
+            appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="entite.typeEntite">
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
           <label class="col-form-label form-control-label" for="code">Code</label>
           <input required [(ngModel)]="entite.code" class="form-control" type="text" name="code" id="code">
         </div>
       </div>
       <div class="col-lg-6">
         <div class="form-group">
-          <label class="col-form-label form-control-label" for="entite">Entite</label>
+          <label class="col-form-label form-control-label" for="entite">Nom</label>
           <input required [(ngModel)]="entite.entite" class="form-control" type="text" name="entite" id="entite">
         </div>
       </div>
       <div class="col-lg-6">
         <div class="form-group">
-          <label class="col-form-label form-control-label" for="etat">Etat</label>
-          <input [(ngModel)]="entite.etat" class="form-control" type="text" name="etat" id="etat">
+          <label class="col-form-label form-control-label" for="etat">Etat</label> <br>
+          <p-inputSwitch name="etat" [(ngModel)]="entite.etat" ></p-inputSwitch>
         </div>
       </div>
 

@@ -1,11 +1,11 @@
 const entiteColumns = [
-            { header: 'Entite', field: 'entite', dataKey: 'entite' },
+            { header: 'Nom', field: 'nom', dataKey: 'nom' },
             { header: 'Code', field: 'code', dataKey: 'code' },
             { header: 'Etat', field: 'etat', dataKey: 'etat' },
         ];
 
 const allowedEntiteFieldsForFilter = [
-    'entite',
+    'nom',
     'code',
     'etat',
 ];
