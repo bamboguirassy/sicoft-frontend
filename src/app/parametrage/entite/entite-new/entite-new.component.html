@@ -4,25 +4,25 @@
   <p-fieldset legend="Creation Entite" [toggleable]="true">
     <!-- debut body -->
     <div class="row">
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="entite">Entite</label>
-                    <input [(ngModel)]="entite.entite" class="form-control" type="text" name="entite" id="entite">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="code">Code</label>
-                    <input [(ngModel)]="entite.code" class="form-control" type="text" name="code" id="code">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="etat">Etat</label>
-                    <input [(ngModel)]="entite.etat" class="form-control" type="text" name="etat" id="etat">
-                </div>
-            </div>
-          
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="code">Code</label>
+          <input required [(ngModel)]="entite.code" class="form-control" type="text" name="code" id="code">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="entite">Entite</label>
+          <input required [(ngModel)]="entite.entite" class="form-control" type="text" name="entite" id="entite">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="etat">Etat</label>
+          <input [(ngModel)]="entite.etat" class="form-control" type="text" name="etat" id="etat">
+        </div>
+      </div>
+
     </div>
     <!-- fin body -->
     <p-toolbar>
