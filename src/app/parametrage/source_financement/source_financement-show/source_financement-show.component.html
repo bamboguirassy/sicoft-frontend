@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-fieldset *ngIf="'SourceFinancement'|showable" legend="Affichage des informations - source_financement" [toggleable]="true">
+<p-fieldset *ngIf="'SourceFinancement'|showable" legend="Affichage des informations - Source de Financement" [toggleable]="true">
   <p-toolbar>
     <button *ngIf="'SourceFinancement'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
       [routerLink]="['/'+source_financementSrv.getRoutePrefix(),source_financement.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>

@@ -1,13 +1,20 @@
 <p-toast></p-toast>
 <!-- form source_financement info -->
 <form *ngIf="'SourceFinancement'|creable" class="form" role="form" #source_financementForm="ngForm" autocomplete="off">
-    <p-fieldset legend="Creation SourceFinancement" [toggleable]="true">
+    <p-fieldset legend="Création Source de Financement" [toggleable]="true">
         <!-- debut body -->
         <div class="row">
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input [(ngModel)]="source_financement.libelle" class="form-control" type="text" name="libelle" id="libelle">
+                    <input [(ngModel)]="source_financement.libelle" class="form-control" type="text" name="libelle" id="libelle" placeholder="Libelle">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="type">Type Source Financement</label>
+                    <ng-select id="type" name="type" [items]="types" bindLabel="libelle" placeholder="Selectionner le type de source de financement" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="source_financement.type">
+                    </ng-select>
                 </div>
             </div>
         </div>
