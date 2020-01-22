@@ -1,28 +1,38 @@
 <p-toast></p-toast>
 <!-- form etat_marche info -->
 <form *ngIf="'EtatMarche'|creable" class="form" role="form" #etat_marcheForm="ngForm" autocomplete="off">
-  <p-fieldset legend="Creation EtatMarche" [toggleable]="true">
+  <p-fieldset legend="Creation Etat Marche" [toggleable]="true">
     <!-- debut body -->
     <div class="row">
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="code">Code</label>
-                    <input [(ngModel)]="etat_marche.code" class="form-control" type="text" name="code" id="code">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="liebelle">Liebelle</label>
-                    <input [(ngModel)]="etat_marche.liebelle" class="form-control" type="text" name="liebelle" id="liebelle">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="description">Description</label>
-                    <input [(ngModel)]="etat_marche.description" class="form-control" type="text" name="description" id="description">
-                </div>
-            </div>
-          
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="code">Code</label>
+          <input [(ngModel)]="etat_marche.code" class="form-control" type="text" name="code" id="code">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="libelle">Libelle</label>
+          <input [(ngModel)]="etat_marche.libelle" class="form-control" type="text" name="libelle" id="libelle">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="description">Description</label>
+          <input [(ngModel)]="etat_marche.description" class="form-control" type="text" name="description"
+            id="description">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="etat">Etat Suivant</label>
+          <ng-select name="entiteParent" [items]="etats" bindLabel="libelle" placeholder="Selectionner etat suivant"
+            appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="etat_marche.etatSuivant">
+          </ng-select>
+        </div>
+      </div>
+
+
     </div>
     <!-- fin body -->
     <p-toolbar>

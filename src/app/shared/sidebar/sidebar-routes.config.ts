@@ -15,6 +15,9 @@ export const ROUTES: RouteInfo[] = [
                 path: '/user', title: 'Utilisateurs', icon: 'ft-users', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
+                path: '/exercice', title: 'Exercices', icon: 'ft-clock', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+            {
                 path: '/typeEntite', title: "Types Entités", icon: 'ft-pocket', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
@@ -23,20 +26,11 @@ export const ROUTES: RouteInfo[] = [
             {
                 path: '/typeDocument', title: "Types Document", icon: 'ft-link', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
-            {
-                path: '/secteur', title: "Secteurs", icon: 'ft-pocket', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
-            },
-            {
-                path: '/fournisseur', title: "Fournisseurs", icon: 'ft-users', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
-            },
         ], display: false
     },
     {
-        path: '', title: 'Param. Marché', icon: 'ft-cpu', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
+        path: '', title: 'Param. Budget', icon: 'ft-aperture', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
         submenu: [
-            {
-                path: '/exercice', title: 'Exercices', icon: 'ft-clock', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
-            },
             {
                 path: '/classe', title: 'Classes', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
@@ -44,16 +38,27 @@ export const ROUTES: RouteInfo[] = [
                 path: '/compte', title: 'Comptes', icon: 'ft-layers', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
-                path: '/typePassation', title: 'Types Passation', icon: 'ft-server', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
-            },
-            {
-                path: '/etatMarche', title: 'Etats Marché', icon: 'ft-trending-up', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
-            },
-            {
                 path: '/typeSourceFinancement', title: 'Types Source Fin.', icon: 'ft-command', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
                 path: '/sourceFinancement', title: 'Sources Financ.', icon: 'ft-codepen', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+        ], display: false
+    },
+    {
+        path: '', title: 'Param. Marché', icon: 'ft-cpu', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
+        submenu: [
+            {
+                path: '/secteur', title: "Secteurs", icon: 'ft-pocket', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+            {
+                path: '/fournisseur', title: "Fournisseurs", icon: 'ft-users', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+            {
+                path: '/typePassation', title: 'Types Passation', icon: 'ft-server', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+            {
+                path: '/etatMarche', title: 'Etats Marché', icon: 'ft-trending-up', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
         ], display: false
     },

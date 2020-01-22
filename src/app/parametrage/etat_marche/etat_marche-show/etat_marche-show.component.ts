@@ -13,6 +13,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class EtatMarcheShowComponent implements OnInit {
 
   etat_marche: EtatMarche;
+  etatMarcheLabel: string;
   constructor(public activatedRoute: ActivatedRoute,
     public etat_marcheSrv: EtatMarcheService, public location: Location,
     public router: Router, public notificationSrv: NotificationService) {
@@ -20,6 +21,7 @@ export class EtatMarcheShowComponent implements OnInit {
 
   ngOnInit() {
     this.etat_marche = this.activatedRoute.snapshot.data['etat_marche'];
+    this.etatMarcheLabel = `Etat: ${this.etat_marche.libelle}`
   }
 
   removeEtatMarche() {
