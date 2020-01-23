@@ -73,10 +73,10 @@
                   {{ exercice.libelle }}
                 </td>
                 <td class="ui-resizable-column">
-                  {{ exercice.dateDebut }}
+                  {{ exercice.dateDebut | date:'dd/MM/yyyy'}}
                 </td>
                 <td class="ui-resizable-column">
-                  {{ exercice.dateFin }}
+                  {{ exercice.dateFin | date:'dd/MM/yyyy'}}
                 </td>
               </tr>
             </ng-template>

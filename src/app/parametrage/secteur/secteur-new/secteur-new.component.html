@@ -1,28 +1,29 @@
 <p-toast></p-toast>
 <!-- form secteur info -->
 <form *ngIf="'Secteur'|creable" class="form" role="form" #secteurForm="ngForm" autocomplete="off">
-  <p-fieldset legend="Creation Secteur" [toggleable]="true">
+  <p-fieldset legend="Création Secteur" [toggleable]="true">
     <!-- debut body -->
     <div class="row">
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="code">Code</label>
-                    <input [(ngModel)]="secteur.code" class="form-control" type="text" name="code" id="code">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input [(ngModel)]="secteur.libelle" class="form-control" type="text" name="libelle" id="libelle">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="description">Description</label>
-                    <input [(ngModel)]="secteur.description" class="form-control" type="text" name="description" id="description">
-                </div>
-            </div>
-          
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="code">Code</label>
+          <input [(ngModel)]="secteur.code" class="form-control" type="text" name="code" id="code">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="libelle">Libelle</label>
+          <input [(ngModel)]="secteur.libelle" class="form-control" type="text" name="libelle" id="libelle">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="description">Description</label>
+          <textarea [(ngModel)]="secteur.description" class="form-control" type="text" name="description" [rows]="4"
+            [cols]="25" id="description"></textarea>
+        </div>
+      </div>
+
     </div>
     <!-- fin body -->
     <p-toolbar>

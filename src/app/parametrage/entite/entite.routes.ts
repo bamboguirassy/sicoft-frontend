@@ -11,9 +11,9 @@ import { MultipleTypeEntiteResolver } from '../type_entite/multiple-type_entite.
 const entiteRoutes: Route = {
     path: 'entite', children: [
         { path: '', component: EntiteListComponent, resolve: { entites: MultipleEntiteResolver } },
-        { path: 'new', component: EntiteNewComponent, resolve: {entites: MultipleEntiteResolver, typeEntites: MultipleTypeEntiteResolver }},
-        { path: ':id/edit', component: EntiteEditComponent, resolve: { entite: OneEntiteResolver } },
-        { path: ':id/clone', component: EntiteCloneComponent, resolve: { entite: OneEntiteResolver } },
+        { path: 'new', component: EntiteNewComponent, resolve: { entites: MultipleEntiteResolver, typeEntites: MultipleTypeEntiteResolver } },
+        { path: ':id/edit', component: EntiteEditComponent, resolve: { entite: OneEntiteResolver, entites: MultipleEntiteResolver, typeEntites: MultipleTypeEntiteResolver } },
+        { path: ':id/clone', component: EntiteCloneComponent, resolve: { entite: OneEntiteResolver, entites: MultipleEntiteResolver, typeEntites: MultipleTypeEntiteResolver } },
         { path: ':id', component: EntiteShowComponent, resolve: { entite: OneEntiteResolver } }
     ]
 
