@@ -1,8 +1,7 @@
-
 <p-toast></p-toast>
 <!-- form type_entite info -->
 <form *ngIf="'TypeEntite'|clonable" class="form" role="form" #type_entiteForm="ngForm" autocomplete="off">
-    <p-fieldset legend="Clonage type_entite" [toggleable]="true">
+    <p-fieldset legend="Clonage Type Entite" [toggleable]="true">
         <p-toolbar>
             <button type="button" (click)="location.back()" class="btn btn-outline-secondary mr-1 pull-left"><i
                     class="fa fa-reply" aria-hidden="true"></i>
@@ -15,19 +14,20 @@
         </p-toolbar>
         <!-- debut body -->
         <div class="row">
-                                    <div class="col-lg-6">
+            <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input [(ngModel)]="type_entite.libelle" class="form-control" type="text" name="libelle" id="libelle">
+                    <input [(ngModel)]="type_entite.libelle" class="form-control" type="text" name="libelle"
+                        id="libelle">
                 </div>
             </div>
-                                    <div class="col-lg-6">
+            <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="code">Code</label>
                     <input [(ngModel)]="type_entite.code" class="form-control" type="text" name="code" id="code">
                 </div>
             </div>
-                    </div>
+        </div>
         <!-- fin body -->
         <p-toolbar>
             <button type="button" (click)="location.back()" class="btn btn-outline-secondary mr-1 pull-left"><i
