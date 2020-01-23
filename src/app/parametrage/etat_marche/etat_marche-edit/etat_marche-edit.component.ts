@@ -14,6 +14,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class EtatMarcheEditComponent implements OnInit {
 
   etat_marche: EtatMarche;
+  etats: EtatMarche[];
   constructor(public etat_marcheSrv: EtatMarcheService,
     public activatedRoute: ActivatedRoute,
     public router: Router, public location: Location,
@@ -22,6 +23,7 @@ export class EtatMarcheEditComponent implements OnInit {
 
   ngOnInit() {
     this.etat_marche = this.activatedRoute.snapshot.data['etat_marche'];
+    this.etats = this.activatedRoute.snapshot.data['etats'];
   }
 
   updateEtatMarche() {
