@@ -29,16 +29,30 @@ export class EntiteNewComponent implements OnInit {
   }
 
   saveEntite() {
-    this.entite.typeEntite=this.entite.typeEntite.id;
+    this.entite.typeEntite = this.entite.typeEntite.id;
+    if (this.entite.entiteParent) {
+      this.entite.entiteParent = this.entite.entiteParent.id;
+    }
     this.entiteSrv.create(this.entite)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Entite créé avec succès');
         this.entite = new Entite();
+        this.findEntites();
       }, error => this.entiteSrv.httpSrv.handleError(error));
   }
 
+  findEntites() {
+    this.entiteSrv.findAll()
+      .subscribe((data: any) => this.entites = data
+        , error => this.entiteSrv.httpSrv.handleError(error)
+      );
+  }
+
   saveEntiteAndExit() {
-    this.entite.typeEntite=this.entite.typeEntite.id;
+    if (this.entite.entiteParent) {
+      this.entite.entiteParent = this.entite.entiteParent.id;
+    }
+    this.entite.typeEntite = this.entite.typeEntite.id;
     this.entiteSrv.create(this.entite)
       .subscribe((data: any) => {
         this.router.navigate([this.entiteSrv.getRoutePrefix(), data.id]);

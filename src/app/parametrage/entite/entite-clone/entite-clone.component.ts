@@ -4,6 +4,7 @@ import { EntiteService } from '../entite.service';
 import { Location } from '@angular/common';
 import { Entite } from '../entite';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TypeEntite } from 'app/parametrage/type_entite/type_entite';
 
 @Component({
   selector: 'app-entite-clone',
@@ -13,6 +14,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class EntiteCloneComponent implements OnInit {
   entite: Entite;
   original: Entite;
+  entites: Entite[] = [];
+  typeEntites: TypeEntite[] = [];
+  
   constructor(public entiteSrv: EntiteService, public location: Location,
     public activatedRoute: ActivatedRoute, public router: Router) { }
 
@@ -20,9 +24,15 @@ export class EntiteCloneComponent implements OnInit {
     this.original = this.activatedRoute.snapshot.data['entite'];
     this.entite = Object.assign({}, this.original);
     this.entite.id = null;
+    this.entites = this.activatedRoute.snapshot.data['entites'];
+    this.typeEntites = this.activatedRoute.snapshot.data['typeEntites'];
   }
 
   cloneEntite() {
+    this.entite.typeEntite = this.entite.typeEntite.id;
+    if (this.entite.entiteParent) {
+      this.entite.entiteParent = this.entite.entiteParent.id;
+    }
     this.entiteSrv.clone(this.original, this.entite)
       .subscribe((data: any) => {
         this.router.navigate([this.entiteSrv.getRoutePrefix(), data.id]);

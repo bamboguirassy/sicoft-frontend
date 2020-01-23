@@ -5,6 +5,7 @@ import { Entite } from '../entite';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
+import { TypeEntite } from 'app/parametrage/type_entite/type_entite';
 
 @Component({
   selector: 'app-entite-edit',
@@ -14,6 +15,9 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class EntiteEditComponent implements OnInit {
 
   entite: Entite;
+  entites: Entite[] = [];
+  typeEntites: TypeEntite[] = [];
+  
   constructor(public entiteSrv: EntiteService,
     public activatedRoute: ActivatedRoute,
     public router: Router, public location: Location,
@@ -22,9 +26,15 @@ export class EntiteEditComponent implements OnInit {
 
   ngOnInit() {
     this.entite = this.activatedRoute.snapshot.data['entite'];
+    this.entites = this.activatedRoute.snapshot.data['entites'];
+    this.typeEntites = this.activatedRoute.snapshot.data['typeEntites'];
   }
 
   updateEntite() {
+    this.entite.typeEntite = this.entite.typeEntite.id;
+    if (this.entite.entiteParent) {
+      this.entite.entiteParent = this.entite.entiteParent.id;
+    }
     this.entiteSrv.update(this.entite)
       .subscribe(data => this.location.back(),
         error => this.entiteSrv.httpSrv.handleError(error));
