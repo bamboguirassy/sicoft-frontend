@@ -1,7 +1,6 @@
 <p-toast></p-toast>
 <!-- form type_source_financement info -->
-<form *ngIf="'TypeSourceFinancement'|editable" class="form" role="form" #type_source_financementForm="ngForm"
-      autocomplete="off" (ngSubmit)="updateTypeSourceFinancement()">
+<form *ngIf="'TypeSourceFinancement'|editable" class="form" role="form" #type_source_financementForm="ngForm" autocomplete="off" (ngSubmit)="updateTypeSourceFinancement()">
     <p-fieldset legend="Modification Type Source de Financement" [toggleable]="true">
         <p-toolbar>
             <div class="text-center">{{type_source_financement.libelle}}</div>
@@ -9,26 +8,25 @@
                     class="fa fa-reply" aria-hidden="true"></i>
                 Retour
             </button>
-            <button [disabled]="type_source_financementForm.invalid" type="submit"
-                    class="btn btn-outline-warning pull-right">
+            <button [disabled]="type_source_financementForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
                 <i class="fa fa-edit" aria-hidden="true"></i>
                 Enregistrer
             </button>
         </p-toolbar>
         <!-- debut body -->
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input [(ngModel)]="type_source_financement.libelle" class="form-control" type="text" name="libelle"
-                           id="libelle">
+        <div class="px-5">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="col-form-label form-control-label" for="libelle">Libelle</label>
+                        <input required [(ngModel)]="type_source_financement.libelle" class="form-control" type="text" name="libelle" id="libelle">
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="description">Description</label>
-                    <input [(ngModel)]="type_source_financement.description" class="form-control" type="text"
-                           name="description" id="description">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="col-form-label form-control-label" for="description">Description</label>
+                        <textarea [(ngModel)]="type_source_financement.description" class="form-control" type="text" name="description" id="description"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,8 +36,7 @@
                     class="fa fa-reply" aria-hidden="true"></i>
                 Retour
             </button>
-            <button [disabled]="type_source_financementForm.invalid" type="submit"
-                    class="btn btn-outline-warning pull-right">
+            <button [disabled]="type_source_financementForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
                 <i class="fa fa-edit" aria-hidden="true"></i>
                 Enregistrer
             </button>

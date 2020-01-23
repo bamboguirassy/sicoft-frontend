@@ -10,8 +10,7 @@
             <button type="reset" class="btn btn-secondary pull-left"><i class="fa fa-eraser" aria-hidden="true"></i>
                 Vider le formulaire
             </button>
-            <button [disabled]="source_financementForm.invalid" type="button" (click)="cloneSourceFinancement()"
-                    class="btn btn-outline-primary pull-right ml-1"><i class="fa fa-save" aria-hidden="true"></i>
+            <button [disabled]="source_financementForm.invalid" type="button" (click)="cloneSourceFinancement()" class="btn btn-outline-primary pull-right ml-1"><i class="fa fa-save" aria-hidden="true"></i>
                 Enregistrer
             </button>
         </p-toolbar>
@@ -20,14 +19,13 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input [(ngModel)]="source_financement.libelle" class="form-control" type="text" name="libelle"
-                           id="libelle">
+                    <input required [(ngModel)]="source_financement.libelle" class="form-control" type="text" name="libelle" id="libelle">
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="type">Type Source Financement</label>
-                    <ng-select id="type" name="type" [items]="types" bindLabel="libelle" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="source_financement.type">
+                    <ng-select required id="type" name="type" [items]="types" bindLabel="libelle" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="source_financement.type">
                     </ng-select>
                 </div>
             </div>
@@ -41,8 +39,7 @@
             <button type="reset" class="btn btn-secondary pull-left"><i class="fa fa-eraser" aria-hidden="true"></i>
                 Vider le formulaire
             </button>
-            <button [disabled]="source_financementForm.invalid" type="button" (click)="cloneSourceFinancement()"
-                    class="btn btn-outline-primary pull-right ml-1"><i class="fa fa-save" aria-hidden="true"></i>
+            <button [disabled]="source_financementForm.invalid" type="button" (click)="cloneSourceFinancement()" class="btn btn-outline-primary pull-right ml-1"><i class="fa fa-save" aria-hidden="true"></i>
                 Enregistrer
             </button>
         </p-toolbar>
