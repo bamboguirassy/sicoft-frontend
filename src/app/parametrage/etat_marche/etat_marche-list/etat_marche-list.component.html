@@ -56,6 +56,9 @@
                 <th [pSortableColumn]="'description'" pResizableColumn>
                   Description <p-sortIcon [field]="'description'"></p-sortIcon>
                 </th>
+                <th [pSortableColumn]="'etatSuivant'" pResizableColumn>
+                  Etat Suivant <p-sortIcon [field]="'etatSuivant'"></p-sortIcon>
+                </th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-etat_marche let-editing="editing">
@@ -70,7 +73,10 @@
                   {{ etat_marche.libelle }}
                 </td>
                 <td class="ui-resizable-column">
-                  {{ etat_marche.description }}
+                  {{ etat_marche?.description }}
+                </td>
+                <td class="ui-resizable-column">
+                  {{ etat_marche?.etatSuivant?.libelle }}
                 </td>
               </tr>
             </ng-template>
@@ -82,6 +88,7 @@
                 <td>Code</td>
                 <td>Libelle</td>
                 <td>Description</td>
+                <td>Etat Suivant</td>
               </tr>
             </ng-template>
           </p-table>
