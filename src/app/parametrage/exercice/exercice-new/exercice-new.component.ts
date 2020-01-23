@@ -1,3 +1,4 @@
+import { ConvertDateService } from './../../../shared/services/convert-date.service';
 import { Component, OnInit } from '@angular/core';
 import { Exercice } from '../exercice';
 import { ExerciceService } from '../exercice.service';
@@ -14,6 +15,7 @@ export class ExerciceNewComponent implements OnInit {
   exercice: Exercice;
   constructor(public exerciceSrv: ExerciceService,
     public notificationSrv: NotificationService,
+    public convertDateServiceSrv: ConvertDateService, 
     public router: Router, public location: Location) {
     this.exercice = new Exercice();
   }
@@ -22,6 +24,9 @@ export class ExerciceNewComponent implements OnInit {
   }
 
   saveExercice() {
+    this.exercice.dateDebut = this.convertDateServiceSrv.formatDate(this.exercice.dateDebut);
+    this.exercice.dateFin = this.convertDateServiceSrv.formatDate(this.exercice.dateFin);
+    console.log(this.exercice.dateDebut);
     this.exerciceSrv.create(this.exercice)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Exercice créé avec succès');
@@ -30,6 +35,9 @@ export class ExerciceNewComponent implements OnInit {
   }
 
   saveExerciceAndExit() {
+    this.exercice.dateDebut = this.convertDateServiceSrv.formatDate(this.exercice.dateDebut);
+    this.exercice.dateFin = this.convertDateServiceSrv.formatDate(this.exercice.dateFin);
+    console.log(this.exercice.dateDebut);
     this.exerciceSrv.create(this.exercice)
       .subscribe((data: any) => {
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);
