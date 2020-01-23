@@ -1,7 +1,6 @@
 <p-toast></p-toast>
 <!-- form source_financement info -->
-<form *ngIf="'SourceFinancement'|editable" class="form" role="form" #source_financementForm="ngForm" autocomplete="off"
-      (ngSubmit)="updateSourceFinancement()">
+<form *ngIf="'SourceFinancement'|editable" class="form" role="form" #source_financementForm="ngForm" autocomplete="off" (ngSubmit)="updateSourceFinancement()">
     <p-fieldset legend="Modification Source de Financement" [toggleable]="true">
         <p-toolbar>
             <div class="text-center">{{source_financement.libelle}}</div>
@@ -9,8 +8,7 @@
                     class="fa fa-reply" aria-hidden="true"></i>
                 Retour
             </button>
-            <button [disabled]="source_financementForm.invalid" type="submit"
-                    class="btn btn-outline-warning pull-right">
+            <button [disabled]="source_financementForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
                 <i class="fa fa-edit" aria-hidden="true"></i>
                 Enregistrer
             </button>
@@ -20,14 +18,13 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input [(ngModel)]="source_financement.libelle" class="form-control" type="text" name="libelle"
-                           id="libelle">
+                    <input required [(ngModel)]="source_financement.libelle" class="form-control" type="text" name="libelle" id="libelle">
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="type">Type Source Financement</label>
-                    <ng-select id="type" name="type" [items]="types" bindLabel="libelle" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="source_financement.type">
+                    <ng-select required id="type" name="type" [items]="types" bindLabel="libelle" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="source_financement.type">
                     </ng-select>
                 </div>
             </div>
@@ -38,8 +35,7 @@
                     class="fa fa-reply" aria-hidden="true"></i>
                 Retour
             </button>
-            <button [disabled]="source_financementForm.invalid" type="submit"
-                    class="btn btn-outline-warning pull-right">
+            <button [disabled]="source_financementForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
                 <i class="fa fa-edit" aria-hidden="true"></i>
                 Enregistrer
             </button>

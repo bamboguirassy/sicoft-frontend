@@ -30,7 +30,7 @@
             <th>Description</th>
             <td>{{ etat_marche.description }}</td>
           </tr>
-          <tr>
+          <tr *ngIf="etat_marche.etatSuivant" >
             <th>Etat Suivant</th>
             <td>{{ etat_marche.etatSuivant.libelle }}</td>
           </tr>
