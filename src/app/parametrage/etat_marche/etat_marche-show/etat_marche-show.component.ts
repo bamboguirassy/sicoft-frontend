@@ -21,6 +21,7 @@ export class EtatMarcheShowComponent implements OnInit {
 
   ngOnInit() {
     this.etat_marche = this.activatedRoute.snapshot.data['etat_marche'];
+    console.log(this.etat_marche);
     this.etatMarcheLabel = `Etat: ${this.etat_marche.libelle}`
   }
 
