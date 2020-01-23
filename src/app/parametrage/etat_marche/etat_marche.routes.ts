@@ -10,9 +10,9 @@ import { OneEtatMarcheResolver } from './one-etat_marche.resolver';
 const etat_marcheRoutes: Route = {
     path: 'etatMarche', children: [
         { path: '', component: EtatMarcheListComponent, resolve: { etat_marches: MultipleEtatMarcheResolver } },
-        { path: 'new', component: EtatMarcheNewComponent },
-        { path: ':id/edit', component: EtatMarcheEditComponent, resolve: { etat_marche: OneEtatMarcheResolver } },
-        { path: ':id/clone', component: EtatMarcheCloneComponent, resolve: { etat_marche: OneEtatMarcheResolver } },
+        { path: 'new', component: EtatMarcheNewComponent, resolve: { etats: MultipleEtatMarcheResolver } },
+        { path: ':id/edit', component: EtatMarcheEditComponent, resolve: { etat_marche: OneEtatMarcheResolver, etats: MultipleEtatMarcheResolver } },
+        { path: ':id/clone', component: EtatMarcheCloneComponent, resolve: { etat_marche: OneEtatMarcheResolver, etats: MultipleEtatMarcheResolver } },
         { path: ':id', component: EtatMarcheShowComponent, resolve: { etat_marche: OneEtatMarcheResolver } }
     ]
 

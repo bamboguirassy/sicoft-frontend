@@ -1,6 +1,7 @@
 export class EtatMarche {
-    id: any;
-                                code: string;
-                                        liebelle: string;
-                                        description: string;
-                    }
+    id?: any;
+    code: string;
+    libelle: string;
+    description: string;
+    etatSuivant?: EtatMarche;
+}
