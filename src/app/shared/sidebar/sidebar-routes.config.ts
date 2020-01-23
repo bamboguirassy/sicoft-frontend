@@ -52,9 +52,6 @@ export const ROUTES: RouteInfo[] = [
                 path: '/secteur', title: "Secteurs", icon: 'ft-pocket', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
-                path: '/fournisseur', title: "Fournisseurs", icon: 'ft-users', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
-            },
-            {
                 path: '/typePassation', title: 'Types Passation', icon: 'ft-server', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
@@ -63,16 +60,24 @@ export const ROUTES: RouteInfo[] = [
         ], display: false
     },
     {
-        path: '', title: 'Gestion Marché', icon: 'ft-shopping-cart', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
+        path: '', title: 'Gestion Budget', icon: 'ft-briefcase', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
         submenu: [
             {
                 path: '/budget', title: 'Budgets', icon: 'ft-clock', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
-            },
+            }
+        ], display: false
+    },
+    {
+        path: '', title: 'Gestion Marché', icon: 'ft-shopping-cart', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
+        submenu: [
             {
                 path: '/marche', title: 'Marchés', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
                 path: '/mandat', title: 'Mandats', icon: 'ft-layers', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+            {
+                path: '/fournisseur', title: "Fournisseurs", icon: 'ft-users', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
         ], display: false
     },
