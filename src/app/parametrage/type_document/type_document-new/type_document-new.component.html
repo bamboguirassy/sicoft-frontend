@@ -1,22 +1,23 @@
 <p-toast></p-toast>
 <!-- form type_document info -->
 <form *ngIf="'TypeDocument'|creable" class="form" role="form" #type_documentForm="ngForm" autocomplete="off">
-  <p-fieldset legend="Creation TypeDocument" [toggleable]="true">
+  <p-fieldset legend="Creation Type Document" [toggleable]="true">
     <!-- debut body -->
     <div class="row">
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input [(ngModel)]="type_document.libelle" class="form-control" type="text" name="libelle" id="libelle">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="description">Description</label>
-                    <input [(ngModel)]="type_document.description" class="form-control" type="text" name="description" id="description">
-                </div>
-            </div>
-          
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="libelle">Libelle</label>
+          <input [(ngModel)]="type_document.libelle" class="form-control" type="text" name="libelle" id="libelle">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="description">Description</label>
+          <textarea [(ngModel)]="type_document.description" class="form-control" type="textarea" autoResize="autoResize" [rows]="2" [cols]="25"
+            name="description" id="description"></textarea>
+        </div>
+      </div>
+
     </div>
     <!-- fin body -->
     <p-toolbar>
