@@ -25,7 +25,9 @@ export class EtatMarcheNewComponent implements OnInit {
   }
 
   saveEtatMarche() {
+    let etatMarcheSave: EtatMarche;
     if (this.etat_marche.etatSuivant) {
+      etatMarcheSave = this.etat_marche.etatSuivant;
       this.etat_marche.etatSuivant = this.etat_marche.etatSuivant.id;
     }
     const etatMarcheCopy = this.etat_marche;
@@ -36,10 +38,17 @@ export class EtatMarcheNewComponent implements OnInit {
         this.etat_marche = new EtatMarche();
         this.etats.push(data);
         this.etats = this.etats.slice(0);
-      }, error => this.etat_marcheSrv.httpSrv.handleError(error));
+      }, error => {
+        this.etat_marche = etatMarcheCopy;
+        if (this.etat_marche.etatSuivant) {
+          this.etat_marche.etatSuivant = etatMarcheSave;
+        }
+        this.etat_marcheSrv.httpSrv.handleError(error)
+      });
   }
 
   saveEtatMarcheAndExit() {
+    const etatSuivantSave = this.etat_marche.etatSuivant;
     if (this.etat_marche.etatSuivant) {
       this.etat_marche.etatSuivant = this.etat_marche.etatSuivant.id;
     }
@@ -49,8 +58,11 @@ export class EtatMarcheNewComponent implements OnInit {
       .subscribe((data: any) => {
         this.router.navigate([this.etat_marcheSrv.getRoutePrefix(), data.id]);
         this.etat_marche = new EtatMarche();
-      },  error => {
+      }, error => {
         this.etat_marche = etatMarcheCopy;
+        if (this.etat_marche.etatSuivant) {
+          this.etat_marche.etatSuivant = etatSuivantSave;
+        }
         this.etat_marcheSrv.httpSrv.handleError(error);
       });
   }
