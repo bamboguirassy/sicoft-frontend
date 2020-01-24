@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-type_source_financement-new',
+  selector: 'app-type-source-financement-new',
   templateUrl: './type_source_financement-new.component.html',
   styleUrls: ['./type_source_financement-new.component.scss']
 })

@@ -18,7 +18,7 @@
                     <p-table #tt [value]="type_passations" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedTypePassations" [resizableColumns]="true" [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedTypePassation"
                         [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
                         <ng-template pTemplate="caption">
-                            Liste des type_passations<br>
+                            Liste des types passation<br>
                             <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
                             <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
                             <div class="ui-helper-clearfix" style="text-align: left">
@@ -52,7 +52,7 @@
                                 </th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-type_passation let-editing="editing">
+                        <ng-template pTemplate="body" let-type_passation>
                             <tr [pEditableRow]="type_passation" [pSelectableRow]="type_passation" [pContextMenuRow]="type_passation">
                                 <td style="width: 3em">
                                     <p-tableCheckbox [value]="type_passation"></p-tableCheckbox>
