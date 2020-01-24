@@ -86,11 +86,12 @@ import { SourceFinancementEditComponent } from './source_financement/source_fina
 import { SourceFinancementListComponent } from './source_financement/source_financement-list/source_financement-list.component';
 import { SourceFinancementNewComponent } from './source_financement/source_financement-new/source_financement-new.component';
 import { SourceFinancementShowComponent } from './source_financement/source_financement-show/source_financement-show.component';
+import { UserProfilePageComponent } from './user/user-profile/user-profile-page.component';
 
 
 @NgModule({
   declarations: [
-    UserCloneComponent,UserEditComponent,UserListComponent,UserNewComponent,UserShowComponent,
+    UserCloneComponent,UserEditComponent,UserListComponent,UserNewComponent,UserShowComponent,UserProfilePageComponent,
     GroupCloneComponent,GroupEditComponent,GroupListComponent,GroupNewComponent,GroupShowComponent,
     EntiteCloneComponent,EntiteEditComponent,EntiteListComponent,EntiteNewComponent,EntiteShowComponent,
     TypeEntiteCloneComponent,TypeEntiteEditComponent,TypeEntiteListComponent,TypeEntiteNewComponent,TypeEntiteShowComponent,
