@@ -31,12 +31,12 @@ export class SecteurCloneComponent implements OnInit {
 
 
   cloneSecteur() {
-    for (const item of this.secteurs) {
+    /*for (const item of this.secteurs) {
       if (item.code === this.secteur.code) {
         this.notificationSrv.showError(' Code du secteur exite déja');
         return;
       }
-    }
+    }*/
     this.secteurSrv.clone(this.original, this.secteur)
       .subscribe((data: any) => {
         this.router.navigate([this.secteurSrv.getRoutePrefix(), data.id]);

@@ -28,12 +28,13 @@ export class SecteurEditComponent implements OnInit {
   }
 
   updateSecteur() {
-    for (const item of this.secteurs) {
+
+   /*for (const item of this.secteurs ) {
       if (item.code === this.secteur.code) {
         this.notificationSrv.showError(' Code du secteur exite déja');
         return;
       }
-    }
+    }*/
     this.secteurSrv.update(this.secteur)
       .subscribe(data => this.location.back(),
         error => this.secteurSrv.httpSrv.handleError(error));

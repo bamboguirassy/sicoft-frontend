@@ -30,7 +30,7 @@ export class SecteurNewComponent implements OnInit {
     this.secteurs = this.activatedRoute.snapshot.data['secteurs'];
   }
 
-  UniqueSelectionDispatcher() {
+ /* UniqueSelectionDispatcher() {
     this.teste = false;
     for (const item of this.secteurs) {
       if (item.code === this.secteur.code) {
@@ -39,12 +39,12 @@ export class SecteurNewComponent implements OnInit {
         return;
       }
     }
-  }
+  }*/
   saveSecteur() {
-    this.UniqueSelectionDispatcher();
+    /*this.UniqueSelectionDispatcher();
     if (this.teste) {
       return;
-    }
+    }*/
     this.secteurSrv.create(this.secteur).subscribe(
       (data: any) => {
         this.notificationSrv.showInfo('Secteur créé avec succès');
@@ -55,10 +55,10 @@ export class SecteurNewComponent implements OnInit {
   }
 
   saveSecteurAndExit() {
-    this.UniqueSelectionDispatcher();
+   /*this.UniqueSelectionDispatcher();
     if (this.teste) {
       return;
-    }
+    }*/
     this.secteurSrv.create(this.secteur).subscribe(
       (data: any) => {
         this.router.navigate([this.secteurSrv.getRoutePrefix(), data.id]);
