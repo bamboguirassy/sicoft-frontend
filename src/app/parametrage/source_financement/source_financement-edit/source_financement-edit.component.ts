@@ -25,7 +25,6 @@ export class SourceFinancementEditComponent implements OnInit {
   ngOnInit() {
     this.source_financement = this.activatedRoute.snapshot.data['source_financement'];
     this.types = this.activatedRoute.snapshot.data['types'];
-    console.log(this.types);
   }
 
   updateSourceFinancement() {
