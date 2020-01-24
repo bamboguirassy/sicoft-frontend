@@ -24,8 +24,8 @@ export class ExerciceNewComponent implements OnInit {
   }
 
   saveExercice() {
-    this.exercice.dateDebut = this.convertDateServiceSrv.formatDate(this.exercice.dateDebut);
-    this.exercice.dateFin = this.convertDateServiceSrv.formatDate(this.exercice.dateFin);
+    this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
+    this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
     console.log(this.exercice.dateDebut);
     this.exerciceSrv.create(this.exercice)
       .subscribe((data: any) => {
@@ -35,9 +35,8 @@ export class ExerciceNewComponent implements OnInit {
   }
 
   saveExerciceAndExit() {
-    this.exercice.dateDebut = this.convertDateServiceSrv.formatDate(this.exercice.dateDebut);
-    this.exercice.dateFin = this.convertDateServiceSrv.formatDate(this.exercice.dateFin);
-    console.log(this.exercice.dateDebut);
+    this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
+    this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
     this.exerciceSrv.create(this.exercice)
       .subscribe((data: any) => {
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);

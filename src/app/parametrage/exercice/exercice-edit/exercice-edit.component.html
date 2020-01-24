@@ -1,9 +1,9 @@
-
 <p-toast></p-toast>
 <!-- form exercice info -->
-<form *ngIf="'Exercice'|editable" class="form" role="form" #exerciceForm="ngForm" autocomplete="off" (ngSubmit)="updateExercice()">
+<form *ngIf="'Exercice'|editable" class="form" role="form" #exerciceForm="ngForm" autocomplete="off"
+  (ngSubmit)="updateExercice()">
   <p-fieldset legend="Modification exercice" [toggleable]="true">
-    <p-toolbar>$entity_twig_var_singular ?>" [toggleable]="true">
+    <p-toolbar>
       <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
           class="fa fa-eraser" aria-hidden="true"></i>
         Retour</button>
@@ -13,32 +13,36 @@
     </p-toolbar>
     <!-- debut body -->
     <div class="row">
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="code">Code</label>
-                    <input [(ngModel)]="exercice.code" class="form-control" type="text" name="code" id="code">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input [(ngModel)]="exercice.libelle" class="form-control" type="text" name="libelle" id="libelle">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="dateDebut">DateDebut</label>
-                    <input [(ngModel)]="exercice.dateDebut" class="form-control" type="text" name="dateDebut" id="dateDebut">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="dateFin">DateFin</label>
-                    <input [(ngModel)]="exercice.dateFin" class="form-control" type="text" name="dateFin" id="dateFin">
-                </div>
-            </div>
-                
-      
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="code">Code</label>
+          <input [(ngModel)]="exercice.code" class="form-control" type="text" name="code" id="code">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="libelle">Libelle</label>
+          <input [(ngModel)]="exercice.libelle" class="form-control" type="text" name="libelle" id="libelle">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="dateDebut">DateDebut</label>
+          <!--input [(ngModel)]="exercice.dateDebut" class="form-control" type="text" name="dateDebut" id="dateDebut"-->
+          <p-inputMask styleClass="form-control" mask="99-99-9999" [(ngModel)]="exercice.dateDebut" placeholder="mm/dd/yyyy" slotChar="mm/dd/yyyy"
+          name="dateDebut" id="dateDebut"></p-inputMask>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="dateFin">DateFin</label>
+          <!--input [(ngModel)]="exercice.dateFin" class="form-control" type="text" name="dateFin" id="dateFin"-->
+          <p-inputMask styleClass="form-control" mask="99-99-9999" [(ngModel)]="exercice.dateFin" placeholder="mm/dd/yyyy" slotChar="mm/dd/yyyy"
+          name="dateFin" id="dateFin"></p-inputMask>
+        </div>
+      </div>
+
+
     </div>
     <!-- fin body -->
     <p-toolbar>
