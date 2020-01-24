@@ -49,7 +49,10 @@ export class EtatMarcheNewComponent implements OnInit {
       .subscribe((data: any) => {
         this.router.navigate([this.etat_marcheSrv.getRoutePrefix(), data.id]);
         this.etat_marche = new EtatMarche();
-      },  error => this.etat_marcheSrv.httpSrv.handleError(error));
+      },  error => {
+        this.etat_marche = etatMarcheCopy;
+        this.etat_marcheSrv.httpSrv.handleError(error);
+      });
   }
 
 
