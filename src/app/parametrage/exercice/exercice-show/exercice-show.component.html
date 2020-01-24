@@ -15,7 +15,7 @@
   </p-toolbar>
   <p-tabView>
     <p-tabPanel header="Détails">
-      <p-fieldset [legend]="exercice.id">
+      <p-fieldset [legend]="exercice.libelle">
         <table class="table">
           <tr>
             <th>Code</th>
@@ -26,11 +26,11 @@
             <td>{{ exercice.libelle }}</td>
           </tr>
           <tr>
-            <th>DateDebut</th>
+            <th>Date Debut</th>
             <td>{{ exercice.dateDebut | date:'dd/MM/yyyy'}}</td>
           </tr>
           <tr>
-            <th>DateFin</th>
+            <th>Date Fin</th>
             <td>{{ exercice.dateFin | date:'dd/MM/yyyy'}}</td>
           </tr>
         </table>
