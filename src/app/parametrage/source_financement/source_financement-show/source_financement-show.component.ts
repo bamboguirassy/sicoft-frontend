@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 
 @Component({
-  selector: 'app-source_financement-show',
+  selector: 'app-source-financement-show',
   templateUrl: './source_financement-show.component.html',
   styleUrls: ['./source_financement-show.component.scss']
 })

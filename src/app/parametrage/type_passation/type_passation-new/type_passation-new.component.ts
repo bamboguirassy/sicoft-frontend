@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-type_passation-new',
+  selector: 'app-type-passation-new',
   templateUrl: './type_passation-new.component.html',
   styleUrls: ['./type_passation-new.component.scss']
 })
