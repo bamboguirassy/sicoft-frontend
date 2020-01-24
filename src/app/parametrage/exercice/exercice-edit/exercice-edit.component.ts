@@ -5,6 +5,7 @@ import { Exercice } from '../exercice';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
+import { ConvertDateService } from 'app/shared/services/convert-date.service';
 
 @Component({
   selector: 'app-exercice-edit',
@@ -17,14 +18,19 @@ export class ExerciceEditComponent implements OnInit {
   constructor(public exerciceSrv: ExerciceService,
     public activatedRoute: ActivatedRoute,
     public router: Router, public location: Location,
-    public notificationSrv: NotificationService) {
+    public notificationSrv: NotificationService,
+    public convertDateServiceSrv: ConvertDateService) {
   }
 
   ngOnInit() {
     this.exercice = this.activatedRoute.snapshot.data['exercice'];
+    this.exercice.dateDebut = this.convertDateServiceSrv.formatDateToDmy(this.exercice.dateDebut);
+    this.exercice.dateFin = this.convertDateServiceSrv.formatDateToDmy(this.exercice.dateFin);
   }
 
   updateExercice() {
+    this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
+    this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
     this.exerciceSrv.update(this.exercice)
       .subscribe(data => this.location.back(),
         error => this.exerciceSrv.httpSrv.handleError(error));
