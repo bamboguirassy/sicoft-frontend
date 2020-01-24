@@ -10,7 +10,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 
 
 @Component({
-  selector: 'app-source_financement-list',
+  selector: 'app-source-financement-list',
   templateUrl: './source_financement-list.component.html',
   styleUrls: ['./source_financement-list.component.scss']
 })
@@ -21,10 +21,10 @@ export class SourceFinancementListComponent implements OnInit {
   selectedSourceFinancement: SourceFinancement;
   clonedSourceFinancements: SourceFinancement[];
 
-  cMenuItems: MenuItem[]=[];
+  cMenuItems: MenuItem[] = [];
 
   tableColumns = source_financementColumns;
-  //allowed fields for filter
+  // Allowed fields for filter
   globalFilterFields = allowedSourceFinancementFieldsForFilter;
 
 
@@ -34,13 +34,13 @@ export class SourceFinancementListComponent implements OnInit {
     public notificationSrv: NotificationService) { }
 
   ngOnInit() {
-    if(this.authSrv.checkShowAccess('SourceFinancement')){
+    if(this.authSrv.checkShowAccess('SourceFinancement')) {
       this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewSourceFinancement(this.selectedSourceFinancement) });
     }
     if(this.authSrv.checkEditAccess('SourceFinancement')){
       this.cMenuItems.push({ label: 'Modifier', icon: 'pi pi-pencil', command: (event) => this.editSourceFinancement(this.selectedSourceFinancement) })
     }
-    if(this.authSrv.checkCloneAccess('SourceFinancement')){
+    if(this.authSrv.checkCloneAccess('SourceFinancement')) {
       this.cMenuItems.push({ label: 'Cloner', icon: 'pi pi-clone', command: (event) => this.cloneSourceFinancement(this.selectedSourceFinancement) })
     }
     if(this.authSrv.checkDeleteAccess('SourceFinancement')){

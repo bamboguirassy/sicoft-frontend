@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 
 @Component({
-  selector: 'app-type_passation-edit',
+  selector: 'app-type-passation-edit',
   templateUrl: './type_passation-edit.component.html',
   styleUrls: ['./type_passation-edit.component.scss']
 })

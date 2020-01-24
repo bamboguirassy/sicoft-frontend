@@ -6,7 +6,7 @@ import { TypeSourceFinancement } from '../type_source_financement';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-type_source_financement-clone',
+  selector: 'app-type-source-financement-clone',
   templateUrl: './type_source_financement-clone.component.html',
   styleUrls: ['./type_source_financement-clone.component.scss']
 })

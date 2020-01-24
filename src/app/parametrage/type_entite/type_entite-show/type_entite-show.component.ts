@@ -13,6 +13,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class TypeEntiteShowComponent implements OnInit {
 
   type_entite: TypeEntite;
+  typeEntiteLabel: string;
   constructor(public activatedRoute: ActivatedRoute,
     public type_entiteSrv: TypeEntiteService, public location: Location,
     public router: Router, public notificationSrv: NotificationService) {
@@ -20,6 +21,7 @@ export class TypeEntiteShowComponent implements OnInit {
 
   ngOnInit() {
     this.type_entite = this.activatedRoute.snapshot.data['type_entite'];
+    this.typeEntiteLabel = `Type Entite : ${this.type_entite.libelle}`
   }
 
   removeTypeEntite() {

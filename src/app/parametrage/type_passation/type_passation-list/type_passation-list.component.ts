@@ -10,7 +10,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 
 
 @Component({
-  selector: 'app-type_passation-list',
+  selector: 'app-type-passation-list',
   templateUrl: './type_passation-list.component.html',
   styleUrls: ['./type_passation-list.component.scss']
 })

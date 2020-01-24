@@ -15,7 +15,7 @@
   </p-toolbar>
   <p-tabView>
     <p-tabPanel header="Détails">
-      <p-fieldset [legend]="entite.id">
+      <p-fieldset [legend]="entite.nom">
         <table class="table">
           <tr>
             <th>Nom</th>
@@ -27,7 +27,21 @@
           </tr>
           <tr>
             <th>Etat</th>
-            <td>{{ entite.etat ? 'Yes' : 'No' }}</td>
+            <td>
+              <span class="badge badge-success" *ngIf="entite.etat">Active</span>
+              <span class="badge badge-danger" *ngIf="!entite.etat">Inactive</span>
+            </td>
+          </tr>
+          <tr>
+            <th>Entité Parent</th>
+            <td>
+              {{ entite?.entiteParent?.nom }}
+              <span class="badge badge-danger" *ngIf="!entite?.entiteParent">Non précisé</span>
+            </td>
+          </tr>
+          <tr>
+            <th>Type Entité</th>
+            <td>{{ entite?.typeEntite?.libelle }}</td>
           </tr>
         </table>
         <p-toolbar>

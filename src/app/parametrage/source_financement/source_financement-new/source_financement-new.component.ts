@@ -30,7 +30,6 @@ export class SourceFinancementNewComponent implements OnInit {
 
   saveSourceFinancement() {
       this.source_financement.type = this.source_financement.type.id;
-      console.log(this.source_financement);
     this.source_financementSrv.create(this.source_financement)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('SourceFinancement créé avec succès');
