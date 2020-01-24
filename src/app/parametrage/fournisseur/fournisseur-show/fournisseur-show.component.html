@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-fieldset *ngIf="'Fournisseur'|showable" legend="Affichage des informations - fournisseur" [toggleable]="true">
+<p-fieldset *ngIf="'Fournisseur'|showable" legend="Affichage des informations - Fournisseur" [toggleable]="true">
   <p-toolbar>
     <button *ngIf="'Fournisseur'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
       [routerLink]="['/'+fournisseurSrv.getRoutePrefix(),fournisseur.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
@@ -15,10 +15,10 @@
   </p-toolbar>
   <p-tabView>
     <p-tabPanel header="Détails">
-      <p-fieldset [legend]="fournisseur.id">
+      <p-fieldset [legend]="fournisseurLegend">
         <table class="table">
                                     <tr>
-                <th>Nom</th>
+                <th>Nom Complet</th>
                 <td>{{ fournisseur.nom }}</td>
             </tr>
                                     <tr>
@@ -38,15 +38,15 @@
                 <td>{{ fournisseur.ninea }}</td>
             </tr>
                                     <tr>
-                <th>NomContact</th>
+                <th>Nom Complet Contact</th>
                 <td>{{ fournisseur.nomContact }}</td>
             </tr>
                                     <tr>
-                <th>TelephoneContact</th>
+                <th>Telephone Contact</th>
                 <td>{{ fournisseur.telephoneContact }}</td>
             </tr>
                                     <tr>
-                <th>FonctionContact</th>
+                <th>Fonction Contact</th>
                 <td>{{ fournisseur.fonctionContact }}</td>
             </tr>
                     </table>

@@ -13,6 +13,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class FournisseurShowComponent implements OnInit {
 
   fournisseur: Fournisseur;
+  fournisseurLegend: string;
   constructor(public activatedRoute: ActivatedRoute,
     public fournisseurSrv: FournisseurService, public location: Location,
     public router: Router, public notificationSrv: NotificationService) {
@@ -20,6 +21,7 @@ export class FournisseurShowComponent implements OnInit {
 
   ngOnInit() {
     this.fournisseur = this.activatedRoute.snapshot.data['fournisseur'];
+    this.fournisseurLegend = `Fournisseur: ${this.fournisseur.nom}`
   }
 
   removeFournisseur() {
