@@ -14,7 +14,7 @@ const entiteRoutes: Route = {
         { path: 'new', component: EntiteNewComponent, resolve: { entites: MultipleEntiteResolver, typeEntites: MultipleTypeEntiteResolver } },
         { path: ':id/edit', component: EntiteEditComponent, resolve: { entite: OneEntiteResolver, entites: MultipleEntiteResolver, typeEntites: MultipleTypeEntiteResolver } },
         { path: ':id/clone', component: EntiteCloneComponent, resolve: { entite: OneEntiteResolver, entites: MultipleEntiteResolver, typeEntites: MultipleTypeEntiteResolver } },
-        { path: ':id', component: EntiteShowComponent, resolve: { entite: OneEntiteResolver } }
+        { path: ':id', component: EntiteShowComponent, resolve: { entite: OneEntiteResolver, types: MultipleTypeEntiteResolver } }
     ]
 
 };

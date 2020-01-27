@@ -59,5 +59,8 @@ export class EntiteNewComponent implements OnInit {
       }, error => this.entiteSrv.httpSrv.handleError(error));
   }
 
+  // toggleModal(content) {
+  //   this.modalService.open(content, { size: 'lg' });
+  // }
 }
 
