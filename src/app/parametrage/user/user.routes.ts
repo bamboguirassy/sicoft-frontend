@@ -1,4 +1,4 @@
-import { Route } from "@angular/router";
+import { Route } from '@angular/router';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserNewComponent } from './user-new/user-new.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
@@ -15,7 +15,7 @@ const userRoutes: Route = {
         { path: 'new', component: UserNewComponent, resolve: { groups: MultipleGroupResolver } },
         { path: ':id/edit', component: UserEditComponent, resolve: { user: OneUserResolver, groups: MultipleGroupResolver } },
         { path: ':id/clone', component: UserCloneComponent, resolve: { user: OneUserResolver, groups: MultipleGroupResolver } },
-        { path: 'profil', component: UserProfilePageComponent },
+        { path: ':id/profil', component: UserProfilePageComponent, resolve: {user: OneUserResolver} },
         { path: ':id', component: UserShowComponent, resolve: { user: OneUserResolver } }
     ]
 

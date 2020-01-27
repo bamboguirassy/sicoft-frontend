@@ -32,4 +32,4 @@ const allowedUserFieldsForFilter = [
     'telephone',
 ];
 
-export { userColumns,allowedUserFieldsForFilter };
+export { userColumns, allowedUserFieldsForFilter };
