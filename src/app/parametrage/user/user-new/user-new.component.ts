@@ -22,15 +22,15 @@ export class UserNewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.groups=this.activatedRoute.snapshot.data['groups'];
+    this.groups = this.activatedRoute.snapshot.data['groups'];
   }
 
   saveUser() {
-    let groupIds=[];
-    this.user.groups.forEach(group=>{
+    let groupIds = [];
+    this.user.groups.forEach(group => {
       groupIds.push(group.id);
     });
-    this.user.groups=groupIds;
+    this.user.groups = groupIds;
     this.userSrv.create(this.user)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('User créé avec succès');
@@ -39,11 +39,11 @@ export class UserNewComponent implements OnInit {
   }
 
   saveUserAndExit() {
-    let groupIds=[];
-    this.user.groups.forEach(group=>{
+    let groupIds = [];
+    this.user.groups.forEach(group => {
       groupIds.push(group.id);
     });
-    this.user.groups=groupIds;
+    this.user.groups = groupIds;
     this.userSrv.create(this.user)
       .subscribe((data: any) => {
         this.router.navigate([this.userSrv.getRoutePrefix(), data.id]);
