@@ -1,0 +1,51 @@
+<p-toast></p-toast>
+<p-fieldset *ngIf="'CategorieClasse'|showable" legend="Affichage des informations - categorie_classe" [toggleable]="true">
+  <p-toolbar>
+    <button *ngIf="'CategorieClasse'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+      [routerLink]="['/'+categorie_classeSrv.getRoutePrefix(),categorie_classe.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+      Modifier</button>
+    <button *ngIf="'CategorieClasse'|clonable" [routerLink]="['/'+categorie_classeSrv.getRoutePrefix(),categorie_classe.id,'clone']" type="button"
+      class="btn btn-outline-secondary pull-right ml-1">
+      <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+    </button>
+    <button *ngIf="'CategorieClasse'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeCategorieClasse()"><i
+        class="fa fa-trash-o"></i> Supprimer</button>
+    <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+        class="fa fa-reply"></i> Retour</button>
+  </p-toolbar>
+  <p-tabView>
+    <p-tabPanel header="Détails">
+      <p-fieldset [legend]="categorie_classe.id">
+        <table class="table">
+                                    <tr>
+                <th>Code</th>
+                <td>{{ categorie_classe.code }}</td>
+            </tr>
+                                    <tr>
+                <th>Nom</th>
+                <td>{{ categorie_classe.nom }}</td>
+            </tr>
+                    </table>
+        <p-toolbar>
+          <button *ngIf="'CategorieClasse'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+            [routerLink]="['/'+categorie_classeSrv.getRoutePrefix(),categorie_classe.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+            Modifier</button>
+          <button *ngIf="'CategorieClasse'|clonable" [routerLink]="['/'+categorie_classeSrv.getRoutePrefix(),categorie_classe.id,'clone']" type="button"
+            class="btn btn-outline-secondary pull-right ml-1">
+            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+          </button>
+          <button *ngIf="'CategorieClasse'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeCategorieClasse()"><i
+              class="fa fa-trash-o"></i> Supprimer</button>
+          <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+              class="fa fa-reply"></i> Retour</button>
+          <button *ngIf="'CategorieClasse'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
+              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+          </button>
+        </p-toolbar>
+      </p-fieldset>
+    </p-tabPanel>
+    <p-tabPanel header="Liste associée">
+      
+    </p-tabPanel>
+  </p-tabView>
+</p-fieldset>

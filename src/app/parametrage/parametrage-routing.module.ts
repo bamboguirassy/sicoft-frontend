@@ -14,6 +14,8 @@ import { secteurRoutes } from './secteur/secteur.routes';
 import { fournisseurRoutes } from './fournisseur/fournisseur.routes';
 import { type_source_financementRoutes } from './type_source_financement/type_source_financement.routes';
 import { source_financementRoutes } from './source_financement/source_financement.routes';
+import { categorie_classeRoutes } from './categorie_classe/categorie_classe.routes';
+import { type_classeRoutes } from './type_classe/type_classe.routes';
 
 const routes: Routes = [
   userRoutes,
@@ -29,7 +31,9 @@ const routes: Routes = [
   secteurRoutes,
   fournisseurRoutes,
   type_source_financementRoutes,
-  source_financementRoutes
+  source_financementRoutes,
+  categorie_classeRoutes,
+  type_classeRoutes
 ];
 
 @NgModule({

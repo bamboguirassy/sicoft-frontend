@@ -19,7 +19,7 @@ export class HttpService {
     private tokenManager: TokenManagerService,
     public notificationSrv: NotificationService,
     public router: Router) {
-    this.customUrl = 'https://localhost:8000/api/';
+    this.customUrl = 'http://localhost:8000/api/';
   }
 
   createAuthorizationHeaderWithProgress(): any {
