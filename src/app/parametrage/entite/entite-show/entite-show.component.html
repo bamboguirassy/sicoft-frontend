@@ -1,42 +1,55 @@
 <p-toast></p-toast>
-<p-fieldset *ngIf="'Entite'|showable" legend="Affichage des informations - entite" [toggleable]="true">
-  <p-toolbar>
-    <button *ngIf="'Entite'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
-      [routerLink]="['/'+entiteSrv.getRoutePrefix(),entite.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
-      Modifier</button>
-    <button *ngIf="'Entite'|clonable" [routerLink]="['/'+entiteSrv.getRoutePrefix(),entite.id,'clone']" type="button"
-      class="btn btn-outline-secondary pull-right ml-1">
+<p-fieldset *ngIf="'Entite' | showable" legend="Affichage des informations - Entité" [toggleable]="true">
+    <p-toolbar>
+        <button *ngIf="'Entite' | editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/' + entiteSrv.getRoutePrefix(), entite.id, 'edit']">
+      <i class="fa fa-pencil-square-o ml-1"></i> Modifier
+    </button>
+        <button *ngIf="'Entite' | clonable" [routerLink]="['/' + entiteSrv.getRoutePrefix(), entite.id, 'clone']" type="button" class="btn btn-outline-secondary pull-right ml-1">
       <i class="fa fa-clone" aria-hidden="true"></i> Cloner
     </button>
-    <button *ngIf="'Entite'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1"
-      (click)="removeEntite()"><i class="fa fa-trash-o"></i> Supprimer</button>
-    <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
-        class="fa fa-reply"></i> Retour</button>
-  </p-toolbar>
-  <p-tabView>
-    <p-tabPanel header="Détails">
-      <p-fieldset [legend]="entite.nom">
-        <table class="table">
-          <tr>
-            <th>Nom</th>
-            <td>{{ entite.nom }}</td>
-          </tr>
-          <tr>
-            <th>Code</th>
-            <td>{{ entite.code }}</td>
-          </tr>
-          <tr>
-            <th>Etat</th>
-            <td>
-              <span class="badge badge-success" *ngIf="entite.etat">Active</span>
-              <span class="badge badge-danger" *ngIf="!entite.etat">Inactive</span>
+        <button *ngIf="'Entite' | deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeEntite()">
+      <i class="fa fa-trash-o"></i> Supprimer
+    </button>
+        <button [disabled]="false" type="button " (click)="toggleModal(content)" class="btn btn-outline-dark pull-right mr-1 ">
+      <i class="fa fa-plus-square-o " aria-hidden="true "></i>
+      Sous classe
+    </button>
+        <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()">
+      <i class="fa fa-reply"></i> Retour
+    </button>
+        <button type="button" class="btn btn-outline-success pull-left ml-1" routerLink="/entite">
+      <i class="fa fa-list"></i> Voir la liste
+    </button>
+    </p-toolbar>
+    <p-tabView>
+        <p-tabPanel header="Détails">
+            <p-fieldset [legend]=" 'Entité: ' +entite.nom">
+                <table class="table">
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ entite.nom }}</td>
+                    </tr>
+                    <tr>
+                        <th>Code</th>
+                        <td>{{ entite.code }}</td>
+                    </tr>
+                    <tr>
+                        <th>Etat</th>
+                        <td>
+                            <span class="badge badge-success" *ngIf="entite.etat">Active</span
+              >
+              <span class="badge badge-danger" *ngIf="!entite.etat"
+                >Inactive</span
+              >
             </td>
           </tr>
           <tr>
             <th>Entité Parent</th>
             <td>
               {{ entite?.entiteParent?.nom }}
-              <span class="badge badge-danger" *ngIf="!entite?.entiteParent">Non précisé</span>
+              <span class="badge badge-danger" *ngIf="!entite?.entiteParent"
+                >Non précisé</span
+              >
             </td>
           </tr>
           <tr>
@@ -44,26 +57,161 @@
             <td>{{ entite?.typeEntite?.libelle }}</td>
           </tr>
         </table>
+
+        <!-- Modal start -->
+        <ng-template #content let-modal>
+          <form #entityForm="ngForm">
+            <div class="modal-header">
+              <h4 class="modal-title">Sous Entité</h4>
+              <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="modal.dismiss('Cross click')"
+              >
+                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="col-form-label form-control-label" for="typeEntite">Type Entité</label
+                    >
+                    <ng-select
+                      required
+                      name="typeEntite"
+                      [items]="typeEntites"
+                      bindLabel="libelle"
+                      placeholder="Selectionner type entité"
+                      appendTo="body"
+                      [multiple]="false"
+                      [searchable]="true"
+                      [(ngModel)]="sousEntite.typeEntite"
+                    >
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="col-form-label form-control-label" for="code"
+                      >Code</label
+                    >
+                    <input
+                      required
+                      [(ngModel)]="sousEntite.code"
+                      class="form-control"
+                      type="text"
+                      name="code"
+                      id="code"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label
+                      class="col-form-label form-control-label"
+                      for="entite"
+                      >Nom</label
+                    >
+                    <input
+                      required
+                      [(ngModel)]="sousEntite.nom"
+                      class="form-control"
+                      type="text"
+                      name="entite"
+                      id="entite"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="col-form-label form-control-label" for="etat"
+                      >Etat</label
+                    >
+                    <br />
+                    <p-inputSwitch
+                      name="etat"
+                      [(ngModel)]="sousEntite.etat"
+                    ></p-inputSwitch>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                [disabled]="entityForm.invalid"
+                type="button"
+                class="btn btn-outline-primary"
+                (click)="createSousEntite(modal)"
+              >
+                Enregistrer
+              </button>
+            </div>
+          </form>
+        </ng-template>
+        <!-- Modal end -->
         <p-toolbar>
-          <button *ngIf="'Entite'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
-            [routerLink]="['/'+entiteSrv.getRoutePrefix(),entite.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
-            Modifier</button>
-          <button *ngIf="'Entite'|clonable" [routerLink]="['/'+entiteSrv.getRoutePrefix(),entite.id,'clone']"
-            type="button" class="btn btn-outline-secondary pull-right ml-1">
-            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+          <button
+            *ngIf="'Entite' | editable"
+            type="button "
+            class="btn btn-outline-warning pull-right ml-1 "
+            [routerLink]="['/' + entiteSrv.getRoutePrefix(), entite.id, 'edit']"
+          >
+            <i class="fa fa-pencil-square-o ml-1 "></i> Modifier
           </button>
-          <button *ngIf="'Entite'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1"
-            (click)="removeEntite()"><i class="fa fa-trash-o"></i> Supprimer</button>
-          <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
-              class="fa fa-reply"></i> Retour</button>
-          <button *ngIf="'Entite'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
-            <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+          <button
+            *ngIf="'Entite' | clonable"
+            [routerLink]="[
+              '/' + entiteSrv.getRoutePrefix(),
+              entite.id,
+              'clone'
+            ]"
+            type="button "
+            class="btn btn-outline-secondary pull-right ml-1 "
+          >
+            <i class="fa fa-clone " aria-hidden="true "></i> Cloner
+          </button>
+          <button
+            *ngIf="'Entite' | deletable"
+            type="button "
+            class="btn btn-outline-danger pull-right ml-1"
+            (click)="removeEntite()"
+          >
+            <i class="fa fa-trash-o "></i> Supprimer
+          </button>
+          <button
+            type="button "
+            class="btn btn-outline-secondary pull-left ml-1 "
+            (click)="location.back()"
+          >
+            <i class="fa fa-reply "></i> Retour
+          </button>
+          <button
+            *ngIf="'Entite' | showable"
+            type="button "
+            class="btn btn-secondary ml-1 "
+            (click)="refresh()"
+          >
+            <i class="fa fa-refresh " aria-hidden="true "></i> Raffraichir les
+            données
+          </button>
+          <button
+            [disabled]="false"
+            type="button "
+            (click)="toggleModal(content)"
+            class="btn btn-outline-dark pull-right mr-1 "
+          >
+            <i class="fa fa-plus-square-o " aria-hidden="true "></i>
+            Sous classe
           </button>
         </p-toolbar>
       </p-fieldset>
     </p-tabPanel>
-    <p-tabPanel header="Liste associée">
-
-    </p-tabPanel>
+    <p-tabPanel header="Liste associée "> </p-tabPanel>
   </p-tabView>
 </p-fieldset>

@@ -108,3 +108,21 @@
     </p-fieldset>
   </div>
 </div>
+
+<div class="row mt-3" *ngIf="etat_marches && 'EtatMarche'|listable" >
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <p-card>
+      <div class="prog-buttons mb-3 mt-2">
+        <button type="button" pButton icon="pi pi-chevron-up" (click)="openPrev()"></button>&nbsp;
+        <button type="button" pButton icon="pi pi-chevron-down" (click)="openNext()"></button>
+      </div>
+
+
+      <p-accordion (onOpen)="fetchNextStates($event)" [activeIndex]="index" >
+        <p-accordionTab *ngFor="let etat_marche of etat_marches" header="{{etat_marche?.libelle}}">
+          <p-breadcrumb [model]="items" [home]="info"></p-breadcrumb>
+        </p-accordionTab>
+      </p-accordion>
+    </p-card>
+  </div>
+</div>

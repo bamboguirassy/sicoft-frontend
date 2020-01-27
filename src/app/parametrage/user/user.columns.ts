@@ -13,6 +13,7 @@ const userColumns = [
                     { header: 'Prenom', field: 'prenom', dataKey: 'prenom' },
             { header: 'Nom', field: 'nom', dataKey: 'nom' },
             { header: 'Telephone', field: 'telephone', dataKey: 'telephone' },
+            { header: 'Fonction', field: 'fonction', dataKey: 'fonction' },
         ];
 
 const allowedUserFieldsForFilter = [
@@ -30,6 +31,7 @@ const allowedUserFieldsForFilter = [
     'prenom',
     'nom',
     'telephone',
+    'fonction'
 ];
 
 export { userColumns, allowedUserFieldsForFilter };
