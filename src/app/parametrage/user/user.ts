@@ -15,4 +15,5 @@ export class User {
         nom: string;
         telephone: string;
         groups: any[];
+        fonction: string;
 }

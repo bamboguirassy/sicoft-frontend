@@ -27,7 +27,7 @@ export class ConvertDateService {
     formatDateToDmy(originDate: any) {
         this.year = originDate.split('-')[0];
         this.month = originDate.split('-')[1].split('-')[0];
-        this.day = originDate.substr(-11, 3);
+        this.day = originDate.substr(-11, 2);
         this.newDate = (this.day + '-' + this.month + '-' + this.year);
         return this.newDate;
     }

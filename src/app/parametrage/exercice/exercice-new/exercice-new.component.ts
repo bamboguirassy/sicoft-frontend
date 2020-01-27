@@ -26,7 +26,6 @@ export class ExerciceNewComponent implements OnInit {
   saveExercice() {
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
-    console.log(this.exercice.dateDebut);
     this.exerciceSrv.create(this.exercice)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Exercice créé avec succès');

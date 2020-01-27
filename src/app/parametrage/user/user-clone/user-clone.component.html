@@ -46,6 +46,12 @@
                         [(ngModel)]="user.groups" optionLabel="name"></p-multiSelect>
                 </div>
             </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="fonction">Fonction</label>
+                    <input [(ngModel)]="user.fonction" class="form-control" type="text" name="fonction" id="fonction" required>
+                </div>
+            </div>
         </div>
         <!-- fin body -->
         <p-toolbar>

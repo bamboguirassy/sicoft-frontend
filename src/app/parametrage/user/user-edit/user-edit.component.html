@@ -37,17 +37,23 @@
                     <input [(ngModel)]="user.telephone" class="form-control" type="tel" name="telephone" id="telephone">
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="enabled">Activer le compte ?</label> <br>
                     <p-inputSwitch styleClass="form-control" name="enabled" [(ngModel)]="user.enabled"></p-inputSwitch>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="groups">Groupes d'utilisateur</label> <br>
                     <p-multiSelect name="groups" defaultLabel="Selectionner un ou plusieurs groupes" [options]="groups"
                         [(ngModel)]="user.groups" optionLabel="name"></p-multiSelect>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="fonction">Fonction</label>
+                    <input [(ngModel)]="user.fonction" class="form-control" type="text" name="fonction" id="fonction" required>
                 </div>
             </div>
         </div>
