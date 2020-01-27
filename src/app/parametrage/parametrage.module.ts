@@ -9,15 +9,21 @@ import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserShowComponent } from './user/user-show/user-show.component';
 
 import { TableModule } from 'primeng/table';
-import { ContextMenuModule, MenuModule, ButtonModule, CardModule, FieldsetModule, ToolbarModule, TabViewModule } from 'primeng';
+import {
+  ContextMenuModule,
+  MenuModule, ButtonModule,
+  CardModule, FieldsetModule,
+  ToolbarModule, TabViewModule, 
+  AccordionModule, BreadcrumbModule
+} from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import {CheckboxModule} from 'primeng/checkbox';
-import {InputSwitchModule} from 'primeng/inputswitch';
-import {MultiSelectModule} from 'primeng/multiselect';
-import {InputMaskModule} from 'primeng/inputmask';
-import {ChipsModule} from 'primeng/chips';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InputMaskModule } from 'primeng/inputmask';
+import { ChipsModule } from 'primeng/chips';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 
@@ -87,24 +93,36 @@ import { SourceFinancementListComponent } from './source_financement/source_fina
 import { SourceFinancementNewComponent } from './source_financement/source_financement-new/source_financement-new.component';
 import { SourceFinancementShowComponent } from './source_financement/source_financement-show/source_financement-show.component';
 import { UserProfilePageComponent } from './user/user-profile/user-profile-page.component';
+import { TypeClasseCloneComponent } from './type_classe/type_classe-clone/type_classe-clone.component';
+import { TypeClasseEditComponent } from './type_classe/type_classe-edit/type_classe-edit.component';
+import { TypeClasseListComponent } from './type_classe/type_classe-list/type_classe-list.component';
+import { TypeClasseNewComponent } from './type_classe/type_classe-new/type_classe-new.component';
+import { TypeClasseShowComponent } from './type_classe/type_classe-show/type_classe-show.component';
+import { CategorieClasseCloneComponent } from './categorie_classe/categorie_classe-clone/categorie_classe-clone.component';
+import { CategorieClasseEditComponent } from './categorie_classe/categorie_classe-edit/categorie_classe-edit.component';
+import { CategorieClasseListComponent } from './categorie_classe/categorie_classe-list/categorie_classe-list.component';
+import { CategorieClasseNewComponent } from './categorie_classe/categorie_classe-new/categorie_classe-new.component';
+import { CategorieClasseShowComponent } from './categorie_classe/categorie_classe-show/categorie_classe-show.component';
 
 
 @NgModule({
   declarations: [
-    UserCloneComponent,UserEditComponent,UserListComponent,UserNewComponent,UserShowComponent,UserProfilePageComponent,
-    GroupCloneComponent,GroupEditComponent,GroupListComponent,GroupNewComponent,GroupShowComponent,
-    EntiteCloneComponent,EntiteEditComponent,EntiteListComponent,EntiteNewComponent,EntiteShowComponent,
-    TypeEntiteCloneComponent,TypeEntiteEditComponent,TypeEntiteListComponent,TypeEntiteNewComponent,TypeEntiteShowComponent,
-    ExerciceCloneComponent,ExerciceEditComponent,ExerciceListComponent,ExerciceNewComponent,ExerciceShowComponent,
-    ClasseCloneComponent,ClasseEditComponent,ClasseListComponent,ClasseNewComponent,ClasseShowComponent,
-    CompteCloneComponent,CompteEditComponent,CompteListComponent,CompteNewComponent,CompteShowComponent,
-    TypeDocumentCloneComponent,TypeDocumentEditComponent,TypeDocumentListComponent,TypeDocumentNewComponent,TypeDocumentShowComponent,
-    TypePassationCloneComponent,TypePassationEditComponent,TypePassationListComponent,TypePassationNewComponent,TypePassationShowComponent,
-    EtatMarcheCloneComponent,EtatMarcheEditComponent,EtatMarcheListComponent,EtatMarcheNewComponent,EtatMarcheShowComponent,
-    SecteurCloneComponent,SecteurEditComponent,SecteurListComponent,SecteurNewComponent,SecteurShowComponent,
-    FournisseurCloneComponent,FournisseurEditComponent,FournisseurListComponent,FournisseurNewComponent,FournisseurShowComponent,
-    TypeSourceFinancementCloneComponent,TypeSourceFinancementEditComponent,TypeSourceFinancementListComponent,TypeSourceFinancementNewComponent,TypeSourceFinancementShowComponent,
-    SourceFinancementCloneComponent,SourceFinancementEditComponent,SourceFinancementListComponent,SourceFinancementNewComponent,SourceFinancementShowComponent
+    UserCloneComponent, UserEditComponent, UserListComponent, UserNewComponent, UserShowComponent, UserProfilePageComponent,
+    GroupCloneComponent, GroupEditComponent, GroupListComponent, GroupNewComponent, GroupShowComponent,
+    EntiteCloneComponent, EntiteEditComponent, EntiteListComponent, EntiteNewComponent, EntiteShowComponent,
+    TypeEntiteCloneComponent, TypeEntiteEditComponent, TypeEntiteListComponent, TypeEntiteNewComponent, TypeEntiteShowComponent,
+    ExerciceCloneComponent, ExerciceEditComponent, ExerciceListComponent, ExerciceNewComponent, ExerciceShowComponent,
+    ClasseCloneComponent, ClasseEditComponent, ClasseListComponent, ClasseNewComponent, ClasseShowComponent,
+    CompteCloneComponent, CompteEditComponent, CompteListComponent, CompteNewComponent, CompteShowComponent,
+    TypeDocumentCloneComponent, TypeDocumentEditComponent, TypeDocumentListComponent, TypeDocumentNewComponent, TypeDocumentShowComponent,
+    TypePassationCloneComponent, TypePassationEditComponent, TypePassationListComponent, TypePassationNewComponent, TypePassationShowComponent,
+    EtatMarcheCloneComponent, EtatMarcheEditComponent, EtatMarcheListComponent, EtatMarcheNewComponent, EtatMarcheShowComponent,
+    SecteurCloneComponent, SecteurEditComponent, SecteurListComponent, SecteurNewComponent, SecteurShowComponent,
+    FournisseurCloneComponent, FournisseurEditComponent, FournisseurListComponent, FournisseurNewComponent, FournisseurShowComponent,
+    TypeSourceFinancementCloneComponent, TypeSourceFinancementEditComponent, TypeSourceFinancementListComponent, TypeSourceFinancementNewComponent, TypeSourceFinancementShowComponent,
+    SourceFinancementCloneComponent, SourceFinancementEditComponent, SourceFinancementListComponent, SourceFinancementNewComponent, SourceFinancementShowComponent,
+    TypeClasseCloneComponent,TypeClasseEditComponent,TypeClasseListComponent,TypeClasseNewComponent,TypeClasseShowComponent,
+    CategorieClasseCloneComponent,CategorieClasseEditComponent,CategorieClasseListComponent,CategorieClasseNewComponent,CategorieClasseShowComponent
   ],
   imports: [
     CommonModule,
@@ -125,7 +143,9 @@ import { UserProfilePageComponent } from './user/user-profile/user-profile-page.
     MultiSelectModule,
     InputMaskModule,
     ChipsModule,
-    NgSelectModule
+    NgSelectModule,
+    AccordionModule,
+    BreadcrumbModule,
   ]
 })
 export class ParametrageModule { }

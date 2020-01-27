@@ -16,7 +16,7 @@ export class UserEditComponent implements OnInit {
 
   user: User;
   groups: Group[] = [];
-  
+
   constructor(public userSrv: UserService,
     public activatedRoute: ActivatedRoute,
     public router: Router, public location: Location,
@@ -25,15 +25,15 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.activatedRoute.snapshot.data['user'];
-    this.groups=this.activatedRoute.snapshot.data['groups'];
+    this.groups = this.activatedRoute.snapshot.data['groups'];
   }
 
   updateUser() {
-    let groupIds=[];
-    this.user.groups.forEach(group=>{
+    const groupIds = [];
+    this.user.groups.forEach(group => {
       groupIds.push(group.id);
     });
-    this.user.groups=groupIds;
+    this.user.groups = groupIds;
     this.userSrv.update(this.user)
       .subscribe(data => this.location.back(),
         error => this.userSrv.httpSrv.handleError(error));

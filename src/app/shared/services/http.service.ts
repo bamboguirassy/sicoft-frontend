@@ -37,7 +37,7 @@ export class HttpService {
   }
 
   createAuthorizationHeader(): any {
-    let headers = new HttpHeaders({
+    const headers = new HttpHeaders({
       'Authorization': this.tokenManager.getTokenName() + ' ' + this.tokenManager.getToken(),
     });
     this.httpOptions = {
@@ -69,7 +69,7 @@ export class HttpService {
   handleError(error: any) {
     console.log(error);
     this.notificationSrv.showError(error.error.message);
-    if (error.error.code == 401) {
+    if (error.error.code === 401) {
       this.router.navigate(['login']);
     }
   }

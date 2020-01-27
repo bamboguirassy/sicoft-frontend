@@ -1,3 +1,4 @@
+import { MenuItem } from 'primeng/api';
 
 import { Component, OnInit } from '@angular/core';
 import { EtatMarcheService } from '../etat_marche.service';
@@ -15,6 +16,7 @@ export class EtatMarcheEditComponent implements OnInit {
 
   etat_marche: EtatMarche;
   etats: EtatMarche[];
+  
   constructor(public etat_marcheSrv: EtatMarcheService,
     public activatedRoute: ActivatedRoute,
     public router: Router, public location: Location,
@@ -27,6 +29,9 @@ export class EtatMarcheEditComponent implements OnInit {
   }
 
   updateEtatMarche() {
+    if (this.etat_marche.etatSuivant) {
+      this.etat_marche.etatSuivant = this.etat_marche.etatSuivant.id;
+    }
     this.etat_marcheSrv.update(this.etat_marche)
       .subscribe(data => this.location.back(),
         error => this.etat_marcheSrv.httpSrv.handleError(error));
