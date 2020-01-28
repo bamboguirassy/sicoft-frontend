@@ -2,7 +2,7 @@
 <p-toast></p-toast>
 <!-- form type_classe info -->
 <form *ngIf="'TypeClasse'|clonable" class="form" role="form" #type_classeForm="ngForm" autocomplete="off">
-    <p-fieldset legend="Clonage type_classe" [toggleable]="true">
+    <p-fieldset legend="Clonage de type classe" [toggleable]="true">
         <p-toolbar>
             <button type="button" (click)="location.back()" class="btn btn-outline-secondary mr-1 pull-left"><i
                     class="fa fa-reply" aria-hidden="true"></i>
@@ -18,13 +18,13 @@
                                     <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="code">Code</label>
-                    <input [(ngModel)]="type_classe.code" class="form-control" type="text" name="code" id="code">
+                    <input required [(ngModel)]="type_classe.code" class="form-control" type="number" name="code" id="code">
                 </div>
             </div>
                                     <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="nom">Nom</label>
-                    <input [(ngModel)]="type_classe.nom" class="form-control" type="text" name="nom" id="nom">
+                    <input required [(ngModel)]="type_classe.nom" class="form-control" type="text" name="nom" id="nom">
                 </div>
             </div>
                     </div>
