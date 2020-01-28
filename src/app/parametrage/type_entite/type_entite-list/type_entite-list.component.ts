@@ -10,7 +10,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 
 
 @Component({
-  selector: 'app-type_entite-list',
+  selector: 'app-type-entite-list',
   templateUrl: './type_entite-list.component.html',
   styleUrls: ['./type_entite-list.component.scss']
 })

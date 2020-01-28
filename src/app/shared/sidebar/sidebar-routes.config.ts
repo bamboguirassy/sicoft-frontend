@@ -32,6 +32,12 @@ export const ROUTES: RouteInfo[] = [
         path: '', title: 'Param. Budget', icon: 'ft-aperture', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
         submenu: [
             {
+                path: '/categorieClasse', title: 'Categorie Classe', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+            {
+                path: '/typeClasse', title: 'Type Classe', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+            {
                 path: '/classe', title: 'Classes', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {

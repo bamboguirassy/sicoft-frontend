@@ -36,7 +36,7 @@ export class GroupNewComponent implements OnInit {
   }
 
   saveGroupAndExit() {
-    this.group.roles=this.accessGroups;
+    this.group.roles = this.accessGroups;
     this.groupSrv.create(this.group)
       .subscribe((data: any) => {
         this.router.navigate([this.groupSrv.getRoutePrefix(), data.id]);
