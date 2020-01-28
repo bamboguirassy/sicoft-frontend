@@ -21,19 +21,21 @@ export class FournisseurShowComponent implements OnInit {
 
   ngOnInit() {
     this.fournisseur = this.activatedRoute.snapshot.data['fournisseur'];
-    this.fournisseurLegend = `Fournisseur: ${this.fournisseur.nom}`
+    this.fournisseurLegend = `Fournisseur: ${this.fournisseur.nom}`;
+    console.log(this.fournisseur);
   }
+
 
   removeFournisseur() {
     this.fournisseurSrv.remove(this.fournisseur)
       .subscribe(data => this.router.navigate([this.fournisseurSrv.getRoutePrefix()]),
         error =>  this.fournisseurSrv.httpSrv.handleError(error));
   }
-  
-  refresh(){
+
+  refresh() {
     this.fournisseurSrv.findOneById(this.fournisseur.id)
-    .subscribe((data:any)=>this.fournisseur=data,
-      error=>this.fournisseurSrv.httpSrv.handleError(error));
+    .subscribe((data: any) => this.fournisseur = data,
+      error => this.fournisseurSrv.httpSrv.handleError(error));
   }
 
 }

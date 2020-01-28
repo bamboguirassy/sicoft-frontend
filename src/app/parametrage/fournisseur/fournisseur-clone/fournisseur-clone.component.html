@@ -23,14 +23,15 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="telephone">Telephone</label>
-                    <input required [(ngModel)]="fournisseur.telephone" class="form-control" type="text" name="telephone"
-                        id="telephone">
+                    <input required [(ngModel)]="fournisseur.telephone" class="form-control" type="text"
+                        name="telephone" id="telephone">
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="email">Email</label>
-                    <input required [(ngModel)]="fournisseur.email" class="form-control" type="text" name="email" id="email">
+                    <input required [(ngModel)]="fournisseur.email" class="form-control" type="text" name="email"
+                        id="email">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -49,8 +50,8 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="nomContact">NomContact</label>
-                    <input required [(ngModel)]="fournisseur.nomContact" class="form-control" type="text" name="nomContact"
-                        id="nomContact">
+                    <input required [(ngModel)]="fournisseur.nomContact" class="form-control" type="text"
+                        name="nomContact" id="nomContact">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -65,6 +66,13 @@
                     <label class="col-form-label form-control-label" for="fonctionContact">FonctionContact</label>
                     <input [(ngModel)]="fournisseur.fonctionContact" class="form-control" type="text"
                         name="fonctionContact" id="fonctionContact">
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="secteurs">Secteurs</label> <br>
+                    <p-multiSelect name="secteurs" defaultLabel="Selectionner un ou plusieurs secteurs" [options]="secteurs"
+                        [(ngModel)]="fournisseur.secteurs" optionLabel="libelle"></p-multiSelect>
                 </div>
             </div>
         </div>

@@ -1,3 +1,4 @@
+import { Secteur } from './../../secteur/secteur';
 
 import { Component, OnInit } from '@angular/core';
 import { FournisseurService } from '../fournisseur.service';
@@ -14,17 +15,26 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class FournisseurEditComponent implements OnInit {
 
   fournisseur: Fournisseur;
+  secteurs: Secteur[] = [];
   constructor(public fournisseurSrv: FournisseurService,
     public activatedRoute: ActivatedRoute,
+    public route: ActivatedRoute,
     public router: Router, public location: Location,
     public notificationSrv: NotificationService) {
   }
 
   ngOnInit() {
     this.fournisseur = this.activatedRoute.snapshot.data['fournisseur'];
+    this.secteurs = this.route.snapshot.data['secteurs'];
   }
 
   updateFournisseur() {
+    let secteurid = [];
+    this.fournisseur.secteurs.forEach(secteur => {
+      secteurid.push(secteur.id);
+      this.fournisseur.secteurs = secteurid;
+    });
+    console.log(this.fournisseur)
     this.fournisseurSrv.update(this.fournisseur)
       .subscribe(data => this.location.back(),
         error => this.fournisseurSrv.httpSrv.handleError(error));

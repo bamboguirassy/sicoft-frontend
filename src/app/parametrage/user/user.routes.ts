@@ -15,7 +15,7 @@ const userRoutes: Route = {
         { path: 'new', component: UserNewComponent, resolve: { groups: MultipleGroupResolver } },
         { path: ':id/edit', component: UserEditComponent, resolve: { user: OneUserResolver, groups: MultipleGroupResolver } },
         { path: ':id/clone', component: UserCloneComponent, resolve: { user: OneUserResolver, groups: MultipleGroupResolver } },
-        { path: ':id/profil', component: UserProfilePageComponent, resolve: {user: OneUserResolver} },
+        { path: 'profil', component: UserProfilePageComponent },
         { path: ':id', component: UserShowComponent, resolve: { user: OneUserResolver } }
     ]
 
