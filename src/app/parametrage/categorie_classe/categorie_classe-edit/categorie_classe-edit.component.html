@@ -1,8 +1,8 @@
-
 <p-toast></p-toast>
 <!-- form categorie_classe info -->
-<form *ngIf="'CategorieClasse'|editable" class="form" role="form" #categorie_classeForm="ngForm" autocomplete="off" (ngSubmit)="updateCategorieClasse()">
-  <p-fieldset legend="Modification categorie_classe" [toggleable]="true">
+<form *ngIf="'CategorieClasse'|editable" class="form" role="form" #categorie_classeForm="ngForm" autocomplete="off"
+  (ngSubmit)="updateCategorieClasse()">
+  <p-fieldset legend="Modification categorie classe" [toggleable]="true">
     <p-toolbar>
       <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
           class="fa fa-eraser" aria-hidden="true"></i>
@@ -13,20 +13,20 @@
     </p-toolbar>
     <!-- debut body -->
     <div class="row">
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="code">Code</label>
-                    <input [(ngModel)]="categorie_classe.code" class="form-control" type="text" name="code" id="code">
-                </div>
-            </div>
-                            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="nom">Nom</label>
-                    <input [(ngModel)]="categorie_classe.nom" class="form-control" type="text" name="nom" id="nom">
-                </div>
-            </div>
-                
-      
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="code">Code</label>
+          <input [(ngModel)]="categorie_classe.code" class="form-control" type="text" name="code" id="code" required>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label form-control-label" for="nom">Nom</label>
+          <input [(ngModel)]="categorie_classe.nom" class="form-control" type="text" name="nom" id="nom" required>
+        </div>
+      </div>
+
+
     </div>
     <!-- fin body -->
     <p-toolbar>

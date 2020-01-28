@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div class="row" *ngIf="'CategorieClasse'|listable">
   <div class="col-sm-12 col-md-12 col-lg-12">
-    <p-fieldset legend="Liste des categorie_classes" [toggleable]="true">
+    <p-fieldset legend="Liste des categories classes" [toggleable]="true">
       <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
           <p-toolbar>
@@ -22,7 +22,7 @@
             [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedCategorieClasse" [scrollable]="true"
             scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
             <ng-template pTemplate="caption">
-              Liste des categorie_classes<br>
+              Liste des categories classes<br>
               <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
               <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
                 (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
