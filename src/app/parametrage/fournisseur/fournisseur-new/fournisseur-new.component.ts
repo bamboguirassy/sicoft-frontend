@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Fournisseur } from '../fournisseur';
 import { FournisseurService } from '../fournisseur.service';
 import { NotificationService } from 'app/shared/services/notification.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Secteur } from 'app/parametrage/secteur/secteur';
 
 @Component({
   selector: 'app-fournisseur-new',
@@ -12,16 +13,24 @@ import { Location } from '@angular/common';
 })
 export class FournisseurNewComponent implements OnInit {
   fournisseur: Fournisseur;
+  secteurs: Secteur[] = [];
   constructor(public fournisseurSrv: FournisseurService,
     public notificationSrv: NotificationService,
+    public route: ActivatedRoute,
     public router: Router, public location: Location) {
     this.fournisseur = new Fournisseur();
   }
 
   ngOnInit() {
+    this.secteurs = this.route.snapshot.data['secteurs'];
   }
 
   saveFournisseur() {
+    let secteurid = [];
+    this.fournisseur.secteurs.forEach(secteur => {
+      secteurid.push(secteur.id);
+      this.fournisseur.secteurs = secteurid;
+    });
     this.fournisseurSrv.create(this.fournisseur)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Fournisseur créé avec succès');
@@ -30,6 +39,11 @@ export class FournisseurNewComponent implements OnInit {
   }
 
   saveFournisseurAndExit() {
+    let secteurid = [];
+    this.fournisseur.secteurs.forEach(secteur => {
+      secteurid.push(secteur.id);
+      this.fournisseur.secteurs = secteurid;
+    });
     this.fournisseurSrv.create(this.fournisseur)
       .subscribe((data: any) => {
         this.router.navigate([this.fournisseurSrv.getRoutePrefix(), data.id]);

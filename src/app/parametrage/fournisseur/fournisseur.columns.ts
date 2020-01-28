@@ -7,6 +7,7 @@ const fournisseurColumns = [
             { header: 'NomContact', field: 'nomContact', dataKey: 'nomContact' },
             { header: 'TelephoneContact', field: 'telephoneContact', dataKey: 'telephoneContact' },
             { header: 'FonctionContact', field: 'fonctionContact', dataKey: 'fonctionContact' },
+            { header: 'Secteurs', field: 'secteurs', dataKey: 'secteurs' },
         ];
 
 const allowedFournisseurFieldsForFilter = [
@@ -18,6 +19,7 @@ const allowedFournisseurFieldsForFilter = [
     'nomContact',
     'telephoneContact',
     'fonctionContact',
+    'secteurs',
 ];
 
-export { fournisseurColumns,allowedFournisseurFieldsForFilter };
+export { fournisseurColumns, allowedFournisseurFieldsForFilter };
