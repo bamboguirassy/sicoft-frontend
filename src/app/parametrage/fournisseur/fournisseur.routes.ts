@@ -1,4 +1,5 @@
-import { Route } from "@angular/router";
+import { MultipleSecteurResolver } from './../secteur/multiple-secteur.resolver';
+import { Route } from '@angular/router';
 import { FournisseurListComponent } from './fournisseur-list/fournisseur-list.component';
 import { FournisseurNewComponent } from './fournisseur-new/fournisseur-new.component';
 import { FournisseurEditComponent } from './fournisseur-edit/fournisseur-edit.component';
@@ -8,14 +9,39 @@ import { MultipleFournisseurResolver } from './multiple-fournisseur.resolver';
 import { OneFournisseurResolver } from './one-fournisseur.resolver';
 
 const fournisseurRoutes: Route = {
-    path: 'fournisseur', children: [
-        { path: '', component: FournisseurListComponent, resolve: { fournisseurs: MultipleFournisseurResolver } },
-        { path: 'new', component: FournisseurNewComponent },
-        { path: ':id/edit', component: FournisseurEditComponent, resolve: { fournisseur: OneFournisseurResolver } },
-        { path: ':id/clone', component: FournisseurCloneComponent, resolve: { fournisseur: OneFournisseurResolver } },
-        { path: ':id', component: FournisseurShowComponent, resolve: { fournisseur: OneFournisseurResolver } }
-    ]
-
+  path: 'fournisseur',
+  children: [
+    {
+      path: '',
+      component: FournisseurListComponent,
+      resolve: { fournisseurs: MultipleFournisseurResolver }
+    },
+    {
+      path: 'new',
+      component: FournisseurNewComponent,
+      resolve: { secteurs: MultipleSecteurResolver }
+    },
+    {
+      path: ':id/edit',
+      component: FournisseurEditComponent,
+      resolve: {
+        fournisseur: OneFournisseurResolver,
+        secteurs: MultipleSecteurResolver
+      }
+    },
+    {
+      path: ':id/clone',
+      component: FournisseurCloneComponent,
+      resolve: {
+           fournisseur: OneFournisseurResolver ,
+           secteurs: MultipleSecteurResolver}
+    },
+    {
+      path: ':id',
+      component: FournisseurShowComponent,
+      resolve: { fournisseur: OneFournisseurResolver }
+    }
+  ]
 };
 
-export { fournisseurRoutes }
+export { fournisseurRoutes };
