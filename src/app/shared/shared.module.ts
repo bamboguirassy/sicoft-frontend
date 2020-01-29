@@ -51,7 +51,7 @@ import { DeletablePipe } from './pipes/deletable.pipe';
         NgbModule,
         TranslateModule,
         PerfectScrollbarModule,
-        NgPipesModule
+        NgPipesModule,
     ],
     declarations: [
         FooterComponent,

@@ -3,6 +3,7 @@ import { UserService } from '../user.service';
 import { User } from '../user';
 import { ActivatedRoute } from '@angular/router';
 import { TypeEntite } from 'app/parametrage/type_entite/type_entite';
+import { AuthService } from 'app/shared/services/auth.service';
 
 @Component({
     selector: 'app-user-profile-page',
@@ -21,10 +22,12 @@ export class UserProfilePageComponent implements OnInit {
     // Variable Declaration
     currentPage: string = 'About'
 
-    constructor(private activatedRoute: ActivatedRoute, public userSrv: UserService) { }
+    constructor(public authSrv: AuthService) { }
 
     ngOnInit() {
-        this.user = this.activatedRoute.snapshot.data['user'];
+        return this.authSrv.currentUserProvider.subscribe((user: any) => {
+            this.user = user;
+        });
     }
 
     showPage(page: string) {

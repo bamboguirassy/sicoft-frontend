@@ -1,19 +1,19 @@
 <p-toast></p-toast>
 <!-- form categorie_classe info -->
 <form *ngIf="'CategorieClasse'|creable" class="form" role="form" #categorie_classeForm="ngForm" autocomplete="off">
-  <p-fieldset legend="Creation CategorieClasse" [toggleable]="true">
+  <p-fieldset legend="Creation Categorie Classe" [toggleable]="true">
     <!-- debut body -->
     <div class="row">
                             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="code">Code</label>
-                    <input [(ngModel)]="categorie_classe.code" class="form-control" type="text" name="code" id="code">
+                    <input [(ngModel)]="categorie_classe.code" class="form-control" type="text" name="code" id="code" required>
                 </div>
             </div>
                             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="nom">Nom</label>
-                    <input [(ngModel)]="categorie_classe.nom" class="form-control" type="text" name="nom" id="nom">
+                    <input [(ngModel)]="categorie_classe.nom" class="form-control" type="text" name="nom" id="nom" required>
                 </div>
             </div>
           

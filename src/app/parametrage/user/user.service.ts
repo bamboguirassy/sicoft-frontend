@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from 'app/shared/services/http.service';
 import { User } from './user';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,13 @@ export class UserService {
 
   private getRoutePrefixWithSlash(): string {
     return this.routePrefix + '/';
+  }
+
+  findUserByTerm(term: string) {
+    if (!term.trim()) {
+      return of([]);
+    }
+     return this.httpSrv.get(`${this.getRoutePrefixWithSlash()}search/?term=${term}`);
   }
 
 }

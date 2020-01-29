@@ -20,6 +20,10 @@ export class EntiteService {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + id);
   }
 
+  findSousEntitesById(id: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + `${id}` + '/sous-entites');
+  }
+
   create(entite: Entite) {
     return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create', entite);
   }

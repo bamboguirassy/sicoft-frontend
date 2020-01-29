@@ -21,10 +21,10 @@ export class FournisseurListComponent implements OnInit {
   selectedFournisseur: Fournisseur;
   clonedFournisseurs: Fournisseur[];
 
-  cMenuItems: MenuItem[]=[];
+  cMenuItems: MenuItem[] = [];
 
   tableColumns = fournisseurColumns;
-  //allowed fields for filter
+  // allowed fields for filter
   globalFilterFields = allowedFournisseurFieldsForFilter;
 
 
@@ -34,20 +34,21 @@ export class FournisseurListComponent implements OnInit {
     public notificationSrv: NotificationService) { }
 
   ngOnInit() {
-    if(this.authSrv.checkShowAccess('Fournisseur')){
-      this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewFournisseur(this.selectedFournisseur) });
+    if (this.authSrv.checkShowAccess('Fournisseur')) {
+      this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (_event) => this.viewFournisseur(this.selectedFournisseur) });
     }
-    if(this.authSrv.checkEditAccess('Fournisseur')){
-      this.cMenuItems.push({ label: 'Modifier', icon: 'pi pi-pencil', command: (event) => this.editFournisseur(this.selectedFournisseur) })
+    if (this.authSrv.checkEditAccess('Fournisseur')) {
+      this.cMenuItems.push({ label: 'Modifier', icon: 'pi pi-pencil', command: (_event) => this.editFournisseur(this.selectedFournisseur) })
     }
-    if(this.authSrv.checkCloneAccess('Fournisseur')){
-      this.cMenuItems.push({ label: 'Cloner', icon: 'pi pi-clone', command: (event) => this.cloneFournisseur(this.selectedFournisseur) })
+    if (this.authSrv.checkCloneAccess('Fournisseur')) {
+      this.cMenuItems.push({ label: 'Cloner', icon: 'pi pi-clone', command: (_event) => this.cloneFournisseur(this.selectedFournisseur) })
     }
-    if(this.authSrv.checkDeleteAccess('Fournisseur')){
-      this.cMenuItems.push({ label: 'Supprimer', icon: 'pi pi-times', command: (event) => this.deleteFournisseur(this.selectedFournisseur) })
+    if (this.authSrv.checkDeleteAccess('Fournisseur')) {
+      this.cMenuItems.push({ label: 'Supprimer', icon: 'pi pi-times', command: (_event) => this.deleteFournisseur(this.selectedFournisseur) })
     }
 
     this.fournisseurs = this.activatedRoute.snapshot.data['fournisseurs'];
+    
   }
 
   viewFournisseur(fournisseur: Fournisseur) {
@@ -65,15 +66,15 @@ export class FournisseurListComponent implements OnInit {
 
   deleteFournisseur(fournisseur: Fournisseur) {
       this.fournisseurSrv.remove(fournisseur)
-        .subscribe(data => this.refreshList(), error => this.fournisseurSrv.httpSrv.handleError(error));
+        .subscribe(_data => this.refreshList(), error => this.fournisseurSrv.httpSrv.handleError(error));
   }
 
-  deleteSelectedFournisseurs(fournisseur: Fournisseur) {
+  deleteSelectedFournisseurs(_fournisseur: Fournisseur) {
       if (this.selectedFournisseurs) {
         this.fournisseurSrv.removeSelection(this.selectedFournisseurs)
-          .subscribe(data => this.refreshList(), error => this.fournisseurSrv.httpSrv.handleError(error));
+          .subscribe(_data => this.refreshList(), error => this.fournisseurSrv.httpSrv.handleError(error));
       } else {
-        this.fournisseurSrv.httpSrv.notificationSrv.showWarning("Selectionner au moins un élement");
+        this.fournisseurSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
       }
   }
 

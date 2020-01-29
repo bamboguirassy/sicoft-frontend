@@ -26,9 +26,9 @@
             <th>Libelle</th>
             <td>{{ etat_marche.libelle }}</td>
           </tr>
-          <tr>
+          <tr *ngIf="etat_marche.description" >
             <th>Description</th>
-            <td>{{ etat_marche.description }}</td>
+            <td>{{ etat_marche?.description }}</td>
           </tr>
           <tr *ngIf="etat_marche.etatSuivant" >
             <th>Etat Suivant</th>

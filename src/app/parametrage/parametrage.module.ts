@@ -1,5 +1,7 @@
+import { OrgChartModule } from '@mondal/org-chart';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 
 import { ParametrageRoutingModule } from './parametrage-routing.module';
 import { UserCloneComponent } from './user/user-clone/user-clone.component';
@@ -13,8 +15,13 @@ import {
   ContextMenuModule,
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
+<<<<<<< HEAD
   ToolbarModule, TabViewModule, 
   AccordionModule, BreadcrumbModule,DropdownModule
+=======
+  ToolbarModule, TabViewModule,
+  AccordionModule, BreadcrumbModule, AutoCompleteModule
+>>>>>>> b952f034bc0f05e5dcaafe0dec5cf68320a9253d
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -26,8 +33,11 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ChipsModule } from 'primeng/chips';
 import { NgSelectModule } from '@ng-select/ng-select';
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> b952f034bc0f05e5dcaafe0dec5cf68320a9253d
 import { GroupCloneComponent } from './group/group-clone/group-clone.component';
 import { GroupEditComponent } from './group/group-edit/group-edit.component';
 import { GroupListComponent } from './group/group-list/group-list.component';
@@ -147,7 +157,12 @@ import { CategorieClasseShowComponent } from './categorie_classe/categorie_class
     NgSelectModule,
     AccordionModule,
     BreadcrumbModule,
+<<<<<<< HEAD
     DropdownModule
+=======
+    OrgChartModule,
+    AutoCompleteModule,
+>>>>>>> b952f034bc0f05e5dcaafe0dec5cf68320a9253d
   ]
 })
 export class ParametrageModule { }

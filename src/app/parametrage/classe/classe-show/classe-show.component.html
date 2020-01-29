@@ -1,17 +1,19 @@
 <p-toast></p-toast>
 <p-fieldset *ngIf="'Classe'|showable" legend="Affichage des informations - Classe" [toggleable]="true">
     <p-toolbar>
-        <button *ngIf="'Classe'|editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/'+classeSrv.getRoutePrefix(),classe.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
-      Modifier</button>
-        <button *ngIf="'Classe'|clonable" [routerLink]="['/'+classeSrv.getRoutePrefix(),classe.id,'clone']" type="button" class="btn btn-outline-secondary pull-right ml-1">
-      <i class="fa fa-clone" aria-hidden="true"></i> Cloner
-    </button>
-        <button *ngIf="'Classe'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeClasse()"><i
-        class="fa fa-trash-o"></i> Supprimer</button>
+        <button *ngIf="'Classe'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+            [routerLink]="['/'+classeSrv.getRoutePrefix(),classe.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+            Modifier</button>
+        <button *ngIf="'Classe'|clonable" [routerLink]="['/'+classeSrv.getRoutePrefix(),classe.id,'clone']"
+            type="button" class="btn btn-outline-secondary pull-right ml-1">
+            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+        </button>
+        <button *ngIf="'Classe'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1"
+            (click)="removeClasse()"><i class="fa fa-trash-o"></i> Supprimer</button>
         <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
-        class="fa fa-reply"></i> Retour</button>
+                class="fa fa-reply"></i> Retour</button>
         <button type="button" class="btn btn-outline-success pull-left ml-1" routerLink="/classe"><i
-        class="fa fa-list"></i> Voir la liste</button>
+                class="fa fa-list"></i> Voir la liste</button>
     </p-toolbar>
     <p-tabView>
         <p-tabPanel header="Détails">
@@ -29,20 +31,31 @@
                         <th>Description</th>
                         <td>{{ classe.description }}</td>
                     </tr>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ classe.typeClasse.nom }}</td>
+                    </tr>
+                    <tr>
+                        <th>Catégorie</th>
+                        <td>{{ classe.categorieClasse.nom }}</td>
+                    </tr>
                 </table>
                 <p-toolbar>
-                    <button *ngIf="'Classe'|editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/'+classeSrv.getRoutePrefix(),classe.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
-            Modifier</button>
-                    <button *ngIf="'Classe'|clonable" [routerLink]="['/'+classeSrv.getRoutePrefix(),classe.id,'clone']" type="button" class="btn btn-outline-secondary pull-right ml-1">
-            <i class="fa fa-clone" aria-hidden="true"></i> Clonereraser
-          </button>
-                    <button *ngIf="'Classe'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeClasse()"><i
-              class="fa fa-trash-o"></i> Supprimer</button>
+                    <button *ngIf="'Classe'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+                        [routerLink]="['/'+classeSrv.getRoutePrefix(),classe.id,'edit']"><i
+                            class="fa fa-pencil-square-o ml-1"></i>
+                        Modifier</button>
+                    <button *ngIf="'Classe'|clonable" [routerLink]="['/'+classeSrv.getRoutePrefix(),classe.id,'clone']"
+                        type="button" class="btn btn-outline-secondary pull-right ml-1">
+                        <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+                    </button>
+                    <button *ngIf="'Classe'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1"
+                        (click)="removeClasse()"><i class="fa fa-trash-o"></i> Supprimer</button>
                     <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
-              class="fa fa-reply"></i> Retour</button>
+                            class="fa fa-reply"></i> Retour</button>
                     <button *ngIf="'Classe'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
-              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
-          </button>
+                        <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+                    </button>
                 </p-toolbar>
             </p-fieldset>
         </p-tabPanel>
