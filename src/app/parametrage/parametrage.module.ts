@@ -11,6 +11,7 @@ import { UserShowComponent } from './user/user-show/user-show.component';
 import { TableModule } from 'primeng/table';
 import {
   ContextMenuModule,
+<<<<<<< HEAD
   MenuModule,
   ButtonModule,
   CardModule,
@@ -21,6 +22,12 @@ import {
   BreadcrumbModule,
   DropdownModule,
   AutoCompleteModule
+=======
+  MenuModule, ButtonModule,
+  CardModule, FieldsetModule,
+  ToolbarModule, TabViewModule,
+  AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule
+>>>>>>> 94435f2903500208592a28dba8b43c86de9f37fa
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -114,6 +121,10 @@ import { CategorieClasseListComponent } from './categorie_classe/categorie_class
 import { CategorieClasseNewComponent } from './categorie_classe/categorie_classe-new/categorie_classe-new.component';
 import { CategorieClasseShowComponent } from './categorie_classe/categorie_classe-show/categorie_classe-show.component';
 import { OrgChartModule } from '@mondal/org-chart';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 94435f2903500208592a28dba8b43c86de9f37fa
 
 @NgModule({
   declarations: [
