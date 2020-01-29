@@ -4,6 +4,8 @@ import { ClasseService } from '../classe.service';
 import { Location } from '@angular/common';
 import { Classe } from '../classe';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CategorieClasse } from 'app/parametrage/categorie_classe/categorie_classe';
+import { TypeClasse } from 'app/parametrage/type_classe/type_classe';
 
 @Component({
   selector: 'app-classe-clone',
@@ -13,6 +15,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ClasseCloneComponent implements OnInit {
   classe: Classe;
   original: Classe;
+  typeClasses: TypeClasse[] = [];
+  categorieClasses: CategorieClasse[] = [];
+
+
   constructor(public classeSrv: ClasseService, public location: Location,
     public activatedRoute: ActivatedRoute, public router: Router) { }
 
@@ -20,9 +26,13 @@ export class ClasseCloneComponent implements OnInit {
     this.original = this.activatedRoute.snapshot.data['classe'];
     this.classe = Object.assign({}, this.original);
     this.classe.id = null;
+    this.typeClasses = this.activatedRoute.snapshot.data['typeClasses'];
+    this.categorieClasses = this.activatedRoute.snapshot.data['categorieClasses'];
   }
 
   cloneClasse() {
+    this.classe.typeClasse = this.classe.typeClasse.id;
+    this.classe.categorieClasse = this.classe.categorieClasse.id;
     this.classeSrv.clone(this.original, this.classe)
       .subscribe((data: any) => {
         this.router.navigate([this.classeSrv.getRoutePrefix(), data.id]);

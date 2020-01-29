@@ -25,19 +25,19 @@ export class ClasseService {
   }
 
   update(classe: Classe) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+classe.id+'/edit', classe);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + classe.id + '/edit', classe);
   }
 
   clone(original: Classe, clone: Classe) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+original.id+'/clone', clone);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + original.id + '/clone', clone);
   }
 
   remove(classe: Classe) {
-    return this.httpSrv.delete(this.getRoutePrefixWithSlash()+classe.id);
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + classe.id);
   }
 
   removeSelection(classes: Classe[]) {
-    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',classes);
+    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', classes);
   }
 
   public getRoutePrefix(): string {
@@ -45,7 +45,7 @@ export class ClasseService {
   }
 
   private getRoutePrefixWithSlash(): string {
-    return this.routePrefix+'/';
+    return this.routePrefix + '/';
   }
 
 }

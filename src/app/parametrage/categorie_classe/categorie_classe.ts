@@ -1,5 +1,5 @@
 export class CategorieClasse {
-    id: any;
-                                code: string;
-                                        nom: string;
-                    }
+  id: any;
+  code: string;
+  nom: string;
+}
