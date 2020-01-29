@@ -21,10 +21,10 @@ export class ClasseListComponent implements OnInit {
   selectedClasse: Classe;
   clonedClasses: Classe[];
 
-  cMenuItems: MenuItem[]=[];
+  cMenuItems: MenuItem[] = [];
 
   tableColumns = classeColumns;
-  //allowed fields for filter
+  // allowed fields for filter
   globalFilterFields = allowedClasseFieldsForFilter;
 
 
@@ -34,16 +34,16 @@ export class ClasseListComponent implements OnInit {
     public notificationSrv: NotificationService) { }
 
   ngOnInit() {
-    if(this.authSrv.checkShowAccess('Classe')){
+    if (this.authSrv.checkShowAccess('Classe')) {
       this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewClasse(this.selectedClasse) });
     }
-    if(this.authSrv.checkEditAccess('Classe')){
+    if (this.authSrv.checkEditAccess('Classe')) {
       this.cMenuItems.push({ label: 'Modifier', icon: 'pi pi-pencil', command: (event) => this.editClasse(this.selectedClasse) })
     }
-    if(this.authSrv.checkCloneAccess('Classe')){
+    if (this.authSrv.checkCloneAccess('Classe')) {
       this.cMenuItems.push({ label: 'Cloner', icon: 'pi pi-clone', command: (event) => this.cloneClasse(this.selectedClasse) })
     }
-    if(this.authSrv.checkDeleteAccess('Classe')){
+    if (this.authSrv.checkDeleteAccess('Classe')) {
       this.cMenuItems.push({ label: 'Supprimer', icon: 'pi pi-times', command: (event) => this.deleteClasse(this.selectedClasse) })
     }
 
@@ -73,7 +73,7 @@ export class ClasseListComponent implements OnInit {
         this.classeSrv.removeSelection(this.selectedClasses)
           .subscribe(data => this.refreshList(), error => this.classeSrv.httpSrv.handleError(error));
       } else {
-        this.classeSrv.httpSrv.notificationSrv.showWarning("Selectionner au moins un élement");
+        this.classeSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
       }
   }
 

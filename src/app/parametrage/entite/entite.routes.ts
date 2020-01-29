@@ -1,4 +1,4 @@
-import { Route } from "@angular/router";
+import { Route } from '@angular/router';
 import { EntiteListComponent } from './entite-list/entite-list.component';
 import { EntiteNewComponent } from './entite-new/entite-new.component';
 import { EntiteEditComponent } from './entite-edit/entite-edit.component';
@@ -8,6 +8,7 @@ import { MultipleEntiteResolver } from './multiple-entite.resolver';
 import { OneEntiteResolver } from './one-entite.resolver';
 import { MultipleTypeEntiteResolver } from '../type_entite/multiple-type_entite.resolver';
 import { MultipleSousEntiteResolver } from './multiple-sous-entite.resolver';
+
 
 const entiteRoutes: Route = {
     path: 'entite', children: [
