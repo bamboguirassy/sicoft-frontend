@@ -16,7 +16,7 @@ export class EtatMarcheEditComponent implements OnInit {
 
   etat_marche: EtatMarche;
   etats: EtatMarche[];
-  
+
   constructor(public etat_marcheSrv: EtatMarcheService,
     public activatedRoute: ActivatedRoute,
     public router: Router, public location: Location,

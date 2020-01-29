@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
 /* You can add global styles to this file, and also import other style files */
 
 /* @import url("assets/css/bootstrap.min.css"); */
+
 /* @import url("../src/assets/css/prism.min.css");
 @import url("../src/assets/css/sweetalert2.min.css");
 @import url("../src/assets/css/bootstrap-timepicker.min.css");
@@ -13,4 +15,6 @@
 @import url("../src/assets/css/data-table/index.css");
 @import url("../src/assets/css/data-table/icons.css");
 @import url("../src/assets/css/demo.css"); */
+
 @import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~@mondal/org-chart/_theming.scss";

@@ -5,15 +5,17 @@ export class User {
         email: string;
         emailCanonical: string;
         enabled: boolean;
-        salt: string;
+        salt?: string;
         password: string;
         lastLogin: string;
-        confirmationToken: string;
-        passwordRequestedAt: string;
+        confirmationToken?: string;
+        passwordRequestedAt?: string;
         roles: any;
         prenom: string;
         nom: string;
         telephone: string;
         groups: any[];
         fonction: string;
+        entite: any;
+        etatMarche: any;
 }
