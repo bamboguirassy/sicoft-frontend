@@ -26,7 +26,7 @@ export class UserService {
   }
 
   changePassword(id: any, newPassword: string) {
-    return this.httpSrv.post('public/change-password/'+id, newPassword);
+    return this.httpSrv.post('public/change-password/' + id, newPassword);
   }
 
   verificateToken(token: string) {

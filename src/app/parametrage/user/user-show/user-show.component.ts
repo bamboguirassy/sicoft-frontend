@@ -27,11 +27,10 @@ export class UserShowComponent implements OnInit {
       .subscribe(data => this.router.navigate([this.userSrv.getRoutePrefix()]),
         error =>  this.userSrv.httpSrv.handleError(error));
   }
-  
-  refresh(){
+  refresh() {
     this.userSrv.findOneById(this.user.id)
-    .subscribe((data:any)=>this.user=data,
-      error=>this.userSrv.httpSrv.handleError(error));
+    .subscribe((data: any) => this.user = data,
+      error => this.userSrv.httpSrv.handleError(error));
   }
 
 }

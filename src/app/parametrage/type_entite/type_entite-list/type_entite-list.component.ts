@@ -10,7 +10,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 
 
 @Component({
-  selector: 'app-type_entite-list',
+  selector: 'app-type-entite-list',
   templateUrl: './type_entite-list.component.html',
   styleUrls: ['./type_entite-list.component.scss']
 })
@@ -21,10 +21,10 @@ export class TypeEntiteListComponent implements OnInit {
   selectedTypeEntite: TypeEntite;
   clonedTypeEntites: TypeEntite[];
 
-  cMenuItems: MenuItem[]=[];
+  cMenuItems: MenuItem[] = [];
 
   tableColumns = type_entiteColumns;
-  //allowed fields for filter
+  // allowed fields for filter
   globalFilterFields = allowedTypeEntiteFieldsForFilter;
 
 
@@ -34,16 +34,17 @@ export class TypeEntiteListComponent implements OnInit {
     public notificationSrv: NotificationService) { }
 
   ngOnInit() {
-    if(this.authSrv.checkShowAccess('TypeEntite')){
+    if (this.authSrv.checkShowAccess('TypeEntite')) {
+      // tslint:disable-next-line: max-line-length
       this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewTypeEntite(this.selectedTypeEntite) });
     }
-    if(this.authSrv.checkEditAccess('TypeEntite')){
+    if (this.authSrv.checkEditAccess('TypeEntite')) {
       this.cMenuItems.push({ label: 'Modifier', icon: 'pi pi-pencil', command: (event) => this.editTypeEntite(this.selectedTypeEntite) })
     }
-    if(this.authSrv.checkCloneAccess('TypeEntite')){
+    if (this.authSrv.checkCloneAccess('TypeEntite')) {
       this.cMenuItems.push({ label: 'Cloner', icon: 'pi pi-clone', command: (event) => this.cloneTypeEntite(this.selectedTypeEntite) })
     }
-    if(this.authSrv.checkDeleteAccess('TypeEntite')){
+    if (this.authSrv.checkDeleteAccess('TypeEntite')) {
       this.cMenuItems.push({ label: 'Supprimer', icon: 'pi pi-times', command: (event) => this.deleteTypeEntite(this.selectedTypeEntite) })
     }
 
@@ -73,7 +74,7 @@ export class TypeEntiteListComponent implements OnInit {
         this.type_entiteSrv.removeSelection(this.selectedTypeEntites)
           .subscribe(data => this.refreshList(), error => this.type_entiteSrv.httpSrv.handleError(error));
       } else {
-        this.type_entiteSrv.httpSrv.notificationSrv.showWarning("Selectionner au moins un élement");
+        this.type_entiteSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
       }
   }
 

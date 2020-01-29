@@ -61,6 +61,13 @@
                         name="fonctionContact" id="fonctionContact">
                 </div>
             </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="secteurs">Secteurs</label> <br>
+                    <p-multiSelect name="secteurs" defaultLabel="Selectionner un ou plusieurs secteurs" [options]="secteurs"
+                        [(ngModel)]="fournisseur.secteurs" optionLabel="libelle"></p-multiSelect>
+                </div>
+            </div>
 
         </div>
         <!-- fin body -->
