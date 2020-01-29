@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Exercice } from '../exercice';
 import { ExerciceService } from '../exercice.service';
 import { NotificationService } from 'app/shared/services/notification.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import {DropdownModule} from 'primeng/dropdown';
 
 @Component({
   selector: 'app-exercice-new',
@@ -13,19 +14,26 @@ import { Location } from '@angular/common';
 })
 export class ExerciceNewComponent implements OnInit {
   exercice: Exercice;
+  exercices: Exercice[] = [];
+  exercicePrecedant: Exercice;
   constructor(public exerciceSrv: ExerciceService,
     public notificationSrv: NotificationService,
     public convertDateServiceSrv: ConvertDateService, 
-    public router: Router, public location: Location) {
+    public router: Router, public location: Location,
+    public activatedRoute: ActivatedRoute) {
     this.exercice = new Exercice();
   }
 
   ngOnInit() {
+    this.exercices = this.activatedRoute.snapshot.data['exercices'];
   }
 
   saveExercice() {
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
+    if(this.exercice.exerciceSuivant){
+      this.exercice.exerciceSuivant = this.exercice.exerciceSuivant.id;
+    }
     this.exerciceSrv.create(this.exercice)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Exercice créé avec succès');
@@ -36,6 +44,10 @@ export class ExerciceNewComponent implements OnInit {
   saveExerciceAndExit() {
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
+    if(this.exercice.exerciceSuivant){
+      this.exercice.exerciceSuivant = this.exercice.exerciceSuivant.id;
+    }
+    console.log(this.exercice);
     this.exerciceSrv.create(this.exercice)
       .subscribe((data: any) => {
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);

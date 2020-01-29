@@ -14,11 +14,14 @@ import { ConvertDateService } from 'app/shared/services/convert-date.service';
 export class ExerciceCloneComponent implements OnInit {
   exercice: Exercice;
   original: Exercice;
+  exercices: Exercice[] = [];
   constructor(public exerciceSrv: ExerciceService, public location: Location,
     public activatedRoute: ActivatedRoute, public router: Router,
-    public convertDateServiceSrv: ConvertDateService) { }
+    public convertDateServiceSrv: ConvertDateService,
+    ) { }
 
   ngOnInit() {
+    this.exercices = this.activatedRoute.snapshot.data['exercices'];
     this.original = this.activatedRoute.snapshot.data['exercice'];
     this.exercice = Object.assign({}, this.original);
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateToDmy(this.exercice.dateDebut);
@@ -29,6 +32,9 @@ export class ExerciceCloneComponent implements OnInit {
   cloneExercice() {
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
+    if(this.exercice.exerciceSuivant){
+      this.exercice.exerciceSuivant = this.exercice.exerciceSuivant.id;
+    }
     this.exerciceSrv.clone(this.original, this.exercice)
       .subscribe((data: any) => {
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);

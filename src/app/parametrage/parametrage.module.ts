@@ -14,7 +14,7 @@ import {
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
   ToolbarModule, TabViewModule, 
-  AccordionModule, BreadcrumbModule
+  AccordionModule, BreadcrumbModule,DropdownModule
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -25,6 +25,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ChipsModule } from 'primeng/chips';
 import { NgSelectModule } from '@ng-select/ng-select';
+
 
 
 import { GroupCloneComponent } from './group/group-clone/group-clone.component';
@@ -146,6 +147,7 @@ import { CategorieClasseShowComponent } from './categorie_classe/categorie_class
     NgSelectModule,
     AccordionModule,
     BreadcrumbModule,
+    DropdownModule
   ]
 })
 export class ParametrageModule { }

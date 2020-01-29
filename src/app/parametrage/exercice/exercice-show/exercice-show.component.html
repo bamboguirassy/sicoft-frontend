@@ -1,60 +1,64 @@
 <p-toast></p-toast>
 <p-fieldset *ngIf="'Exercice'|showable" legend="Affichage des informations - exercice" [toggleable]="true">
-  <p-toolbar>
-    <button *ngIf="'Exercice'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
-      [routerLink]="['/'+exerciceSrv.getRoutePrefix(),exercice.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+    <p-toolbar>
+        <button *ngIf="'Exercice'|editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),exercice.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
       Modifier</button>
-    <button *ngIf="'Exercice'|clonable" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),exercice.id,'clone']"
-      type="button" class="btn btn-outline-secondary pull-right ml-1">
+        <button *ngIf="'Exercice'|clonable" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),exercice.id,'clone']" type="button" class="btn btn-outline-secondary pull-right ml-1">
       <i class="fa fa-clone" aria-hidden="true"></i> Cloner
     </button>
-    <button *ngIf="'Exercice'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1"
-      (click)="removeExercice()"><i class="fa fa-trash-o"></i> Supprimer</button>
-    <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+        <button *ngIf="'Exercice'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeExercice()"><i class="fa fa-trash-o"></i> Supprimer</button>
+        <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
         class="fa fa-reply"></i> Retour</button>
-  </p-toolbar>
-  <p-tabView>
-    <p-tabPanel header="Détails">
-      <p-fieldset [legend]="exercice.libelle">
-        <table class="table">
-          <tr>
-            <th>Code</th>
-            <td>{{ exercice.code }}</td>
-          </tr>
-          <tr>
-            <th>Libelle</th>
-            <td>{{ exercice.libelle }}</td>
-          </tr>
-          <tr>
-            <th>Date Debut</th>
-            <td>{{ exercice.dateDebut | date:'dd/MM/yyyy'}}</td>
-          </tr>
-          <tr>
-            <th>Date Fin</th>
-            <td>{{ exercice.dateFin | date:'dd/MM/yyyy'}}</td>
-          </tr>
-        </table>
-        <p-toolbar>
-          <button *ngIf="'Exercice'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
-            [routerLink]="['/'+exerciceSrv.getRoutePrefix(),exercice.id,'edit']"><i
+    </p-toolbar>
+    <p-tabView>
+        <p-tabPanel header="Détails">
+            <p-fieldset [legend]="exercice.libelle">
+                <table class="table">
+                    <tr>
+                        <th>Code</th>
+                        <td>{{ exercice?.code }}</td>
+                    </tr>
+                    <tr>
+                        <th>Libelle</th>
+                        <td>{{ exercice?.libelle }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date Debut</th>
+                        <td>{{ exercice?.dateDebut | date:'dd/MM/yyyy'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Date Fin</th>
+                        <td>{{ exercice?.dateFin | date:'dd/MM/yyyy'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Exercice Suivant </th>
+                        <td>{{ exercice?.exerciceSuivant?.libelle}}</td>
+                    </tr>
+                    <tr>
+                        <th>En cours </th>
+                        <td><span class="badge badge-success" *ngIf="exercice.encours">Active</span>
+                            <span class="badge badge-danger" *ngIf="!exercice.encours">Inactive</span>
+                        </td>
+                    </tr>
+                </table>
+                <p-toolbar>
+                    <button *ngIf="'Exercice'|editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),exercice.id,'edit']"><i
               class="fa fa-pencil-square-o ml-1"></i>
             Modifier</button>
-          <button *ngIf="'Exercice'|clonable" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),exercice.id,'clone']"
-            type="button" class="btn btn-outline-secondary pull-right ml-1">
+                    <button *ngIf="'Exercice'|clonable" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),exercice.id,'clone']" type="button" class="btn btn-outline-secondary pull-right ml-1">
             <i class="fa fa-clone" aria-hidden="true"></i> Cloner
           </button>
-          <button *ngIf="'Exercice'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1"
-            (click)="removeExercice()"><i class="fa fa-trash-o"></i> Supprimer</button>
-          <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+                    <button *ngIf="'Exercice'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeExercice()"><i class="fa fa-trash-o"></i> Supprimer</button>
+                    <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
               class="fa fa-reply"></i> Retour</button>
-          <button *ngIf="'Exercice'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
+                    <button *ngIf="'Exercice'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
             <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
           </button>
-        </p-toolbar>
-      </p-fieldset>
-    </p-tabPanel>
-    <p-tabPanel header="Liste associée">
+                </p-toolbar>
+            </p-fieldset>
+        </p-tabPanel>
+        <p-tabPanel header="Liste associée">
 
-    </p-tabPanel>
-  </p-tabView>
+        </p-tabPanel>
+    </p-tabView>
 </p-fieldset>
