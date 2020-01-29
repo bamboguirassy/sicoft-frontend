@@ -16,7 +16,7 @@ export class EntiteCloneComponent implements OnInit {
   original: Entite;
   entites: Entite[] = [];
   typeEntites: TypeEntite[] = [];
-  
+
   constructor(public entiteSrv: EntiteService, public location: Location,
     public activatedRoute: ActivatedRoute, public router: Router) { }
 
@@ -29,14 +29,23 @@ export class EntiteCloneComponent implements OnInit {
   }
 
   cloneEntite() {
+    let tempTypeEntite = this.entite.typeEntite;
     this.entite.typeEntite = this.entite.typeEntite.id;
+    let tempEntiteParent = null;
     if (this.entite.entiteParent) {
+      tempEntiteParent = this.entite.entiteParent;
       this.entite.entiteParent = this.entite.entiteParent.id;
     }
     this.entiteSrv.clone(this.original, this.entite)
       .subscribe((data: any) => {
         this.router.navigate([this.entiteSrv.getRoutePrefix(), data.id]);
-      }, error => this.entiteSrv.httpSrv.handleError(error));
+      }, error => {
+        this.entite.typeEntite = tempTypeEntite;
+        if (tempEntiteParent) {
+          this.entite.entiteParent = tempEntiteParent;
+        }
+        this.entiteSrv.httpSrv.handleError(error);
+      });
   }
 
 }
