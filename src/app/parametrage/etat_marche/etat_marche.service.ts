@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpService } from 'app/shared/services/http.service';
 import { EtatMarche } from './etat_marche';
