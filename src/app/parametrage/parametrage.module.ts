@@ -1,4 +1,3 @@
-import { OrgChartModule } from '@mondal/org-chart';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -147,7 +146,6 @@ import { CategorieClasseShowComponent } from './categorie_classe/categorie_class
     NgSelectModule,
     AccordionModule,
     BreadcrumbModule,
-    OrgChartModule,
   ]
 })
 export class ParametrageModule { }

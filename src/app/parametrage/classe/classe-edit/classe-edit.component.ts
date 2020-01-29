@@ -32,11 +32,17 @@ export class ClasseEditComponent implements OnInit {
   }
 
   updateClasse() {
+    const tempTypeClasse = this.classe.typeClasse;
+    const tempCategorieClasse = this.classe.categorieClasse;
     this.classe.typeClasse = this.classe.typeClasse.id;
     this.classe.categorieClasse = this.classe.categorieClasse.id;
     this.classeSrv.update(this.classe)
       .subscribe(data => this.location.back(),
-        error => this.classeSrv.httpSrv.handleError(error));
+      error => {
+        this.classe.typeClasse = tempTypeClasse;
+        this.classe.categorieClasse = tempCategorieClasse;
+        this.classeSrv.httpSrv.handleError(error);
+      });
   }
 
 }
