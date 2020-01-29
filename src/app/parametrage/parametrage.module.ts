@@ -16,7 +16,7 @@ import {
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
   ToolbarModule, TabViewModule,
-  AccordionModule, BreadcrumbModule
+  AccordionModule, BreadcrumbModule, DropdownModule
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -148,6 +148,7 @@ import { CategorieClasseShowComponent } from './categorie_classe/categorie_class
     AccordionModule,
     BreadcrumbModule,
     OrgChartModule,
+    DropdownModule
   ]
 })
 export class ParametrageModule { }
