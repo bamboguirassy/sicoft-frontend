@@ -8,8 +8,7 @@
                 Retour</button>
             <button type="reset" class="btn btn-secondary pull-left"><i class="fa fa-eraser" aria-hidden="true"></i>
                 Vider le formulaire</button>
-            <button [disabled]="exerciceForm.invalid" type="button" (click)="cloneExercice()"
-                class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
+            <button [disabled]="exerciceForm.invalid" type="button" (click)="cloneExercice()" class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
                 Enregistrer</button>
         </p-toolbar>
         <!-- debut body -->
@@ -30,16 +29,26 @@
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="dateDebut">Date Debut</label>
                     <!--input [(ngModel)]="exercice.dateDebut" class="form-control" type="text" name="dateDebut" id="dateDebut"-->
-                    <p-inputMask required styleClass="form-control" mask="99-99-9999" [(ngModel)]="exercice.dateDebut"
-                        placeholder="mm/dd/yyyy" slotChar="mm/dd/yyyy" name="dateDebut" id="dateDebut"></p-inputMask>
+                    <p-inputMask required styleClass="form-control" mask="99-99-9999" [(ngModel)]="exercice.dateDebut" placeholder="mm/dd/yyyy" slotChar="mm/dd/yyyy" name="dateDebut" id="dateDebut"></p-inputMask>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="dateFin">Date Fin</label>
                     <!--input [(ngModel)]="exercice.dateFin" class="form-control" type="text" name="dateFin" id="dateFin"-->
-                    <p-inputMask required styleClass="form-control" mask="99-99-9999" [(ngModel)]="exercice.dateFin"
-                        placeholder="mm/dd/yyyy" slotChar="mm/dd/yyyy" name="dateFin" id="dateFin"></p-inputMask>
+                    <p-inputMask required styleClass="form-control" mask="99-99-9999" [(ngModel)]="exercice.dateFin" placeholder="mm/dd/yyyy" slotChar="mm/dd/yyyy" name="dateFin" id="dateFin"></p-inputMask>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="groups">Exercice précédant</label> <br>
+                    <p-dropdown [options]="exercices" name="exercices" [(ngModel)]="exercice.exerciceSuivant" placeholder="Selectionner exercice précédant" optionLabel="libelle" [showClear]="true"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="encours">En cours</label> <br>
+                    <p-inputSwitch name="encours" [(ngModel)]="exercice.encours"></p-inputSwitch>
                 </div>
             </div>
         </div>
@@ -50,8 +59,7 @@
                 Retour</button>
             <button type="reset" class="btn btn-secondary pull-left"><i class="fa fa-eraser" aria-hidden="true"></i>
                 Vider le formulaire</button>
-            <button [disabled]="exerciceForm.invalid" type="button" (click)="cloneExercice()"
-                class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
+            <button [disabled]="exerciceForm.invalid" type="button" (click)="cloneExercice()" class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
                 Enregistrer</button>
         </p-toolbar>
     </p-fieldset>

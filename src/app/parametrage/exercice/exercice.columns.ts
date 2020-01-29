@@ -3,6 +3,7 @@ const exerciceColumns = [
             { header: 'Libelle', field: 'libelle', dataKey: 'libelle' },
             { header: 'DateDebut', field: 'dateDebut', dataKey: 'dateDebut' },
             { header: 'DateFin', field: 'dateFin', dataKey: 'dateFin' },
+            { header: 'exerciceSuivant', field: 'exerciceSuivant', dataKey: 'exerciceSuivant' },
         ];
 
 const allowedExerciceFieldsForFilter = [
@@ -10,6 +11,7 @@ const allowedExerciceFieldsForFilter = [
     'libelle',
     'dateDebut',
     'dateFin',
+    'exerciceSuivant',
 ];
 
 export { exerciceColumns,allowedExerciceFieldsForFilter };

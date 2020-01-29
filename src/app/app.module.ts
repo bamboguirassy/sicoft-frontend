@@ -22,6 +22,7 @@ import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
 import { TitleCasePipe, CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { OrgChartModule } from '@mondal/org-chart';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -62,6 +63,7 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
     MessageService,
     TitleCasePipe,
+    OrgChartModule,
   ],
   bootstrap: [AppComponent]
 })

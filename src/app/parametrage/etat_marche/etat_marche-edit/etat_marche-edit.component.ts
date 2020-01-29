@@ -29,12 +29,18 @@ export class EtatMarcheEditComponent implements OnInit {
   }
 
   updateEtatMarche() {
+    let etatSuivantTemp = null;
     if (this.etat_marche.etatSuivant) {
+      etatSuivantTemp = this.etat_marche.etatSuivant;
       this.etat_marche.etatSuivant = this.etat_marche.etatSuivant.id;
     }
     this.etat_marcheSrv.update(this.etat_marche)
       .subscribe(data => this.location.back(),
-        error => this.etat_marcheSrv.httpSrv.handleError(error));
+        error => {
+          this.etat_marche.etatSuivant = etatSuivantTemp;
+          this.etat_marcheSrv.httpSrv.handleError(error);
+          console.log(etatSuivantTemp);
+        });
   }
 
 }
