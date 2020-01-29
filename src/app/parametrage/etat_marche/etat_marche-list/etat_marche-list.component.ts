@@ -26,6 +26,7 @@ export class EtatMarcheListComponent implements OnInit {
   etat_marches: EtatMarche[] = [];
   selectedEtatMarches: EtatMarche[];
   selectedEtatMarche: EtatMarche;
+  selectedUser: any;
   clonedEtatMarches: EtatMarche[];
   items: MenuItem[];
   info: MenuItem;

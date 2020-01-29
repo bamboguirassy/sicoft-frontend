@@ -17,7 +17,7 @@ export class EntiteEditComponent implements OnInit {
   entite: Entite;
   entites: Entite[] = [];
   typeEntites: TypeEntite[] = [];
-  
+
   constructor(public entiteSrv: EntiteService,
     public activatedRoute: ActivatedRoute,
     public router: Router, public location: Location,
@@ -31,13 +31,22 @@ export class EntiteEditComponent implements OnInit {
   }
 
   updateEntite() {
+    let tempTypeEntite = this.entite.typeEntite;
     this.entite.typeEntite = this.entite.typeEntite.id;
+    let tempEntiteParent = null;
     if (this.entite.entiteParent) {
+      tempEntiteParent = this.entite.entiteParent;
       this.entite.entiteParent = this.entite.entiteParent.id;
     }
     this.entiteSrv.update(this.entite)
       .subscribe(data => this.location.back(),
-        error => this.entiteSrv.httpSrv.handleError(error));
+        error => {
+          this.entite.typeEntite = tempTypeEntite;
+          if (tempEntiteParent) {
+            this.entite.entiteParent = tempEntiteParent;
+          }
+          this.entiteSrv.httpSrv.handleError(error);
+        });
   }
 
 }

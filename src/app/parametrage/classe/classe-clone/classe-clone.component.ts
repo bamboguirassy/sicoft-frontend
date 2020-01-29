@@ -31,12 +31,18 @@ export class ClasseCloneComponent implements OnInit {
   }
 
   cloneClasse() {
+    const tempTypeClasse = this.classe.typeClasse;
+    const tempCategorieClasse = this.classe.categorieClasse;
     this.classe.typeClasse = this.classe.typeClasse.id;
     this.classe.categorieClasse = this.classe.categorieClasse.id;
     this.classeSrv.clone(this.original, this.classe)
       .subscribe((data: any) => {
         this.router.navigate([this.classeSrv.getRoutePrefix(), data.id]);
-      }, error => this.classeSrv.httpSrv.handleError(error));
+      }, error => {
+        this.classe.typeClasse = tempTypeClasse;
+        this.classe.categorieClasse = tempCategorieClasse;
+        this.classeSrv.httpSrv.handleError(error);
+      });
   }
 
 }

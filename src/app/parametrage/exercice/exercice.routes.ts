@@ -10,9 +10,9 @@ import { OneExerciceResolver } from './one-exercice.resolver';
 const exerciceRoutes: Route = {
     path: 'exercice', children: [
         { path: '', component: ExerciceListComponent, resolve: { exercices: MultipleExerciceResolver } },
-        { path: 'new', component: ExerciceNewComponent },
-        { path: ':id/edit', component: ExerciceEditComponent, resolve: { exercice: OneExerciceResolver } },
-        { path: ':id/clone', component: ExerciceCloneComponent, resolve: { exercice: OneExerciceResolver } },
+        { path: 'new', component: ExerciceNewComponent, resolve: { exercices: MultipleExerciceResolver } },
+        { path: ':id/edit', component: ExerciceEditComponent, resolve: { exercice: OneExerciceResolver, exercices: MultipleExerciceResolver } },
+        { path: ':id/clone', component: ExerciceCloneComponent, resolve: { exercice: OneExerciceResolver, exercices: MultipleExerciceResolver } },
         { path: ':id', component: ExerciceShowComponent, resolve: { exercice: OneExerciceResolver } }
     ]
 

@@ -16,7 +16,7 @@ import {
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
   ToolbarModule, TabViewModule,
-  AccordionModule, BreadcrumbModule, AutoCompleteModule
+  AccordionModule, BreadcrumbModule
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -156,7 +156,11 @@ import { CategorieClasseShowComponent } from './categorie_classe/categorie_class
     NgSelectModule,
     AccordionModule,
     BreadcrumbModule,
+<<<<<<< HEAD
     AutoCompleteModule,
+=======
+    OrgChartModule,
+>>>>>>> f5714bba95a57c56e001e4d215bbf3ce228840b7
   ]
 })
 export class ParametrageModule { }

@@ -24,7 +24,7 @@ export class AuthService {
       this.currentUserManager.next(data);
       this.currentUser = data;
     },
-      error => console.log(error));
+      error => this.httpSrv.handleError(error));
     return req;
   }
 
