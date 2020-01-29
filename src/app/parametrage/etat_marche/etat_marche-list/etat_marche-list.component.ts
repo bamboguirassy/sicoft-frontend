@@ -1,6 +1,6 @@
 import { UserService } from './../../user/user.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, empty } from 'rxjs';
 import { fromEvent } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EtatMarche } from './../etat_marche';
@@ -32,7 +32,7 @@ export class EtatMarcheListComponent implements OnInit {
   @ViewChild('content', { static: false }) public modalContentRef: TemplateRef<any>;
   private searchTerms  = new Subject<string>();
   public fetchedUser$: Observable<any>;
-  public matchedUsers;
+  public matchedUsers: any[];
   topEmployee: any = {
     name: 'Janis Martin',
     designation: 'CEO',
@@ -185,6 +185,7 @@ export class EtatMarcheListComponent implements OnInit {
 
   public toggleSearchModal(content: TemplateRef<any>, selectedEtatMarche: EtatMarche) {
     this.modalSrv.open(content, { size: 'xl', backdropClass: 'light-blue-backdrop', centered: true});
+    console.log(this.selectedEtatMarche);
   }
 
   public searchUserByTerm(query: string) {
@@ -197,5 +198,10 @@ export class EtatMarcheListComponent implements OnInit {
     );
 
     this.fetchedUser$.subscribe( data => this.matchedUsers = data, error => console.log(error));
+  }
+
+  public closeModal() {
+    this.modalSrv.dismissAll('Cross click');
+    this.matchedUsers = null;
   }
 }
