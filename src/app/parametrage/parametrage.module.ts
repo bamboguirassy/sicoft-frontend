@@ -1,4 +1,4 @@
-import { OrgChartModule } from '@mondal/org-chart';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -83,10 +83,15 @@ import { FournisseurEditComponent } from './fournisseur/fournisseur-edit/fournis
 import { FournisseurListComponent } from './fournisseur/fournisseur-list/fournisseur-list.component';
 import { FournisseurNewComponent } from './fournisseur/fournisseur-new/fournisseur-new.component';
 import { FournisseurShowComponent } from './fournisseur/fournisseur-show/fournisseur-show.component';
+// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementCloneComponent } from './type_source_financement/type_source_financement-clone/type_source_financement-clone.component';
+// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementEditComponent } from './type_source_financement/type_source_financement-edit/type_source_financement-edit.component';
+// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementListComponent } from './type_source_financement/type_source_financement-list/type_source_financement-list.component';
+// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementNewComponent } from './type_source_financement/type_source_financement-new/type_source_financement-new.component';
+// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementShowComponent } from './type_source_financement/type_source_financement-show/type_source_financement-show.component';
 import { SourceFinancementCloneComponent } from './source_financement/source_financement-clone/source_financement-clone.component';
 import { SourceFinancementEditComponent } from './source_financement/source_financement-edit/source_financement-edit.component';
@@ -116,14 +121,18 @@ import { CategorieClasseShowComponent } from './categorie_classe/categorie_class
     ClasseCloneComponent, ClasseEditComponent, ClasseListComponent, ClasseNewComponent, ClasseShowComponent,
     CompteCloneComponent, CompteEditComponent, CompteListComponent, CompteNewComponent, CompteShowComponent,
     TypeDocumentCloneComponent, TypeDocumentEditComponent, TypeDocumentListComponent, TypeDocumentNewComponent, TypeDocumentShowComponent,
+    // tslint:disable-next-line:max-line-length
     TypePassationCloneComponent, TypePassationEditComponent, TypePassationListComponent, TypePassationNewComponent, TypePassationShowComponent,
     EtatMarcheCloneComponent, EtatMarcheEditComponent, EtatMarcheListComponent, EtatMarcheNewComponent, EtatMarcheShowComponent,
     SecteurCloneComponent, SecteurEditComponent, SecteurListComponent, SecteurNewComponent, SecteurShowComponent,
     FournisseurCloneComponent, FournisseurEditComponent, FournisseurListComponent, FournisseurNewComponent, FournisseurShowComponent,
+    // tslint:disable-next-line:max-line-length
     TypeSourceFinancementCloneComponent, TypeSourceFinancementEditComponent, TypeSourceFinancementListComponent, TypeSourceFinancementNewComponent, TypeSourceFinancementShowComponent,
+    // tslint:disable-next-line:max-line-length
     SourceFinancementCloneComponent, SourceFinancementEditComponent, SourceFinancementListComponent, SourceFinancementNewComponent, SourceFinancementShowComponent,
-    TypeClasseCloneComponent,TypeClasseEditComponent,TypeClasseListComponent,TypeClasseNewComponent,TypeClasseShowComponent,
-    CategorieClasseCloneComponent,CategorieClasseEditComponent,CategorieClasseListComponent,CategorieClasseNewComponent,CategorieClasseShowComponent
+    TypeClasseCloneComponent, TypeClasseEditComponent, TypeClasseListComponent, TypeClasseNewComponent,TypeClasseShowComponent,
+    // tslint:disable-next-line:max-line-length
+    CategorieClasseCloneComponent, CategorieClasseEditComponent, CategorieClasseListComponent, CategorieClasseNewComponent,CategorieClasseShowComponent
   ],
   imports: [
     CommonModule,
@@ -147,7 +156,6 @@ import { CategorieClasseShowComponent } from './categorie_classe/categorie_class
     NgSelectModule,
     AccordionModule,
     BreadcrumbModule,
-    OrgChartModule,
     AutoCompleteModule,
   ]
 })

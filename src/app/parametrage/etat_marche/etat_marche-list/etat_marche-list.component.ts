@@ -134,7 +134,7 @@ export class EtatMarcheListComponent implements OnInit {
       this.etat_marcheSrv.removeSelection(this.selectedEtatMarches)
         .subscribe(data => this.refreshList(), error => this.etat_marcheSrv.httpSrv.handleError(error));
     } else {
-      this.etat_marcheSrv.httpSrv.notificationSrv.showWarning("Selectionner au moins un élement");
+      this.etat_marcheSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
     }
   }
 
@@ -184,7 +184,7 @@ export class EtatMarcheListComponent implements OnInit {
   }
 
   public toggleSearchModal(content: TemplateRef<any>, selectedEtatMarche: EtatMarche) {
-    this.modalSrv.open(content, { size: 'xl', backdropClass: 'light-blue-backdrop', centered: true});
+    this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true});
     console.log(this.selectedEtatMarche);
   }
 

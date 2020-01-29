@@ -15,6 +15,5 @@
 @import url("../src/assets/css/data-table/index.css");
 @import url("../src/assets/css/data-table/icons.css");
 @import url("../src/assets/css/demo.css"); */
-
-@import "~@ng-select/ng-select/themes/default.theme.css";
-@import "~@mondal/org-chart/_theming.scss";
+ @import "~@ng-select/ng-select/themes/default.theme.css";
+/* @import "~@mondal/org-chart/_theming.scss"; */
