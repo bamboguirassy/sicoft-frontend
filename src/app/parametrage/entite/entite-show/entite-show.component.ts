@@ -3,7 +3,6 @@ import {Entite} from '../entite';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EntiteService} from '../entite.service';
 import {Location} from '@angular/common';
-import {NotificationService} from 'app/shared/services/notification.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TypeEntite} from '../../type_entite/type_entite';
 import {TypeEntiteService} from '../../type_entite/type_entite.service';
@@ -27,7 +26,7 @@ export class EntiteShowComponent implements OnInit {
     constructor(
         public activatedRoute: ActivatedRoute,
         public entiteSrv: EntiteService, public location: Location,
-        public router: Router, public notificationSrv: NotificationService,
+        public router: Router,
         public typeEntiteSrv: TypeEntiteService,
         private modalService: NgbModal) {
         this.sousEntite = new Entite();
@@ -60,8 +59,9 @@ export class EntiteShowComponent implements OnInit {
         this.sousEntite.typeEntite = this.sousEntite.typeEntite.id;
         this.entiteSrv.create(this.sousEntite).subscribe(
             (data: any) => {
-                modal.dismiss('Cross click');
+                this.entiteSrv.httpSrv.notificationSrv.showInfo('Sous entité créée avec succès');
                 this.sousEntites.push(data)
+                this.sousEntite = new Entite();
             },
             error => this.entiteSrv.httpSrv.handleError(error));
     }

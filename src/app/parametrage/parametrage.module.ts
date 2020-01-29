@@ -1,4 +1,3 @@
-import { DropdownModule } from 'primeng/dropdown';
 import { OrgChartModule } from '@mondal/org-chart';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -17,7 +16,7 @@ import {
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
   ToolbarModule, TabViewModule,
-  AccordionModule, BreadcrumbModule, AutoCompleteModule
+  AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -149,8 +148,7 @@ import { CategorieClasseShowComponent } from './categorie_classe/categorie_class
     AccordionModule,
     BreadcrumbModule,
     OrgChartModule,
-    AutoCompleteModule,
-    DropdownModule,
+    DropdownModule
   ]
 })
 export class ParametrageModule { }

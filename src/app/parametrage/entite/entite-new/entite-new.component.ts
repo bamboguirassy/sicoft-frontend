@@ -29,16 +29,25 @@ export class EntiteNewComponent implements OnInit {
   }
 
   saveEntite() {
+    let tempTypeEntite = this.entite.typeEntite;
     this.entite.typeEntite = this.entite.typeEntite.id;
+    let tempEntiteParent = null;
     if (this.entite.entiteParent) {
+      tempEntiteParent = this.entite.entiteParent;
       this.entite.entiteParent = this.entite.entiteParent.id;
     }
     this.entiteSrv.create(this.entite)
       .subscribe((data: any) => {
-        this.notificationSrv.showInfo('Entite créé avec succès');
+        this.notificationSrv.showInfo('Entite créée avec succès');
         this.entite = new Entite();
         this.findEntites();
-      }, error => this.entiteSrv.httpSrv.handleError(error));
+      }, error => {
+        this.entite.typeEntite = tempTypeEntite;
+        if (tempEntiteParent) {
+          this.entite.entiteParent = tempEntiteParent;
+        }
+        this.entiteSrv.httpSrv.handleError(error);
+      });
   }
 
   findEntites() {
@@ -49,14 +58,23 @@ export class EntiteNewComponent implements OnInit {
   }
 
   saveEntiteAndExit() {
+    const tempTypeEntite = this.entite.typeEntite;
+    this.entite.typeEntite = this.entite.typeEntite.id;
+    let tempEntiteParent = null;
     if (this.entite.entiteParent) {
+      tempEntiteParent = this.entite.entiteParent;
       this.entite.entiteParent = this.entite.entiteParent.id;
     }
-    this.entite.typeEntite = this.entite.typeEntite.id;
     this.entiteSrv.create(this.entite)
       .subscribe((data: any) => {
         this.router.navigate([this.entiteSrv.getRoutePrefix(), data.id]);
-      }, error => this.entiteSrv.httpSrv.handleError(error));
+      }, error => {
+        this.entite.typeEntite = tempTypeEntite;
+        if (tempEntiteParent) {
+          this.entite.entiteParent = tempEntiteParent;
+        }
+        this.entiteSrv.httpSrv.handleError(error);
+      });
   }
 
   // toggleModal(content) {

@@ -32,22 +32,34 @@ export class ClasseNewComponent implements OnInit {
   }
 
   saveClasse() {
+    const tempTypeClasse = this.classe.typeClasse;
+    const tempCategorieClasse = this.classe.categorieClasse;
     this.classe.typeClasse = this.classe.typeClasse.id;
     this.classe.categorieClasse = this.classe.categorieClasse.id;
     this.classeSrv.create(this.classe)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Classe créé avec succès');
         this.classe = new Classe();
-      }, error => this.classeSrv.httpSrv.handleError(error));
+      }, error => {
+        this.classe.typeClasse = tempTypeClasse;
+        this.classe.categorieClasse = tempCategorieClasse;
+        this.classeSrv.httpSrv.handleError(error);
+      });
   }
 
   saveClasseAndExit() {
+    const tempTypeClasse = this.classe.typeClasse;
+    const tempCategorieClasse = this.classe.categorieClasse;
     this.classe.typeClasse = this.classe.typeClasse.id;
     this.classe.categorieClasse = this.classe.categorieClasse.id;
     this.classeSrv.create(this.classe)
       .subscribe((data: any) => {
         this.router.navigate([this.classeSrv.getRoutePrefix(), data.id]);
-      }, error => this.classeSrv.httpSrv.handleError(error));
+      }, error => {
+        this.classe.typeClasse = tempTypeClasse;
+        this.classe.categorieClasse = tempCategorieClasse;
+        this.classeSrv.httpSrv.handleError(error);
+      });
   }
 
 }

@@ -134,7 +134,7 @@ export class EtatMarcheListComponent implements OnInit {
       this.etat_marcheSrv.removeSelection(this.selectedEtatMarches)
         .subscribe(data => this.refreshList(), error => this.etat_marcheSrv.httpSrv.handleError(error));
     } else {
-      this.etat_marcheSrv.httpSrv.notificationSrv.showWarning("Selectionner au moins un élement");
+      this.etat_marcheSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
     }
   }
 
