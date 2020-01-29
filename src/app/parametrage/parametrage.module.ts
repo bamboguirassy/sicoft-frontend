@@ -1,7 +1,5 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 
 import { ParametrageRoutingModule } from './parametrage-routing.module';
 import { UserCloneComponent } from './user/user-clone/user-clone.component';
@@ -13,10 +11,16 @@ import { UserShowComponent } from './user/user-show/user-show.component';
 import { TableModule } from 'primeng/table';
 import {
   ContextMenuModule,
-  MenuModule, ButtonModule,
-  CardModule, FieldsetModule,
-  ToolbarModule, TabViewModule,
-  AccordionModule, BreadcrumbModule, DropdownModule
+  MenuModule,
+  ButtonModule,
+  CardModule,
+  FieldsetModule,
+  ToolbarModule,
+  TabViewModule,
+  AccordionModule,
+  BreadcrumbModule,
+  DropdownModule,
+  AutoCompleteModule
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -109,30 +113,95 @@ import { CategorieClasseEditComponent } from './categorie_classe/categorie_class
 import { CategorieClasseListComponent } from './categorie_classe/categorie_classe-list/categorie_classe-list.component';
 import { CategorieClasseNewComponent } from './categorie_classe/categorie_classe-new/categorie_classe-new.component';
 import { CategorieClasseShowComponent } from './categorie_classe/categorie_classe-show/categorie_classe-show.component';
-
+import { OrgChartModule } from '@mondal/org-chart';
 
 @NgModule({
   declarations: [
-    UserCloneComponent, UserEditComponent, UserListComponent, UserNewComponent, UserShowComponent, UserProfilePageComponent,
-    GroupCloneComponent, GroupEditComponent, GroupListComponent, GroupNewComponent, GroupShowComponent,
-    EntiteCloneComponent, EntiteEditComponent, EntiteListComponent, EntiteNewComponent, EntiteShowComponent,
-    TypeEntiteCloneComponent, TypeEntiteEditComponent, TypeEntiteListComponent, TypeEntiteNewComponent, TypeEntiteShowComponent,
-    ExerciceCloneComponent, ExerciceEditComponent, ExerciceListComponent, ExerciceNewComponent, ExerciceShowComponent,
-    ClasseCloneComponent, ClasseEditComponent, ClasseListComponent, ClasseNewComponent, ClasseShowComponent,
-    CompteCloneComponent, CompteEditComponent, CompteListComponent, CompteNewComponent, CompteShowComponent,
-    TypeDocumentCloneComponent, TypeDocumentEditComponent, TypeDocumentListComponent, TypeDocumentNewComponent, TypeDocumentShowComponent,
+    UserCloneComponent,
+    UserEditComponent,
+    UserListComponent,
+    UserNewComponent,
+    UserShowComponent,
+    UserProfilePageComponent,
+    GroupCloneComponent,
+    GroupEditComponent,
+    GroupListComponent,
+    GroupNewComponent,
+    GroupShowComponent,
+    EntiteCloneComponent,
+    EntiteEditComponent,
+    EntiteListComponent,
+    EntiteNewComponent,
+    EntiteShowComponent,
+    TypeEntiteCloneComponent,
+    TypeEntiteEditComponent,
+    TypeEntiteListComponent,
+    TypeEntiteNewComponent,
+    TypeEntiteShowComponent,
+    ExerciceCloneComponent,
+    ExerciceEditComponent,
+    ExerciceListComponent,
+    ExerciceNewComponent,
+    ExerciceShowComponent,
+    ClasseCloneComponent,
+    ClasseEditComponent,
+    ClasseListComponent,
+    ClasseNewComponent,
+    ClasseShowComponent,
+    CompteCloneComponent,
+    CompteEditComponent,
+    CompteListComponent,
+    CompteNewComponent,
+    CompteShowComponent,
+    TypeDocumentCloneComponent,
+    TypeDocumentEditComponent,
+    TypeDocumentListComponent,
+    TypeDocumentNewComponent,
+    TypeDocumentShowComponent,
     // tslint:disable-next-line:max-line-length
-    TypePassationCloneComponent, TypePassationEditComponent, TypePassationListComponent, TypePassationNewComponent, TypePassationShowComponent,
-    EtatMarcheCloneComponent, EtatMarcheEditComponent, EtatMarcheListComponent, EtatMarcheNewComponent, EtatMarcheShowComponent,
-    SecteurCloneComponent, SecteurEditComponent, SecteurListComponent, SecteurNewComponent, SecteurShowComponent,
-    FournisseurCloneComponent, FournisseurEditComponent, FournisseurListComponent, FournisseurNewComponent, FournisseurShowComponent,
+    TypePassationCloneComponent,
+    TypePassationEditComponent,
+    TypePassationListComponent,
+    TypePassationNewComponent,
+    TypePassationShowComponent,
+    EtatMarcheCloneComponent,
+    EtatMarcheEditComponent,
+    EtatMarcheListComponent,
+    EtatMarcheNewComponent,
+    EtatMarcheShowComponent,
+    SecteurCloneComponent,
+    SecteurEditComponent,
+    SecteurListComponent,
+    SecteurNewComponent,
+    SecteurShowComponent,
+    FournisseurCloneComponent,
+    FournisseurEditComponent,
+    FournisseurListComponent,
+    FournisseurNewComponent,
+    FournisseurShowComponent,
     // tslint:disable-next-line:max-line-length
-    TypeSourceFinancementCloneComponent, TypeSourceFinancementEditComponent, TypeSourceFinancementListComponent, TypeSourceFinancementNewComponent, TypeSourceFinancementShowComponent,
+    TypeSourceFinancementCloneComponent,
+    TypeSourceFinancementEditComponent,
+    TypeSourceFinancementListComponent,
+    TypeSourceFinancementNewComponent,
+    TypeSourceFinancementShowComponent,
     // tslint:disable-next-line:max-line-length
-    SourceFinancementCloneComponent, SourceFinancementEditComponent, SourceFinancementListComponent, SourceFinancementNewComponent, SourceFinancementShowComponent,
-    TypeClasseCloneComponent, TypeClasseEditComponent, TypeClasseListComponent, TypeClasseNewComponent,TypeClasseShowComponent,
+    SourceFinancementCloneComponent,
+    SourceFinancementEditComponent,
+    SourceFinancementListComponent,
+    SourceFinancementNewComponent,
+    SourceFinancementShowComponent,
+    TypeClasseCloneComponent,
+    TypeClasseEditComponent,
+    TypeClasseListComponent,
+    TypeClasseNewComponent,
+    TypeClasseShowComponent,
     // tslint:disable-next-line:max-line-length
-    CategorieClasseCloneComponent, CategorieClasseEditComponent, CategorieClasseListComponent, CategorieClasseNewComponent,CategorieClasseShowComponent
+    CategorieClasseCloneComponent,
+    CategorieClasseEditComponent,
+    CategorieClasseListComponent,
+    CategorieClasseNewComponent,
+    CategorieClasseShowComponent
   ],
   imports: [
     CommonModule,
@@ -156,15 +225,9 @@ import { CategorieClasseShowComponent } from './categorie_classe/categorie_class
     NgSelectModule,
     AccordionModule,
     BreadcrumbModule,
-<<<<<<< HEAD
     AutoCompleteModule,
-=======
     OrgChartModule,
-<<<<<<< HEAD
->>>>>>> f5714bba95a57c56e001e4d215bbf3ce228840b7
-=======
     DropdownModule
->>>>>>> 151f3be8b6baf3c4ec8e9587e5ded5377209ae9e
   ]
 })
-export class ParametrageModule { }
+export class ParametrageModule {}

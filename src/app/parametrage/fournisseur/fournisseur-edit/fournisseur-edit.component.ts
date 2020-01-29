@@ -29,7 +29,7 @@ export class FournisseurEditComponent implements OnInit {
   }
 
   updateFournisseur() {
-    let secteurid = [];
+    const secteurid = [];
     this.fournisseur.secteurs.forEach(secteur => {
       secteurid.push(secteur.id);
       this.fournisseur.secteurs = secteurid;

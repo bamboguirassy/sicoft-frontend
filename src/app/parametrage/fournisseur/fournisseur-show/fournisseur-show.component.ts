@@ -22,7 +22,6 @@ export class FournisseurShowComponent implements OnInit {
   ngOnInit() {
     this.fournisseur = this.activatedRoute.snapshot.data['fournisseur'];
     this.fournisseurLegend = `Fournisseur: ${this.fournisseur.nom}`;
-    console.log(this.fournisseur);
   }
 
 
