@@ -26,7 +26,7 @@ export class FournisseurNewComponent implements OnInit {
   }
 
   saveFournisseur() {
-    let secteurid = [];
+    const secteurid = [];
     this.fournisseur.secteurs.forEach(secteur => {
       secteurid.push(secteur.id);
       this.fournisseur.secteurs = secteurid;
@@ -39,7 +39,7 @@ export class FournisseurNewComponent implements OnInit {
   }
 
   saveFournisseurAndExit() {
-    let secteurid = [];
+    const secteurid = [];
     this.fournisseur.secteurs.forEach(secteur => {
       secteurid.push(secteur.id);
       this.fournisseur.secteurs = secteurid;

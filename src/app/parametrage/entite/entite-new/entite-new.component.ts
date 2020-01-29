@@ -38,7 +38,7 @@ export class EntiteNewComponent implements OnInit {
     }
     this.entiteSrv.create(this.entite)
       .subscribe((data: any) => {
-        this.notificationSrv.showInfo('Entite créé avec succès');
+        this.notificationSrv.showInfo('Entite créée avec succès');
         this.entite = new Entite();
         this.findEntites();
       }, error => {
@@ -58,7 +58,7 @@ export class EntiteNewComponent implements OnInit {
   }
 
   saveEntiteAndExit() {
-    let tempTypeEntite = this.entite.typeEntite;
+    const tempTypeEntite = this.entite.typeEntite;
     this.entite.typeEntite = this.entite.typeEntite.id;
     let tempEntiteParent = null;
     if (this.entite.entiteParent) {
