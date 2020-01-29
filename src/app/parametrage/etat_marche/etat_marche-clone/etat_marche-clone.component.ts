@@ -25,13 +25,20 @@ export class EtatMarcheCloneComponent implements OnInit {
   }
 
   cloneEtatMarche() {
+    let etatSuivTemp = null;
     if (this.etat_marche.etatSuivant) {
+      etatSuivTemp = this.etat_marche.etatSuivant;
       this.etat_marche.etatSuivant = this.etat_marche.etatSuivant.id;
     }
     this.etat_marcheSrv.clone(this.original, this.etat_marche)
       .subscribe((data: any) => {
         this.router.navigate([this.etat_marcheSrv.getRoutePrefix(), data.id]);
-      }, error => this.etat_marcheSrv.httpSrv.handleError(error));
+      }, error => {
+        if (etatSuivTemp) {
+          this.etat_marche.etatSuivant = etatSuivTemp;
+        }
+        this.etat_marcheSrv.httpSrv.handleError(error);
+      });
   }
 
 }

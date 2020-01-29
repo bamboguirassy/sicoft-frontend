@@ -26,6 +26,7 @@ export class EtatMarcheListComponent implements OnInit {
   etat_marches: EtatMarche[] = [];
   selectedEtatMarches: EtatMarche[];
   selectedEtatMarche: EtatMarche;
+  selectedUser: any;
   clonedEtatMarches: EtatMarche[];
   items: MenuItem[];
   info: MenuItem;
@@ -184,7 +185,7 @@ export class EtatMarcheListComponent implements OnInit {
   }
 
   public toggleSearchModal(content: TemplateRef<any>, selectedEtatMarche: EtatMarche) {
-    this.modalSrv.open(content, { size: 'xl', backdropClass: 'light-blue-backdrop', centered: true});
+    this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true});
     console.log(this.selectedEtatMarche);
   }
 

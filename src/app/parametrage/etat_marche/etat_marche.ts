@@ -4,4 +4,5 @@ export class EtatMarche {
     libelle: string;
     description: string;
     etatSuivant?: EtatMarche;
+    users?: any;
 }
