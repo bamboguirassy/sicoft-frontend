@@ -14,76 +14,74 @@
     <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
         class="fa fa-reply"></i> Retour</button>
   </p-toolbar>
-  <!-- <p-tabView>
-    <p-tabPanel header="Détails">
-      <p-fieldset [legend]="fournisseurLegend"> -->
           <div class="row">
-              <div class="col-sm-12" >
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title text-center">Détails du fournissseur</h4>
-                    <br>
-          
-          
-                    <table class="table">
-                      <tr>
-                        <th scope="col">Nom Complet</th>
-                        <td>{{ fournisseur.nom }}</td>
-                      </tr>
-                      <tr>
-                        <th>Telephone</th>
-                        <td>{{ fournisseur.telephone }}</td>
-                      </tr>
-                      <tr>
-                        <th>Email</th>
-                        <td>{{ fournisseur.email }}</td>
-                      </tr>
-                      <tr>
-                        <th>Adresse</th>
-                        <td>{{ fournisseur.adresse }}</td>
-                      </tr>
-                      <tr>
-                        <th>Ninea</th>
-                        <td>{{ fournisseur.ninea }}</td>
-                      </tr>
-                      <tr>
-                          <th>Secteur</th>
-                          <td>{{ fournisseur.secteurs }}</td>
-                        </tr>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12" >
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title text-center">Détails du contact du fournisseur</h4>
-                    <br>
+              <div class="col-sm-6" >
+                  <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title text-center">Détails du fournissseur</h4>
+                        <br>
+              
+              
+                        <table class="table">
+                          <tr>
+                            <th>Nom Complet</th>
+                            <td>{{ fournisseur.nom }}</td>
+                          </tr>
+                          <tr>
+                            <th>Telephone</th>
+                            <td>{{ fournisseur.telephone }}</td>
+                          </tr>
+                          <tr>
+                            <th>Email</th>
+                            <td>{{ fournisseur.email }}</td>
+                          </tr>
+                          <tr>
+                            <th>Adresse</th>
+                            <td>{{ fournisseur.adresse }}</td>
+                          </tr>
+                          <tr>
+                            <th>Ninea</th>
+                            <td>{{ fournisseur.ninea }}</td>
+                          </tr>
+                          <tr>
+                              <th>Secteur</th>
+                              <td>{{ fournisseur.secteurs }}</td>
+                            </tr>
+                        </table>
+                        </div>
+                       </div>
+                      </div>
+                      <div class="col-sm-6" >
+                          <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title text-center">Détails du contact du fournisseur</h4>
+                              <br>
+                              
                     
-          
-                    <table class="table">
-                     <thead>
-                                              <tr>
-                          <th scope="col">Nom Complet Contact</th>
-                          <td>{{ fournisseur.nomContact }}</td>
-                      </tr>
-                    </thead>
-                                              <tr>
-                          <th>Telephone Contact</th>
-                          <td>{{ fournisseur.telephoneContact }}</td>
-                      </tr>
-                                              <tr>
-                          <th>Fonction Contact</th>
-                          <td>{{ fournisseur.fonctionContact }}</td>
-                      </tr>
-                              </table>
-                  </div>
-                </div>
-              </div>
+                              <table class="table">
+                               <thead>
+                                                        <tr>
+                                    <th scope="col">Nom Complet Contact</th>
+                                    <td>{{ fournisseur.nomContact }}</td>
+                                </tr>
+                              </thead>
+                                                        <tr>
+                                    <th>Telephone Contact</th>
+                                    <td>{{ fournisseur.telephoneContact }}</td>
+                                </tr>
+                                                        <tr>
+                                    <th>Fonction Contact</th>
+                                    <td>{{ fournisseur.fonctionContact }}</td>
+                                </tr>
+                                        </table>
+                                        </div>
+                                        </div>
+                                        </div>
+
+             
+
             </div>
-        <!-- <p-toolbar> -->
+
           <button *ngIf="'Fournisseur'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
             [routerLink]="['/'+fournisseurSrv.getRoutePrefix(),fournisseur.id,'edit']"><i
               class="fa fa-pencil-square-o ml-1"></i>
@@ -100,11 +98,4 @@
           <button *ngIf="'Fournisseur'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
             <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
           </button>
-        <!-- </p-toolbar>
-      </p-fieldset>
-    </p-tabPanel>
-    <p-tabPanel header="Liste associée">
-
-    </p-tabPanel>
-  </p-tabView>
-</p-fieldset> -->
+      
