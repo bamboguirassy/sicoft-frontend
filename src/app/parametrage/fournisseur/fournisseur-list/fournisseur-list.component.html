@@ -45,6 +45,7 @@
                 <col>
                 <col>
                 <col>
+                <col>
               </colgroup>
             </ng-template>
             <ng-template pTemplate="header">
@@ -71,7 +72,7 @@
                   Nom Contact <p-sortIcon [field]="'nomContact'"></p-sortIcon>
                 </th>
                 <th [pSortableColumn]="'telephoneContact'" pResizableColumn>
-                  Téléphone Contact  <p-sortIcon [field]="'telephoneContact'"></p-sortIcon>
+                  Téléphone Contact <p-sortIcon [field]="'telephoneContact'"></p-sortIcon>
                 </th>
                 <th [pSortableColumn]="'fonctionContact'" pResizableColumn>
                   Fonction<p-sortIcon [field]="'fonctionContact'"></p-sortIcon>
@@ -110,8 +111,11 @@
                 <td class="ui-resizable-column">
                   {{ fournisseur.fonctionContact }}
                 </td>
-                <td class="ui-resizable-column">
-                  {{ fournisseur?.secteurs }}
+                <td class="ui-resizable-column" >
+                  <div class="row" *ngFor="let item of fournisseur.secteurs">
+                     {{item.libelle }} ({{item.code}})
+                  </div>
+                 
                 </td>
               </tr>
             </ng-template>

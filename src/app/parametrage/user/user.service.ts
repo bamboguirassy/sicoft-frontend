@@ -61,11 +61,4 @@ export class UserService {
     return this.routePrefix + '/';
   }
 
-  findUserByTerm(term: string) {
-    if (!term.trim()) {
-      return of([]);
-    }
-     return this.httpSrv.get(`${this.getRoutePrefixWithSlash()}search/?term=${term}`);
-  }
-
 }

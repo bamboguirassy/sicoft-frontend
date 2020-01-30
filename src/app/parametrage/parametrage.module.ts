@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ParametrageRoutingModule } from './parametrage-routing.module';
 import { UserCloneComponent } from './user/user-clone/user-clone.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserShowComponent } from './user/user-show/user-show.component';
-
 import { TableModule } from 'primeng/table';
 import {
   ContextMenuModule,
@@ -25,7 +23,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ChipsModule } from 'primeng/chips';
 import { NgSelectModule } from '@ng-select/ng-select';
-
 import { GroupCloneComponent } from './group/group-clone/group-clone.component';
 import { GroupEditComponent } from './group/group-edit/group-edit.component';
 import { GroupListComponent } from './group/group-list/group-list.component';
@@ -81,15 +78,10 @@ import { FournisseurEditComponent } from './fournisseur/fournisseur-edit/fournis
 import { FournisseurListComponent } from './fournisseur/fournisseur-list/fournisseur-list.component';
 import { FournisseurNewComponent } from './fournisseur/fournisseur-new/fournisseur-new.component';
 import { FournisseurShowComponent } from './fournisseur/fournisseur-show/fournisseur-show.component';
-// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementCloneComponent } from './type_source_financement/type_source_financement-clone/type_source_financement-clone.component';
-// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementEditComponent } from './type_source_financement/type_source_financement-edit/type_source_financement-edit.component';
-// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementListComponent } from './type_source_financement/type_source_financement-list/type_source_financement-list.component';
-// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementNewComponent } from './type_source_financement/type_source_financement-new/type_source_financement-new.component';
-// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementShowComponent } from './type_source_financement/type_source_financement-show/type_source_financement-show.component';
 import { SourceFinancementCloneComponent } from './source_financement/source_financement-clone/source_financement-clone.component';
 import { SourceFinancementEditComponent } from './source_financement/source_financement-edit/source_financement-edit.component';
@@ -108,94 +100,24 @@ import { CategorieClasseListComponent } from './categorie_classe/categorie_class
 import { CategorieClasseNewComponent } from './categorie_classe/categorie_classe-new/categorie_classe-new.component';
 import { CategorieClasseShowComponent } from './categorie_classe/categorie_classe-show/categorie_classe-show.component';
 import { OrgChartModule } from '@mondal/org-chart';
-
 @NgModule({
   declarations: [
-    UserCloneComponent,
-    UserEditComponent,
-    UserListComponent,
-    UserNewComponent,
-    UserShowComponent,
-    UserProfilePageComponent,
-    GroupCloneComponent,
-    GroupEditComponent,
-    GroupListComponent,
-    GroupNewComponent,
-    GroupShowComponent,
-    EntiteCloneComponent,
-    EntiteEditComponent,
-    EntiteListComponent,
-    EntiteNewComponent,
-    EntiteShowComponent,
-    TypeEntiteCloneComponent,
-    TypeEntiteEditComponent,
-    TypeEntiteListComponent,
-    TypeEntiteNewComponent,
-    TypeEntiteShowComponent,
-    ExerciceCloneComponent,
-    ExerciceEditComponent,
-    ExerciceListComponent,
-    ExerciceNewComponent,
-    ExerciceShowComponent,
-    ClasseCloneComponent,
-    ClasseEditComponent,
-    ClasseListComponent,
-    ClasseNewComponent,
-    ClasseShowComponent,
-    CompteCloneComponent,
-    CompteEditComponent,
-    CompteListComponent,
-    CompteNewComponent,
-    CompteShowComponent,
-    TypeDocumentCloneComponent,
-    TypeDocumentEditComponent,
-    TypeDocumentListComponent,
-    TypeDocumentNewComponent,
-    TypeDocumentShowComponent,
-    // tslint:disable-next-line:max-line-length
-    TypePassationCloneComponent,
-    TypePassationEditComponent,
-    TypePassationListComponent,
-    TypePassationNewComponent,
-    TypePassationShowComponent,
-    EtatMarcheCloneComponent,
-    EtatMarcheEditComponent,
-    EtatMarcheListComponent,
-    EtatMarcheNewComponent,
-    EtatMarcheShowComponent,
-    SecteurCloneComponent,
-    SecteurEditComponent,
-    SecteurListComponent,
-    SecteurNewComponent,
-    SecteurShowComponent,
-    FournisseurCloneComponent,
-    FournisseurEditComponent,
-    FournisseurListComponent,
-    FournisseurNewComponent,
-    FournisseurShowComponent,
-    // tslint:disable-next-line:max-line-length
-    TypeSourceFinancementCloneComponent,
-    TypeSourceFinancementEditComponent,
-    TypeSourceFinancementListComponent,
-    TypeSourceFinancementNewComponent,
-    TypeSourceFinancementShowComponent,
-    // tslint:disable-next-line:max-line-length
-    SourceFinancementCloneComponent,
-    SourceFinancementEditComponent,
-    SourceFinancementListComponent,
-    SourceFinancementNewComponent,
-    SourceFinancementShowComponent,
-    TypeClasseCloneComponent,
-    TypeClasseEditComponent,
-    TypeClasseListComponent,
-    TypeClasseNewComponent,
-    TypeClasseShowComponent,
-    // tslint:disable-next-line:max-line-length
-    CategorieClasseCloneComponent,
-    CategorieClasseEditComponent,
-    CategorieClasseListComponent,
-    CategorieClasseNewComponent,
-    CategorieClasseShowComponent
+    UserCloneComponent, UserEditComponent, UserListComponent, UserNewComponent, UserShowComponent, UserProfilePageComponent,
+    GroupCloneComponent, GroupEditComponent, GroupListComponent, GroupNewComponent, GroupShowComponent,
+    EntiteCloneComponent, EntiteEditComponent, EntiteListComponent, EntiteNewComponent, EntiteShowComponent,
+    TypeEntiteCloneComponent, TypeEntiteEditComponent, TypeEntiteListComponent, TypeEntiteNewComponent, TypeEntiteShowComponent,
+    ExerciceCloneComponent, ExerciceEditComponent, ExerciceListComponent, ExerciceNewComponent, ExerciceShowComponent,
+    ClasseCloneComponent, ClasseEditComponent, ClasseListComponent, ClasseNewComponent, ClasseShowComponent,
+    CompteCloneComponent, CompteEditComponent, CompteListComponent, CompteNewComponent, CompteShowComponent,
+    TypeDocumentCloneComponent, TypeDocumentEditComponent, TypeDocumentListComponent, TypeDocumentNewComponent, TypeDocumentShowComponent,
+    TypePassationCloneComponent, TypePassationEditComponent, TypePassationListComponent, TypePassationNewComponent, TypePassationShowComponent,
+    EtatMarcheCloneComponent, EtatMarcheEditComponent, EtatMarcheListComponent, EtatMarcheNewComponent, EtatMarcheShowComponent,
+    SecteurCloneComponent, SecteurEditComponent, SecteurListComponent, SecteurNewComponent, SecteurShowComponent,
+    FournisseurCloneComponent, FournisseurEditComponent, FournisseurListComponent, FournisseurNewComponent, FournisseurShowComponent,
+    TypeSourceFinancementCloneComponent, TypeSourceFinancementEditComponent, TypeSourceFinancementListComponent, TypeSourceFinancementNewComponent, TypeSourceFinancementShowComponent,
+    SourceFinancementCloneComponent, SourceFinancementEditComponent, SourceFinancementListComponent, SourceFinancementNewComponent, SourceFinancementShowComponent,
+    TypeClasseCloneComponent,TypeClasseEditComponent,TypeClasseListComponent,TypeClasseNewComponent,TypeClasseShowComponent,
+    CategorieClasseCloneComponent,CategorieClasseEditComponent,CategorieClasseListComponent,CategorieClasseNewComponent,CategorieClasseShowComponent
   ],
   imports: [
     CommonModule,
@@ -219,9 +141,8 @@ import { OrgChartModule } from '@mondal/org-chart';
     NgSelectModule,
     AccordionModule,
     BreadcrumbModule,
-    AutoCompleteModule,
     OrgChartModule,
     DropdownModule
   ]
 })
-export class ParametrageModule {}
+export class ParametrageModule { }
