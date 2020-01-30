@@ -138,21 +138,26 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="row" *ngIf="selectedEtatMarche.users.length" >
+        <div class="row" *ngIf="!loading && selectedEtatMarche.users.length" >
           <div class="col-md-12 col-sm-12 col-lg-12 ">
             <h5 class="text-center font-weight-bold" >Liste des utilisateurs habilités</h5>
           </div>
         </div>
+        <div *ngIf="loading" class="row">
+          <div class="offset-sm-5 offset-xl-5 offset-md-5 col-sm-7 col-md-7 col-lg-7">
+            <p-progressSpinner animationDuration=".5s" ></p-progressSpinner>
+          </div>
+        </div>
         <div class="row">
           <div class="col-sm-12 col-md-12 col-lg-12 ">
-            <table *ngIf="selectedEtatMarche.users.length" class="table table-responsive-md table-responsive-sm table-responsive-lg table-striped table-hover">
+            <table *ngIf="!loading && selectedEtatMarche.users.length" class="table table-responsive-md table-responsive-sm table-responsive-lg table-striped table-hover">
               <thead>
                 <tr>
                   <th scope="col">Prenom</th>
                   <th scope="col">Nom</th>
                   <th scope="col">E - Mail</th>
                   <th scope="col">Fonction</th>
-                  <th scope="col" *ngIf="'EtatMarche'|deletable">Action</th>
+                  <th scope="col" *ngIf="'EtatMarche'|editable">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -161,7 +166,7 @@
                   <td> {{ user.nom }} </td>
                   <td> {{ user.username }} </td>
                   <td> {{ user.email }} </td>
-                  <td>  <button type="button" (click)="removeUser(user)" class="btn-sm btn-outline-danger"><i
+                  <td *ngIf="'EtatMarche'|editable">  <button type="button" (click)="removeUser(user)" class="btn-sm btn-outline-danger"><i
                     class="fa fa-trash" aria-hidden="true"></i>
                   </button> </td>
                 </tr>

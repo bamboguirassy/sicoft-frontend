@@ -31,6 +31,7 @@ export class EtatMarcheListComponent implements OnInit {
   items: MenuItem[];
   info: MenuItem;
   alert: any = null;
+  loading: Boolean = false;
   @ViewChild('content', { static: false }) public modalContentRef: TemplateRef<any>;
   private searchTerms = new Subject<string>();
   public fetchedUser$: Observable<any>;
@@ -158,6 +159,7 @@ export class EtatMarcheListComponent implements OnInit {
   }
 
   public addUser() {
+    this.loading = true;
     if (this.selectedUser) {
       let etatMarcheTemp = this.selectedEtatMarche;
       etatMarcheTemp.users = etatMarcheTemp.users.map(user => user.id) ;
@@ -170,28 +172,43 @@ export class EtatMarcheListComponent implements OnInit {
           message: 'Utilisateur ajouté avec succés'
         }
         this.selectedEtatMarche.users = data.users;
-        this.users = this.users.filter(user => user.id !== this.selectedUser.id)
+        this.etat_marcheSrv.fetchNotAddedUser(this.selectedEtatMarche.id).subscribe((innerData: any) => {
+          this.users = innerData;
+          this.users = this.users.slice(0);
+        }, error => {
+          this.loading = false;
+          console.log(error);
+        });
+        this.loading = false;
         this.selectedUser = null;
-      }, error => console.log(error));
+      }, error => {
+        console.log(error);
+        this.loading = false;
+      });
     }
   }
 
   public removeUser(user: any) {
+    this.loading = true;
     this.selectedEtatMarche.users = this.selectedEtatMarche.users.filter(currentUser => currentUser !== user);
     this.selectedEtatMarche.users = this.selectedEtatMarche.users.map(addedUSer => addedUSer.id);
     this.etat_marcheSrv.update(this.selectedEtatMarche).subscribe((data: any) => {
-      this.selectedEtatMarche.users = data.users
+      this.loading = false;
+      this.selectedEtatMarche.users = data.users;
       this.alert = {
         type: 'success',
         message: 'Utilisateur supprimé avec succés'
       };
       this.users.push(user);
-      //this.selectedEtatMarche.users = this.sele
       this.users = this.users.slice(0);
-    }, error => console.log(error));
+    }, error => {
+      this.loading = false;
+      console.log(error)
+    });
   }
 
   public closeAlert() {
     this.alert = null;
+    this.loading = false;
   }
 }

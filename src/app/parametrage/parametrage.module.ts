@@ -12,7 +12,7 @@ import {
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
   ToolbarModule, TabViewModule,
-  AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule
+  AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule, ProgressSpinnerModule
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -142,7 +142,8 @@ import { OrgChartModule } from '@mondal/org-chart';
     AccordionModule,
     BreadcrumbModule,
     OrgChartModule,
-    DropdownModule
+    DropdownModule,
+    ProgressSpinnerModule,
   ]
 })
 export class ParametrageModule { }
