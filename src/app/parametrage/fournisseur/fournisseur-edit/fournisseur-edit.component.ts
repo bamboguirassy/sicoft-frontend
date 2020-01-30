@@ -34,7 +34,6 @@ export class FournisseurEditComponent implements OnInit {
       secteurid.push(secteur.id);
       this.fournisseur.secteurs = secteurid;
     });
-    console.log(this.fournisseur)
     this.fournisseurSrv.update(this.fournisseur)
       .subscribe(data => this.location.back(),
         error => this.fournisseurSrv.httpSrv.handleError(error));
