@@ -169,7 +169,7 @@ export class EtatMarcheListComponent implements OnInit {
       this.etat_marcheSrv.update(etatMarcheTemp).subscribe((data: any) => {
         this.alert = {
           type: 'success',
-          message: 'Utilisateur ajouté avec succés'
+          message: 'Utilisateur ajouté avec succés.'
         }
         this.selectedEtatMarche.users = data.users;
         this.etat_marcheSrv.fetchNotAddedUser(this.selectedEtatMarche.id).subscribe((innerData: any) => {
@@ -182,7 +182,10 @@ export class EtatMarcheListComponent implements OnInit {
         this.loading = false;
         this.selectedUser = null;
       }, error => {
-        console.log(error);
+        this.alert = {
+          type: 'danger',
+          message: 'Verifier que vous avez accés à internet.'
+        }
         this.loading = false;
       });
     }
@@ -197,13 +200,16 @@ export class EtatMarcheListComponent implements OnInit {
       this.selectedEtatMarche.users = data.users;
       this.alert = {
         type: 'success',
-        message: 'Utilisateur supprimé avec succés'
+        message: 'Utilisateur supprimé avec succés.'
       };
       this.users.push(user);
       this.users = this.users.slice(0);
     }, error => {
       this.loading = false;
-      console.log(error)
+      this.alert = {
+        type: 'danger',
+        message: 'Verifier que vous avez accés à internet.'
+      }
     });
   }
 
