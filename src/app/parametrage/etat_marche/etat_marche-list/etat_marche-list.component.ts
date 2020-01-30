@@ -12,6 +12,7 @@ import { MenuItem } from 'primeng/api';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { User } from 'app/parametrage/user/user';
+import { TTBody } from 'primeng';
 
 
 @Component({
@@ -29,49 +30,11 @@ export class EtatMarcheListComponent implements OnInit {
   clonedEtatMarches: EtatMarche[];
   items: MenuItem[];
   info: MenuItem;
+  alert: any = null;
   @ViewChild('content', { static: false }) public modalContentRef: TemplateRef<any>;
   private searchTerms = new Subject<string>();
   public fetchedUser$: Observable<any>;
   public matchedUsers: any[];
-  topEmployee: any = {
-    name: 'Janis Martin',
-    designation: 'CEO',
-    subordinates: [
-      {
-        name: 'Matthew Wikes',
-        designation: 'VP',
-        subordinates: [
-          {
-            name: 'Tina Landry',
-            designation: 'Budget Analyst',
-            subordinates: []
-          }
-
-        ]
-      },
-      {
-        name: 'Patricia Lyons',
-        designation: 'VP',
-        subordinates: [
-          {
-            name: 'Dylan Wilson',
-            designation: 'Web Manager',
-            subordinates: []
-          },
-          {
-            name: 'Deb Curtis',
-            designation: 'Art Director',
-            subordinates: []
-          }
-        ]
-      },
-      {
-        name: 'Larry Phung',
-        designation: 'VP',
-        subordinates: []
-      }
-    ]
-  };
 
 
 
@@ -191,20 +154,43 @@ export class EtatMarcheListComponent implements OnInit {
   public closeModal() {
     this.modalSrv.dismissAll('Cross click');
     this.matchedUsers = null;
+    this.alert = null;
   }
 
   public addUser() {
     if (this.selectedUser) {
-      let usersTemp = this.selectedEtatMarche.users;
-      this.selectedEtatMarche.users = this.selectedEtatMarche.users.map(user => user.id) ;
-      this.selectedEtatMarche.users.push(this.selectedUser.id);
-      this.etat_marcheSrv.update(this.selectedEtatMarche).subscribe((data: any) => {
-        console.log(data);
-        this.selectedEtatMarche.users = usersTemp;
+      let etatMarcheTemp = this.selectedEtatMarche;
+      etatMarcheTemp.users = etatMarcheTemp.users.map(user => user.id) ;
+      etatMarcheTemp.users.push(this.selectedUser.id);
+      this.etat_marcheSrv.update(etatMarcheTemp).subscribe((data: any) => {
+        this.alert = {
+          type: 'success',
+          message: 'Utilisateur ajouté avec succés'
+        }
         this.selectedEtatMarche.users = data.users;
         this.users = this.users.filter(user => user.id !== this.selectedUser.id)
         this.selectedUser = null;
       }, error => console.log(error));
     }
+  }
+
+  public removeUser(user: any) {
+    this.selectedEtatMarche.users = this.selectedEtatMarche.users.filter(currentUser => currentUser !== user);
+    this.selectedEtatMarche.users = this.selectedEtatMarche.users.map(addedUSer => addedUSer.id);
+    this.etat_marcheSrv.update(this.selectedEtatMarche).subscribe((data: any) => {
+      this.selectedEtatMarche.users = data.users
+      this.alert = {
+        type: 'success',
+        message: 'Utilisateur supprimé avec succés'
+      };
+      this.users.push(user);
+      //this.selectedEtatMarche.users = this.sele
+      this.users = this.users.slice(0);
+      console.log(data);
+    }, error => console.log(error));
+  }
+
+  public closeAlert() {
+    this.alert = null;
   }
 }
