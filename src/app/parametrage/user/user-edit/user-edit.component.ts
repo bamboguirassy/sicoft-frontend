@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { Group } from 'app/parametrage/group/group';
+import { Entite } from 'app/parametrage/entite/entite';
 
 @Component({
   selector: 'app-user-edit',
@@ -16,6 +17,7 @@ export class UserEditComponent implements OnInit {
 
   user: User;
   groups: Group[] = [];
+  entites: Entite[] = [];
 
   constructor(public userSrv: UserService,
     public activatedRoute: ActivatedRoute,
@@ -26,6 +28,7 @@ export class UserEditComponent implements OnInit {
   ngOnInit() {
     this.user = this.activatedRoute.snapshot.data['user'];
     this.groups = this.activatedRoute.snapshot.data['groups'];
+    this.entites = this.activatedRoute.snapshot.data['entites'];
   }
 
   updateUser() {
@@ -34,6 +37,11 @@ export class UserEditComponent implements OnInit {
       groupIds.push(group.id);
     });
     this.user.groups = groupIds;
+    let entiteId = [];
+    this.user.entites.forEach(entite => {
+      entiteId.push(entite.id);
+    });
+    this.user.entites = entiteId;
     this.userSrv.update(this.user)
       .subscribe(data => this.location.back(),
         error => this.userSrv.httpSrv.handleError(error));

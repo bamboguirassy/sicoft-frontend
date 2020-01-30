@@ -143,7 +143,11 @@ import { OrgChartModule } from '@mondal/org-chart';
     BreadcrumbModule,
     OrgChartModule,
     DropdownModule,
+<<<<<<< HEAD
     ProgressSpinnerModule,
+=======
+    AutoCompleteModule
+>>>>>>> 7c3b57bfb0fef14f6cbed1a7d38262a25a0aaed4
   ]
 })
 export class ParametrageModule { }

@@ -1,3 +1,4 @@
+import { MultipleEntiteResolver } from './../entite/multiple-entite.resolver';
 import { Route } from '@angular/router';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserNewComponent } from './user-new/user-new.component';
@@ -10,15 +11,46 @@ import { MultipleGroupResolver } from '../group/multiple-group.resolver';
 import { UserProfilePageComponent } from './user-profile/user-profile-page.component';
 
 const userRoutes: Route = {
-    path: 'user', children: [
-        { path: '', component: UserListComponent, resolve: { users: MultipleUserResolver } },
-        { path: 'new', component: UserNewComponent, resolve: { groups: MultipleGroupResolver } },
-        { path: ':id/edit', component: UserEditComponent, resolve: { user: OneUserResolver, groups: MultipleGroupResolver } },
-        { path: ':id/clone', component: UserCloneComponent, resolve: { user: OneUserResolver, groups: MultipleGroupResolver } },
-        { path: 'profil', component: UserProfilePageComponent },
-        { path: ':id', component: UserShowComponent, resolve: { user: OneUserResolver } }
-    ]
-
+  path: 'user',
+  children: [
+    {
+      path: '',
+      component: UserListComponent,
+      resolve: { users: MultipleUserResolver }
+    },
+    {
+      path: 'new',
+      component: UserNewComponent,
+      resolve: {
+        groups: MultipleGroupResolver,
+        entites: MultipleEntiteResolver
+      }
+    },
+    {
+      path: ':id/edit',
+      component: UserEditComponent,
+      resolve: {
+        user: OneUserResolver,
+        groups: MultipleGroupResolver,
+        entites: MultipleEntiteResolver
+      }
+    },
+    {
+      path: ':id/clone',
+      component: UserCloneComponent,
+      resolve: {
+        user: OneUserResolver,
+        groups: MultipleGroupResolver,
+        entites: MultipleEntiteResolver
+      }
+    },
+    { path: 'profil', component: UserProfilePageComponent },
+    {
+      path: ':id',
+      component: UserShowComponent,
+      resolve: { user: OneUserResolver }
+    }
+  ]
 };
 
-export { userRoutes }
+export { userRoutes };

@@ -53,6 +53,14 @@
               </ng-template>
           </p-chips></td>
           </tr>
+          <tr>
+            <th>Entité associés</th>
+            <td><p-chips disabled="true" [(ngModel)]="user.entites">
+              <ng-template let-item pTemplate="item">
+                  {{item.nom}} - ({{item.code}}) <i class="fa fa-gift" aria-hidden="true"></i>
+              </ng-template>
+          </p-chips></td>
+          </tr>
         </table>
         <p-toolbar>
           <button *ngIf="'User'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
