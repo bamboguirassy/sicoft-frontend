@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpService } from 'app/shared/services/http.service';
 import { EtatMarche } from './etat_marche';
@@ -45,6 +46,10 @@ export class EtatMarcheService {
 
   private getRoutePrefixWithSlash(): string {
     return this.routePrefix+'/';
+  }
+
+  fetchNotAddedUser(id: number): Observable<any> {
+    return this.httpSrv.get(`${this.getRoutePrefix()}/${id}/users`);
   }
 
 }

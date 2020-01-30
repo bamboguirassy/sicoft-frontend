@@ -1,5 +1,4 @@
 import { UserService } from './../../user/user.service';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Observable, Subject, empty } from 'rxjs';
 import { fromEvent } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,7 +12,6 @@ import { MenuItem } from 'primeng/api';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { User } from 'app/parametrage/user/user';
-import { stringify } from 'querystring';
 
 
 @Component({
@@ -27,11 +25,12 @@ export class EtatMarcheListComponent implements OnInit {
   selectedEtatMarches: EtatMarche[];
   selectedEtatMarche: EtatMarche;
   selectedUser: any;
+  users: any[] = [];
   clonedEtatMarches: EtatMarche[];
   items: MenuItem[];
   info: MenuItem;
   @ViewChild('content', { static: false }) public modalContentRef: TemplateRef<any>;
-  private searchTerms  = new Subject<string>();
+  private searchTerms = new Subject<string>();
   public fetchedUser$: Observable<any>;
   public matchedUsers: any[];
   topEmployee: any = {
@@ -135,7 +134,7 @@ export class EtatMarcheListComponent implements OnInit {
       this.etat_marcheSrv.removeSelection(this.selectedEtatMarches)
         .subscribe(data => this.refreshList(), error => this.etat_marcheSrv.httpSrv.handleError(error));
     } else {
-      this.etat_marcheSrv.httpSrv.notificationSrv.showWarning("Selectionner au moins un élement");
+      this.etat_marcheSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
     }
   }
 
@@ -185,24 +184,27 @@ export class EtatMarcheListComponent implements OnInit {
   }
 
   public toggleSearchModal(content: TemplateRef<any>, selectedEtatMarche: EtatMarche) {
-    this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true});
-    console.log(this.selectedEtatMarche);
-  }
-
-  public searchUserByTerm(query: string) {
-    this.searchTerms.next(query);
-    //console.log(query);
-    this.fetchedUser$ = this.searchTerms.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((term: string) => this.userSrv.findUserByTerm(term))
-    );
-
-    this.fetchedUser$.subscribe( data => this.matchedUsers = data, error => console.log(error));
+    this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+    this.etat_marcheSrv.fetchNotAddedUser(selectedEtatMarche.id).subscribe(data => this.users = data);
   }
 
   public closeModal() {
     this.modalSrv.dismissAll('Cross click');
     this.matchedUsers = null;
+  }
+
+  public addUser() {
+    if (this.selectedUser) {
+      let usersTemp = this.selectedEtatMarche.users;
+      this.selectedEtatMarche.users = this.selectedEtatMarche.users.map(user => user.id) ;
+      this.selectedEtatMarche.users.push(this.selectedUser.id);
+      this.etat_marcheSrv.update(this.selectedEtatMarche).subscribe((data: any) => {
+        console.log(data);
+        this.selectedEtatMarche.users = usersTemp;
+        this.selectedEtatMarche.users = data.users;
+        this.users = this.users.filter(user => user.id !== this.selectedUser.id)
+        this.selectedUser = null;
+      }, error => console.log(error));
+    }
   }
 }

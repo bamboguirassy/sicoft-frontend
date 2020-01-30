@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FournisseurService } from '../fournisseur.service';
 import { Location } from '@angular/common';
@@ -15,8 +14,12 @@ export class FournisseurCloneComponent implements OnInit {
   fournisseur: Fournisseur;
   original: Fournisseur;
   secteurs: Secteur[] = [];
-  constructor(public fournisseurSrv: FournisseurService, public location: Location,
-    public activatedRoute: ActivatedRoute, public router: Router) { }
+  constructor(
+    public fournisseurSrv: FournisseurService,
+    public location: Location,
+    public activatedRoute: ActivatedRoute,
+    public router: Router
+  ) {}
 
   ngOnInit() {
     this.original = this.activatedRoute.snapshot.data['fournisseur'];
@@ -29,12 +32,13 @@ export class FournisseurCloneComponent implements OnInit {
     let secteurid = [];
     this.fournisseur.secteurs.forEach(secteur => {
       secteurid.push(secteur.id);
-      this.fournisseur.secteurs = secteurid;
     });
-    this.fournisseurSrv.clone(this.original, this.fournisseur)
-      .subscribe((data: any) => {
+    this.fournisseur.secteurs = secteurid;
+    this.fournisseurSrv.clone(this.original, this.fournisseur).subscribe(
+      (data: any) => {
         this.router.navigate([this.fournisseurSrv.getRoutePrefix(), data.id]);
-      }, error => this.fournisseurSrv.httpSrv.handleError(error));
+      },
+      error => this.fournisseurSrv.httpSrv.handleError(error)
+    );
   }
-
 }

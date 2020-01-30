@@ -15,7 +15,6 @@ import {DropdownModule} from 'primeng/dropdown';
 export class ExerciceNewComponent implements OnInit {
   exercice: Exercice;
   exercices: Exercice[] = [];
-  exercicePrecedant: Exercice;
   constructor(public exerciceSrv: ExerciceService,
     public notificationSrv: NotificationService,
     public convertDateServiceSrv: ConvertDateService, 
@@ -38,6 +37,10 @@ export class ExerciceNewComponent implements OnInit {
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Exercice créé avec succès');
         this.exercice = new Exercice();
+        this.exerciceSrv.findAll() 
+        .subscribe((data: any) => this.exercices = data),
+         error => this.exerciceSrv.httpSrv.handleError(error);
+        
       }, error => this.exerciceSrv.httpSrv.handleError(error));
   }
 

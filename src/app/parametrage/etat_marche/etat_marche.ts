@@ -3,6 +3,6 @@ export class EtatMarche {
     code: string;
     libelle: string;
     description: string;
-    etatSuivant?: EtatMarche;
-    users?: any;
+    etatSuivant: EtatMarche;
+    users: any[];
 }

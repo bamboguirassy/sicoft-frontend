@@ -1,4 +1,3 @@
-import { OrgChartModule } from '@mondal/org-chart';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,7 +29,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 
@@ -63,7 +62,6 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
     MessageService,
     TitleCasePipe,
-    OrgChartModule,
   ],
   bootstrap: [AppComponent]
 })
