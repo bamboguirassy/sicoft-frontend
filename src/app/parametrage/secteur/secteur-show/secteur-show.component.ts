@@ -40,14 +40,14 @@ export class SecteurShowComponent implements OnInit {
       error => this.secteurSrv.httpSrv.handleError(error));
   }
 
-  // deleteSelectedFournisseurs() {
-  //   if (this.selectedFournisseurs) {
-  //       this.fournisseurSrv.removeSelection(this.selectedFournisseurs)
-  //           .subscribe(data => this.refreshSousEntitesList(), error => this.fournisseurSrv.httpSrv.handleError(error));
-  //   } else {
-  //       this.fournisseurSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
-  //   }
-  // }
+  deleteSelectedFournisseurs() {
+    // if (this.selectedFournisseurs) {
+    //     this.fournisseurSrv.removeSelection(this.selectedFournisseurs)
+    //         .subscribe(data => this.refreshSousEntitesList(), error => this.fournisseurSrv.httpSrv.handleError(error));
+    // } else {
+    //     this.fournisseurSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
+    // }
+  }
 
 }
 
