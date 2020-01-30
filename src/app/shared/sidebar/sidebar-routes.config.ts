@@ -41,6 +41,12 @@ export const ROUTES: RouteInfo[] = [
                 path: '/classe', title: 'Classes', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
+                path: '/sousClasse', title: 'Sous Classes', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+            {
+                path: '/compteDivisionnaire', title: 'Comptes Div.', icon: 'ft-layers', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+            {
                 path: '/compte', title: 'Comptes', icon: 'ft-layers', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {

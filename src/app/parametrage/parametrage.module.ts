@@ -100,6 +100,16 @@ import { CategorieClasseListComponent } from './categorie_classe/categorie_class
 import { CategorieClasseNewComponent } from './categorie_classe/categorie_classe-new/categorie_classe-new.component';
 import { CategorieClasseShowComponent } from './categorie_classe/categorie_classe-show/categorie_classe-show.component';
 import { OrgChartModule } from '@mondal/org-chart';
+import { CompteDivisionnaireCloneComponent } from './compte_divisionnaire/compte_divisionnaire-clone/compte_divisionnaire-clone.component';
+import { CompteDivisionnaireEditComponent } from './compte_divisionnaire/compte_divisionnaire-edit/compte_divisionnaire-edit.component';
+import { CompteDivisionnaireListComponent } from './compte_divisionnaire/compte_divisionnaire-list/compte_divisionnaire-list.component';
+import { CompteDivisionnaireNewComponent } from './compte_divisionnaire/compte_divisionnaire-new/compte_divisionnaire-new.component';
+import { CompteDivisionnaireShowComponent } from './compte_divisionnaire/compte_divisionnaire-show/compte_divisionnaire-show.component';
+import { SousClasseCloneComponent } from './sous_classe/sous_classe-clone/sous_classe-clone.component';
+import { SousClasseEditComponent } from './sous_classe/sous_classe-edit/sous_classe-edit.component';
+import { SousClasseListComponent } from './sous_classe/sous_classe-list/sous_classe-list.component';
+import { SousClasseShowComponent } from './sous_classe/sous_classe-show/sous_classe-show.component';
+import { SousClasseNewComponent } from './sous_classe/sous_classe-new/sous_classe-new.component';
 @NgModule({
   declarations: [
     UserCloneComponent, UserEditComponent, UserListComponent, UserNewComponent, UserShowComponent, UserProfilePageComponent,
@@ -117,7 +127,9 @@ import { OrgChartModule } from '@mondal/org-chart';
     TypeSourceFinancementCloneComponent, TypeSourceFinancementEditComponent, TypeSourceFinancementListComponent, TypeSourceFinancementNewComponent, TypeSourceFinancementShowComponent,
     SourceFinancementCloneComponent, SourceFinancementEditComponent, SourceFinancementListComponent, SourceFinancementNewComponent, SourceFinancementShowComponent,
     TypeClasseCloneComponent,TypeClasseEditComponent,TypeClasseListComponent,TypeClasseNewComponent,TypeClasseShowComponent,
-    CategorieClasseCloneComponent,CategorieClasseEditComponent,CategorieClasseListComponent,CategorieClasseNewComponent,CategorieClasseShowComponent
+    CategorieClasseCloneComponent,CategorieClasseEditComponent,CategorieClasseListComponent,CategorieClasseNewComponent,CategorieClasseShowComponent,
+    CompteDivisionnaireCloneComponent,CompteDivisionnaireEditComponent,CompteDivisionnaireListComponent,CompteDivisionnaireNewComponent,CompteDivisionnaireShowComponent,
+    SousClasseCloneComponent,SousClasseEditComponent,SousClasseListComponent,SousClasseShowComponent,SousClasseNewComponent,
   ],
   imports: [
     CommonModule,
