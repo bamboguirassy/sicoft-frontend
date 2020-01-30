@@ -16,6 +16,6 @@ export class User {
         telephone: string;
         groups: any[];
         fonction: string;
-        entite: any;
+        entites: any;
         etatMarche: any;
 }

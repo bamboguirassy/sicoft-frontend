@@ -44,6 +44,7 @@
                 <col>
                 <col>
                 <col>
+                <col>
               </colgroup>
             </ng-template>
             <ng-template pTemplate="header">
@@ -65,9 +66,12 @@
                 </th>
                 <th [pSortableColumn]="'email'" pResizableColumn>
                   Email <p-sortIcon [field]="'email'"></p-sortIcon>
-                </th>
+                </th>               
                 <th [pSortableColumn]="'enabled'" pResizableColumn>
                   Etat Compte <p-sortIcon [field]="'enabled'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'fonction'" pResizableColumn>
+                  Fonction <p-sortIcon [field]="'fonction'"></p-sortIcon>
                 </th>
                 <th [pSortableColumn]="'lastLogin'" pResizableColumn>
                   Dernière connexion <p-sortIcon [field]="'lastLogin'"></p-sortIcon>
@@ -94,9 +98,12 @@
                 <td class="ui-resizable-column">
                   {{ user.email }}
                 </td>
+               
                 <td class="ui-resizable-column text-center">
                   {{ user.enabled ? 'Actif' : 'Inactif' }}
                 </td>
+                <td class="ui-resizable-column text-center">
+                {{user.fonction }}
                 <td class="ui-resizable-column">
                   {{ user.lastLogin | date:'dd/MM/yyyy à HH:mm:ss' }}
                 </td>
@@ -113,6 +120,7 @@
                 <td>Username</td>
                 <td>Email</td>
                 <td>Etat Compte</td>
+                <td>Fonction</td>
                 <td>Dernière connexion</td>
               </tr>
             </ng-template>
