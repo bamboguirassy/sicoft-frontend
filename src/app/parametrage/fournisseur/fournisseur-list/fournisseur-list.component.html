@@ -111,9 +111,11 @@
                 <td class="ui-resizable-column">
                   {{ fournisseur.fonctionContact }}
                 </td>
-                <td class="ui-resizable-column" >
+                <td class="ui-resizable-column text-center" >
                   <div class="row" *ngFor="let item of fournisseur.secteurs">
-                     {{item.libelle }} ({{item.code}})
+                    <div  class="ui-resizable-column text-center">
+                      {{item.libelle }} ({{item.code}})
+                    </div> 
                   </div>
                  
                 </td>

@@ -5,6 +5,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Group } from 'app/parametrage/group/group';
+import { Entite } from 'app/parametrage/entite/entite';
 
 @Component({
   selector: 'app-user-new',
@@ -14,6 +15,7 @@ import { Group } from 'app/parametrage/group/group';
 export class UserNewComponent implements OnInit {
   user: User;
   groups: Group[] = [];
+  entites: Entite[] = [];
   constructor(public userSrv: UserService,
     public notificationSrv: NotificationService,
     public router: Router, public location: Location,
@@ -23,6 +25,9 @@ export class UserNewComponent implements OnInit {
 
   ngOnInit() {
     this.groups = this.activatedRoute.snapshot.data['groups'];
+    this.entites = this.activatedRoute.snapshot.data['entites'];
+
+
   }
 
   saveUser() {
@@ -31,6 +36,12 @@ export class UserNewComponent implements OnInit {
       groupIds.push(group.id);
     });
     this.user.groups = groupIds;
+// recupérationd des entité dans user
+    let entiteId = [];
+    this.user.entites.forEach(entite => {
+      entiteId.push(entite.id);
+    });
+    this.user.entites = entiteId;
     this.userSrv.create(this.user)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('User créé avec succès');
@@ -44,6 +55,12 @@ export class UserNewComponent implements OnInit {
       groupIds.push(group.id);
     });
     this.user.groups = groupIds;
+
+    let entiteId = [];
+    this.user.entites.forEach(entite => {
+      entiteId.push(entite.id);
+    });
+    this.user.entites = entiteId;
     this.userSrv.create(this.user)
       .subscribe((data: any) => {
         this.router.navigate([this.userSrv.getRoutePrefix(), data.id]);
@@ -51,4 +68,3 @@ export class UserNewComponent implements OnInit {
   }
 
 }
-
