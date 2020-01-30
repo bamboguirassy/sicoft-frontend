@@ -25,7 +25,7 @@ export class EtatMarcheListComponent implements OnInit {
   etat_marches: EtatMarche[] = [];
   selectedEtatMarches: EtatMarche[];
   selectedEtatMarche: EtatMarche;
-  selectedUser: any;
+  selectedUser: any[];
   users: any[] = [];
   clonedEtatMarches: EtatMarche[];
   items: MenuItem[];
@@ -161,7 +161,9 @@ export class EtatMarcheListComponent implements OnInit {
     if (this.selectedUser) {
       let etatMarcheTemp = this.selectedEtatMarche;
       etatMarcheTemp.users = etatMarcheTemp.users.map(user => user.id) ;
-      etatMarcheTemp.users.push(this.selectedUser.id);
+      this.selectedUser.forEach(user => {
+        etatMarcheTemp.users.push(user.id);
+      })
       this.etat_marcheSrv.update(etatMarcheTemp).subscribe((data: any) => {
         this.alert = {
           type: 'success',
@@ -186,7 +188,6 @@ export class EtatMarcheListComponent implements OnInit {
       this.users.push(user);
       //this.selectedEtatMarche.users = this.sele
       this.users = this.users.slice(0);
-      console.log(data);
     }, error => console.log(error));
   }
 
