@@ -1,15 +1,11 @@
-import { OrgChartModule } from '@mondal/org-chart';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
 import { ParametrageRoutingModule } from './parametrage-routing.module';
 import { UserCloneComponent } from './user/user-clone/user-clone.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserShowComponent } from './user/user-show/user-show.component';
-
 import { TableModule } from 'primeng/table';
 import {
   ContextMenuModule,
@@ -27,7 +23,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ChipsModule } from 'primeng/chips';
 import { NgSelectModule } from '@ng-select/ng-select';
-
 import { GroupCloneComponent } from './group/group-clone/group-clone.component';
 import { GroupEditComponent } from './group/group-edit/group-edit.component';
 import { GroupListComponent } from './group/group-list/group-list.component';
@@ -104,8 +99,7 @@ import { CategorieClasseEditComponent } from './categorie_classe/categorie_class
 import { CategorieClasseListComponent } from './categorie_classe/categorie_classe-list/categorie_classe-list.component';
 import { CategorieClasseNewComponent } from './categorie_classe/categorie_classe-new/categorie_classe-new.component';
 import { CategorieClasseShowComponent } from './categorie_classe/categorie_classe-show/categorie_classe-show.component';
-
-
+import { OrgChartModule } from '@mondal/org-chart';
 @NgModule({
   declarations: [
     UserCloneComponent, UserEditComponent, UserListComponent, UserNewComponent, UserShowComponent, UserProfilePageComponent,
