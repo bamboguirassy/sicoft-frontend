@@ -47,7 +47,6 @@ export class ExerciceNewComponent implements OnInit {
     if(this.exercice.exerciceSuivant){
       this.exercice.exerciceSuivant = this.exercice.exerciceSuivant.id;
     }
-    console.log(this.exercice);
     this.exerciceSrv.create(this.exercice)
       .subscribe((data: any) => {
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);
