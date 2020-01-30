@@ -70,9 +70,7 @@
                 <th [pSortableColumn]="'enabled'" pResizableColumn>
                   Etat Compte <p-sortIcon [field]="'enabled'"></p-sortIcon>
                 </th>
-                <th [pSortableColumn]="'entites'" pResizableColumn>
-                  Entite <p-sortIcon [field]="'entites'"></p-sortIcon>
-                </th>
+               
                 <th [pSortableColumn]="'lastLogin'" pResizableColumn>
                   Dernière connexion <p-sortIcon [field]="'lastLogin'"></p-sortIcon>
                 </th>
@@ -103,11 +101,6 @@
                   {{ user.enabled ? 'Actif' : 'Inactif' }}
                 </td>
                 <td class="ui-resizable-column">
-                  <div *ngFor="let item of user?.entites">
-                    <div class="ui-resizable-column text-center">{{ item.nom }} </div>
-                  </div>
-                </td>
-                <td class="ui-resizable-column">
                   {{ user.lastLogin | date:'dd/MM/yyyy à HH:mm:ss' }}
                 </td>
               </tr>
@@ -123,7 +116,7 @@
                 <td>Username</td>
                 <td>Email</td>
                 <td>Etat Compte</td>
-                <td>Entite</td>
+            
                 <td>Dernière connexion</td>
               </tr>
             </ng-template>
