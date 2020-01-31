@@ -41,11 +41,16 @@ export class ExerciceEditComponent implements OnInit {
       this.exercice.exerciceSuivant = this.exercice.exerciceSuivant.id;
     }
     this.exerciceSrv.update(this.exercice)
-      .subscribe(data => this.location.back(),
-        error => {
+      .subscribe((data) => {
+        this.exercice.dateDebut = tempDateDebut;
+        this.exercice.dateFin = tempDateFin;
+        this.location.back()
+      },error => {
           if (error.error.code === 417) {
             this.toggleConfirmModal(this.modalContentRef);
           } else {
+            this.exercice.dateDebut = tempDateDebut;
+            this.exercice.dateFin = tempDateFin;
             this.exerciceSrv.httpSrv.handleError(error)
           }
         });

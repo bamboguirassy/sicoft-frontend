@@ -77,6 +77,8 @@ export class ExerciceNewComponent implements OnInit {
         if (error.error.code === 417) {
           this.toggleConfirmModal(this.modalContentRef);
         } else {
+          this.exercice.dateDebut = tempDateDebut;
+          this.exercice.dateFin = tempDateFin;
           this.exerciceSrv.httpSrv.handleError(error)
         }
       });
