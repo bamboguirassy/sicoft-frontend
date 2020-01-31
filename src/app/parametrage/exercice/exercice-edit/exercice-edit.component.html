@@ -63,3 +63,23 @@
     </p-fieldset>
 </form>
 <!-- /form exercice info -->
+<ng-template #confirm *ngIf="'Exercice' | editable" let-modal>
+    <div class="modal-header new-sous-class-header">
+        <h4 class="modal-title" id="modal-title">Confirmer l'activation</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Êtes vous sûr de vouloir activer l'exercice: <span class="text-primary">{{exercice.libelle}} ?</span></strong></p>
+        <p>Tous les autres exercices seront par conséquent inactifs.
+        <span class="text-danger">Effectuer l'opération ?</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Annuler</button>
+        <button type="button" ngbAutofocus class="btn btn-outline-danger" (click)="disableExerciceExcept()">
+            Ok</button>
+      </div>
+
+</ng-template>

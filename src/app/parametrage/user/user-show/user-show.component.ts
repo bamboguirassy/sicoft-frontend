@@ -32,6 +32,18 @@ export class UserShowComponent implements OnInit {
     .subscribe((data: any) => this.user = data,
       error => this.userSrv.httpSrv.handleError(error));
   }
+  updateEtat(user: User) {
+    user.enabled = !user.enabled;
+  this.userSrv.update(user)
+  .subscribe(
+    (data: any) => {
+      if (user.enabled){
+        this.notificationSrv.showInfo('Utilisateur activé!');
+      } else 
+      this.notificationSrv.showInfo('Utilisateur désactivé');
+    }
+  ,error => this.userSrv.httpSrv.handleError(error));
+}
 
 }
 

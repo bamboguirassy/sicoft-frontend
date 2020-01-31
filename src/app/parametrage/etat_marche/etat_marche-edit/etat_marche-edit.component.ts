@@ -26,6 +26,7 @@ export class EtatMarcheEditComponent implements OnInit {
   ngOnInit() {
     this.etat_marche = this.activatedRoute.snapshot.data['etat_marche'];
     this.etats = this.activatedRoute.snapshot.data['etats'];
+    this.etats = this.etats.filter(etat => etat.id !== this.etat_marche.id);
   }
 
   updateEtatMarche() {

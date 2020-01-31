@@ -1,6 +1,4 @@
 import { UserService } from './../../user/user.service';
-import { Observable, Subject, empty } from 'rxjs';
-import { fromEvent } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EtatMarche } from './../etat_marche';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
@@ -11,8 +9,7 @@ import { ExportService } from 'app/shared/services/export.service';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NotificationService } from 'app/shared/services/notification.service';
-import { User } from 'app/parametrage/user/user';
-import { TTBody } from 'primeng';
+
 
 
 @Component({
@@ -33,10 +30,6 @@ export class EtatMarcheListComponent implements OnInit {
   alert: any = null;
   loading: Boolean = false;
   @ViewChild('content', { static: false }) public modalContentRef: TemplateRef<any>;
-  private searchTerms = new Subject<string>();
-  public fetchedUser$: Observable<any>;
-  public matchedUsers: any[];
-
 
 
   cMenuItems: MenuItem[] = [];
@@ -66,7 +59,7 @@ export class EtatMarcheListComponent implements OnInit {
     if (this.authSrv.checkDeleteAccess('EtatMarche')) {
       this.cMenuItems.push({ label: 'Supprimer', icon: 'pi pi-times', command: (event) => this.deleteEtatMarche(this.selectedEtatMarche) })
     }
-    if (this.authSrv.checkShowAccess('EtatMarche')) {
+    if (this.authSrv.checkCreateAccess('RoleSurMarche')) {
       this.cMenuItems.push({ label: 'Utilisateurs', icon: 'pi pi-user', command: (event) => this.toggleSearchModal(this.modalContentRef, this.selectedEtatMarche) })
     }
 
@@ -154,31 +147,33 @@ export class EtatMarcheListComponent implements OnInit {
 
   public closeModal() {
     this.modalSrv.dismissAll('Cross click');
-    this.matchedUsers = null;
     this.alert = null;
   }
 
   public addUser() {
     this.loading = true;
     if (this.selectedUser) {
-      let etatMarcheTemp = this.selectedEtatMarche;
-      etatMarcheTemp.users = etatMarcheTemp.users.map(user => user.id) ;
+      this.selectedEtatMarche.users = this.selectedEtatMarche.users.map(user => user.id);
       this.selectedUser.forEach(user => {
-        etatMarcheTemp.users.push(user.id);
-      })
-      this.etat_marcheSrv.update(etatMarcheTemp).subscribe((data: any) => {
+        this.selectedEtatMarche.users.push(user.id);
+      });
+      this.etat_marcheSrv.update(this.selectedEtatMarche).subscribe((data: any) => {
         this.alert = {
           type: 'success',
           message: 'Utilisateur ajouté avec succés.'
         }
         this.selectedEtatMarche.users = data.users;
-        this.etat_marcheSrv.fetchNotAddedUser(this.selectedEtatMarche.id).subscribe((innerData: any) => {
-          this.users = innerData;
-          this.users = this.users.slice(0);
-        }, error => {
-          this.loading = false;
-          console.log(error);
-        });
+        this.etat_marcheSrv.fetchNotAddedUser(this.selectedEtatMarche.id)
+          .subscribe((innerData: any) => {
+            this.users = innerData;
+            this.users = this.users.slice(0);
+          }, error => {
+            this.loading = false;
+            this.alert = {
+              type: 'danger',
+              message: 'Verifier que vous avez accés à internet.'
+            };
+          });
         this.loading = false;
         this.selectedUser = null;
       }, error => {

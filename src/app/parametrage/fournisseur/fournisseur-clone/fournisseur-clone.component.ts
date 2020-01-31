@@ -29,11 +29,14 @@ export class FournisseurCloneComponent implements OnInit {
   }
 
   cloneFournisseur() {
-    let secteurid = [];
+
+    if (this.fournisseur.secteurs) {
+    const secteurid = [];
     this.fournisseur.secteurs.forEach(secteur => {
       secteurid.push(secteur.id);
     });
     this.fournisseur.secteurs = secteurid;
+    }
     this.fournisseurSrv.clone(this.original, this.fournisseur).subscribe(
       (data: any) => {
         this.router.navigate([this.fournisseurSrv.getRoutePrefix(), data.id]);

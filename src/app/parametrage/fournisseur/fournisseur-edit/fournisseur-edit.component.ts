@@ -29,11 +29,15 @@ export class FournisseurEditComponent implements OnInit {
   }
 
   updateFournisseur() {
-    const secteurid = [];
+
+    if (this.fournisseur.secteurs) {
+        const secteurid = [];
     this.fournisseur.secteurs.forEach(secteur => {
       secteurid.push(secteur.id);
       this.fournisseur.secteurs = secteurid;
     });
+    }
+
     this.fournisseurSrv.update(this.fournisseur)
       .subscribe(data => this.location.back(),
         error => this.fournisseurSrv.httpSrv.handleError(error));
