@@ -32,7 +32,7 @@ export class UserListComponent implements OnInit {
     private router: Router,
     public authSrv: AuthService,
     public notificationSrv: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.authSrv.checkShowAccess('User')) {
@@ -63,7 +63,6 @@ export class UserListComponent implements OnInit {
         command: event => this.deleteUser(this.selectedUser)
       });
     }
-
     this.users = this.activatedRoute.snapshot.data['users'];
   }
 
@@ -110,5 +109,17 @@ export class UserListComponent implements OnInit {
 
   saveAsExcelFile(buffer: any, fileName: string): void {
     this.exportSrv.saveAsExcelFile(buffer, fileName);
+  }
+  updateEtat(user: User) {
+    user.enabled = !user.enabled;
+    this.userSrv.update(user)
+      .subscribe(
+        (data: any) => {
+          if (user.enabled) {
+            this.notificationSrv.showInfo('Utilisateur activé!');
+          } else
+            this.notificationSrv.showInfo('Utilisateur désactivé');
+        }
+        , error => this.userSrv.httpSrv.handleError(error));
   }
 }

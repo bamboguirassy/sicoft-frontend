@@ -28,6 +28,8 @@ export class ExerciceNewComponent implements OnInit {
   }
 
   saveExercice() {
+    let tempDateDebut = this.exercice.dateDebut;
+    let tempDateFin = this.exercice.dateFin;
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
     if(this.exercice.exerciceSuivant){
@@ -36,15 +38,23 @@ export class ExerciceNewComponent implements OnInit {
     this.exerciceSrv.create(this.exercice)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Exercice créé avec succès');
+        this.exercice.dateDebut = tempDateDebut;
+        this.exercice.dateFin = tempDateFin;
         this.exercice = new Exercice();
         this.exerciceSrv.findAll() 
         .subscribe((data: any) => this.exercices = data),
          error => this.exerciceSrv.httpSrv.handleError(error);
         
-      }, error => this.exerciceSrv.httpSrv.handleError(error));
+      }, error => {
+        this.exercice.dateDebut = tempDateDebut;
+        this.exercice.dateFin = tempDateFin;
+        this.exerciceSrv.httpSrv.handleError(error);
+      })
   }
 
   saveExerciceAndExit() {
+    let tempDateDebut = this.exercice.dateDebut;
+    let tempDateFin = this.exercice.dateFin;
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
     if(this.exercice.exerciceSuivant){
@@ -52,8 +62,14 @@ export class ExerciceNewComponent implements OnInit {
     }
     this.exerciceSrv.create(this.exercice)
       .subscribe((data: any) => {
+        this.exercice.dateDebut = tempDateDebut;
+        this.exercice.dateFin = tempDateFin;
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);
-      }, error => this.exerciceSrv.httpSrv.handleError(error));
+      }, error => {
+        this.exercice.dateDebut = tempDateDebut;
+        this.exercice.dateFin = tempDateFin;
+        this.exerciceSrv.httpSrv.handleError(error);
+      })
   }
 
 }

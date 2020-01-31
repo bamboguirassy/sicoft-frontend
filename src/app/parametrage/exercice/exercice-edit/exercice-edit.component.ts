@@ -31,14 +31,21 @@ export class ExerciceEditComponent implements OnInit {
   }
 
   updateExercice() {
+    let tempDateDebut = this.exercice.dateDebut;
+    let tempDateFin = this.exercice.dateFin;
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
     if(this.exercice.exerciceSuivant){
       this.exercice.exerciceSuivant = this.exercice.exerciceSuivant.id;
     }
     this.exerciceSrv.update(this.exercice)
-      .subscribe(data => this.location.back(),
-        error => this.exerciceSrv.httpSrv.handleError(error));
+      .subscribe(data => 
+        this.location.back(),
+        error => {
+        this.exercice.dateDebut = tempDateDebut;
+        this.exercice.dateFin = tempDateFin;
+        this.exerciceSrv.httpSrv.handleError(error)
+        });
   }
 
 }
