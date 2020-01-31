@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-fieldset *ngIf="'Fournisseur'|showable" legend="Affichage des informations - Fournisseur" [toggleable]="true">
+<p-fieldset *ngIf="'Fournisseur'|showable" legend="Affichage des informations  Fournisseur" [toggleable]="true">
   <p-toolbar>
     <button *ngIf="'Fournisseur'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
       [routerLink]="['/'+fournisseurSrv.getRoutePrefix(),fournisseur.id,'edit']"><i

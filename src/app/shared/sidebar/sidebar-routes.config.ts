@@ -41,6 +41,12 @@ export const ROUTES: RouteInfo[] = [
                 path: '/classe', title: 'Classes', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
+                path: '/sousClasse', title: 'Sous Classes', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+            {
+                path: '/compteDivisionnaire', title: 'Comptes Div.', icon: 'ft-layers', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
+            {
                 path: '/compte', title: 'Comptes', icon: 'ft-layers', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
@@ -68,6 +74,9 @@ export const ROUTES: RouteInfo[] = [
     {
         path: '', title: 'Gestion Budget', icon: 'ft-briefcase', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
         submenu: [
+            {
+                path: '/exerciceSourceFinancement', title: 'Exerc. Sourc. Fin.', icon: 'ft-clock', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+            },
             {
                 path: '/budget', title: 'Budgets', icon: 'ft-clock', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             }

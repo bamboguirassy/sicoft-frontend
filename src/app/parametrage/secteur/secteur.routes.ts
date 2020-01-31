@@ -6,6 +6,8 @@ import { SecteurCloneComponent } from './secteur-clone/secteur-clone.component';
 import { SecteurShowComponent } from './secteur-show/secteur-show.component';
 import { MultipleSecteurResolver } from './multiple-secteur.resolver';
 import { OneSecteurResolver } from './one-secteur.resolver';
+import { MultipleFournisseurResolver } from '../fournisseur/multiple-fournisseur.resolver';
+import { OneFournisseurResolver } from '../fournisseur/one-fournisseur.resolver';
 
 const secteurRoutes: Route = {
   path: 'secteur',

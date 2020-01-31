@@ -21,7 +21,7 @@ export class CompteListComponent implements OnInit {
   selectedCompte: Compte;
   clonedComptes: Compte[];
 
-  cMenuItems: MenuItem[]=[];
+  cMenuItems: MenuItem[] = [];
 
   tableColumns = compteColumns;
   //allowed fields for filter

@@ -16,18 +16,6 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label class="col-form-label form-control-label" for="numero">Numero</label>
-                    <input required [(ngModel)]="classe.numero" class="form-control" type="text" name="numero" id="numero">
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input required [(ngModel)]="classe.libelle" class="form-control" type="text" name="libelle" id="libelle">
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
                     <label class="col-form-label form-control-label" for="typeClasse">Type</label>
                     <ng-select required name="typeClasse" [items]="typeClasses" bindLabel="nom"
                         placeholder="Selectionner le type de la classe" appendTo="body" [multiple]="false" [searchable]="true"
@@ -42,6 +30,18 @@
                         placeholder="Selectionner la catégorie de la classe" appendTo="body" [multiple]="false" [searchable]="true"
                         [(ngModel)]="classe.categorieClasse">
                     </ng-select>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="numero">Numero</label>
+                    <input required [(ngModel)]="classe.numero" class="form-control" type="text" name="numero" id="numero">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
+                    <input required [(ngModel)]="classe.libelle" class="form-control" type="text" name="libelle" id="libelle">
                 </div>
             </div>
             <div class="col-lg-12">

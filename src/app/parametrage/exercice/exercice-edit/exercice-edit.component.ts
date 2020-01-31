@@ -1,5 +1,6 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ExerciceService } from '../exercice.service';
 import { Exercice } from '../exercice';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,9 +17,10 @@ export class ExerciceEditComponent implements OnInit {
 
   exercice: Exercice;
   exercices: Exercice[] = [];
+  @ViewChild('confirm', { static: false }) public modalContentRef: TemplateRef<any>;
   constructor(public exerciceSrv: ExerciceService,
     public activatedRoute: ActivatedRoute,
-    public router: Router, public location: Location,
+    public router: Router, public location: Location, private modalSrv: NgbModal,
     public notificationSrv: NotificationService,
     public convertDateServiceSrv: ConvertDateService) {
   }
@@ -39,13 +41,27 @@ export class ExerciceEditComponent implements OnInit {
       this.exercice.exerciceSuivant = this.exercice.exerciceSuivant.id;
     }
     this.exerciceSrv.update(this.exercice)
-      .subscribe(data => 
-        this.location.back(),
+      .subscribe(data => this.location.back(),
         error => {
-        this.exercice.dateDebut = tempDateDebut;
-        this.exercice.dateFin = tempDateFin;
-        this.exerciceSrv.httpSrv.handleError(error)
+          if (error.error.code === 417) {
+            this.toggleConfirmModal(this.modalContentRef);
+          } else {
+            this.exerciceSrv.httpSrv.handleError(error)
+          }
         });
   }
+
+  public toggleConfirmModal(content: TemplateRef<any>) {
+    this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+  }
+
+  public disableExerciceExcept() {
+    this.exerciceSrv.disableExerciceExcept(this.exercice, 'update')
+      .subscribe((data: any) => {
+        this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);
+      });
+    this.modalSrv.dismissAll();
+  }
+
 
 }

@@ -16,6 +16,9 @@ import { type_source_financementRoutes } from './type_source_financement/type_so
 import { source_financementRoutes } from './source_financement/source_financement.routes';
 import { categorie_classeRoutes } from './categorie_classe/categorie_classe.routes';
 import { type_classeRoutes } from './type_classe/type_classe.routes';
+import { compte_divisionnaireRoutes } from './compte_divisionnaire/compte_divisionnaire.routes';
+import { sous_classeRoutes } from './sous_classe/sous_classe.routes';
+import { exercice_source_financementRoutes } from './exercice_source_financement/exercice_source_financement.routes';
 
 const routes: Routes = [
   userRoutes,
@@ -33,7 +36,10 @@ const routes: Routes = [
   type_source_financementRoutes,
   source_financementRoutes,
   categorie_classeRoutes,
-  type_classeRoutes
+  type_classeRoutes,
+  compte_divisionnaireRoutes,
+  sous_classeRoutes,
+  exercice_source_financementRoutes,
 ];
 
 @NgModule({

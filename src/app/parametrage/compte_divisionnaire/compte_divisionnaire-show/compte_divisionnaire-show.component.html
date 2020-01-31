@@ -1,0 +1,55 @@
+<p-toast></p-toast>
+<p-fieldset *ngIf="'CompteDivisionnaire'|showable" legend="Affichage des informations - Utilisateur" [toggleable]="true">
+  <p-toolbar>
+    <button *ngIf="'CompteDivisionnaire'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+      [routerLink]="['/'+compte_divisionnaireSrv.getRoutePrefix(),compte_divisionnaire.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+      Modifier</button>
+    <button *ngIf="'CompteDivisionnaire'|clonable" [routerLink]="['/'+compte_divisionnaireSrv.getRoutePrefix(),compte_divisionnaire.id,'clone']" type="button"
+      class="btn btn-outline-secondary pull-right ml-1">
+      <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+    </button>
+    <button *ngIf="'CompteDivisionnaire'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeCompteDivisionnaire()"><i
+        class="fa fa-trash-o"></i> Supprimer</button>
+    <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+        class="fa fa-reply"></i> Retour</button>
+  </p-toolbar>
+  <p-tabView>
+    <p-tabPanel header="Détails">
+      <p-fieldset [legend]="compte_divisionnaire.id">
+        <table class="table">
+                                    <tr>
+                <th>Numero</th>
+                <td>{{ compte_divisionnaire.numero }}</td>
+            </tr>
+                                    <tr>
+                <th>Libelle</th>
+                <td>{{ compte_divisionnaire.libelle }}</td>
+            </tr>
+                                    <tr>
+                <th>Description</th>
+                <td>{{ compte_divisionnaire.description }}</td>
+            </tr>
+                    </table>
+        <p-toolbar>
+          <button *ngIf="'CompteDivisionnaire'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+            [routerLink]="['/'+compte_divisionnaireSrv.getRoutePrefix(),compte_divisionnaire.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+            Modifier</button>
+          <button *ngIf="'CompteDivisionnaire'|clonable" [routerLink]="['/'+compte_divisionnaireSrv.getRoutePrefix(),compte_divisionnaire.id,'clone']" type="button"
+            class="btn btn-outline-secondary pull-right ml-1">
+            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+          </button>
+          <button *ngIf="'CompteDivisionnaire'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeCompteDivisionnaire()"><i
+              class="fa fa-trash-o"></i> Supprimer</button>
+          <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
+              class="fa fa-reply"></i> Retour</button>
+          <button *ngIf="'CompteDivisionnaire'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
+              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+          </button>
+        </p-toolbar>
+      </p-fieldset>
+    </p-tabPanel>
+    <p-tabPanel header="Liste associée">
+      
+    </p-tabPanel>
+  </p-tabView>
+</p-fieldset>
