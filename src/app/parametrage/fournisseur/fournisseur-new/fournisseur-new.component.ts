@@ -26,11 +26,14 @@ export class FournisseurNewComponent implements OnInit {
   }
 
   saveFournisseur() {
-    const secteurid = [];
+    if (this.fournisseur.secteurs) {
+      const secteurid = [];
     this.fournisseur.secteurs.forEach(secteur => {
       secteurid.push(secteur.id);
       this.fournisseur.secteurs = secteurid;
     });
+
+    }
     this.fournisseurSrv.create(this.fournisseur)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Fournisseur créé avec succès');
@@ -39,11 +42,13 @@ export class FournisseurNewComponent implements OnInit {
   }
 
   saveFournisseurAndExit() {
-    const secteurid = [];
+    if (this.fournisseur.secteurs) {
+      const secteurid = [];
     this.fournisseur.secteurs.forEach(secteur => {
       secteurid.push(secteur.id);
       this.fournisseur.secteurs = secteurid;
     });
+  }
     this.fournisseurSrv.create(this.fournisseur)
       .subscribe((data: any) => {
         this.router.navigate([this.fournisseurSrv.getRoutePrefix(), data.id]);
