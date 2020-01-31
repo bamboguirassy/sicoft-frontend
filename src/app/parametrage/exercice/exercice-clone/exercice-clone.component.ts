@@ -21,7 +21,7 @@ export class ExerciceCloneComponent implements OnInit {
     public activatedRoute: ActivatedRoute, public router: Router,
     public convertDateServiceSrv: ConvertDateService,
     public modalSrv: NgbModal,
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.exercices = this.activatedRoute.snapshot.data['exercices'];
@@ -33,18 +33,24 @@ export class ExerciceCloneComponent implements OnInit {
   }
 
   cloneExercice() {
+    let tempDateDebut = this.exercice.dateDebut;
+    let tempDateFin = this.exercice.dateFin;
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
-    if(this.exercice.exerciceSuivant){
+    if (this.exercice.exerciceSuivant) {
       this.exercice.exerciceSuivant = this.exercice.exerciceSuivant.id;
     }
     this.exerciceSrv.clone(this.original, this.exercice)
       .subscribe((data: any) => {
+        this.exercice.dateDebut = tempDateDebut;
+        this.exercice.dateFin = tempDateFin;
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);
       }, error => {
         if (error.error.code === 417) {
           this.toggleConfirmModal(this.modalContentRef);
         } else {
+          this.exercice.dateDebut = tempDateDebut;
+          this.exercice.dateFin = tempDateFin;
           this.exerciceSrv.httpSrv.handleError(error)
         }
       });
