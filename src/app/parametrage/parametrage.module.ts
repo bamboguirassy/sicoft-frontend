@@ -110,6 +110,11 @@ import { SousClasseEditComponent } from './sous_classe/sous_classe-edit/sous_cla
 import { SousClasseListComponent } from './sous_classe/sous_classe-list/sous_classe-list.component';
 import { SousClasseShowComponent } from './sous_classe/sous_classe-show/sous_classe-show.component';
 import { SousClasseNewComponent } from './sous_classe/sous_classe-new/sous_classe-new.component';
+import { ExerciceSourceFinancementCloneComponent } from './exercice_source_financement/exercice_source_financement-clone/exercice_source_financement-clone.component';
+import { ExerciceSourceFinancementEditComponent } from './exercice_source_financement/exercice_source_financement-edit/exercice_source_financement-edit.component';
+import { ExerciceSourceFinancementListComponent } from './exercice_source_financement/exercice_source_financement-list/exercice_source_financement-list.component';
+import { ExerciceSourceFinancementNewComponent } from './exercice_source_financement/exercice_source_financement-new/exercice_source_financement-new.component';
+import { ExerciceSourceFinancementShowComponent } from './exercice_source_financement/exercice_source_financement-show/exercice_source_financement-show.component';
 @NgModule({
   declarations: [
     UserCloneComponent, UserEditComponent, UserListComponent, UserNewComponent, UserShowComponent, UserProfilePageComponent,
@@ -130,6 +135,7 @@ import { SousClasseNewComponent } from './sous_classe/sous_classe-new/sous_class
     CategorieClasseCloneComponent,CategorieClasseEditComponent,CategorieClasseListComponent,CategorieClasseNewComponent,CategorieClasseShowComponent,
     CompteDivisionnaireCloneComponent,CompteDivisionnaireEditComponent,CompteDivisionnaireListComponent,CompteDivisionnaireNewComponent,CompteDivisionnaireShowComponent,
     SousClasseCloneComponent,SousClasseEditComponent,SousClasseListComponent,SousClasseShowComponent,SousClasseNewComponent,
+    ExerciceSourceFinancementCloneComponent,ExerciceSourceFinancementEditComponent,ExerciceSourceFinancementListComponent,ExerciceSourceFinancementNewComponent,ExerciceSourceFinancementShowComponent,
   ],
   imports: [
     CommonModule,
