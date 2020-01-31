@@ -47,5 +47,8 @@ export class ExerciceService {
   private getRoutePrefixWithSlash(): string {
     return this.routePrefix+'/';
   }
+  disableExerciceExcept(exercice: Exercice) {
+    return this.httpSrv.post(`${this.getRoutePrefix()}/create-enable`, exercice);
+  }
 
 }
