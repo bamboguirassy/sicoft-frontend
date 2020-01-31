@@ -5,4 +5,5 @@ export class SousClasse {
     numero: string;
     libelle: string;
     description: string;
+    classe: Classe;
 }

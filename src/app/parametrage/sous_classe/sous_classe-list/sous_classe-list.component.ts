@@ -10,6 +10,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'app-sous_classe-list',
   templateUrl: './sous_classe-list.component.html',
   styleUrls: ['./sous_classe-list.component.scss']
@@ -21,10 +22,10 @@ export class SousClasseListComponent implements OnInit {
   selectedSousClasse: SousClasse;
   clonedSousClasses: SousClasse[];
 
-  cMenuItems: MenuItem[]=[];
+  cMenuItems: MenuItem[] = [];
 
   tableColumns = sous_classeColumns;
-  //allowed fields for filter
+  // allowed fields for filter
   globalFilterFields = allowedSousClasseFieldsForFilter;
 
 
@@ -34,16 +35,17 @@ export class SousClasseListComponent implements OnInit {
     public notificationSrv: NotificationService) { }
 
   ngOnInit() {
-    if(this.authSrv.checkShowAccess('SousClasse')){
+    if (this.authSrv.checkShowAccess('SousClasse')) {
+      // tslint:disable-next-line:max-line-length
       this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewSousClasse(this.selectedSousClasse) });
     }
-    if(this.authSrv.checkEditAccess('SousClasse')){
+    if (this.authSrv.checkEditAccess('SousClasse')) {
       this.cMenuItems.push({ label: 'Modifier', icon: 'pi pi-pencil', command: (event) => this.editSousClasse(this.selectedSousClasse) })
     }
-    if(this.authSrv.checkCloneAccess('SousClasse')){
+    if (this.authSrv.checkCloneAccess('SousClasse')) {
       this.cMenuItems.push({ label: 'Cloner', icon: 'pi pi-clone', command: (event) => this.cloneSousClasse(this.selectedSousClasse) })
     }
-    if(this.authSrv.checkDeleteAccess('SousClasse')){
+    if (this.authSrv.checkDeleteAccess('SousClasse')) {
       this.cMenuItems.push({ label: 'Supprimer', icon: 'pi pi-times', command: (event) => this.deleteSousClasse(this.selectedSousClasse) })
     }
 
@@ -69,11 +71,11 @@ export class SousClasseListComponent implements OnInit {
   }
 
   deleteSelectedSousClasses(sous_classe: SousClasse) {
-    if(this.selectedSousClasses){
+    if (this.selectedSousClasses) {
       this.sous_classeSrv.removeSelection(this.selectedSousClasses)
       .subscribe(data => this.refreshList(), error => this.sous_classeSrv.httpSrv.handleError(error));
       } else {
-      this.sous_classeSrv.httpSrv.notificationSrv.showError("Selectionner au moins un élement à supprimer");
+      this.sous_classeSrv.httpSrv.notificationSrv.showError('Selectionner au moins un élement à supprimer');
     }
   }
 
