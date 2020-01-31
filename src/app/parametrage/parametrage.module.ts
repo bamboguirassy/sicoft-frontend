@@ -12,7 +12,7 @@ import {
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
   ToolbarModule, TabViewModule,
-  AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule, ProgressSpinnerModule
+  AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule, ProgressSpinnerModule, ConfirmDialogModule
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -156,7 +156,8 @@ import { SousClasseNewComponent } from './sous_classe/sous_classe-new/sous_class
     OrgChartModule,
     DropdownModule,
     ProgressSpinnerModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    ConfirmDialogModule,
   ]
 })
 export class ParametrageModule { }
