@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'app-sous_classe-show',
   templateUrl: './sous_classe-show.component.html',
   styleUrls: ['./sous_classe-show.component.scss']
@@ -27,11 +28,10 @@ export class SousClasseShowComponent implements OnInit {
       .subscribe(data => this.router.navigate([this.sous_classeSrv.getRoutePrefix()]),
         error =>  this.sous_classeSrv.httpSrv.handleError(error));
   }
-  
-  refresh(){
+  refresh() {
     this.sous_classeSrv.findOneById(this.sous_classe.id)
-    .subscribe((data:any)=>this.sous_classe=data,
-      error=>this.sous_classeSrv.httpSrv.handleError(error));
+    .subscribe((data: any) => this.sous_classe = data,
+      error => this.sous_classeSrv.httpSrv.handleError(error));
   }
 
 }
