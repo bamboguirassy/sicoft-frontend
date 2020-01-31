@@ -8,7 +8,7 @@ import { SousClasse } from './sous_classe';
 })
 export class SousClasseService {
 
-  private routePrefix: string = 'sousClasse';
+  private routePrefix = 'sousClasse';
 
   constructor(public httpSrv: HttpService) { }
 
@@ -25,19 +25,19 @@ export class SousClasseService {
   }
 
   update(sous_classe: SousClasse) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+sous_classe.id+'/edit', sous_classe);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + sous_classe.id + '/edit', sous_classe);
   }
 
   clone(original: SousClasse, clone: SousClasse) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+original.id+'/clone', clone);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + original.id + '/clone', clone);
   }
 
   remove(sous_classe: SousClasse) {
-    return this.httpSrv.delete(this.getRoutePrefixWithSlash()+sous_classe.id);
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + sous_classe.id);
   }
 
   removeSelection(sous_classes: SousClasse[]) {
-    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',sous_classes);
+    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', sous_classes);
   }
 
   public getRoutePrefix(): string {
@@ -45,7 +45,7 @@ export class SousClasseService {
   }
 
   private getRoutePrefixWithSlash(): string {
-    return this.routePrefix+'/';
+    return this.routePrefix + '/';
   }
 
 }

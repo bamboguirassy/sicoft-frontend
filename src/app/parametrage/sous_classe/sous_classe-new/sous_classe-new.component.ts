@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'app-sous_classe-new',
   templateUrl: './sous_classe-new.component.html',
   styleUrls: ['./sous_classe-new.component.scss']
@@ -33,8 +34,11 @@ export class SousClasseNewComponent implements OnInit {
     this.sous_classeSrv.create(this.sous_classe)
       .subscribe((data: any) => {
         this.router.navigate([this.sous_classeSrv.getRoutePrefix(), data.id]);
-      }, error => this.sous_classeSrv.httpSrv.handleError(error));
+      }, error => {
+        this.sous_classeSrv.httpSrv.handleError(error)
+      });
   }
+
 
 }
 

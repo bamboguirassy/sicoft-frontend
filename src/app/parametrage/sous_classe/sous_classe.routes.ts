@@ -1,4 +1,4 @@
-import { Route } from "@angular/router";
+import { Route } from '@angular/router';
 import { SousClasseListComponent } from './sous_classe-list/sous_classe-list.component';
 import { SousClasseNewComponent } from './sous_classe-new/sous_classe-new.component';
 import { SousClasseEditComponent } from './sous_classe-edit/sous_classe-edit.component';

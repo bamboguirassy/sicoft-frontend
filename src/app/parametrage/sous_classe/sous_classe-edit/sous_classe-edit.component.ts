@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'app-sous_classe-edit',
   templateUrl: './sous_classe-edit.component.html',
   styleUrls: ['./sous_classe-edit.component.scss']
