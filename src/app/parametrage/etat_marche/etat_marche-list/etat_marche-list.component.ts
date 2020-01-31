@@ -59,7 +59,7 @@ export class EtatMarcheListComponent implements OnInit {
     if (this.authSrv.checkDeleteAccess('EtatMarche')) {
       this.cMenuItems.push({ label: 'Supprimer', icon: 'pi pi-times', command: (event) => this.deleteEtatMarche(this.selectedEtatMarche) })
     }
-    if (this.authSrv.checkShowAccess('EtatMarche')) {
+    if (this.authSrv.checkCreateAccess('RoleSurMarche')) {
       this.cMenuItems.push({ label: 'Utilisateurs', icon: 'pi pi-user', command: (event) => this.toggleSearchModal(this.modalContentRef, this.selectedEtatMarche) })
     }
 
