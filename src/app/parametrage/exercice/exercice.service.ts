@@ -25,19 +25,19 @@ export class ExerciceService {
   }
 
   update(exercice: Exercice) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+exercice.id+'/edit', exercice);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + exercice.id + '/edit', exercice);
   }
 
   clone(original: Exercice, clone: Exercice) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+original.id+'/clone', clone);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + original.id + '/clone', clone);
   }
 
   remove(exercice: Exercice) {
-    return this.httpSrv.delete(this.getRoutePrefixWithSlash()+exercice.id);
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + exercice.id);
   }
 
   removeSelection(exercices: Exercice[]) {
-    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',exercices);
+    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', exercices);
   }
 
   public getRoutePrefix(): string {
@@ -45,10 +45,16 @@ export class ExerciceService {
   }
 
   private getRoutePrefixWithSlash(): string {
-    return this.routePrefix+'/';
+    return this.routePrefix + '/';
   }
-  disableExerciceExcept(exercice: Exercice) {
-    return this.httpSrv.post(`${this.getRoutePrefix()}/create-enable`, exercice);
+  disableExerciceExcept(original: Exercice, operation: string, clone?: Exercice) {
+    if (operation === 'create') {
+      return this.httpSrv.post(`${this.getRoutePrefix()}/create-enable`, original);
+    } else if (operation === 'update') {
+      return this.httpSrv.put(`${this.getRoutePrefix()}/create-enable/${original.id}`, original);
+    } else if ( operation === 'clone' && clone) {
+      return this.httpSrv.put(`${this.getRoutePrefix()}/create-enable/${original.id}/clone`, clone);
+    }
   }
 
 }

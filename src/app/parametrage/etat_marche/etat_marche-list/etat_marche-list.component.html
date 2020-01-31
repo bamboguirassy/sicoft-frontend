@@ -129,7 +129,7 @@
 </div>
 <div class="row">
   <div class="col-sm-12 col-md-12 col-lg-12">
-    <ng-template #content *ngIf="'EtatMarche' | listable" let-modal>
+    <ng-template #content *ngIf="'RoleSurMarche' | editable" let-modal>
 
       <div class="modal-header new-sous-class-header">
       <h4 class="modal-title">Droit D'accés - Etat {{ selectedEtatMarche.libelle }} </h4>
@@ -157,7 +157,7 @@
                   <th scope="col">Nom</th>
                   <th scope="col">E - Mail</th>
                   <th scope="col">Fonction</th>
-                  <th scope="col" *ngIf="'EtatMarche'|editable">Action</th>
+                  <th scope="col" *ngIf="'RoleSurMarche'|deletable">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -166,7 +166,7 @@
                   <td> {{ user.nom }} </td>
                   <td> {{ user.username }} </td>
                   <td> {{ user.email }} </td>
-                  <td *ngIf="'EtatMarche'|editable">  <button type="button" (click)="removeUser(user)" class="btn-sm btn-outline-danger"><i
+                  <td *ngIf="'RoleSurMarche'|deletable">  <button type="button" (click)="removeUser(user)" class="btn-sm btn-outline-danger"><i
                     class="fa fa-trash" aria-hidden="true"></i>
                   </button> </td>
                 </tr>
@@ -179,7 +179,7 @@
             <ngb-alert [type]="alert.type" (close)="closeAlert()">{{ alert.message }}</ngb-alert>
           </div>
         </div>
-        <form class="form" role="form" #userForm="ngForm" autocomplete="off">
+        <form *ngIf="'RoleSurMarche'|creable" class="form" role="form" #userForm="ngForm" autocomplete="off">
           <div class="row">
             <div class="col-md-12 col-sm-12 col-lg-12">
               <label class="col-form-label form-control-label" for="code">Ajouter un utilisateur</label>
