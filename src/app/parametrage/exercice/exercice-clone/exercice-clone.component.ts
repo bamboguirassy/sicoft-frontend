@@ -1,5 +1,6 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ExerciceService } from '../exercice.service';
 import { Location } from '@angular/common';
 import { Exercice } from '../exercice';
@@ -15,9 +16,11 @@ export class ExerciceCloneComponent implements OnInit {
   exercice: Exercice;
   original: Exercice;
   exercices: Exercice[] = [];
+  @ViewChild('confirm', { static: false }) public modalContentRef: TemplateRef<any>;
   constructor(public exerciceSrv: ExerciceService, public location: Location,
     public activatedRoute: ActivatedRoute, public router: Router,
     public convertDateServiceSrv: ConvertDateService,
+    public modalSrv: NgbModal,
     ) { }
 
   ngOnInit() {
@@ -38,7 +41,26 @@ export class ExerciceCloneComponent implements OnInit {
     this.exerciceSrv.clone(this.original, this.exercice)
       .subscribe((data: any) => {
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);
-      }, error => this.exerciceSrv.httpSrv.handleError(error));
+      }, error => {
+        if (error.error.code === 417) {
+          this.toggleConfirmModal(this.modalContentRef);
+        } else {
+          this.exerciceSrv.httpSrv.handleError(error)
+        }
+      });
+  }
+
+  public toggleConfirmModal(content: TemplateRef<any>) {
+    this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+  }
+
+  public disableExerciceExcept() {
+    console.log(this.exercice);
+    this.exerciceSrv.disableExerciceExcept(this.original, 'clone', this.exercice)
+      .subscribe((data: any) => {
+        this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);
+      });
+    this.modalSrv.dismissAll();
   }
 
 }

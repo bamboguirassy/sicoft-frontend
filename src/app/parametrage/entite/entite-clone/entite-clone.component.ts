@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { EntiteService } from '../entite.service';
 import { Location } from '@angular/common';
 import { Entite } from '../entite';
@@ -16,7 +16,6 @@ export class EntiteCloneComponent implements OnInit {
   original: Entite;
   entites: Entite[] = [];
   typeEntites: TypeEntite[] = [];
-
   constructor(public entiteSrv: EntiteService, public location: Location,
     public activatedRoute: ActivatedRoute, public router: Router) { }
 

@@ -48,8 +48,11 @@ export class ExerciceNewComponent implements OnInit {
           error => this.exerciceSrv.httpSrv.handleError(error);
 
       }, error => {
-        this.toggleConfirmModal(this.modalContentRef);
-        this.exerciceSrv.httpSrv.handleError(error);
+        if (error.error.code === 417) {
+          this.toggleConfirmModal(this.modalContentRef);
+        } else {
+          this.exerciceSrv.httpSrv.handleError(error)
+        }
       });
   }
 
@@ -63,10 +66,11 @@ export class ExerciceNewComponent implements OnInit {
       .subscribe((data: any) => {
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);
       }, error => {
-        if (error.error.message.toLowerCase() === 'un exercice est déjà actif.') {
+        if (error.error.code === 417) {
           this.toggleConfirmModal(this.modalContentRef);
+        } else {
+          this.exerciceSrv.httpSrv.handleError(error)
         }
-        this.exerciceSrv.httpSrv.handleError(error)
       });
   }
 
@@ -75,9 +79,8 @@ export class ExerciceNewComponent implements OnInit {
   }
 
   public disableExerciceExcept() {
-    this.exerciceSrv.disableExerciceExcept(this.exercice)
+    this.exerciceSrv.disableExerciceExcept(this.exercice, 'create')
       .subscribe((data: any) => {
-        console.log(data);
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);
       });
     this.modalSrv.dismissAll();
