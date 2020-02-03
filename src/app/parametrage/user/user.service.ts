@@ -60,5 +60,7 @@ export class UserService {
   private getRoutePrefixWithSlash(): string {
     return this.routePrefix + '/';
   }
-
+  updatePassword(user: User) {
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'password_update', user);
+  }
 }
