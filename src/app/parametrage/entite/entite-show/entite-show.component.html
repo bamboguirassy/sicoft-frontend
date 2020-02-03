@@ -1,20 +1,16 @@
 <p-toast></p-toast>
 <p-fieldset *ngIf="'Entite' | showable" legend="Affichage des informations - Entité" [toggleable]="true">
     <p-toolbar>
-        <button *ngIf="'Entite' | editable" type="button" class="btn btn-outline-warning pull-right ml-1"
-                [routerLink]="['/' + entiteSrv.getRoutePrefix(), entite.id, 'edit']">
+        <button *ngIf="'Entite' | editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/' + entiteSrv.getRoutePrefix(), entite.id, 'edit']">
             <i class="fa fa-pencil-square-o ml-1"></i> Modifier
         </button>
-        <button *ngIf="'Entite' | clonable" [routerLink]="['/' + entiteSrv.getRoutePrefix(), entite.id, 'clone']"
-                type="button" class="btn btn-outline-secondary pull-right ml-1">
+        <button *ngIf="'Entite' | clonable" [routerLink]="['/' + entiteSrv.getRoutePrefix(), entite.id, 'clone']" type="button" class="btn btn-outline-secondary pull-right ml-1">
             <i class="fa fa-clone" aria-hidden="true"></i> Cloner
         </button>
-        <button *ngIf="'Entite' | deletable" type="button" class="btn btn-outline-danger pull-right ml-1"
-                (click)="removeEntite()">
+        <button *ngIf="'Entite' | deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeEntite()">
             <i class="fa fa-trash-o"></i> Supprimer
         </button>
-        <button [disabled]="false" type="button " (click)="toggleModal(content)"
-                class="btn btn-outline-dark pull-right mr-1 ">
+        <button [disabled]="false" type="button " (click)="toggleModal(content)" class="btn btn-outline-dark pull-right mr-1 ">
             <i class="fa fa-plus-square-o " aria-hidden="true "></i>
             Sous Entité
         </button>
@@ -63,8 +59,7 @@
                     <form #entityForm="ngForm">
                         <div class="modal-header new-sous-class-header">
                             <h4 class="modal-title">Sous Entité</h4>
-                            <button type="button" class="close" aria-label="Close"
-                                    (click)="modal.dismiss('Cross click')">
+                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -74,10 +69,7 @@
                                     <div class="form-group">
                                         <label class="col-form-label form-control-label" for="typeEntite">Type Entité
                                         </label>
-                                        <ng-select required id="typeEntite" name="typeEntite" [items]="typeEntites"
-                                                   bindLabel="libelle" placeholder="Selectionner type entité"
-                                                   appendTo="body" [multiple]="false" [searchable]="true"
-                                                   [(ngModel)]="sousEntite.typeEntite">
+                                        <ng-select required id="typeEntite" name="typeEntite" [items]="typeEntites" bindLabel="libelle" placeholder="Selectionner type entité" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="sousEntite.typeEntite">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -86,15 +78,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label class="col-form-label form-control-label" for="code">Code</label>
-                                        <input required [(ngModel)]="sousEntite.code" class="form-control" type="text"
-                                               name="code" id="code"/>
+                                        <input required [(ngModel)]="sousEntite.code" class="form-control" type="text" name="code" id="code" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label class="col-form-label form-control-label" for="entite">Nom</label>
-                                        <input required [(ngModel)]="sousEntite.nom" class="form-control" type="text"
-                                               name="entite" id="entite"/>
+                                        <input required [(ngModel)]="sousEntite.nom" class="form-control" type="text" name="entite" id="entite" />
                                     </div>
                                 </div>
                             </div>
@@ -103,15 +93,13 @@
                                     <div class="form-group">
                                         <label class="col-form-label form-control-label" for="etat">Etat</label>
                                         <br/>
-                                        <p-inputSwitch id="etat" name="etat"
-                                                       [(ngModel)]="sousEntite.etat"></p-inputSwitch>
+                                        <p-inputSwitch id="etat" name="etat" [(ngModel)]="sousEntite.etat"></p-inputSwitch>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer new-sous-class-footer">
-                            <button [disabled]="entityForm.invalid" type="button" class="btn btn-outline-primary"
-                                    (click)="createSousEntite(modal)">
+                            <button [disabled]="entityForm.invalid" type="button" class="btn btn-outline-primary" (click)="createSousEntite(modal)">
                                 Enregistrer
                             </button>
                         </div>
@@ -119,29 +107,23 @@
                 </ng-template>
                 <!-- Modal end -->
                 <p-toolbar>
-                    <button *ngIf="'Entite' | editable" type="button " class="btn btn-outline-warning pull-right ml-1 "
-                            [routerLink]="['/' + entiteSrv.getRoutePrefix(), entite.id, 'edit']">
+                    <button *ngIf="'Entite' | editable" type="button " class="btn btn-outline-warning pull-right ml-1 " [routerLink]="['/' + entiteSrv.getRoutePrefix(), entite.id, 'edit']">
                         <i class="fa fa-pencil-square-o ml-1 "></i> Modifier
                     </button>
-                    <button *ngIf="'Entite' | clonable"
-                            [routerLink]="['/' + entiteSrv.getRoutePrefix(),entite.id,'clone']" type="button "
-                            class="btn btn-outline-secondary pull-right ml-1 ">
+                    <button *ngIf="'Entite' | clonable" [routerLink]="['/' + entiteSrv.getRoutePrefix(),entite.id,'clone']" type="button " class="btn btn-outline-secondary pull-right ml-1 ">
                         <i class="fa fa-clone " aria-hidden="true "></i> Cloner
                     </button>
-                    <button *ngIf="'Entite' | deletable" type="button " class="btn btn-outline-danger pull-right ml-1"
-                            (click)="removeEntite()">
+                    <button *ngIf="'Entite' | deletable" type="button " class="btn btn-outline-danger pull-right ml-1" (click)="removeEntite()">
                         <i class="fa fa-trash-o "></i> Supprimer
                     </button>
                     <button type="button " class="btn btn-outline-secondary pull-left ml-1 " (click)="location.back()">
                         <i class="fa fa-reply "></i> Retour
                     </button>
-                    <button *ngIf="'Entite' | showable" type="button " class="btn btn-secondary ml-1 "
-                            (click)="refresh()">
+                    <button *ngIf="'Entite' | showable" type="button " class="btn btn-secondary ml-1 " (click)="refresh()">
                         <i class="fa fa-refresh " aria-hidden="true "></i> Raffraichir les
                         données
                     </button>
-                    <button [disabled]="false" type="button " (click)="toggleModal(content)"
-                            class="btn btn-outline-dark pull-right mr-1 ">
+                    <button [disabled]="false" type="button " (click)="toggleModal(content)" class="btn btn-outline-dark pull-right mr-1 ">
                         <i class="fa fa-plus-square-o " aria-hidden="true "></i>
                         Sous Entité
                     </button>
@@ -149,15 +131,12 @@
             </p-fieldset>
         </p-tabPanel>
         <p-tabPanel header="Liste des sous entités">
-            <p-table
-                #tt [value]="sousEntites" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedEntites"
-                [resizableColumns]="true" [responsive]="true" [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields"
+            <p-table #tt [value]="sousEntites" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedEntites" [resizableColumns]="true" [responsive]="true" [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields"
                 dataKey="id">
                 <ng-template pTemplate="caption">
                     Liste des sous entités<br>
                     <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                    <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
-                           (input)="tt.filterGlobal($event.target['value'], 'contains')" style="width:auto">
+                    <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau" (input)="tt.filterGlobal($event.target['value'], 'contains')" style="width:auto">
                 </ng-template>
                 <ng-template pTemplate="colgroup">
                     <colgroup>
@@ -222,8 +201,7 @@
                 </ng-template>
             </p-table>
             <p-toolbar>
-                <button *ngIf="'Entite'|deletable" (click)="deleteSelectedEntites()" type="button"
-                        class="btn btn-outline-danger">
+                <button *ngIf="'Entite'|deletable" (click)="deleteSelectedEntites()" type="button" class="btn btn-outline-danger">
                     <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
                 </button>
             </p-toolbar>

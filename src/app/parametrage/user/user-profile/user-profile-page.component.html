@@ -21,15 +21,15 @@
                             <div class="align-self-end">
                                 <div class="text-right d-none d-sm-none d-md-none d-lg-block">
                                     <button type="button" class="btn btn-primary btn-raised mr-2 mt-2"><i class="fa fa-edit"></i> Modifier profil</button>
-                                    <button type="button" class="btn btn-warning btn-raised mr-3 mt-2"><i class="fa fa-lock"></i> Changer mot de passe</button>
+                                    <button type="button" (click)="toggleModal(content)" class="btn btn-warning btn-raised mr-3 mt-2"><i class="fa fa-lock"></i> Changer mot de passe</button>
                                 </div>
                                 <div class="text-right d-block d-sm-block d-md-block d-lg-none">
                                     <button type="button" class="btn btn-primary btn-raised mr-2 mt-2"><i class="fa fa-edit"></i></button>
                                     <button type="button" class="btn btn-warning btn-raised mr-3 mt-2"><i class="fa fa-lock"></i></button>
                                 </div>
                             </div>
-                        </div>                       
-                    </div>                    
+                        </div>
+                    </div>
                 </div>
                 <div class="profile-section">
                     <div class="row p-3">
@@ -48,13 +48,52 @@
                             </ul>
                         </div>
                         <div class="col-lg-4 col-md-4 ">
-                            <ul class="profile-menu no-list-style">                        
+                            <ul class="profile-menu no-list-style">
                                 <li>
                                     <a (click)="showPage('Markets')" [ngClass]="currentPage === 'Markets' ? 'primary font-medium-2 font-weight-600 active' : 'primary font-medium-2 font-weight-600'">Etat Marché</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
+                    <!--Modal changement mot de pass-->
+                    <ng-template #content let-modal>
+                        <p-toast></p-toast>
+                        <form #profilForm="ngForm">
+                            <div class="modal-header new-sous-class-header">
+                                <h4 class="modal-title">Changer votre mot de passe</h4>
+                                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="control-group">
+                                    <label class="col-form-label form-control-label" for="currentPasword">Mot de  passe actuel </label>
+                                    <div class="controls">
+                                        <input required [(ngModel)]="user.currentPassword" class="form-control" type="password" name="currentPassword" class="form-control mb-3" id="currentPassword" />
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="col-form-label form-control-label" for="newPassword">Nouveau mot de passe</label>
+                                    <div class="controls">
+                                        <input required [(ngModel)]="user.newPassword" class="form-control" type="password" name="newPassword" class="form-control mb-3" id="newPassword" />
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="col-form-label form-control-label" for="confirmPassword">Confirmer mot de passe</label>
+                                    <div class="controls">
+                                        <input required [(ngModel)]="user.confirmPassword" class="form-control" type="password" name="confirmPassword" class="form-control mb-3" id="confirmPassword" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer new-sous-class-footer">
+                                <button [disabled]="profilForm.invalid" type="button" class="btn btn-outline-primary" (click)="updatePassword()">
+                                    Enregistrer
+                                </button>
+                            </div>
+
+                        </form>
+                    </ng-template>
+                    <!-- Modal end -->
                 </div>
             </div>
         </div>
@@ -112,49 +151,47 @@
 <!--About section ends-->
 
 <!--User Entity section starts-->
-<section *ngIf="currentPage === 'Entity'">   
+<section *ngIf="currentPage === 'Entity'">
     <div class="row">
         <div class="col-12 mb-2">
             <div class="content-header">Entité(s)</div>
         </div>
     </div>
-    <p-table #tt [value]="type_entites" [paginator]="true" [rows]="50" sortMode="multiple"
-            selectionMode="multiple" [(selection)]="selectedTypeEntites" [resizableColumns]="true" [responsive]="true"
-            [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedTypeEntite" [scrollable]="true"
-            scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
-            <ng-template pTemplate="colgroup">
-              <colgroup>
+    <p-table #tt [value]="type_entites" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedTypeEntites" [resizableColumns]="true" [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedTypeEntite"
+        [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
+        <ng-template pTemplate="colgroup">
+            <colgroup>
                 <col>
                 <col>
-              </colgroup>
-            </ng-template>
-            <ng-template pTemplate="header">
-              <tr>
+            </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
                 <th pResizableColumn>
-                  Libelle 
+                    Libelle
                 </th>
                 <th pResizableColumn>
-                  Code 
+                    Code
                 </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-type_entite let-editing="editing">
-              <tr [pEditableRow]="type_entite" [pSelectableRow]="type_entite" [pContextMenuRow]="type_entite">
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-type_entite let-editing="editing">
+            <tr [pEditableRow]="type_entite" [pSelectableRow]="type_entite" [pContextMenuRow]="type_entite">
                 <td class="ui-resizable-column">
-                  {{ type_entite.libelle }}
+                    {{ type_entite.libelle }}
                 </td>
                 <td class="ui-resizable-column">
-                  {{ type_entite.code }}
+                    {{ type_entite.code }}
                 </td>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="footer" let-columns>
-              <tr>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer" let-columns>
+            <tr>
                 <td>Libelle</td>
                 <td>Code</td>
-              </tr>
-            </ng-template>
-          </p-table>
+            </tr>
+        </ng-template>
+    </p-table>
 </section>
 <!--User Entity section ends-->
 
@@ -167,34 +204,34 @@
     </div>
     <table class="table table-striped">
         <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Code</th>
-            <th scope="col">Libellé</th>
-            <th scope="col">Description</th>
-          </tr>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Code</th>
+                <th scope="col">Libellé</th>
+                <th scope="col">Description</th>
+            </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
         </tbody>
-      </table>
+    </table>
 </section>
 <!--User's Markets State section starts-->
 <!--User Profile Starts-->
