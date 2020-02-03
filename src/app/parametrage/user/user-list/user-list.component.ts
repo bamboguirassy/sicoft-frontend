@@ -122,4 +122,25 @@ export class UserListComponent implements OnInit {
         }
         , error => this.userSrv.httpSrv.handleError(error));
   }
+  showButtonActivationUser(){
+    this.cMenuItems = this.cMenuItems.filter(data=> data.label != 'Activer');
+    this.cMenuItems = this.cMenuItems.filter(data=> data.label != 'Désactiver');
+    const activeUser = this.selectedUser.enabled ? "Désactiver" : "Activer";
+    const activeIcone = this.selectedUser.enabled ? "pi pi-lock" : "pi pi-unlock";
+    if (this.authSrv.checkEditAccess('User')){
+      this.cMenuItems.push({
+        label: activeUser,
+        icon: activeIcone,
+        command: event => this.updateEtatUser(this.selectedUser)
+      });
+    }
+  }
+
+  updateEtatUser(user){
+    user.enabled = !user.enabled;
+    this.userSrv.update(user)
+    .subscribe((data: any) => this.userSrv.findAll(),
+    error => this.userSrv.httpSrv.handleError(error));
+  }
+
 }
