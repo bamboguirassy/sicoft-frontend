@@ -31,7 +31,7 @@ export class SecteurShowComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.secteur = this.activatedRoute.snapshot.data["secteur"];
+    this.secteur = this.activatedRoute.snapshot.data['secteur'];
   }
 
   removeSecteur() {

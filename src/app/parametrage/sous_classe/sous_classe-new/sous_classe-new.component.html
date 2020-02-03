@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <!-- form sous_classe info -->
 <form *ngIf="'SousClasse'|creable" class="form" role="form" #sous_classeForm="ngForm" autocomplete="off">
-  <p-fieldset legend="Creation utilisateur" [toggleable]="true">
+  <p-fieldset legend="Creation d'une sous classe" [toggleable]="true">
     <!-- debut body -->
     <div class="row">
       <div class="col-lg-6">
@@ -25,7 +25,7 @@
       <div class="col-lg-6">
         <div class="form-group">
             <label class="col-form-label form-control-label" for="classe">Classe</label>
-            <ng-select required name="classe" [items]="classes" bindLabel="nom"
+            <ng-select required name="classe" [items]="classes" bindLabel="libelle"
                 placeholder="Selectionner la classe" appendTo="body" [multiple]="false" [searchable]="true"
                 [(ngModel)]="sous_classe.classe">
             </ng-select>
