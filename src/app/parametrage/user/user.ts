@@ -18,4 +18,10 @@ export class User {
         fonction: string;
         entites: any;
         etatMarche: any;
+
+        //temp variable
+        currentPassword: string;
+        newPassword: string;
+        confirmPassword: string;
+
 }

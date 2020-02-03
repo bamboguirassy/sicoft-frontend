@@ -18,8 +18,9 @@ export class SecteurShowComponent implements OnInit {
   selectedFournisseurs: any[];
   selectedId: number[] = [];
   fournisseurId: number[] = [];
-  test: any[];
+  notSelectedFournisseurs: any[];
   globalFilterFields = allowedEntiteFieldsForFilter;
+  loading: Boolean = false;
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -48,23 +49,26 @@ export class SecteurShowComponent implements OnInit {
     );
   }
 
-  // refreshFournisseursList() {
-  //   return this.secteur.fournisseurs;
-  // }
+  
 
   deleteSelectedFournisseurs() {
-  //   if (this.selectedFournisseurs) {
-  //     this.test = this.secteur.fournisseurs.filter(o => this.selectedFournisseurs.some(({id}) => o.id !== id));
-  //     this.secteur.fournisseurs = this.test;
-  //     this.secteur.fournisseurs = this.secteur.fournisseurs.map(data => data.id);
-  //     console.log(this.secteur);
-  //     this.secteurSrv.update(this.secteur).subscribe(
-  //       data => console.log(data)
-  //     );
-  //   } else {
-  //     this.secteurSrv.httpSrv.notificationSrv.showWarning(
-  //       "Selectionner au moins un élement"
-  //     );
-  //    }
+    if (this.selectedFournisseurs) {
+      this.loading = true;
+      this.notSelectedFournisseurs = this.secteur.fournisseurs.filter(o => this.selectedFournisseurs.some(({id}) => o.id !== id));
+      this.secteur.fournisseurs = this.notSelectedFournisseurs;
+      this.secteur.fournisseurs = this.secteur.fournisseurs.map(data => data.id);
+      this.secteurSrv.update(this.secteur).subscribe(
+        (data: any ) => {
+          this.loading = false;
+          console.log(this.secteur);
+          this.secteur.fournisseurs = data.fournisseurs
+          this.selectedFournisseurs = null;
+        }, error => this.secteurSrv.httpSrv.handleError(error)
+      );
+    } else {
+      this.secteurSrv.httpSrv.notificationSrv.showWarning(
+        "Selectionner au moins un élement"
+      );
+     }
   }
 }

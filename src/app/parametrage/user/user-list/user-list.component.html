@@ -1,143 +1,141 @@
 <p-toast></p-toast>
 <div class="row" *ngIf="'User'|listable">
-  <div class="col-sm-12 col-md-12 col-lg-12">
-    <p-fieldset legend="Liste des utilisateurs" [toggleable]="true">
-      <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-          <p-toolbar>
-            <button *ngIf="'User'|listable" type="button" class="btn btn-outline-secondary" (click)="refreshList()">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <p-fieldset legend="Liste des utilisateurs" [toggleable]="true">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <p-toolbar>
+                        <button *ngIf="'User'|listable" type="button" class="btn btn-outline-secondary" (click)="refreshList()">
               <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
             </button>
-            <button *ngIf="'User'|deletable" (click)="deleteSelectedUsers()" type="button"
-              class="btn btn-outline-danger pull-right ml-1">
+                        <button *ngIf="'User'|deletable" (click)="deleteSelectedUsers()" type="button" class="btn btn-outline-danger pull-right ml-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
             </button>
-            <button *ngIf="'User'|creable" [routerLink]="['/'+userSrv.getRoutePrefix(),'new']"
-              routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
+                        <button *ngIf="'User'|creable" [routerLink]="['/'+userSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
               <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
             </button>
-          </p-toolbar>
-          <p-table #tt [value]="users" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple"
-            [(selection)]="selectedUsers" [resizableColumns]="true" [responsive]="true" [contextMenu]="contextMenu"
-            [(contextMenuSelection)]="selectedUser" [scrollable]="true" scrollHeight="400px"
-            [globalFilterFields]="globalFilterFields" dataKey="id">
-            <ng-template pTemplate="caption">
-              Liste des utilisateurs<br>
-              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-              <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
-                (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
-              <div class="ui-helper-clearfix" style="text-align: left">
-                <button *ngIf="'User'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF"
-                  (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>
-                <button *ngIf="'User'|listable" type="button" pButton icon="pi pi-file-excel" iconPos="left"
-                  label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;"
-                  class="ui-button-success pull-right"></button>
-              </div>
-            </ng-template>
-            <ng-template pTemplate="colgroup">
-              <colgroup>
-                <col>
-                <col>
-                <col>
-                <col>
-                <col>
-                <col>
-                <col>
-                <col>
-                <col>
-              </colgroup>
-            </ng-template>
-            <ng-template pTemplate="header">
-              <tr>
-                <th style="width: 3em">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
-                <th [pSortableColumn]="'prenom'" pResizableColumn>
-                  Prénom <p-sortIcon [field]="'prenom'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'nom'" pResizableColumn>
-                  Nom <p-sortIcon [field]="'nom'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'telephone'" pResizableColumn>
-                  Telephone <p-sortIcon [field]="'telephone'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'username'" pResizableColumn>
-                  Nom d'utilisateur <p-sortIcon [field]="'username'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'email'" pResizableColumn>
-                  Email <p-sortIcon [field]="'email'"></p-sortIcon>
-                </th>               
-                <th [pSortableColumn]="'enabled'" pResizableColumn>
-                  Etat Compte <p-sortIcon [field]="'enabled'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'fonction'" pResizableColumn>
-                  Fonction <p-sortIcon [field]="'fonction'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'lastLogin'" pResizableColumn>
-                  Dernière connexion <p-sortIcon [field]="'lastLogin'"></p-sortIcon>
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-user let-editing="editing">
-              <tr [pEditableRow]="user" [pSelectableRow]="user" [pContextMenuRow]="user">
-                <td style="width: 3em">
-                  <p-tableCheckbox [value]="user"></p-tableCheckbox>
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.prenom }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.nom }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.telephone }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.username }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ user.email }}
-                </td>
-               
-                <td class="ui-resizable-column text-center">
-                  {{ user.enabled ? 'Actif' : 'Inactif' }}
-                </td>
-                <td class="ui-resizable-column text-center">
-                {{user.fonction }}
-                <td class="ui-resizable-column">
-                  {{ user.lastLogin | date:'dd/MM/yyyy à HH:mm:ss' }}
-                </td>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="footer" let-columns>
-              <tr>
-                <td style="width: 3em">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </td>
-                <td>Prénom</td>
-                <td>Nom</td>
-                <td>Telephone</td>
-                <td>Username</td>
-                <td>Email</td>
-                <td>Etat Compte</td>
-                <td>Fonction</td>
-                <td>Dernière connexion</td>
-              </tr>
-            </ng-template>
-          </p-table>
-          <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
-          <p-toolbar>
-            <button *ngIf="'User'|deletable" (click)="deleteSelectedUsers()" type="button"
-              class="btn btn-outline-danger mr-1">
+                    </p-toolbar>
+                    <p-table #tt [value]="users" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedUsers" [resizableColumns]="true" [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedUser" [scrollable]="true"
+                        scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
+                        <ng-template pTemplate="caption">
+                            Liste des utilisateurs<br>
+                            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                            <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                            <div class="ui-helper-clearfix" style="text-align: left">
+                                <button *ngIf="'User'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>
+                                <button *ngIf="'User'|listable" type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="colgroup">
+                            <colgroup>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3em">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+                                <th [pSortableColumn]="'prenom'" pResizableColumn>
+                                    Prénom
+                                    <p-sortIcon [field]="'prenom'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'nom'" pResizableColumn>
+                                    Nom
+                                    <p-sortIcon [field]="'nom'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'telephone'" pResizableColumn>
+                                    Telephone
+                                    <p-sortIcon [field]="'telephone'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'username'" pResizableColumn>
+                                    Nom d'utilisateur
+                                    <p-sortIcon [field]="'username'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'email'" pResizableColumn>
+                                    Email
+                                    <p-sortIcon [field]="'email'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'enabled'" pResizableColumn>
+                                    Etat Compte
+                                    <p-sortIcon [field]="'enabled'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'fonction'" pResizableColumn>
+                                    Fonction
+                                    <p-sortIcon [field]="'fonction'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'lastLogin'" pResizableColumn>
+                                    Dernière connexion
+                                    <p-sortIcon [field]="'lastLogin'"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-user let-editing="editing">
+                            <tr [pEditableRow]="user" [pSelectableRow]="user" [pContextMenuRow]="user">
+                                <td style="width: 3em">
+                                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ user.prenom }}
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ user.nom }}
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ user.telephone }}
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ user.username }}
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ user.email }}
+                                </td>
+
+                                <td class="ui-resizable-column text-center">
+                                    {{ user.enabled ? 'Actif' : 'Inactif' }}
+                                </td>
+                                <td class="ui-resizable-column text-center">
+                                    {{user.fonction }}
+                                    <td class="ui-resizable-column">
+                                        {{ user.lastLogin | date:'dd/MM/yyyy à HH:mm:ss' }}
+                                    </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="footer" let-columns>
+                            <tr>
+                                <td style="width: 3em">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </td>
+                                <td>Prénom</td>
+                                <td>Nom</td>
+                                <td>Telephone</td>
+                                <td>Username</td>
+                                <td>Email</td>
+                                <td>Etat Compte</td>
+                                <td>Fonction</td>
+                                <td>Dernière connexion</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <p-contextMenu #contextMenu [model]="cMenuItems" (onShow)="showButtonActivationUser(user)"></p-contextMenu>
+                    <p-toolbar>
+                        <button *ngIf="'User'|deletable" (click)="deleteSelectedUsers()" type="button" class="btn btn-outline-danger mr-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
             </button>
-            <button *ngIf="'User'|creable" [routerLink]="['/'+userSrv.getRoutePrefix(),'new']"
-              routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
+                        <button *ngIf="'User'|creable" [routerLink]="['/'+userSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
               <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
             </button>
-          </p-toolbar>
-        </div>
-      </div>
-    </p-fieldset>
-  </div>
+                    </p-toolbar>
+                </div>
+            </div>
+        </p-fieldset>
+    </div>
 </div>
