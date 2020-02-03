@@ -4,40 +4,48 @@
     <p-fieldset legend="Création de Classe" [toggleable]="true">
         <!-- debut body -->
         <div class="row">
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="numero">Numero</label>
-                    <input required [(ngModel)]="classe.numero" class="form-control" type="text" name="numero" id="numero">
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input required [(ngModel)]="classe.libelle" class="form-control" type="text" name="libelle" id="libelle">
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-form-label form-control-label" for="typeClasse">Type</label>
-                    <ng-select required name="typeClasse" [items]="typeClasses" bindLabel="nom"
-                        placeholder="Selectionner le type de la classe" appendTo="body" [multiple]="false" [searchable]="true"
-                        [(ngModel)]="classe.typeClasse">
-                    </ng-select>
-                </div>
-            </div>
+
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="categorieClasse">Catégorie</label>
                     <ng-select required name="categorieClasse" [items]="categorieClasses" bindLabel="nom"
-                        placeholder="Selectionner la catégorie de la classe" appendTo="body" [multiple]="false" [searchable]="true"
-                        [(ngModel)]="classe.categorieClasse">
+                        placeholder="Selectionner la catégorie de la classe" appendTo="body" [multiple]="false"
+                        [searchable]="true" [(ngModel)]="classe.categorieClasse">
                     </ng-select>
                 </div>
             </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="typeClasse">Type</label>
+                    <ng-select required name="typeClasse" [items]="typeClasses" bindLabel="nom"
+                        placeholder="Selectionner le type de la classe" appendTo="body" [multiple]="false"
+                        [searchable]="true" [(ngModel)]="classe.typeClasse">
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
+                    <input required [(ngModel)]="classe.libelle" class="form-control" type="text" name="libelle"
+                        id="libelle">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="numero">Numero</label>
+                    <input required (input)="validateNumero()" [(ngModel)]="classe.numero"
+                        class="form-control" type="text" name="numero" id="numero">
+                </div>
+            </div>
+
             <div class="col-lg-12">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="description">Description</label>
-                    <textarea [(ngModel)]="classe.description" class="form-control" type="text" name="description" id="description"></textarea>
+                    <textarea [(ngModel)]="classe.description" class="form-control" type="text" name="description"
+                        id="description"></textarea>
                 </div>
             </div>
 
@@ -45,14 +53,16 @@
         <!-- fin body -->
         <p-toolbar>
             <button type="button" (click)="location.back()" class="btn btn-outline-secondary mr-1 pull-left"><i
-          class="fa fa-reply" aria-hidden="true"></i>
-        Retour</button>
+                    class="fa fa-reply" aria-hidden="true"></i>
+                Retour</button>
             <button type="reset" class="btn btn-secondary pull-left"><i class="fa fa-eraser" aria-hidden="true"></i>
-        Vider le formulaire</button>
-            <button [disabled]="classeForm.invalid" type="button" (click)="saveClasseAndExit()" class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
-        Enregistrer</button>
-            <button [disabled]="classeForm.invalid" type="button" (click)="saveClasse()" class="btn btn-outline-primary pull-right"> <i class="fa fa-save" aria-hidden="true"></i>
-        Enregistrer & Créer un autre</button>
+                Vider le formulaire</button>
+            <button [disabled]="classeForm.invalid && !validNumero" type="button" (click)="saveClasseAndExit()"
+                class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
+                Enregistrer</button>
+            <button [disabled]="classeForm.invalid && !validNumero" type="button" (click)="saveClasse()"
+                class="btn btn-outline-primary pull-right"> <i class="fa fa-save" aria-hidden="true"></i>
+                Enregistrer & Créer un autre</button>
         </p-toolbar>
     </p-fieldset>
 </form>
