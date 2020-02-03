@@ -5,5 +5,5 @@ export class Secteur {
   code: string;
   libelle: string;
   description: string;
-  fournisseurs: Fournisseur[];
+  fournisseurs: any[];
 }

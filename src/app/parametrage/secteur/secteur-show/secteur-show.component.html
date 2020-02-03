@@ -54,7 +54,7 @@
         <p-tabPanel header="Liste des fournisseurs" >
             <p-table #tt [value]="secteur.fournisseurs" [paginator]="true" [rows]="50" sortMode="multiple"
                 selectionMode="multiple" [(selection)]="selectedFournisseurs" [resizableColumns]="true" [responsive]="true"
-                [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id" >
+                [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id" [loading]="loading" >
                 <ng-template pTemplate="caption">
                     Liste des fournisseurs<br>
                     <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
