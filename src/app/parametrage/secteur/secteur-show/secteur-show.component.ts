@@ -54,12 +54,9 @@ export class SecteurShowComponent implements OnInit {
   deleteSelectedFournisseurs() {
     if (this.selectedFournisseurs) {
       this.loading = true;
-      console.log(this.selectedFournisseurs);
       this.notSelectedFournisseurs = this.secteur.fournisseurs.filter(o => this.selectedFournisseurs.some(({id}) => o.id !== id));
       this.secteur.fournisseurs = this.notSelectedFournisseurs;
-      console.log(this.secteur.fournisseurs);
       this.secteur.fournisseurs = this.secteur.fournisseurs.map(data => data.id);
-      console.log(this.secteur.fournisseurs);
       this.secteurSrv.update(this.secteur).subscribe(
         (data: any ) => {
           this.loading = false;
