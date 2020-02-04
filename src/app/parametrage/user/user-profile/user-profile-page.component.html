@@ -17,6 +17,10 @@
                         </div>
                     </div>
                     <div class="col-5">
+                        <!--alert -->
+                        <div class="alert-success" *ngIf="showAlert">
+                            <ngb-alert type="success" (close)="alertClose()">Mot de passe modifié avec succés</ngb-alert>
+                        </div>
                         <div class="profile-cover-buttons">
                             <div class="align-self-end">
                                 <div class="text-right d-none d-sm-none d-md-none d-lg-block">

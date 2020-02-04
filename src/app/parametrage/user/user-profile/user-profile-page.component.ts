@@ -16,7 +16,7 @@ export class UserProfilePageComponent implements OnInit {
 
     user: User;
     content: any;
-    showAlert: boolean;
+    showAlert: any;
 
     type_entites: TypeEntite[] = [];
     selectedTypeEntites: TypeEntite[];
@@ -51,9 +51,17 @@ export class UserProfilePageComponent implements OnInit {
             .subscribe(
                 (data: any) => {
                     this.userSrv.httpSrv.notificationSrv.showInfo('Mot de passe modifié avec succés');
-                    this.modalProfil.dismissAll();
+                    this.showAlert = true;
+                    this.modalClose();
                 },
                 error => this.userSrv.httpSrv.handleError(error));
+    }
+
+     modalClose() {
+        this.modalProfil.dismissAll('Cross click');
+    }
+    alertClose(){
+        this.showAlert = false;
     }
 
 }
