@@ -104,9 +104,10 @@
                                 </td>
                                 <td class="ui-resizable-column text-center">
                                     {{user.fonction }}
-                                    <td class="ui-resizable-column">
-                                        {{ user.lastLogin | date:'dd/MM/yyyy à HH:mm:ss' }}
-                                    </td>
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ user.lastLogin | date:'dd/MM/yyyy à HH:mm:ss' }}
+                                </td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="footer" let-columns>
