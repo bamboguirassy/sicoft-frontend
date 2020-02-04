@@ -19,7 +19,7 @@ export class User {
         entites: any;
         etatMarche: any;
 
-        //temp variable
+        // temp variable
         currentPassword: string;
         newPassword: string;
         confirmPassword: string;
