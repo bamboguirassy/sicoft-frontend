@@ -30,6 +30,7 @@ export class ExerciceEditComponent implements OnInit {
     this.exercice = this.activatedRoute.snapshot.data['exercice'];
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateToDmy(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateToDmy(this.exercice.dateFin);
+    this.exercices = this.exercices.filter(data => data.id !== this.exercice.id);
   }
 
   updateExercice() {
