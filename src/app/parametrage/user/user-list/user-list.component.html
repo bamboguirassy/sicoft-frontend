@@ -18,10 +18,25 @@
                     <p-table #tt [value]="users" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedUsers" [resizableColumns]="true" [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedUser" [scrollable]="true"
                         scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
                         <ng-template pTemplate="caption">
-                            Liste des utilisateurs<br>
-                            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                            <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                            Liste des utilisateurs
+                           <div class="row justify-content-center">
+                               <div  class="ui-inputgroup mb-2">
+                                   <span class="ui-inputgroup-addon bg-primary"><i class="fa fa-search text-white-50"></i></span>
+                                   <input class="" type="text" pInputText size="50" placeholder="Rechercher dans le tableau" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                               </div>
+                           </div>
                             <div class="ui-helper-clearfix" style="text-align: left">
+                                <div class="btn-group btn-group-toggle">
+                                    <label class="btn-primary" ngbButtonLabel>
+                                        <input type="checkbox" ngbButton [(ngModel)]="model.left"><span class="text-white"><i [class.fa-check]="model.left" class="fa mr-1"></i>Groupe</span>
+                                    </label>
+                                    <label class="btn-primary" ngbButtonLabel>
+                                        <input type="checkbox" ngbButton [(ngModel)]="model.middle"><span class="text-white"><i [class.fa-check]="model.middle" class="fa mr-1"></i>Groupe 2</span>
+                                    </label>
+                                    <label class="btn-primary" ngbButtonLabel>
+                                        <input type="checkbox" ngbButton [(ngModel)]="model.right"><span class="text-white"><i [class.fa-check]="model.right" class="fa mr-1"></i>Super Admin</span>
+                                    </label>
+                                </div>
                                 <button *ngIf="'User'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>
                                 <button *ngIf="'User'|listable" type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
                             </div>
@@ -126,7 +141,7 @@
                             </tr>
                         </ng-template>
                     </p-table>
-                    <p-contextMenu #contextMenu [model]="cMenuItems" (onShow)="showButtonActivationUser(user)"></p-contextMenu>
+                    <p-contextMenu #contextMenu [model]="cMenuItems" (onShow)="showButtonActivationUser()"></p-contextMenu>
                     <p-toolbar>
                         <button *ngIf="'User'|deletable" (click)="deleteSelectedUsers()" type="button" class="btn btn-outline-danger mr-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection

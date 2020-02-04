@@ -25,6 +25,12 @@ export class UserListComponent implements OnInit {
   // allowed fields for filter
   globalFilterFields = allowedUserFieldsForFilter;
 
+  model = {
+    left: true,
+    middle: false,
+    right: false
+  };
+
   constructor(
     private activatedRoute: ActivatedRoute,
     public userSrv: UserService,
@@ -85,7 +91,7 @@ export class UserListComponent implements OnInit {
     );
   }
 
-  deleteSelectedUsers(user: User) {
+  deleteSelectedUsers() {
     this.userSrv.removeSelection(this.selectedUsers).subscribe(
       data => this.refreshList(),
       error => this.userSrv.httpSrv.handleError(error)
