@@ -60,7 +60,7 @@ export class SecteurShowComponent implements OnInit {
       this.secteurSrv.update(this.secteur).subscribe(
         (data: any ) => {
           this.loading = false;
-          this.secteur.fournisseurs = data.fournisseurs
+          this.secteur.fournisseurs = data.fournisseurs;
         }, error => this.secteurSrv.httpSrv.handleError(error)
       );
     } else {
