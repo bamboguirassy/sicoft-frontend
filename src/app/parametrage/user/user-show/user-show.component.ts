@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
+import { Entite } from '../../entite/entite';
+import { EtatMarche } from '../../etat_marche/etat_marche';
 
 @Component({
   selector: 'app-user-show',
@@ -13,6 +15,8 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class UserShowComponent implements OnInit {
 
   user: User;
+  entites: Entite;
+  etatMarches: EtatMarche;
   constructor(public activatedRoute: ActivatedRoute,
     public userSrv: UserService, public location: Location,
     public router: Router, public notificationSrv: NotificationService) {
@@ -20,6 +24,8 @@ export class UserShowComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.activatedRoute.snapshot.data['user'];
+    this.entites = this.activatedRoute.snapshot.data['entites'];
+    this.etatMarches = this.activatedRoute.snapshot.data['etatMarches'];
   }
 
   removeUser() {
@@ -37,12 +43,13 @@ export class UserShowComponent implements OnInit {
   this.userSrv.update(user)
   .subscribe(
     (data: any) => {
-      if (user.enabled){
+      if (user.enabled) {
         this.notificationSrv.showInfo('Utilisateur activé!');
-      } else 
+      } else {
       this.notificationSrv.showInfo('Utilisateur désactivé');
+      }
     }
-  ,error => this.userSrv.httpSrv.handleError(error));
+  , error => this.userSrv.httpSrv.handleError(error));
 }
 
 }

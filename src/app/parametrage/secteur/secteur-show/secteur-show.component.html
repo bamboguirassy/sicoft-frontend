@@ -51,8 +51,8 @@
                 </p-toolbar>
             </p-fieldset>
         </p-tabPanel>
-        <p-tabPanel header="Liste des fournisseurs" >
-            <p-table #tt [value]="secteur.fournisseurs" [paginator]="true" [rows]="50" sortMode="multiple"
+        <p-tabPanel header="Liste des fournisseurs">
+            <p-table #tt *ngIf="!loading" [value]="secteur.fournisseurs" [paginator]="true" [rows]="50" sortMode="multiple"
                 selectionMode="multiple" [(selection)]="selectedFournisseurs" [resizableColumns]="true" [responsive]="true"
                 [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id" [loading]="loading" >
                 <ng-template pTemplate="caption">
@@ -154,6 +154,11 @@
                     </tr>
                 </ng-template>
             </p-table>
+            <div *ngIf="loading" class="row">
+                <div class="offset-sm-5 offset-xl-5 offset-md-5 col-sm-7 col-md-7 col-lg-7">
+                  <p-progressSpinner animationDuration=".3s" ></p-progressSpinner>
+                </div>
+              </div>
             <p-toolbar>
                 <button *ngIf="'Entite'|deletable" (click)="deleteSelectedFournisseurs()" type="button"
                     class="btn btn-outline-danger">

@@ -2,7 +2,7 @@
 </p-toast>
 <!-- form sous_classe info -->
 <form *ngIf="'SousClasse'|clonable" class="form" role="form" #sous_classeForm="ngForm" autocomplete="off">
-    <p-fieldset legend="Clonage sous_classe" [toggleable]="true">
+    <p-fieldset legend="Cloner une sous classe" [toggleable]="true">
         <p-toolbar>
             <button type="button" (click)="location.back()" class="btn btn-outline-secondary mr-1 pull-left">
                 <i class="fa fa-reply" aria-hidden="true"></i>
@@ -37,9 +37,9 @@
             <div class="col-lg-6">
             <div class="form-group">
                 <label class="col-form-label form-control-label" for="classe">Classe</label>
-                <ng-select required name="classe" [items]="classes" bindLabel="nom"
+                <ng-select required name="classe" [items]="classes" bindLabel="libelle"
                     placeholder="Selectionner la classe" appendTo="body" [multiple]="false" [searchable]="true"
-                    [(ngModel)]="sous_classe.classe">
+                    [(ngModel)]="sous_classe.classe.libelle">
                 </ng-select>
             </div>
             </div>

@@ -32,7 +32,7 @@ export class SecteurShowComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.secteur = this.activatedRoute.snapshot.data["secteur"];
+    this.secteur = this.activatedRoute.snapshot.data['secteur'];
   }
 
   removeSecteur() {
@@ -61,6 +61,7 @@ export class SecteurShowComponent implements OnInit {
         (data: any ) => {
           this.loading = false;
           this.secteur.fournisseurs = data.fournisseurs
+          this.selectedFournisseurs = null;
         }, error => this.secteurSrv.httpSrv.handleError(error)
       );
     } else {

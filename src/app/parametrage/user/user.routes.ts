@@ -9,6 +9,7 @@ import { MultipleUserResolver } from './multiple-user.resolver';
 import { OneUserResolver } from './one-user.resolver';
 import { MultipleGroupResolver } from '../group/multiple-group.resolver';
 import { UserProfilePageComponent } from './user-profile/user-profile-page.component';
+import { MultipleEtatMarcheResolver } from '../etat_marche/multiple-etat_marche.resolver';
 
 const userRoutes: Route = {
   path: 'user',
@@ -16,7 +17,8 @@ const userRoutes: Route = {
     {
       path: '',
       component: UserListComponent,
-      resolve: { users: MultipleUserResolver }
+      resolve: { users: MultipleUserResolver,
+        entites: MultipleEntiteResolver, etatMarches: MultipleEtatMarcheResolver }
     },
     {
       path: 'new',

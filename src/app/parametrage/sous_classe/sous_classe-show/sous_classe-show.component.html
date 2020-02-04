@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-fieldset *ngIf="'SousClasse'|showable" legend="Affichage des informations - Utilisateur" [toggleable]="true">
+<p-fieldset *ngIf="'SousClasse'|showable" legend="Affichage des informations d'une Sous Classe" [toggleable]="true">
   <p-toolbar>
     <button *ngIf="'SousClasse'|editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/'+sous_classeSrv.getRoutePrefix(),sous_classe.id,'edit']">
       <i class="fa fa-pencil-square-o ml-1"></i>
