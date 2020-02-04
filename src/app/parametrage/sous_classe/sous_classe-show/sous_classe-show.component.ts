@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SousClasseService } from '../sous_classe.service';
 import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
+import { Classe } from '../../classe/classe';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,6 +15,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class SousClasseShowComponent implements OnInit {
 
   sous_classe: SousClasse;
+  classes: Classe[] = [];
   constructor(public activatedRoute: ActivatedRoute,
     public sous_classeSrv: SousClasseService, public location: Location,
     public router: Router, public notificationSrv: NotificationService) {
@@ -21,6 +23,7 @@ export class SousClasseShowComponent implements OnInit {
 
   ngOnInit() {
     this.sous_classe = this.activatedRoute.snapshot.data['sous_classe'];
+    this.classes = this.activatedRoute.snapshot.data['classes'];
   }
 
   removeSousClasse() {

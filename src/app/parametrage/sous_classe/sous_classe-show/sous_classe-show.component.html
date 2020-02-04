@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-fieldset *ngIf="'SousClasse'|showable" legend="Affichage des informations - Utilisateur" [toggleable]="true">
+<p-fieldset *ngIf="'SousClasse'|showable" legend="Affichage des informations d'une Sous Classe" [toggleable]="true">
   <p-toolbar>
     <button *ngIf="'SousClasse'|editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/'+sous_classeSrv.getRoutePrefix(),sous_classe.id,'edit']">
       <i class="fa fa-pencil-square-o ml-1"></i>
@@ -12,6 +12,8 @@
       <i class="fa fa-trash-o"></i> Supprimer</button>
     <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()">
       <i class="fa fa-reply"></i> Retour</button>
+      <button type="button" class="btn btn-outline-success pull-left ml-1" routerLink="/sousClasse"><i
+        class="fa fa-list"></i> Voir la liste</button>
   </p-toolbar>
   <p-tabView>
     <p-tabPanel header="Détails">
@@ -46,6 +48,7 @@
             <i class="fa fa-trash-o"></i> Supprimer</button>
           <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()">
             <i class="fa fa-reply"></i> Retour</button>
+
           <button *ngIf="'SousClasse'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
             <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
           </button>

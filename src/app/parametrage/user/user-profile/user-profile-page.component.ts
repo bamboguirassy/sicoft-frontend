@@ -16,10 +16,11 @@ export class UserProfilePageComponent implements OnInit {
 
     user: User;
     content: any;
+    showAlert: boolean;
 
     type_entites: TypeEntite[] = [];
-  selectedTypeEntites: TypeEntite[];
-  selectedTypeEntite: TypeEntite;
+    selectedTypeEntites: TypeEntite[];
+    selectedTypeEntite: TypeEntite;
 
     // Variable Declaration
     currentPage: string = 'About'
@@ -38,17 +39,21 @@ export class UserProfilePageComponent implements OnInit {
         this.currentPage = page;
     }
 
-    toggleModal(content){
-        this.modalProfil.open(content, {size: 'lg', backdropClass: 'light-blue-backdrop', centered: true});
+    toggleModal(content) {
+        this.modalProfil.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
     }
     updatePassword() {
+        this.showAlert = false;
         this.user.currentPassword = this.user.currentPassword;
         this.user.newPassword = this.user.newPassword,
-        this.user.confirmPassword = this.user.confirmPassword;
+            this.user.confirmPassword = this.user.confirmPassword;
         this.userSrv.updatePassword(this.user)
-        .subscribe(
-            (data:any) => this.userSrv.httpSrv.notificationSrv.showInfo('Mot de passe modifié avec succés'),
-            error => this.userSrv.httpSrv.handleError(error));    
+            .subscribe(
+                (data: any) => {
+                    this.userSrv.httpSrv.notificationSrv.showInfo('Mot de passe modifié avec succés');
+                    this.modalProfil.dismissAll();
+                },
+                error => this.userSrv.httpSrv.handleError(error));
     }
-   
+
 }

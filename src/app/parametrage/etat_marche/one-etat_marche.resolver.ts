@@ -8,7 +8,7 @@ import { EtatMarcheService } from './etat_marche.service';
   providedIn: 'root'
 })
 export class OneEtatMarcheResolver implements Resolve<any> {
-  resolve(route: import("@angular/router").ActivatedRouteSnapshot, state: import("@angular/router").RouterStateSnapshot) {
+  resolve(route: import('@angular/router').ActivatedRouteSnapshot, state: import('@angular/router').RouterStateSnapshot) {
     return this.etat_marcheSrv.findOneById(route.params.id).pipe(map(data => {
       return data;
     }),
@@ -18,6 +18,6 @@ export class OneEtatMarcheResolver implements Resolve<any> {
     }));
   }
 
-  constructor(public etat_marcheSrv:EtatMarcheService) { }
+  constructor(public etat_marcheSrv: EtatMarcheService) { }
 }
 

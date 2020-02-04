@@ -10,13 +10,15 @@ import { MultipleClasseResolver } from '../classe/multiple-classe.resolver';
 
 const sous_classeRoutes: Route = {
     path: 'sousClasse', children: [
-        { path: '', component: SousClasseListComponent, resolve: { sous_classes: MultipleSousClasseResolver } },
+        // tslint:disable-next-line:max-line-length
+        { path: '', component: SousClasseListComponent, resolve: { sous_classes: MultipleSousClasseResolver, classes: MultipleClasseResolver } },
         { path: 'new', component: SousClasseNewComponent, resolve: { classes: MultipleClasseResolver}},
         // tslint:disable-next-line:max-line-length
         { path: ':id/edit', component: SousClasseEditComponent, resolve: { sous_classe: OneSousClasseResolver, classes: MultipleClasseResolver } },
         // tslint:disable-next-line:max-line-length
         { path: ':id/clone', component: SousClasseCloneComponent, resolve: { sous_classe: OneSousClasseResolver, classes: MultipleClasseResolver} },
-        { path: ':id', component: SousClasseShowComponent, resolve: { sous_classe: OneSousClasseResolver } }
+        // tslint:disable-next-line:max-line-length
+        { path: ':id', component: SousClasseShowComponent, resolve: { sous_classe: OneSousClasseResolver, classes: MultipleClasseResolver } }
     ]
 
 };
