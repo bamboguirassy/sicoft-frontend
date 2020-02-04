@@ -26,33 +26,32 @@ export class FournisseurNewComponent implements OnInit {
   }
 
   saveFournisseur() {
-    if (this.fournisseur.secteurs) {
-      const secteurid = [];
-    this.fournisseur.secteurs.forEach(secteur => {
-      secteurid.push(secteur.id);
-      this.fournisseur.secteurs = secteurid;
-    });
-
+    const tempFournisseur = new Fournisseur();
+    Object.assign(tempFournisseur, this.fournisseur)
+    if (tempFournisseur.secteurs) {
+      tempFournisseur.secteurs = tempFournisseur.secteurs.map(secteur => secteur.id);
     }
-    this.fournisseurSrv.create(this.fournisseur)
+    this.fournisseurSrv.create(tempFournisseur)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Fournisseur créé avec succès');
         this.fournisseur = new Fournisseur();
-      }, error => this.fournisseurSrv.httpSrv.handleError(error));
+      }, error => {
+        this.fournisseurSrv.httpSrv.handleError(error);
+      });
   }
 
   saveFournisseurAndExit() {
-    if (this.fournisseur.secteurs) {
-      const secteurid = [];
-    this.fournisseur.secteurs.forEach(secteur => {
-      secteurid.push(secteur.id);
-      this.fournisseur.secteurs = secteurid;
-    });
-  }
-    this.fournisseurSrv.create(this.fournisseur)
+    const tempFournisseur = new Fournisseur();
+    Object.assign(tempFournisseur, this.fournisseur)
+    if (tempFournisseur.secteurs) {
+      tempFournisseur.secteurs = tempFournisseur.secteurs.map(secteur => secteur.id);
+    }
+    this.fournisseurSrv.create(tempFournisseur)
       .subscribe((data: any) => {
         this.router.navigate([this.fournisseurSrv.getRoutePrefix(), data.id]);
-      }, error => this.fournisseurSrv.httpSrv.handleError(error));
+      }, error => {
+        this.fournisseurSrv.httpSrv.handleError(error)
+      });
   }
 
 }

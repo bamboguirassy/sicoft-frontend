@@ -13,69 +13,73 @@
         </p-toolbar>
         <!-- debut body -->
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-sm-6 col-md-6">
                 <div class="form-group">
-                    <label class="col-form-label form-control-label" for="nom">Nom</label>
+                    <label class="col-form-label form-control-label" for="nom">Nom Complet</label>
                     <input required [(ngModel)]="fournisseur.nom" class="form-control" type="text" name="nom" id="nom">
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-sm-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="telephone">Telephone</label>
-                    <input required [(ngModel)]="fournisseur.telephone" class="form-control" type="text" name="telephone"
-                        id="telephone">
+                    <p-inputMask required [(ngModel)]="fournisseur.telephone" styleClass="form-control" type="text"
+                        name="telephone" id="telephone" mask="99-999-99-99">
+                    </p-inputMask>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-sm-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="email">Email</label>
-                    <input required [(ngModel)]="fournisseur.email" class="form-control" type="text" name="email" id="email">
+                    <input required [(ngModel)]="fournisseur.email" class="form-control" type="text" name="email"
+                        id="email">
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-sm-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="adresse">Adresse</label>
                     <input required [(ngModel)]="fournisseur.adresse" class="form-control" type="text" name="adresse"
                         id="adresse">
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-sm-6 col-md-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="ninea">Ninea</label>
-                    <input required [(ngModel)]="fournisseur.ninea" class="form-control" type="text" name="ninea" id="ninea">
+                    <input required [(ngModel)]="fournisseur.ninea" class="form-control" type="text" name="ninea"
+                        id="ninea">
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-sm-6 col-md-6">
                 <div class="form-group">
-                    <label class="col-form-label form-control-label" for="nomContact">NomContact</label>
-                    <input required [(ngModel)]="fournisseur.nomContact" class="form-control" type="text" name="nomContact"
-                        id="nomContact">
+                    <label class="col-form-label form-control-label" for="nomContact">Nom Complet du Contact</label>
+                    <input required [(ngModel)]="fournisseur.nomContact" class="form-control" type="text"
+                        name="nomContact" id="nomContact">
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-sm-6 col-md-6">
                 <div class="form-group">
-                    <label class="col-form-label form-control-label" for="telephoneContact">TelephoneContact</label>
-                    <input required [(ngModel)]="fournisseur.telephoneContact" class="form-control" type="text"
-                        name="telephoneContact" id="telephoneContact">
+                    <label class="col-form-label form-control-label" for="telephone-contact">Telephone Contact</label>
+                    <p-inputMask required [(ngModel)]="fournisseur.telephoneContact" styleClass="form-control"
+                        type="text" name="telephone-contact" id="telephone-contact" mask="99-999-99-99">
+                    </p-inputMask>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-sm-6 col-md-6">
                 <div class="form-group">
-                    <label class="col-form-label form-control-label" for="fonctionContact">FonctionContact</label>
+                    <label class="col-form-label form-control-label" for="fonctionContact">Fonction Contact</label>
                     <input [(ngModel)]="fournisseur.fonctionContact" class="form-control" type="text"
                         name="fonctionContact" id="fonctionContact">
                 </div>
             </div>
 
-            <div class="col-lg-4">
+            <div class="col-lg-6 col-sm-6 col-md-6">
                 <div class="form-group">
-                    <label class="col-form-label form-control-label" for="secteurs">Secteurs</label> <br>
-                    <p-multiSelect name="secteurs" defaultLabel="Selectionner un ou plusieurs secteurs" [options]="secteurs"
-                        [(ngModel)]="fournisseur.secteurs" optionLabel="libelle"></p-multiSelect>
+                    <label class="col-form-label form-control-label" for="addedSecteur">Secteurs</label>
+                    <ng-select required name="selectedEtatMarche" [items]="secteurs" bindLabel="libelle"
+                        placeholder="Selectionner un ou plusieurs secteur" appendTo="body" [multiple]="true"
+                        [searchable]="true" [(ngModel)]="fournisseur.secteurs">
+                    </ng-select>
                 </div>
             </div>
-
-
         </div>
         <!-- fin body -->
         <p-toolbar>

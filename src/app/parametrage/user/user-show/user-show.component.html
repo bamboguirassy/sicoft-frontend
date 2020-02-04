@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-fieldset *ngIf="'User'|showable" legend="Affichage des informations - Utilisateur" [toggleable]="true">
+<p-fieldset *ngIf="'User'|showable" legend="Affichage des informations d'un utilisateur" [toggleable]="true">
     <p-toolbar>
         <button *ngIf="'User'|editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/'+userSrv.getRoutePrefix(),user.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
       Modifier</button>
@@ -9,6 +9,7 @@
         <button *ngIf="'User'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeUser()"><i class="fa fa-trash-o"></i> Supprimer</button>
         <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
         class="fa fa-reply"></i> Retour</button>
+        
         <button *ngIf="!user.enabled" type="button" class="btn btn-outline-primary pull-right ml-1" (click)="updateEtat(user)">
           Activer compte Utilisateur<i class="pi pi-unlock "></i>
       </button>
