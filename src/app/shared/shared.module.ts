@@ -34,6 +34,7 @@ import { RoMsChipsComponent } from './ro-ms-chips/ro-ms-chips.component';
         FooterComponent,
         NavbarComponent,
         SidebarComponent,
+        RoMsChipsComponent,
         NotificationSidebarComponent,
         ToggleFullscreenDirective,
         SidebarDirective,

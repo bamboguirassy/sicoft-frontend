@@ -27,6 +27,7 @@
               <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
               <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
                 (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+              <ro-ms-chips></ro-ms-chips>
               <div class="ui-helper-clearfix" style="text-align: left">
                 <button *ngIf="'Fournisseur'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left"
                   label="PDF" (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>
