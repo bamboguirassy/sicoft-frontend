@@ -1,7 +1,7 @@
 .chip{
     display: inline-flex;
     flex-direction: row;
-    background-color: #e5e5e5;
+    background-color: #bdc3c7;
     border: none;
     cursor: default;
     height: 36px;
@@ -25,4 +25,9 @@
     white-space: nowrap;
     padding-left: 12px;
     padding-right: 12px;
+}
+
+.selected-chips, .chip:hover {
+    background-color: #16647A;
+    color: white;
 }

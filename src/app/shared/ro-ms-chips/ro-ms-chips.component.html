@@ -1,7 +1,15 @@
 <div class="row m-3">
   <div class="col-sm-12 col-md-12 col-lg-12">
-    <div class="chip">
-      <div class="chip-content">Chip Content</div>
+    <div 
+    [hidden]="!hasItems"
+    [class.selected-chips]="item.checked"
+    class="chip ml-1 p-1" 
+    (click)="handleClick(item)" 
+    *ngFor="let item of items">
+      <div class="chip-content">
+        {{ item.bindLabel }}
+      </div>
+      <i [hidden]="!item.checked" [class]="iconClass"></i>
     </div>
   </div>
 </div>
