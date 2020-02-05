@@ -57,4 +57,9 @@ export class FournisseurEditComponent implements OnInit {
         error => this.fournisseurSrv.httpSrv.handleError(error));
   }
 
+  onRemove(e: any) {
+    this.secteurs.push(e.value);
+    this.secteurs = this.secteurs.slice(0);
+  }
+
 }
