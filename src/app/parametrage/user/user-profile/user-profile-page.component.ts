@@ -23,16 +23,19 @@ export class UserProfilePageComponent implements OnInit {
     selectedTypeEntite: TypeEntite;
 
     // Variable Declaration
-    currentPage: string = 'About'
+    currentPage = 'About'
+    alert: any;
 
     constructor(public authSrv: AuthService,
         public modalProfil: NgbModal,
-        public userSrv: UserService) { }
+        public userSrv: UserService,
+        public modalService: NgbModal, public activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
         return this.authSrv.currentUserProvider.subscribe((user: any) => {
             this.user = user;
         });
+        this.user = this.activatedRoute.snapshot.data['user'];
     }
 
     showPage(page: string) {
@@ -40,7 +43,10 @@ export class UserProfilePageComponent implements OnInit {
     }
 
     toggleModal(content) {
-        this.modalProfil.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+           this.modalProfil.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+    }
+    toggle1Modal(content1) {
+        this.modalService.open(content1, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
     }
     updatePassword() {
         this.showAlert = false;
@@ -60,8 +66,18 @@ export class UserProfilePageComponent implements OnInit {
      modalClose() {
         this.modalProfil.dismissAll('Cross click');
     }
-    alertClose(){
+    alertClose() {
         this.showAlert = false;
     }
+  editProfilUser(modal: any) {
+    // this.user = this.user.id;
+        this.userSrv.editProfil(this.user).subscribe(
+            (data: any) => {
+                this.userSrv.httpSrv.notificationSrv.showInfo('Utilisateur modifié avec succès');
+                this.user = new User();
+            },
+        error => this.userSrv.httpSrv.handleError(error));
 
+
+  }
 }
