@@ -12,6 +12,8 @@
       <i class="fa fa-trash-o"></i> Supprimer</button>
     <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()">
       <i class="fa fa-reply"></i> Retour</button>
+      <button type="button" class="btn btn-outline-success pull-left ml-1" routerLink="/sousClasse"><i
+        class="fa fa-list"></i> Voir la liste</button>
   </p-toolbar>
   <p-tabView>
     <p-tabPanel header="Détails">
@@ -46,6 +48,7 @@
             <i class="fa fa-trash-o"></i> Supprimer</button>
           <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()">
             <i class="fa fa-reply"></i> Retour</button>
+
           <button *ngIf="'SousClasse'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
             <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
           </button>

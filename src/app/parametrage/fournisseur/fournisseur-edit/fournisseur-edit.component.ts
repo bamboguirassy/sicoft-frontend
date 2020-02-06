@@ -16,6 +16,7 @@ export class FournisseurEditComponent implements OnInit {
 
   fournisseur: Fournisseur;
   secteurs: Secteur[] = [];
+  selectedSecteur: Secteur[] = [];
   constructor(public fournisseurSrv: FournisseurService,
     public activatedRoute: ActivatedRoute,
     public route: ActivatedRoute,
@@ -26,21 +27,39 @@ export class FournisseurEditComponent implements OnInit {
   ngOnInit() {
     this.fournisseur = this.activatedRoute.snapshot.data['fournisseur'];
     this.secteurs = this.route.snapshot.data['secteurs'];
+    const filteredSecteur: Secteur[] = [];
+    this.secteurs.forEach(secteur => {
+      let founded = false;
+      this.fournisseur.secteurs.forEach(addedSecteur => {
+        if (secteur.id === addedSecteur.id) {
+          founded = true;
+        }
+      })
+      if (!founded) {
+        filteredSecteur.push(secteur);
+      }
+    })
+    this.secteurs = filteredSecteur;
   }
 
   updateFournisseur() {
-
+    this.selectedSecteur.forEach(selectedSecteur => {
+      this.fournisseur.secteurs.push(selectedSecteur);
+    })
+    const tempFournisseur = new Fournisseur();
+    Object.assign(tempFournisseur, this.fournisseur)
     if (this.fournisseur.secteurs) {
-        const secteurid = [];
-    this.fournisseur.secteurs.forEach(secteur => {
-      secteurid.push(secteur.id);
-      this.fournisseur.secteurs = secteurid;
-    });
+      tempFournisseur.secteurs = tempFournisseur.secteurs.map(secteur => secteur.id);
     }
 
-    this.fournisseurSrv.update(this.fournisseur)
+    this.fournisseurSrv.update(tempFournisseur)
       .subscribe(data => this.location.back(),
         error => this.fournisseurSrv.httpSrv.handleError(error));
+  }
+
+  onRemove(e: any) {
+    this.secteurs.push(e.value);
+    this.secteurs = this.secteurs.slice(0);
   }
 
 }

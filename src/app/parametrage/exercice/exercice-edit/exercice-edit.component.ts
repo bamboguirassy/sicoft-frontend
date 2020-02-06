@@ -30,30 +30,33 @@ export class ExerciceEditComponent implements OnInit {
     this.exercice = this.activatedRoute.snapshot.data['exercice'];
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateToDmy(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateToDmy(this.exercice.dateFin);
+    this.exercices = this.exercices.filter(data => data.id !== this.exercice.id);
   }
 
   updateExercice() {
+    let exerciceTemp = new Exercice();
+    Object.assign(exerciceTemp, this.exercice);
     let tempDateDebut = this.exercice.dateDebut;
     let tempDateFin = this.exercice.dateFin;
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
-    if(this.exercice.exerciceSuivant){
-      this.exercice.exerciceSuivant = this.exercice.exerciceSuivant.id;
+    if (this.exercice.exerciceSuivant) {
+      exerciceTemp.exerciceSuivant = exerciceTemp.exerciceSuivant.id;
     }
-    this.exerciceSrv.update(this.exercice)
+    this.exerciceSrv.update(exerciceTemp)
       .subscribe((data) => {
         this.exercice.dateDebut = tempDateDebut;
         this.exercice.dateFin = tempDateFin;
         this.location.back()
-      },error => {
-          if (error.error.code === 417) {
-            this.toggleConfirmModal(this.modalContentRef);
-          } else {
-            this.exercice.dateDebut = tempDateDebut;
-            this.exercice.dateFin = tempDateFin;
-            this.exerciceSrv.httpSrv.handleError(error)
-          }
-        });
+      }, error => {
+        if (error.error.code === 417) {
+          this.toggleConfirmModal(this.modalContentRef);
+        } else {
+          this.exercice.dateDebut = tempDateDebut;
+          this.exercice.dateFin = tempDateFin;
+          this.exerciceSrv.httpSrv.handleError(error)
+        }
+      });
   }
 
   public toggleConfirmModal(content: TemplateRef<any>) {

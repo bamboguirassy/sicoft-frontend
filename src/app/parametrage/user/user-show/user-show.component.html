@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-fieldset *ngIf="'User'|showable" legend="Affichage des informations - Utilisateur" [toggleable]="true">
+<p-fieldset *ngIf="'User'|showable" legend="Affichage des informations d'un utilisateur" [toggleable]="true">
     <p-toolbar>
         <button *ngIf="'User'|editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/'+userSrv.getRoutePrefix(),user.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
       Modifier</button>
@@ -9,6 +9,7 @@
         <button *ngIf="'User'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeUser()"><i class="fa fa-trash-o"></i> Supprimer</button>
         <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
         class="fa fa-reply"></i> Retour</button>
+        
         <button *ngIf="!user.enabled" type="button" class="btn btn-outline-primary pull-right ml-1" (click)="updateEtat(user)">
           Activer compte Utilisateur<i class="pi pi-unlock "></i>
       </button>
@@ -76,18 +77,97 @@
             </p-fieldset>
         </p-tabPanel>
         <p-tabPanel header="Liste des entites">
-           <table>
-            <tr>
-                <th>Entité associés</th>
-                <td>
-                    <p-chips disabled="true" [(ngModel)]="user.entites">
-                        <ng-template let-item pTemplate="item">
-                            {{item.nom}} - ({{item.code}}) <i class="fa fa-gift" aria-hidden="true"></i>
+           <p-table #tt [value]="user.entites" [paginator]="true" [rows]="50" sortMode="multiple"
+                             selectionMode="multiple" [(selection)]="selectedEntites" [resizableColumns]="true"
+                             [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedEntite"
+                             [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields"
+                             dataKey="id">
+                        <ng-template pTemplate="caption">
+                            Liste des entités<br>
+                            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                            <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
+                                   (input)="tt.filterGlobal($event.target['value'], 'contains')" style="width:auto">
+                            <div class="ui-helper-clearfix" style="text-align: left">
+                                <button *ngIf="'Entite'|listable" type="button" pButton icon="pi pi-file-pdf"
+                                        iconPos="left" label="PDF" (click)="exportPdf()"
+                                        class="ui-button-warning pull-right ml-1"></button>
+                                <button *ngIf="'Entite'|listable" type="button" pButton icon="pi pi-file-excel"
+                                        iconPos="left" label="EXCEL" (click)="exportExcel()"
+                                        style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
+                            </div>
                         </ng-template>
-                    </p-chips>
-                </td>
-            </tr>
-           </table>
+                        <ng-template pTemplate="colgroup">
+                            <colgroup>
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3em">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+                                <th [pSortableColumn]="'nom'" pResizableColumn>
+                                    Nom
+                                    <p-sortIcon [field]="'nom'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'code'" pResizableColumn>
+                                    Code
+                                    <p-sortIcon [field]="'code'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'etat'" pResizableColumn>
+                                    Etat
+                                    <p-sortIcon [field]="'etat'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'entiteParent'" pResizableColumn>
+                                    Entité Parent
+                                    <p-sortIcon [field]="'entiteParent'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'typeEntite'" pResizableColumn>
+                                    Type Entité
+                                    <p-sortIcon [field]="'typeEntite'"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-entite>
+                            <tr [pEditableRow]="entite" [pSelectableRow]="entite" [pContextMenuRow]="entite">
+                                <td style="width: 3em">
+                                    <p-tableCheckbox [value]="entite"></p-tableCheckbox>
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ entite.nom }}
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ entite.code }}
+                                </td>
+                                <td class="ui-resizable-column">
+                                    <span class="badge badge-success" *ngIf="entite.etat">Active</span>
+                                    <span class="badge badge-danger" *ngIf="!entite.etat">Inactive</span>
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ entite?.entiteParent?.nom }}
+                                    <span class="badge badge-danger" *ngIf="!entite?.entiteParent">Non précisé</span>
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ entite.typeEntite.libelle }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="footer" let-columns>
+                            <tr>
+                                <td style="width: 3em">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </td>
+                                <td>Nom</td>
+                                <td>Code</td>
+                                <td>Etat</td>
+                                <td>Entité Parent</td>
+                                <td>Type Entité</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+           
         </p-tabPanel>
         <p-tabPanel header="Liste des etats marche"  *ngIf ="user.etatMarche" >
                 <p-table #tt [value]="user.etatMarche" [paginator]="true" [rows]="50" sortMode="multiple"
