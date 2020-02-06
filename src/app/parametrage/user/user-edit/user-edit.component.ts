@@ -7,6 +7,8 @@ import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { Group } from 'app/parametrage/group/group';
 import { Entite } from 'app/parametrage/entite/entite';
+import {Fournisseur} from '../../fournisseur/fournisseur';
+import {Secteur} from '../../secteur/secteur';
 
 @Component({
   selector: 'app-user-edit',
@@ -37,7 +39,7 @@ export class UserEditComponent implements OnInit {
       groupIds.push(group.id);
     });
     this.user.groups = groupIds;
-    let entiteId = [];
+    const entiteId = [];
     this.user.entites.forEach(entite => {
       entiteId.push(entite.id);
     });
@@ -46,5 +48,4 @@ export class UserEditComponent implements OnInit {
       .subscribe(data => this.location.back(),
         error => this.userSrv.httpSrv.handleError(error));
   }
-
 }

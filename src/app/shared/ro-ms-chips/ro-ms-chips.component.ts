@@ -40,7 +40,7 @@ export class RoMsChipsComponent implements OnInit {
       })
     } else {
       this.hasItems = false;
-      throw new Error('No Item founded, You passed an empty array.');
+      throw new Error('No item found, you passed an empty array.');
     }
   }
 

@@ -18,7 +18,7 @@ const userRoutes: Route = {
       path: '',
       component: UserListComponent,
       resolve: { users: MultipleUserResolver,
-        entites: MultipleEntiteResolver, etatMarches: MultipleEtatMarcheResolver }
+        entites: MultipleEntiteResolver, etatMarches: MultipleEtatMarcheResolver, groups: MultipleGroupResolver}
     },
     {
       path: 'new',
