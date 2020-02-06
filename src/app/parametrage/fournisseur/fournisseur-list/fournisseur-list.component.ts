@@ -106,6 +106,10 @@ export class FournisseurListComponent implements OnInit {
     this.filterProvidersBySectors(e);
   }
 
+  handleSwitchChange() {
+    this.filterProvidersBySectors(this.checkedSectors);
+  }
+
   filterProvidersBySectors(checkedSectors: any) {
     const tempFournisseurs = new Array();
     Object.assign(tempFournisseurs, this.originalFournisseurs);
@@ -146,7 +150,6 @@ export class FournisseurListComponent implements OnInit {
         this.fournisseurs = this.originalFournisseurs;
       }
     }
-
   }
 
 }
