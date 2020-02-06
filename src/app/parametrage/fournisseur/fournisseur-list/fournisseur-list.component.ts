@@ -18,10 +18,12 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class FournisseurListComponent implements OnInit {
 
   fournisseurs: Fournisseur[] = [];
+  originalFournisseurs: Fournisseur[] = [];
   selectedFournisseurs: Fournisseur[];
   selectedFournisseur: Fournisseur;
   clonedFournisseurs: Fournisseur[];
   allSecteurs: Secteur[] = [];
+  strict: boolean;
   checkedSectors: Secteur[] = [];
 
   cMenuItems: MenuItem[] = [];
@@ -51,6 +53,7 @@ export class FournisseurListComponent implements OnInit {
     }
 
     this.fournisseurs = this.activatedRoute.snapshot.data['fournisseurs'];
+    this.originalFournisseurs = this.activatedRoute.snapshot.data['fournisseurs'];
     this.allSecteurs = this.activatedRoute.snapshot.data['secteurs'];
 
   }
@@ -100,22 +103,50 @@ export class FournisseurListComponent implements OnInit {
   }
 
   handleChange(e: any) {
-    this.checkedSectors = e;
+    this.filterProvidersBySectors(e);
+  }
+
+  filterProvidersBySectors(checkedSectors: any) {
+    const tempFournisseurs = new Array();
+    Object.assign(tempFournisseurs, this.originalFournisseurs);
+    if (tempFournisseurs.length !== this.fournisseurs.length) {
+      this.fournisseurs = tempFournisseurs;
+    }
+    this.checkedSectors = checkedSectors;
     const filteredProviders: Fournisseur[] = new Array();
     let founded: boolean;
     this.fournisseurs.forEach(fournisseur => {
-      this.checkedSectors.forEach(checkedSector => {
+      let foundedItem = 0;
+      fournisseur.secteurs.forEach(secteur => {
         founded = false;
-        fournisseur.secteurs.forEach(secteur => {
+        this.checkedSectors.forEach(checkedSector => {
           if (secteur.code === checkedSector.code) {
             founded = true;
+            foundedItem++;
           }
         })
-        if(founded && !(filteredProviders.filter(provider => provider.id === fournisseur.id).length)) {
-          filteredProviders.push(fournisseur);
+        if (founded && !(filteredProviders.filter(provider => provider.id === fournisseur.id).length)) {
+          if (this.strict) {
+            if (foundedItem === this.checkedSectors.length) {
+              filteredProviders.push(fournisseur);
+            }
+          } else {
+            filteredProviders.push(fournisseur);
+          }
+
         }
       })
     })
+    if (filteredProviders.length) {
+      this.fournisseurs = filteredProviders;
+    } else {
+      if (this.checkedSectors.length) {
+        window.scrollTo(0, 0);
+        this.notificationSrv.showWarning('Attention aucun fournisseur ne dispose de ces critéres.');
+        this.fournisseurs = this.originalFournisseurs;
+      }
+    }
+
   }
 
 }

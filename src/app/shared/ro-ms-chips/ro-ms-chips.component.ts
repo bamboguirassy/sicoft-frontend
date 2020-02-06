@@ -10,11 +10,8 @@ export class RoMsChipsComponent implements OnInit {
   @Input() bindLabel: string;
   @Input() class: string;
   @Input() iconClass: string;
-  customClass = 'selected-chips';
-
   @Output() onChange: EventEmitter<any[]> = new EventEmitter();
 
-  alteredItem: any[] = [];
   hasItems = true;
 
   constructor() { }
