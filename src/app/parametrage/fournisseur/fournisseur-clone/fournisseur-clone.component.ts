@@ -19,7 +19,7 @@ export class FournisseurCloneComponent implements OnInit {
     public location: Location,
     public activatedRoute: ActivatedRoute,
     public router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.original = this.activatedRoute.snapshot.data['fournisseur'];
@@ -29,15 +29,10 @@ export class FournisseurCloneComponent implements OnInit {
   }
 
   cloneFournisseur() {
-
-    if (this.fournisseur.secteurs) {
-    const secteurid = [];
-    this.fournisseur.secteurs.forEach(secteur => {
-      secteurid.push(secteur.id);
-    });
-    this.fournisseur.secteurs = secteurid;
-    }
-    this.fournisseurSrv.clone(this.original, this.fournisseur).subscribe(
+    const tempFournisseur = new Fournisseur();
+    Object.assign(tempFournisseur, this.fournisseur);
+    tempFournisseur.secteurs = tempFournisseur.secteurs.map(secteur => secteur.id);
+    this.fournisseurSrv.clone(this.original, tempFournisseur).subscribe(
       (data: any) => {
         this.router.navigate([this.fournisseurSrv.getRoutePrefix(), data.id]);
       },
