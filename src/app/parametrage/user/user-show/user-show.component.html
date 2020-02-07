@@ -76,7 +76,7 @@
                 </p-toolbar>
             </p-fieldset>
         </p-tabPanel>
-        <p-tabPanel header="Liste des entites">
+        <p-tabPanel header="Liste des entites" *ngIf="user.entites == entites" >
            <p-table #tt [value]="user.entites" [paginator]="true" [rows]="50" sortMode="multiple"
                              selectionMode="multiple" [(selection)]="selectedEntites" [resizableColumns]="true"
                              [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedEntite"
@@ -169,7 +169,7 @@
                     </p-table>
            
         </p-tabPanel>
-        <p-tabPanel header="Liste des etats marche"  *ngIf ="user.etatMarche" >
+        <p-tabPanel header="Liste des etats marche">
                 <p-table #tt [value]="user.etatMarche" [paginator]="true" [rows]="50" sortMode="multiple"
                     selectionMode="multiple" [(selection)]="selectedEtatMarche" [resizableColumns]="true" [responsive]="true"
                     [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id" >
