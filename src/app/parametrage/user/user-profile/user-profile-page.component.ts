@@ -78,6 +78,7 @@ export class UserProfilePageComponent implements OnInit {
         this.showAlert1 = false;
     }
   editProfilUser(modal: any) {
+
     this.showAlert1 = false;
         this.userSrv.editProfil(this.user).subscribe(
             (data: any) => {
