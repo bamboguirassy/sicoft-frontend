@@ -16,15 +16,17 @@ export class UserProfilePageComponent implements OnInit {
 
     user: User;
     content: any;
+    content1: any;
     showAlert: any;
+    showAlert1: any;
+
 
     type_entites: TypeEntite[] = [];
     selectedTypeEntites: TypeEntite[];
     selectedTypeEntite: TypeEntite;
 
     // Variable Declaration
-    currentPage = 'About'
-    alert: any;
+    currentPage = 'About';
 
     constructor(public authSrv: AuthService,
         public modalProfil: NgbModal,
@@ -66,15 +68,22 @@ export class UserProfilePageComponent implements OnInit {
      modalClose() {
         this.modalProfil.dismissAll('Cross click');
     }
+    modalClose1() {
+        this.modalService.dismissAll('Cross click');
+    }
     alertClose() {
         this.showAlert = false;
     }
+    alertClose1() {
+        this.showAlert1 = false;
+    }
   editProfilUser(modal: any) {
-    // this.user = this.user.id;
+    this.showAlert1 = false;
         this.userSrv.editProfil(this.user).subscribe(
             (data: any) => {
                 this.userSrv.httpSrv.notificationSrv.showInfo('Utilisateur modifié avec succès');
-                this.user = new User();
+                this.showAlert1 = true;
+                this.modalClose1();
             },
         error => this.userSrv.httpSrv.handleError(error));
 
