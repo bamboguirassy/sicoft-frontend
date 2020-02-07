@@ -65,7 +65,6 @@ export class ExerciceCloneComponent implements OnInit {
   }
 
   public disableExerciceExcept() {
-    console.log(this.exercice);
     this.exerciceSrv.disableExerciceExcept(this.original, 'clone', this.exercice)
       .subscribe((data: any) => {
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);

@@ -61,7 +61,7 @@ export class ExerciceEditComponent implements OnInit {
   }
 
   public toggleConfirmModal(content: TemplateRef<any>) {
-    this.exercice = this.exerciceTemp;
+    this.exercice = this.exerciceTemp
     this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
   }
 
