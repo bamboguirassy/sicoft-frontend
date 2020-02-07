@@ -73,13 +73,17 @@ export class FournisseurListComponent implements OnInit {
 
   deleteFournisseur(fournisseur: Fournisseur) {
     this.fournisseurSrv.remove(fournisseur)
-      .subscribe(_data => this.refreshList(), error => this.fournisseurSrv.httpSrv.handleError(error));
+      .subscribe(_data => {
+        this.refreshList();
+      }, error => this.fournisseurSrv.httpSrv.handleError(error));
   }
 
   deleteSelectedFournisseurs(_fournisseur: Fournisseur) {
     if (this.selectedFournisseurs) {
       this.fournisseurSrv.removeSelection(this.selectedFournisseurs)
-        .subscribe(_data => this.refreshList(), error => this.fournisseurSrv.httpSrv.handleError(error));
+        .subscribe(_data => {
+          this.refreshList();
+        }, error => this.fournisseurSrv.httpSrv.handleError(error));
     } else {
       this.fournisseurSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
     }
@@ -87,7 +91,10 @@ export class FournisseurListComponent implements OnInit {
 
   refreshList() {
     this.fournisseurSrv.findAll()
-      .subscribe((data: any) => this.fournisseurs = data, error => this.fournisseurSrv.httpSrv.handleError(error));
+      .subscribe((data: any) => {
+        this.fournisseurs = data;
+        this.originalFournisseurs = data;
+      }, error => this.fournisseurSrv.httpSrv.handleError(error));
   }
 
   exportPdf() {

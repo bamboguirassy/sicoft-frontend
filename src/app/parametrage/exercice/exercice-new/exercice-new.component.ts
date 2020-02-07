@@ -16,6 +16,7 @@ import { ConfirmationService } from 'primeng';
 })
 export class ExerciceNewComponent implements OnInit {
   exercice: Exercice;
+  exerciceTemp: Exercice = new Exercice();
   exercices: Exercice[] = [];
   dateDebut: string;
   dateFin: string;
@@ -34,6 +35,7 @@ export class ExerciceNewComponent implements OnInit {
   }
 
   saveExercice() {
+    Object.assign(this.exerciceTemp, this.exercice);
     let tempDateDebut = this.exercice.dateDebut;
     let tempDateFin = this.exercice.dateFin;
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
@@ -48,8 +50,7 @@ export class ExerciceNewComponent implements OnInit {
         this.exercice.dateFin = tempDateFin;
         this.exercice = new Exercice();
         this.exerciceSrv.findAll()
-          .subscribe((data: any) => this.exercices = data),
-          error => this.exerciceSrv.httpSrv.handleError(error);
+          .subscribe((innerData: any) => this.exercices = innerData, error => this.exerciceSrv.httpSrv.handleError(error));
 
       }, error => {
         if (error.error.code === 417) {
@@ -61,6 +62,7 @@ export class ExerciceNewComponent implements OnInit {
   }
 
   saveExerciceAndExit() {
+    Object.assign(this.exerciceTemp, this.exercice);
     let tempDateDebut = this.exercice.dateDebut;
     let tempDateFin = this.exercice.dateFin;
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
@@ -85,6 +87,7 @@ export class ExerciceNewComponent implements OnInit {
   }
 
   public toggleConfirmModal(content: TemplateRef<any>) {
+    this.exercice = this.exerciceTemp;
     this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
   }
 
@@ -96,5 +99,10 @@ export class ExerciceNewComponent implements OnInit {
     this.modalSrv.dismissAll();
   }
 
+  dissmissModal(param: string) {
+    this.modalSrv.dismissAll(param);
+    this.exercice.encours = false;
+    this.exercice = this.exerciceTemp;
+  }
 }
 

@@ -16,6 +16,7 @@ import { ConvertDateService } from 'app/shared/services/convert-date.service';
 export class ExerciceEditComponent implements OnInit {
 
   exercice: Exercice;
+  exerciceTemp: Exercice;
   exercices: Exercice[] = [];
   @ViewChild('confirm', { static: false }) public modalContentRef: TemplateRef<any>;
   constructor(public exerciceSrv: ExerciceService,
@@ -34,16 +35,16 @@ export class ExerciceEditComponent implements OnInit {
   }
 
   updateExercice() {
-    let exerciceTemp = new Exercice();
-    Object.assign(exerciceTemp, this.exercice);
+    this.exerciceTemp = new Exercice();
+    Object.assign(this.exerciceTemp, this.exercice);
     let tempDateDebut = this.exercice.dateDebut;
     let tempDateFin = this.exercice.dateFin;
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
     if (this.exercice.exerciceSuivant) {
-      exerciceTemp.exerciceSuivant = exerciceTemp.exerciceSuivant.id;
+      this.exerciceTemp.exerciceSuivant = this.exerciceTemp.exerciceSuivant.id;
     }
-    this.exerciceSrv.update(exerciceTemp)
+    this.exerciceSrv.update(this.exerciceTemp)
       .subscribe((data) => {
         this.exercice.dateDebut = tempDateDebut;
         this.exercice.dateFin = tempDateFin;
@@ -60,6 +61,7 @@ export class ExerciceEditComponent implements OnInit {
   }
 
   public toggleConfirmModal(content: TemplateRef<any>) {
+    this.exercice = this.exerciceTemp;
     this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
   }
 
@@ -71,5 +73,10 @@ export class ExerciceEditComponent implements OnInit {
     this.modalSrv.dismissAll();
   }
 
+  dissmissModal(param: string) {
+    this.modalSrv.dismissAll(param);
+    this.exercice.encours = false;
+    this.exercice = this.exerciceTemp;
+  }
 
 }
