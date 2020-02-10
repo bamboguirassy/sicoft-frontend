@@ -27,14 +27,20 @@
                            </div>
                             <div class="row justify-content-center mt-2">
                                 <div class="col-auto">
-                                    <p-inputSwitch pTooltip="Si actif, permet de rechercher les utilisateurs dans plusieurs groupes" tooltipPosition="left" [(ngModel)]="strict" (onChange)="onStricSwitched()" ></p-inputSwitch>
-                                </div>
-                                <div class="col-auto">
-                                    <p-inputSwitch pTooltip="Les utilisateurs actifs ou inactifs" tooltipPosition="top" [(ngModel)]="active" (onChange)="filterActiveInactive()" ></p-inputSwitch>
+                                    <div class="form-group">
+                                        <div class="row justify-content-center ">
+                                            <div class="col-3 align-self-center">Mode strict</div>
+                                            <p-inputSwitch class="col-auto" [(ngModel)]="strict" (onChange)="onStricSwitched()" ></p-inputSwitch>
+                                        </div>
+                                        <div>
+                                            <small class="text-danger">Si activé, permet de rechercher les utilisateurs dans plusieurs groupes</small>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row justify-content-center">
                                 <ro-ms-chips [items]="groups" iconClass="pi pi-check-circle" bindLabel="name" (onChange)="handleChange($event)"></ro-ms-chips>
+                                <p-dropdown class="align-self-center ml-1" [options]="states" [style]="{'width':'100%'}" (onChange)="tt.filter($event.value, 'enabled', 'equals')"></p-dropdown>
                             </div>
                             <div class="ui-helper-clearfix" style="text-align: left">
                                 <button *ngIf="'User'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>

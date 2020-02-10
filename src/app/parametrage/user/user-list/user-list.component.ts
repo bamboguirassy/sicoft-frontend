@@ -28,9 +28,15 @@ export class UserListComponent implements OnInit {
 
     groups: Group[] = [];
     strict: boolean;
-    active = false;
+    // active = false;
     checkedGroups: Group[] = [];
     originalUsers: User[] = [];
+
+    states = [
+        {label: 'Tous les utilisateurs'},
+        {label: 'Actif', value: true},
+        {label: 'Inactif', value: false},
+    ];
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -164,12 +170,16 @@ export class UserListComponent implements OnInit {
 
     filterUsers(groups: any) {
         this.checkedGroups = groups;
-        if (this.originalUsers.length !== this.users.length) { this.users = this.originalUsers; }
-        if (this.active) {
-            this.displayUsers(this.filterByGroup(this.users).filter(user => user.enabled));
-        } else {
-            this.displayUsers(this.filterByGroup(this.users).filter(user => !user.enabled));
+        if (this.originalUsers.length !== this.users.length) {
+            this.users = this.originalUsers;
         }
+        // if (this.active) {
+        //     this.displayUsers(this.filterByGroup(this.users).filter(user => user.enabled));
+        // } else {
+        //     this.displayUsers(this.filterByGroup(this.users).filter(user => !user.enabled));
+        // }
+
+        this.displayUsers(this.filterByGroup(this.users));
     }
 
     filterByGroup(users: User[]) {
@@ -217,12 +227,14 @@ export class UserListComponent implements OnInit {
         this.filterUsers(this.checkedGroups);
     }
 
-    filterActiveInactive () {
+    filterActiveInactive() {
         this.filterUsers(this.checkedGroups);
-        if (this.active) {
-            this.users = this.users.filter(user => user.enabled);
-        } else {
-            this.users = this.users.filter(user => !user.enabled);
-        }
+        // if (this.active) {
+        //     this.users = this.users.filter(user => user.enabled);
+        // } else {
+        //     this.users = this.users.filter(user => !user.enabled);
+        // }
+
+        this.displayUsers(this.filterByGroup(this.users));
     }
 }
