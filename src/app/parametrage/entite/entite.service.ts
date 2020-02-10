@@ -8,7 +8,7 @@ import { Entite } from './entite';
 })
 export class EntiteService {
 
-  private routePrefix: string = 'entite';
+  private routePrefix = 'entite';
 
   constructor(public httpSrv: HttpService) { }
 
@@ -29,19 +29,19 @@ export class EntiteService {
   }
 
   update(entite: Entite) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+entite.id+'/edit', entite);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + entite.id + '/edit', entite);
   }
 
   clone(original: Entite, clone: Entite) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+original.id+'/clone', clone);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + original.id + '/clone', clone);
   }
 
   remove(entite: Entite) {
-    return this.httpSrv.delete(this.getRoutePrefixWithSlash()+entite.id);
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + entite.id);
   }
 
   removeSelection(entites: Entite[]) {
-    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',entites);
+    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', entites);
   }
 
   public getRoutePrefix(): string {
@@ -49,7 +49,7 @@ export class EntiteService {
   }
 
   private getRoutePrefixWithSlash(): string {
-    return this.routePrefix+'/';
+    return this.routePrefix + '/';
   }
 
 }

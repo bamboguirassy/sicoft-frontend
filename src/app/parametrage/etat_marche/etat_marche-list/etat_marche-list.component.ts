@@ -48,6 +48,7 @@ export class EtatMarcheListComponent implements OnInit {
 
   ngOnInit() {
     if (this.authSrv.checkShowAccess('EtatMarche')) {
+      // tslint:disable-next-line:max-line-length
       this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewEtatMarche(this.selectedEtatMarche) });
     }
     if (this.authSrv.checkEditAccess('EtatMarche')) {
@@ -60,6 +61,7 @@ export class EtatMarcheListComponent implements OnInit {
       this.cMenuItems.push({ label: 'Supprimer', icon: 'pi pi-times', command: (event) => this.deleteEtatMarche(this.selectedEtatMarche) })
     }
     if (this.authSrv.checkCreateAccess('RoleSurMarche')) {
+      // tslint:disable-next-line:max-line-length
       this.cMenuItems.push({ label: 'Utilisateurs', icon: 'pi pi-user', command: (event) => this.toggleSearchModal(this.modalContentRef, this.selectedEtatMarche) })
     }
 
@@ -124,7 +126,7 @@ export class EtatMarcheListComponent implements OnInit {
 
   fetchNextStates(e: any) {
     this.items = [];
-    let contains: boolean = false;
+    let contains = false;
     if (this.etat_marches[e.index]) {
       this.items.push({ label: this.etat_marches[e.index].libelle });
       let etatMarche = this.etat_marches[e.index];

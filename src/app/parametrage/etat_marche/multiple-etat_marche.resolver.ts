@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 })
 export class MultipleEtatMarcheResolver implements Resolve<any> {
   // tslint:disable-next-line:max-line-length
-  resolve(route: import('@angular/router').ActivatedRouteSnapshot, state: import('@angular/router').RouterStateSnapshot): any | import("rxjs").Observable<any> | Promise<any> {
+  resolve(route: import('@angular/router').ActivatedRouteSnapshot, state: import('@angular/router').RouterStateSnapshot): any | import('rxjs').Observable<any> | Promise<any> {
     return this.etat_marcheSrv.findAll().pipe(map(data => {
       return data;
     }),
