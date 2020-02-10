@@ -4,7 +4,7 @@ export class Entite {
     id: any;
     nom: string;
     code: string;
-    etat: string;
+    etat: Boolean;
     typeEntite: TypeEntite;
     entiteParent: Entite;
 }

@@ -22,8 +22,8 @@
                     <p-table #tt [value]="entites" [paginator]="true" [rows]="50"
                         [globalFilterFields]="globalFilterFields" dataKey="id" [responsive]="true" sortMode="multiple"
                         selectionMode="multiple" [(selection)]="selectedEntites" [contextMenu]="contextMenu"
-                        [(contextMenuSelection)]="selectedEntite" [scrollable]="true" scrollHeight="400px" [resizableColumns]="true"
-                        >
+                        [(contextMenuSelection)]="selectedEntite" [scrollable]="true" scrollHeight="400px"
+                        [resizableColumns]="true">
                         <ng-template pTemplate="caption">
                             Liste des entités<br>
                             <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -87,18 +87,21 @@
                                         (input)="tt.filterGlobal($event.target['value'], 'contains')">
                                 </th>
                                 <th>
-                                    <p-multiSelect [options]="etats" 
-                                        [style]="{'width':'100%','min-width':'100%'}" appendTo="body" defaultLabel="Tous les états"
-                                        (onChange)="tt.filter($event.value, etats, 'contains')"></p-multiSelect>
+                                    <p-multiSelect [options]="etats" [(ngModel)]="selectedEtat"
+                                        [style]="{'width':'100%','min-width':'100%'}" appendTo="body"
+                                        defaultLabel="Tous les états" (onChange)="filterEtat()"></p-multiSelect>
                                 </th>
                                 <th>
-                                    <p-dropdown [options]="entites" optionLabel="nom" appendTo="body" placeholder="Sélectionner un entité" [style]="{'width':'100%','min-width':'100%'}"
-                                        (onChange)="tt.filter($event.value, null, 'equals')"></p-dropdown>
+                                    <p-dropdown [options]="dropdownEntites" [(ngModel)]="selectedEntiteParent"
+                                        optionLabel="nom" appendTo="body" placeholder="Sélectionner un entité parent"
+                                        [style]="{'width':'100%','min-width':'100%'}" (onChange)="filterEntiteParent()">
+                                    </p-dropdown>
                                 </th>
                                 <th>
-                                    <p-dropdown [(ngModel)]="selectedTypeEntite" optionLabel="libelle" appendTo="body" [options]="typeEntites"
-                                        [style]="{'width':'100%','min-width':'100%'}" placeholder="Sélectionner un type d'entité"
-                                        (onChange)="filterEtatEntite()"></p-dropdown>
+                                    <p-dropdown [(ngModel)]="selectedTypeEntite" optionLabel="libelle" appendTo="body"
+                                        [options]="typeEntites" [style]="{'width':'100%','min-width':'100%'}"
+                                        placeholder="Sélectionner un type d'entité" (onChange)="filterTypeEntite()">
+                                    </p-dropdown>
                                 </th>
                             </tr>
                         </ng-template>
