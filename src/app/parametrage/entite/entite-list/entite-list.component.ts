@@ -7,6 +7,7 @@ import {ExportService} from 'app/shared/services/export.service';
 import {MenuItem} from 'primeng/api';
 import {AuthService} from 'app/shared/services/auth.service';
 import {NotificationService} from 'app/shared/services/notification.service';
+import { User } from '../../user/user';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class EntiteListComponent implements OnInit {
     selectedEntites: Entite[];
     selectedEntite: Entite;
     clonedEntites: Entite[];
+    AllUsers: User[] = [];
 
     cMenuItems: MenuItem[] = [];
 
@@ -49,6 +51,7 @@ export class EntiteListComponent implements OnInit {
         }
 
         this.entites = this.activatedRoute.snapshot.data['entites'];
+        this.AllUsers =  this.activatedRoute.snapshot.data['AllUsers'];
     }
 
     viewEntite(entite: Entite) {

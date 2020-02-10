@@ -8,5 +8,5 @@ export class Entite {
     etat: string;
     typeEntite: TypeEntite;
     entiteParent: Entite;
-    users: any[];
+    users: User[];
 }
