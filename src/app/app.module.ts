@@ -7,6 +7,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MessageModule, MessageService, ConfirmationService } from 'primeng';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+
 
 import {
   PerfectScrollbarModule,
@@ -22,6 +25,7 @@ import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
 import { TitleCasePipe, CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -42,6 +46,8 @@ export function createTranslateLoader(http: HttpClient) {
     SharedModule,
     HttpClientModule,
     NgbModule.forRoot(),
+    LoadingBarHttpClientModule,
+    LoadingBarModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

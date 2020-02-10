@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-fieldset *ngIf="'Exercice'|showable" legend="Affichage des informations - exercice" [toggleable]="true">
+<p-fieldset *ngIf="'Exercice'|showable" legend="Affichage des informations - Exercice" [toggleable]="true">
     <p-toolbar>
         <button *ngIf="'Exercice'|editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),exercice.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
       Modifier</button>
@@ -12,7 +12,7 @@
     </p-toolbar>
     <p-tabView>
         <p-tabPanel header="Détails">
-            <p-fieldset [legend]="exercice.libelle">
+            <p-fieldset [legend]="exerciceLabel">
                 <table class="table">
                     <tr>
                         <th>Code</th>

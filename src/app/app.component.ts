@@ -11,6 +11,7 @@ import { AuthService } from './shared/services/auth.service';
 export class AppComponent implements OnInit, OnDestroy {
 
     subscription: Subscription;
+    includeSpinner = false;
 
     constructor(private router: Router, public authSrv:AuthService) {
     }

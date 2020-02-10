@@ -23,7 +23,7 @@ export class SousClasseShowComponent implements OnInit {
 
   ngOnInit() {
     this.sous_classe = this.activatedRoute.snapshot.data['sous_classe'];
-    this.classes = this.activatedRoute.snapshot.data['classes'];
+    // this.classes = this.activatedRoute.snapshot.data['classes'];
   }
 
   removeSousClasse() {

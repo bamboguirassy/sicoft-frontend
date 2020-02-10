@@ -13,6 +13,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class ExerciceShowComponent implements OnInit {
 
   exercice: Exercice;
+  exerciceLabel: string;
   constructor(public activatedRoute: ActivatedRoute,
     public exerciceSrv: ExerciceService, public location: Location,
     public router: Router, public notificationSrv: NotificationService) {
@@ -20,6 +21,7 @@ export class ExerciceShowComponent implements OnInit {
 
   ngOnInit() {
     this.exercice = this.activatedRoute.snapshot.data['exercice'];
+    this.exerciceLabel = `Exercice: ${this.exercice.libelle}`;
   }
 
   removeExercice() {
