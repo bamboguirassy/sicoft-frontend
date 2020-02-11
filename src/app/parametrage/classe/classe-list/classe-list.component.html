@@ -9,17 +9,59 @@
                             (click)="refreshList()">
                             <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
                         </button>
-                        <button *ngIf="'Classe'|deletable" (click)="deleteSelectedClasses()" type="button"
+                        <!-- <button *ngIf="'Classe'|deletable" (click)="deleteSelectedClasses()" type="button"
                             class="btn btn-outline-danger pull-right ml-1">
                             <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
-                        </button>
+                        </button> -->
                         <button *ngIf="'Classe'|creable" [routerLink]="['/'+classeSrv.getRoutePrefix(),'new']"
                             routerLinkActive="router-link-active" type="button"
                             class="btn btn-outline-primary pull-right ml-1">
                             <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
                         </button>
                     </p-toolbar>
-                    <p-table #tt [value]="classes" [paginator]="true" [rows]="50" sortMode="multiple"
+
+
+                    <p-treeTable #tt [value]="treeNodes" [autoLayout]="true" [paginator]="true" [rows]="10"
+                        sortMode="multiple" [globalFilterFields]="globalFilterFields" selectionMode="multiple"
+                        [(selection)]="selectedClasses" dataKey="id" selectionMode="checkbox"
+                        [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedClasse">
+                        <ng-template pTemplate="caption">
+                            PLAN DES COMPTES ET ETATS FINANCIERS
+                            <div class="row justify-content-center">
+                                <div class="ui-inputgroup">
+                                    <span class="ui-inputgroup-addon bg-primary"><i
+                                            class="fa fa-search text-white-50"></i></span>
+                                    <input class="" type="text" pInputText size="50"
+                                        placeholder="Rechercher dans le tableau"
+                                        (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th [ttSortableColumn]="'numero'">Numero
+                                    <p-treeTableSortIcon [field]="'numero'"></p-treeTableSortIcon>
+                                </th>
+                                <th [ttSortableColumn]="'libelle'">Nom
+                                    <p-treeTableSortIcon [field]="'libelle'"></p-treeTableSortIcon>
+                                </th>
+                                <th>Description</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
+                                <td>
+                                    <p-treeTableCheckbox [value]="rowNode"></p-treeTableCheckbox>
+                                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                                    {{rowData.numero}}
+                                </td>
+                                <td>{{rowData.libelle}}</td>
+                                <td>{{rowData.description}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-treeTable>
+
+                    <!-- <p-table #tt [value]="classes" [paginator]="true" [rows]="50" sortMode="multiple"
                         selectionMode="multiple" [(selection)]="selectedClasses" [resizableColumns]="true"
                         [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedClasse"
                         [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
@@ -39,6 +81,9 @@
                         </ng-template>
                         <ng-template pTemplate="colgroup">
                             <colgroup>
+                                <col>
+                                <col>
+                                <col>
                                 <col>
                                 <col>
                                 <col>
@@ -100,13 +145,13 @@
                                 <td>Catégorie</td>
                             </tr>
                         </ng-template>
-                    </p-table>
+                    </p-table> -->
                     <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
                     <p-toolbar>
-                        <button *ngIf="'Classe'|deletable" (click)="deleteSelectedClasses()" type="button"
+                        <!-- <button *ngIf="'Classe'|deletable" (click)="deleteSelectedClasses()" type="button"
                             class="btn btn-outline-danger mr-1">
                             <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
-                        </button>
+                        </button> -->
                         <button *ngIf="'Classe'|creable" [routerLink]="['/'+classeSrv.getRoutePrefix(),'new']"
                             routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
                             <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
