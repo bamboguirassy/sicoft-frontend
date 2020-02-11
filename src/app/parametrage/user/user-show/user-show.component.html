@@ -170,13 +170,8 @@
                     
            
         </p-tabPanel>
-<<<<<<< HEAD
-        <p-tabPanel header="Liste des etats marche"  >
-                <p-table #tt [value]="user.etatMarche" [paginator]="true" [rows]="50" sortMode="multiple"
-=======
         <p-tabPanel header="Liste des etats marche" *ngIf = "user.etatMarches.length">
                 <p-table #tt [value]="user.etatMarches" [paginator]="true" [rows]="50" sortMode="multiple"
->>>>>>> ac45c95babba549c67f1986f85811b2cb0a4da73
                     selectionMode="multiple" [(selection)]="selectedEtatMarche" [resizableColumns]="true" [responsive]="true"
                     [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id" >
                     <ng-template pTemplate="caption">
