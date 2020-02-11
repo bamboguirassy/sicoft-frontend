@@ -89,18 +89,18 @@
                                 <th>
                                     <p-multiSelect [options]="etats" [(ngModel)]="selectedEtat"
                                         [style]="{'width':'100%','min-width':'100%'}" appendTo="body"
-                                        defaultLabel="Tous les états" (onChange)="filterEtat()"></p-multiSelect>
+                                        defaultLabel="Tous les états" (onChange)="filter()"></p-multiSelect>
                                 </th>
                                 <th>
-                                    <p-dropdown [options]="dropdownEntites" [(ngModel)]="selectedEntiteParent"
+                                    <p-dropdown [options]="entiteParents" [(ngModel)]="selectedEntiteParent"
                                         optionLabel="nom" appendTo="body" placeholder="Sélectionner un entité parent"
-                                        [style]="{'width':'100%','min-width':'100%'}" (onChange)="filterEntiteParent()">
+                                        [style]="{'width':'100%','min-width':'100%'}" (onChange)="filter()">
                                     </p-dropdown>
                                 </th>
                                 <th>
                                     <p-dropdown [(ngModel)]="selectedTypeEntite" optionLabel="libelle" appendTo="body"
                                         [options]="typeEntites" [style]="{'width':'100%','min-width':'100%'}"
-                                        placeholder="Sélectionner un type d'entité" (onChange)="filterTypeEntite()">
+                                        placeholder="Sélectionner un type d'entité" (onChange)="filter()">
                                     </p-dropdown>
                                 </th>
                             </tr>
