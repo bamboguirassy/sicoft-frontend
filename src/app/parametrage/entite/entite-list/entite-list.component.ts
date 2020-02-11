@@ -159,30 +159,16 @@ export class EntiteListComponent implements OnInit {
         });
       }
 
-      if (this.selectedEtat.includes('true')){
-        console.log('we are in true');
-        console.log(this.selectedEtat);
+      if (this.selectedEtat.length === 1 && this.selectedEtat.includes('true')){
         this.entites = this.entites.filter(entite => {
           return entite.etat === true;
         });
       }
 
-      if (this.selectedEtat.includes('false')){
-        console.log('we are in false');
-        console.log(this.selectedEtat);
+      if (this.selectedEtat.length === 1 && this.selectedEtat.includes('false')){
         this.entites = this.entites.filter(entite => {
           return entite.etat === false;
         });
       }
-      // this.selectedEtat.forEach((etat: any) => {
-      //   this.originalEntites.forEach((entite: Entite) => {
-      //     if (etat === "true" && entite.etat === true) {
-      //       this.entites.push(entite);
-      //     }
-      //     if (etat === "false" && entite.etat === false) {
-      //       this.entites.push(entite);
-      //     }
-      //   });
-      // });
   }
 }
