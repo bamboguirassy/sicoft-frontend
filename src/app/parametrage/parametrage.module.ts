@@ -7,8 +7,9 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserShowComponent } from './user/user-show/user-show.component';
 import { TableModule } from 'primeng/table';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {
-  ContextMenuModule,
+  ContextMenuModule,PickListModule,DialogModule,
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
   ToolbarModule, TabViewModule,
@@ -164,6 +165,9 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
     ProgressSpinnerModule,
     AutoCompleteModule,
     ConfirmDialogModule,
+    PickListModule,
+    DialogModule,
+    NgbModule,
   ]
 })
 export class ParametrageModule { }

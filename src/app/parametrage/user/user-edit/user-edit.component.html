@@ -15,8 +15,7 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="prenom">Prenom</label>
-                    <input required [(ngModel)]="user.prenom" class="form-control" type="text" name="prenom"
-                        id="prenom">
+                    <input required [(ngModel)]="user.prenom" class="form-control" type="text" name="prenom" id="prenom">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -40,15 +39,13 @@
             <div class="col-lg-4">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="groups">Groupes d'utilisateur</label> <br>
-                    <p-multiSelect name="groups" defaultLabel="Selectionner un ou plusieurs groupes" [options]="groups"
-                        [(ngModel)]="user.groups" optionLabel="name"></p-multiSelect>
+                    <p-multiSelect name="groups" defaultLabel="Selectionner un ou plusieurs groupes" [options]="groups" [(ngModel)]="user.groups" optionLabel="name"></p-multiSelect>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="entites">Entites</label> <br>
-                    <p-multiSelect name="entites" defaultLabel="Selectionner un ou plusieurs Entite" [options]="entites"
-                        [(ngModel)]="user.entites" optionLabel="nom" required></p-multiSelect>
+                    <p-multiSelect name="entites" defaultLabel="Selectionner un ou plusieurs Entite" [options]="entites" [(ngModel)]="user.entites" optionLabel="nom" required></p-multiSelect>
                 </div>
             </div>
             <div class="col-lg-4">
