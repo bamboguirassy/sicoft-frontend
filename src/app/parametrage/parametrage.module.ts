@@ -7,15 +7,7 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserShowComponent } from './user/user-show/user-show.component';
 import { TableModule } from 'primeng/table';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {
-<<<<<<< HEAD
-  ContextMenuModule,PickListModule,DialogModule,
-  MenuModule, ButtonModule,
-  CardModule, FieldsetModule,
-  ToolbarModule, TabViewModule,
-  AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule, ProgressSpinnerModule, ConfirmDialogModule
-=======
     ContextMenuModule,
     MenuModule,
     ButtonModule,
@@ -31,8 +23,8 @@ import {
     ConfirmDialogModule,
     ToggleButtonModule,
     TooltipModule,
+    PickListModule,
     
->>>>>>> 4e2b3f704544b4a18e7e08daf18f69786f8f32ad
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -158,39 +150,6 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
     SousClasseCloneComponent,SousClasseEditComponent,SousClasseListComponent,SousClasseShowComponent,SousClasseNewComponent,
     ExerciceSourceFinancementCloneComponent,ExerciceSourceFinancementEditComponent,ExerciceSourceFinancementListComponent,ExerciceSourceFinancementNewComponent,ExerciceSourceFinancementShowComponent,
   ],
-<<<<<<< HEAD
-  imports: [
-    CommonModule,
-    ParametrageRoutingModule,
-    ToastModule,
-    TableModule,
-    ContextMenuModule,
-    FormsModule,
-    SharedModule,
-    MenuModule,
-    ButtonModule,
-    CardModule,
-    FieldsetModule,
-    ToolbarModule,
-    TabViewModule,
-    CheckboxModule,
-    InputSwitchModule,
-    MultiSelectModule,
-    InputMaskModule,
-    ChipsModule,
-    NgSelectModule,
-    AccordionModule,
-    BreadcrumbModule,
-    OrgChartModule,
-    DropdownModule,
-    ProgressSpinnerModule,
-    AutoCompleteModule,
-    ConfirmDialogModule,
-    PickListModule,
-    DialogModule,
-    NgbModule,
-  ]
-=======
     imports: [
         CommonModule,
         ParametrageRoutingModule,
@@ -220,8 +179,8 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
         ConfirmDialogModule,
         ToggleButtonModule,
         TooltipModule,
-        TreeTableModule
+        TreeTableModule,
+        PickListModule
     ]
->>>>>>> 4e2b3f704544b4a18e7e08daf18f69786f8f32ad
 })
 export class ParametrageModule { }
