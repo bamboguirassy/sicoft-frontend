@@ -26,6 +26,7 @@ import { CreablePipe } from './pipes/creable.pipe';
 import { ListablePipe } from './pipes/listable.pipe';
 import { ShowablePipe } from './pipes/showable.pipe';
 import { DeletablePipe } from './pipes/deletable.pipe';
+import { RoMsChipsComponent } from './ro-ms-chips/ro-ms-chips.component';
 
 @NgModule({
     exports: [
@@ -33,6 +34,7 @@ import { DeletablePipe } from './pipes/deletable.pipe';
         FooterComponent,
         NavbarComponent,
         SidebarComponent,
+        RoMsChipsComponent,
         NotificationSidebarComponent,
         ToggleFullscreenDirective,
         SidebarDirective,
@@ -69,7 +71,8 @@ import { DeletablePipe } from './pipes/deletable.pipe';
         CreablePipe,
         ListablePipe,
         ShowablePipe,
-        DeletablePipe
+        DeletablePipe,
+        RoMsChipsComponent
     ],
     providers: [
         ContainsPipe,

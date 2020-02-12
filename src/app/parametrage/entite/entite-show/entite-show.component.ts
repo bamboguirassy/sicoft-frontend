@@ -7,6 +7,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TypeEntite} from '../../type_entite/type_entite';
 import {TypeEntiteService} from '../../type_entite/type_entite.service';
 import {allowedEntiteFieldsForFilter} from '../entite.columns';
+import { User } from '../../user/user';
 
 @Component({
     selector: 'app-entite-show',
@@ -22,7 +23,7 @@ export class EntiteShowComponent implements OnInit {
     selectedEntites: Entite[] = [];
     typeEntites: TypeEntite[] = [];
     globalFilterFields = allowedEntiteFieldsForFilter;
-
+    entiteLegend: string;
     constructor(
         public activatedRoute: ActivatedRoute,
         public entiteSrv: EntiteService, public location: Location,
@@ -36,6 +37,7 @@ export class EntiteShowComponent implements OnInit {
         this.entite = this.activatedRoute.snapshot.data['entite'];
         this.typeEntites = this.activatedRoute.snapshot.data['types'];
         this.sousEntites = this.activatedRoute.snapshot.data['sousEntites'];
+        this.entiteLegend = `Entite: ${this.entite.nom}`;
     }
 
     removeEntite() {

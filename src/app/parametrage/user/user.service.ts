@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 })
 export class UserService {
 
-  private routePrefix: string = 'user';
+  private routePrefix = 'user';
 
   constructor(public httpSrv: HttpService) { }
 
@@ -62,5 +62,8 @@ export class UserService {
   }
   updatePassword(user: User) {
     return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'password_update', user);
+  }
+  editProfil(user: User) {
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + user.id + '/edit_profil', user);
   }
 }

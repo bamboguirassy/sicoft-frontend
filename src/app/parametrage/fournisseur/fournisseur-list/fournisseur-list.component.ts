@@ -1,3 +1,4 @@
+import { Secteur } from './../../secteur/secteur';
 import { Component, OnInit } from '@angular/core';
 import { Fournisseur } from '../fournisseur';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,9 +18,13 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class FournisseurListComponent implements OnInit {
 
   fournisseurs: Fournisseur[] = [];
+  originalFournisseurs: Fournisseur[] = [];
   selectedFournisseurs: Fournisseur[];
   selectedFournisseur: Fournisseur;
   clonedFournisseurs: Fournisseur[];
+  allSecteurs: Secteur[] = [];
+  strict: boolean;
+  checkedSectors: Secteur[] = [];
 
   cMenuItems: MenuItem[] = [];
 
@@ -48,39 +53,48 @@ export class FournisseurListComponent implements OnInit {
     }
 
     this.fournisseurs = this.activatedRoute.snapshot.data['fournisseurs'];
-    
+    this.originalFournisseurs = this.activatedRoute.snapshot.data['fournisseurs'];
+    this.allSecteurs = this.activatedRoute.snapshot.data['secteurs'];
+
   }
 
   viewFournisseur(fournisseur: Fournisseur) {
-      this.router.navigate([this.fournisseurSrv.getRoutePrefix(), fournisseur.id]);
+    this.router.navigate([this.fournisseurSrv.getRoutePrefix(), fournisseur.id]);
 
   }
 
   editFournisseur(fournisseur: Fournisseur) {
-      this.router.navigate([this.fournisseurSrv.getRoutePrefix(), fournisseur.id, 'edit']);
+    this.router.navigate([this.fournisseurSrv.getRoutePrefix(), fournisseur.id, 'edit']);
   }
 
   cloneFournisseur(fournisseur: Fournisseur) {
-      this.router.navigate([this.fournisseurSrv.getRoutePrefix(), fournisseur.id, 'clone']);
+    this.router.navigate([this.fournisseurSrv.getRoutePrefix(), fournisseur.id, 'clone']);
   }
 
   deleteFournisseur(fournisseur: Fournisseur) {
-      this.fournisseurSrv.remove(fournisseur)
-        .subscribe(_data => this.refreshList(), error => this.fournisseurSrv.httpSrv.handleError(error));
+    this.fournisseurSrv.remove(fournisseur)
+      .subscribe(_data => {
+        this.refreshList();
+      }, error => this.fournisseurSrv.httpSrv.handleError(error));
   }
 
   deleteSelectedFournisseurs(_fournisseur: Fournisseur) {
-      if (this.selectedFournisseurs) {
-        this.fournisseurSrv.removeSelection(this.selectedFournisseurs)
-          .subscribe(_data => this.refreshList(), error => this.fournisseurSrv.httpSrv.handleError(error));
-      } else {
-        this.fournisseurSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
-      }
+    if (this.selectedFournisseurs) {
+      this.fournisseurSrv.removeSelection(this.selectedFournisseurs)
+        .subscribe(_data => {
+          this.refreshList();
+        }, error => this.fournisseurSrv.httpSrv.handleError(error));
+    } else {
+      this.fournisseurSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
+    }
   }
 
   refreshList() {
     this.fournisseurSrv.findAll()
-      .subscribe((data: any) => this.fournisseurs = data, error => this.fournisseurSrv.httpSrv.handleError(error));
+      .subscribe((data: any) => {
+        this.fournisseurs = data;
+        this.originalFournisseurs = data;
+      }, error => this.fournisseurSrv.httpSrv.handleError(error));
   }
 
   exportPdf() {
@@ -93,6 +107,56 @@ export class FournisseurListComponent implements OnInit {
 
   saveAsExcelFile(buffer: any, fileName: string): void {
     this.exportSrv.saveAsExcelFile(buffer, fileName);
+  }
+
+  handleChange(e: any) {
+    this.filterProvidersBySectors(e);
+  }
+
+  handleSwitchChange() {
+    this.filterProvidersBySectors(this.checkedSectors);
+  }
+
+  filterProvidersBySectors(checkedSectors: any) {
+    const tempFournisseurs = new Array();
+    Object.assign(tempFournisseurs, this.originalFournisseurs);
+    if (tempFournisseurs.length !== this.fournisseurs.length) {
+      this.fournisseurs = tempFournisseurs;
+    }
+    this.checkedSectors = checkedSectors;
+    const filteredProviders: Fournisseur[] = new Array();
+    let founded: boolean;
+    this.fournisseurs.forEach(fournisseur => {
+      let foundedItem = 0;
+      fournisseur.secteurs.forEach(secteur => {
+        founded = false;
+        this.checkedSectors.forEach(checkedSector => {
+          if (secteur.code === checkedSector.code) {
+            founded = true;
+            foundedItem++;
+          }
+        })
+        if (founded && !(filteredProviders.filter(provider => provider.id === fournisseur.id).length)) {
+          if (this.strict) {
+            if (foundedItem === this.checkedSectors.length) {
+              filteredProviders.push(fournisseur);
+            }
+          } else {
+            filteredProviders.push(fournisseur);
+          }
+
+        }
+      })
+    })
+    if (filteredProviders.length) {
+      this.fournisseurs = filteredProviders;
+    } else {
+      if (this.checkedSectors.length) {
+        window.scrollTo(0, 0);
+        this.notificationSrv.showWarning('Attention aucun fournisseur ne dispose de ces critéres.');
+        this.fournisseurs = this.originalFournisseurs;
+      }
+    }
   }
 
 }

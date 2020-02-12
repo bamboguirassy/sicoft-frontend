@@ -4,7 +4,6 @@
 <form *ngIf="'Classe'|editable" class="form" role="form" #classeForm="ngForm" autocomplete="off" (ngSubmit)="updateClasse()">
     <p-fieldset legend="Modification de Classe" [toggleable]="true">
         <p-toolbar>
-            <div class="text-center">{{classe.libelle}}</div>
             <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
           class="fa fa-reply" aria-hidden="true"></i>
         Retour</button>

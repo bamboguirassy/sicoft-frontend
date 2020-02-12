@@ -16,7 +16,7 @@ export class UserShowComponent implements OnInit {
 
   user: User;
   entites: Entite;
-  etatMarches: EtatMarche;
+  etatMarches: EtatMarche[];
   constructor(public activatedRoute: ActivatedRoute,
     public userSrv: UserService, public location: Location,
     public router: Router, public notificationSrv: NotificationService) {

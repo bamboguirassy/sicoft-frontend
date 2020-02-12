@@ -20,23 +20,29 @@
                         <ng-template pTemplate="caption">
                             Liste des utilisateurs
                            <div class="row justify-content-center">
-                               <div  class="ui-inputgroup mb-2">
+                               <div  class="ui-inputgroup">
                                    <span class="ui-inputgroup-addon bg-primary"><i class="fa fa-search text-white-50"></i></span>
                                    <input class="" type="text" pInputText size="50" placeholder="Rechercher dans le tableau" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
                                </div>
                            </div>
-                            <div class="ui-helper-clearfix" style="text-align: left">
-                                <div class="btn-group btn-group-toggle">
-                                    <label class="btn-primary" ngbButtonLabel>
-                                        <input type="checkbox" ngbButton [(ngModel)]="model.left"><span class="text-white"><i [class.fa-check]="model.left" class="fa mr-1"></i>Groupe</span>
-                                    </label>
-                                    <label class="btn-primary" ngbButtonLabel>
-                                        <input type="checkbox" ngbButton [(ngModel)]="model.middle"><span class="text-white"><i [class.fa-check]="model.middle" class="fa mr-1"></i>Groupe 2</span>
-                                    </label>
-                                    <label class="btn-primary" ngbButtonLabel>
-                                        <input type="checkbox" ngbButton [(ngModel)]="model.right"><span class="text-white"><i [class.fa-check]="model.right" class="fa mr-1"></i>Super Admin</span>
-                                    </label>
+                            <div class="row justify-content-center mt-2">
+                                <div class="col-auto">
+                                    <div class="form-group">
+                                        <div class="row justify-content-center ">
+                                            <div class="col-3 align-self-center">Mode strict</div>
+                                            <p-inputSwitch class="col-auto" [(ngModel)]="strict" (onChange)="onStricSwitched()" ></p-inputSwitch>
+                                        </div>
+                                        <div>
+                                            <small class="text-danger">Si activé, permet de rechercher les utilisateurs dans plusieurs groupes</small>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <ro-ms-chips [items]="groups" iconClass="pi pi-check-circle" bindLabel="name" (onChange)="handleChange($event)"></ro-ms-chips>
+                                <p-dropdown class="align-self-center ml-1" [options]="states" [style]="{'width':'100%'}" (onChange)="tt.filter($event.value, 'enabled', 'equals')"></p-dropdown>
+                            </div>
+                            <div class="ui-helper-clearfix" style="text-align: left">
                                 <button *ngIf="'User'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>
                                 <button *ngIf="'User'|listable" type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
                             </div>

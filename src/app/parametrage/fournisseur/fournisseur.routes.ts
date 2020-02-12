@@ -14,7 +14,10 @@ const fournisseurRoutes: Route = {
     {
       path: '',
       component: FournisseurListComponent,
-      resolve: { fournisseurs: MultipleFournisseurResolver }
+      resolve: { 
+        fournisseurs: MultipleFournisseurResolver,
+        secteurs: MultipleSecteurResolver,
+       }
     },
     {
       path: 'new',
@@ -33,8 +36,9 @@ const fournisseurRoutes: Route = {
       path: ':id/clone',
       component: FournisseurCloneComponent,
       resolve: {
-           fournisseur: OneFournisseurResolver ,
-           secteurs: MultipleSecteurResolver}
+        fournisseur: OneFournisseurResolver,
+        secteurs: MultipleSecteurResolver
+      }
     },
     {
       path: ':id',

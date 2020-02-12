@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'app-etat_marche-edit',
   templateUrl: './etat_marche-edit.component.html',
   styleUrls: ['./etat_marche-edit.component.scss']

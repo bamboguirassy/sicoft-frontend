@@ -206,6 +206,92 @@
                 </button>
             </p-toolbar>
         </p-tabPanel>
+        <p-tabPanel header="Liste des utilisateurs" >
+                <p-table #tt [value]="entite.users" [paginator]="true" [rows]="50" sortMode="multiple"
+                                  selectionMode="multiple" [(selection)]="selectedUsers" [resizableColumns]="true"
+                                  [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedUser"
+                                  [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields"
+                                  dataKey="id">
+                             <ng-template pTemplate="caption">
+                                 Liste des utilisateurs<br>
+                                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                 <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
+                                        (input)="tt.filterGlobal($event.target['value'], 'contains')" style="width:auto">
+                                 <div class="ui-helper-clearfix" style="text-align: left">
+                                     <button *ngIf="'User'|listable" type="button" pButton icon="pi pi-file-pdf"
+                                             iconPos="left" label="PDF" (click)="exportPdf()"
+                                             class="ui-button-warning pull-right ml-1"></button>
+                                     <button *ngIf="'User'|listable" type="button" pButton icon="pi pi-file-excel"
+                                             iconPos="left" label="EXCEL" (click)="exportExcel()"
+                                             style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
+                                 </div>
+                             </ng-template>
+                             <ng-template pTemplate="colgroup">
+                                 <colgroup>
+                                     <col>
+                                     <col>
+                                     <col>
+                                 </colgroup>
+                             </ng-template>
+                             <ng-template pTemplate="header">
+                                 <tr>
+                                     <th style="width: 3em">
+                                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                     </th>
+                                     <th [pSortableColumn]="'nom'" pResizableColumn>
+                                         Nom
+                                         <p-sortIcon [field]="'nom'"></p-sortIcon>
+                                     </th>
+                                     <th [pSortableColumn]="'prenom'" pResizableColumn>
+                                         prenom
+                                         <p-sortIcon [field]="'prenom'"></p-sortIcon>
+                                     </th>
+                                     <th [pSortableColumn]="'email'" pResizableColumn>
+                                         email
+                                         <p-sortIcon [field]="'email'"></p-sortIcon>
+                                     </th>
+                                     <th [pSortableColumn]="'telephone'" pResizableColumn>
+                                            telephone
+                                         <p-sortIcon [field]="'telephone'"></p-sortIcon>
+                                     </th>
+
+                                 </tr>
+                             </ng-template>
+                             <ng-template pTemplate="body" let-user>
+                                 <tr [pEditableRow]="user" [pSelectableRow]="user" [pContextMenuRow]="user">
+                                     <td style="width: 3em">
+                                         <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                                     </td>
+                                     <td class="ui-resizable-column">
+                                         {{ user.nom }}
+                                     </td>
+                                     <td class="ui-resizable-column">
+                                         {{ user.prenom }}
+                                     </td>
+                                     <td class="ui-resizable-column">
+                                            {{ user.email }}
+                                        </td>
+                                        <td class="ui-resizable-column">
+                                            {{ user.telephone }}
+                                        </td>
+                                 </tr>
+                             </ng-template>
+                             <ng-template pTemplate="footer" let-columns>
+                                 <tr>
+                                     <td style="width: 3em">
+                                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                     </td>
+                                     <td>Nom</td>
+                                     <td>Prenom</td>
+                                     <td>Email</td>
+                                     <td>Telephone </td>
+
+                                 </tr>
+                             </ng-template>
+                         </p-table>
+                         
+                
+             </p-tabPanel>
         <p-tabPanel header="Liste associée "></p-tabPanel>
     </p-tabView>
 </p-fieldset>

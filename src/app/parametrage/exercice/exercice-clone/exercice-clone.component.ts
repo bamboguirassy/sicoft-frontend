@@ -16,6 +16,7 @@ export class ExerciceCloneComponent implements OnInit {
   exercice: Exercice;
   original: Exercice;
   exercices: Exercice[] = [];
+  exerciceTemp: Exercice;
   @ViewChild('confirm', { static: false }) public modalContentRef: TemplateRef<any>;
   constructor(public exerciceSrv: ExerciceService, public location: Location,
     public activatedRoute: ActivatedRoute, public router: Router,
@@ -33,6 +34,8 @@ export class ExerciceCloneComponent implements OnInit {
   }
 
   cloneExercice() {
+    this.exerciceTemp = new Exercice();
+    Object.assign(this.exerciceTemp, this.exercice);
     let tempDateDebut = this.exercice.dateDebut;
     let tempDateFin = this.exercice.dateFin;
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
@@ -51,22 +54,29 @@ export class ExerciceCloneComponent implements OnInit {
         } else {
           this.exercice.dateDebut = tempDateDebut;
           this.exercice.dateFin = tempDateFin;
+          this.exercice = this.exerciceTemp;
           this.exerciceSrv.httpSrv.handleError(error)
         }
       });
   }
 
   public toggleConfirmModal(content: TemplateRef<any>) {
+    this.exercice = this.exerciceTemp;
     this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
   }
 
   public disableExerciceExcept() {
-    console.log(this.exercice);
     this.exerciceSrv.disableExerciceExcept(this.original, 'clone', this.exercice)
       .subscribe((data: any) => {
         this.router.navigate([this.exerciceSrv.getRoutePrefix(), data.id]);
       });
     this.modalSrv.dismissAll();
+  }
+
+  dissmissModal(param: string) {
+    this.modalSrv.dismissAll(param);
+    this.exercice.encours = false;
+    this.exercice = this.exerciceTemp;
   }
 
 }
