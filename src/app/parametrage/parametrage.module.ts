@@ -22,7 +22,8 @@ import {
     ProgressSpinnerModule,
     ConfirmDialogModule,
     ToggleButtonModule,
-    TooltipModule
+    TooltipModule,
+    
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -32,6 +33,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ChipsModule } from 'primeng/chips';
+import {TreeTableModule} from 'primeng/treetable';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { GroupCloneComponent } from './group/group-clone/group-clone.component';
 import { GroupEditComponent } from './group/group-edit/group-edit.component';
@@ -176,6 +178,7 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
         ConfirmDialogModule,
         ToggleButtonModule,
         TooltipModule,
+        TreeTableModule
     ]
 })
 export class ParametrageModule { }

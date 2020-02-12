@@ -1,101 +1,174 @@
-import {Component, OnInit} from '@angular/core';
-import {Entite} from '../entite';
-import {ActivatedRoute, Router} from '@angular/router';
-import {EntiteService} from '../entite.service';
-import {entiteColumns, allowedEntiteFieldsForFilter} from '../entite.columns';
-import {ExportService} from 'app/shared/services/export.service';
-import {MenuItem} from 'primeng/api';
-import {AuthService} from 'app/shared/services/auth.service';
-import {NotificationService} from 'app/shared/services/notification.service';
-import { User } from '../../user/user';
-
+import { Component, OnInit } from '@angular/core';
+import { Entite } from '../entite';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EntiteService } from '../entite.service';
+import { entiteColumns, allowedEntiteFieldsForFilter } from '../entite.columns';
+import { ExportService } from 'app/shared/services/export.service';
+import { MenuItem, SelectItem } from 'primeng/api';
+import { AuthService } from 'app/shared/services/auth.service';
+import { NotificationService } from 'app/shared/services/notification.service';
+import { TypeEntite } from 'app/parametrage/type_entite/type_entite';
+import { equal } from 'assert';
 
 @Component({
-    selector: 'app-entite-list',
-    templateUrl: './entite-list.component.html',
-    styleUrls: ['./entite-list.component.scss']
+  selector: 'app-entite-list',
+  templateUrl: './entite-list.component.html',
+  styleUrls: ['./entite-list.component.scss']
 })
 export class EntiteListComponent implements OnInit {
+  entites: Entite[] = [];
+  originalEntites: Entite[] = [];
+  filteredEntites: Entite[] = [];
+  selectedEntites: Entite[];
+  selectedEntite: Entite;
+  selectedTypeEntite: TypeEntite;
+  selectedEntiteParent: Entite;
+  selectedEtat: any[] = [];
+  clonedEntites: Entite[];
 
-    entites: Entite[] = [];
-    selectedEntites: Entite[];
-    selectedEntite: Entite;
-    clonedEntites: Entite[];
-    AllUsers: User[] = [];
+  cMenuItems: MenuItem[] = [];
 
-    cMenuItems: MenuItem[] = [];
+  cols: any[];
+  tableColumns = entiteColumns;
 
-    tableColumns = entiteColumns;
-    // allowed fields for filter
-    globalFilterFields = allowedEntiteFieldsForFilter;
+  etats: any[] = [];
+  entiteParents: any[] = [];
+  typeEntites: TypeEntite[] = [];
+  // allowed fields for filter
+  globalFilterFields = allowedEntiteFieldsForFilter;
 
-    constructor(
-        private activatedRoute: ActivatedRoute,
-        public entiteSrv: EntiteService, public exportSrv: ExportService,
-        private router: Router, public authSrv: AuthService,
-        public notificationSrv: NotificationService) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    public entiteSrv: EntiteService,
+    public exportSrv: ExportService,
+    private router: Router,
+    public authSrv: AuthService,
+    public notificationSrv: NotificationService
+  ) {}
+
+  ngOnInit() {
+    if (this.authSrv.checkShowAccess('Entite')) {
+      this.cMenuItems.push({
+        label: 'Afficher détails',
+        icon: 'pi pi-eye',
+        command: event => this.viewEntite(this.selectedEntite)
+      });
+    }
+    if (this.authSrv.checkEditAccess('Entite')) {
+      this.cMenuItems.push({
+        label: 'Modifier',
+        icon: 'pi pi-pencil',
+        command: event => this.editEntite(this.selectedEntite)
+      });
+    }
+    if (this.authSrv.checkCloneAccess('Entite')) {
+      this.cMenuItems.push({
+        label: 'Cloner',
+        icon: 'pi pi-clone',
+        command: event => this.cloneEntite(this.selectedEntite)
+      });
+    }
+    if (this.authSrv.checkDeleteAccess('Entite')) {
+      this.cMenuItems.push({
+        label: 'Supprimer',
+        icon: 'pi pi-times',
+        command: event => this.deleteEntite(this.selectedEntite)
+      });
     }
 
-    ngOnInit() {
-        if (this.authSrv.checkShowAccess('Entite')) {
-            this.cMenuItems.push({label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewEntite(this.selectedEntite)});
-        }
-        if (this.authSrv.checkEditAccess('Entite')) {
-            this.cMenuItems.push({label: 'Modifier', icon: 'pi pi-pencil', command: (event) => this.editEntite(this.selectedEntite)})
-        }
-        if (this.authSrv.checkCloneAccess('Entite')) {
-            this.cMenuItems.push({label: 'Cloner', icon: 'pi pi-clone', command: (event) => this.cloneEntite(this.selectedEntite)})
-        }
-        if (this.authSrv.checkDeleteAccess('Entite')) {
-            this.cMenuItems.push({label: 'Supprimer', icon: 'pi pi-times', command: (event) => this.deleteEntite(this.selectedEntite)})
-        }
+    this.entites = this.activatedRoute.snapshot.data['entites'];
+    this.typeEntites = this.activatedRoute.snapshot.data['typeEntites'];
+    this.typeEntites.unshift(new TypeEntite('Tous les types entité'));
+    this.selectedTypeEntite = this.typeEntites[0];
+    Object.assign(this.entiteParents, this.entites);
+    this.entiteParents.unshift(new Entite('Toutes les entités parent'));
+    this.selectedEntiteParent = this.entiteParents[0];
+    Object.assign(this.originalEntites, this.entites);
+    
 
-        this.entites = this.activatedRoute.snapshot.data['entites'];
-        this.AllUsers =  this.activatedRoute.snapshot.data['AllUsers'];
+    this.etats = [
+      { label: 'Actif', value: 'true' },
+      { label: 'Inactif', value: 'false' }
+    ];
+  }
+
+  viewEntite(entite: Entite) {
+    this.router.navigate([this.entiteSrv.getRoutePrefix(), entite.id]);
+  }
+
+  editEntite(entite: Entite) {
+    this.router.navigate([this.entiteSrv.getRoutePrefix(), entite.id, 'edit']);
+  }
+
+  cloneEntite(entite: Entite) {
+    this.router.navigate([this.entiteSrv.getRoutePrefix(), entite.id, 'clone']);
+  }
+
+  deleteEntite(entite: Entite) {
+    this.entiteSrv.remove(entite).subscribe(
+      data => this.refreshList(),
+      error => this.entiteSrv.httpSrv.handleError(error)
+    );
+  }
+
+  deleteSelectedEntites() {
+    if (this.selectedEntites) {
+      this.entiteSrv.removeSelection(this.selectedEntites).subscribe(
+        data => this.refreshList(),
+        error => this.entiteSrv.httpSrv.handleError(error)
+      );
+    } else {
+      this.entiteSrv.httpSrv.notificationSrv.showWarning(
+        'Selectionner au moins un élement'
+      );
     }
+  }
 
-    viewEntite(entite: Entite) {
-        this.router.navigate([this.entiteSrv.getRoutePrefix(), entite.id]);
+  refreshList() {
+    this.entiteSrv.findAll().subscribe(
+      (data: any) => (this.entites = data),
+      error => this.entiteSrv.httpSrv.handleError(error)
+    );
+  }
 
-    }
+  exportPdf() {
+    this.exportSrv.exportPdf(this.tableColumns, this.entites, 'entites');
+  }
 
-    editEntite(entite: Entite) {
-        this.router.navigate([this.entiteSrv.getRoutePrefix(), entite.id, 'edit']);
-    }
+  exportExcel() {
+    this.exportSrv.exportExcel(this.entites);
+  }
 
-    cloneEntite(entite: Entite) {
-        this.router.navigate([this.entiteSrv.getRoutePrefix(), entite.id, 'clone']);
-    }
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    this.exportSrv.saveAsExcelFile(buffer, fileName);
+  }
 
-    deleteEntite(entite: Entite) {
-        this.entiteSrv.remove(entite)
-            .subscribe(data => this.refreshList(), error => this.entiteSrv.httpSrv.handleError(error));
-    }
+  filter() {
+      Object.assign(this.entites, this.originalEntites);
+      if (this.selectedTypeEntite.id !== 0){
+        this.entites = this.originalEntites.filter(entite => {
+          return entite.typeEntite.id === this.selectedTypeEntite.id;
+        });
+      }
 
-    deleteSelectedEntites() {
-        if (this.selectedEntites) {
-            this.entiteSrv.removeSelection(this.selectedEntites)
-                .subscribe(data => this.refreshList(), error => this.entiteSrv.httpSrv.handleError(error));
-        } else {
-            this.entiteSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
-        }
-    }
+     if (this.selectedEntiteParent.id !== 0){
+        this.entites = this.entites.filter(entite => {
+          if (entite.entiteParent != null) {
+            return entite.entiteParent.id === this.selectedEntiteParent.id;
+          }
+        });
+      }
 
-    refreshList() {
-        this.entiteSrv.findAll()
-            .subscribe((data: any) => this.entites = data, error => this.entiteSrv.httpSrv.handleError(error));
-    }
+      if (this.selectedEtat.length === 1 && this.selectedEtat.includes('true')){
+        this.entites = this.entites.filter(entite => {
+          return entite.etat === true;
+        });
+      }
 
-    exportPdf() {
-        this.exportSrv.exportPdf(this.tableColumns, this.entites, 'entites');
-    }
-
-    exportExcel() {
-        this.exportSrv.exportExcel(this.entites);
-    }
-
-    saveAsExcelFile(buffer: any, fileName: string): void {
-        this.exportSrv.saveAsExcelFile(buffer, fileName);
-    }
-
+      if (this.selectedEtat.length === 1 && this.selectedEtat.includes('false')){
+        this.entites = this.entites.filter(entite => {
+          return entite.etat === false;
+        });
+      }
+  }
 }

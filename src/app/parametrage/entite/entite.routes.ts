@@ -14,7 +14,7 @@ import { MultipleUserResolver } from '../user/multiple-user.resolver';
 const entiteRoutes: Route = {
     path: 'entite', children: [
         { path: '', component: EntiteListComponent,
-         resolve: { entites: MultipleEntiteResolver, users: MultipleUserResolver } },
+         resolve: { entites: MultipleEntiteResolver, users: MultipleUserResolver, typeEntites: MultipleTypeEntiteResolver } },
         // tslint:disable-next-line:max-line-length
         { path: 'new', component: EntiteNewComponent,
          resolve: { entites: MultipleEntiteResolver, typeEntites: MultipleTypeEntiteResolver } },

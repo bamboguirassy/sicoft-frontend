@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClasseService } from '../classe.service';
 import { classeColumns, allowedClasseFieldsForFilter } from '../classe.columns';
 import { ExportService } from 'app/shared/services/export.service';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, TreeNode } from 'primeng/api';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NotificationService } from 'app/shared/services/notification.service';
 
@@ -19,11 +19,12 @@ export class ClasseListComponent implements OnInit {
   classes: Classe[] = [];
   selectedClasses: Classe[];
   selectedClasse: Classe;
-  clonedClasses: Classe[];
+  tableColumns=classeColumns;
+
+  treeNodes: TreeNode[]=[];
 
   cMenuItems: MenuItem[] = [];
 
-  tableColumns = classeColumns;
   // allowed fields for filter
   globalFilterFields = allowedClasseFieldsForFilter;
 
@@ -31,7 +32,7 @@ export class ClasseListComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
     public classeSrv: ClasseService, public exportSrv: ExportService,
     private router: Router, public authSrv: AuthService,
-    public notificationSrv: NotificationService) { }
+    public notificationSrv: NotificationService) {}
 
   ngOnInit() {
     if (this.authSrv.checkShowAccess('Classe')) {
@@ -48,6 +49,21 @@ export class ClasseListComponent implements OnInit {
     }
 
     this.classes = this.activatedRoute.snapshot.data['classes'];
+    this.treeNodes=this.getTreeNodes(this.classes);
+    
+  }
+
+  public getTreeNodes(classes:Classe[]):TreeNode[]{
+    let treeNodes:TreeNode[]=[];
+    classes.forEach(classe=>{
+      //sous classe node
+      let sousClasseNodes:TreeNode[]=[];
+      classe.sousClasses.forEach(sousClasse => {
+        sousClasseNodes.push({data:sousClasse,children:[]})
+      });
+      treeNodes.push({data:classe,children:sousClasseNodes});
+    });
+    return treeNodes;
   }
 
   viewClasse(classe: Classe) {

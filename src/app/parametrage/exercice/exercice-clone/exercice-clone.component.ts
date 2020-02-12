@@ -54,6 +54,7 @@ export class ExerciceCloneComponent implements OnInit {
         } else {
           this.exercice.dateDebut = tempDateDebut;
           this.exercice.dateFin = tempDateFin;
+          this.exercice = this.exerciceTemp;
           this.exerciceSrv.httpSrv.handleError(error)
         }
       });
