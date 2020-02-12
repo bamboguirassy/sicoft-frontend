@@ -69,17 +69,23 @@
         <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
+    </div>
+    <div class="modal-body">
         <p><strong>Êtes vous sûr de vouloir activer l'exercice: <span class="text-primary">{{exercice.libelle}} ?</span></strong></p>
         <p>Tous les autres exercices seront par conséquent inactifs.
-        <span class="text-danger">Effectuer l'opération ?</span>
+            <span class="text-danger">Effectuer l'opération ?</span>
         </p>
+<<<<<<< HEAD
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Annuler</button>
+=======
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" (click)="dissmissModal('cancel click')">Annuler</button>
+>>>>>>> 4e2b3f704544b4a18e7e08daf18f69786f8f32ad
         <button type="button" ngbAutofocus class="btn btn-outline-danger" (click)="disableExerciceExcept()">
             Ok</button>
-      </div>
+    </div>
 
 </ng-template>
