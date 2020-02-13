@@ -7,24 +7,12 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserShowComponent } from './user/user-show/user-show.component';
 import { TableModule } from 'primeng/table';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
-  ContextMenuModule,
-  MenuModule,
-  ButtonModule,
-  CardModule,
-  FieldsetModule,
-  ToolbarModule,
-  TabViewModule,
-  AccordionModule,
-  BreadcrumbModule,
-  DropdownModule,
-  AutoCompleteModule,
-  ProgressSpinnerModule,
-  ConfirmDialogModule,
-  ToggleButtonModule,
-  TooltipModule,
-  PickListModule
+  ContextMenuModule,PickListModule,DialogModule,
+  MenuModule, ButtonModule,
+  CardModule, FieldsetModule,
+  ToolbarModule, TabViewModule,
+  AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule, ProgressSpinnerModule, ConfirmDialogModule
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -254,10 +242,8 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
     ProgressSpinnerModule,
     AutoCompleteModule,
     ConfirmDialogModule,
-    ToggleButtonModule,
-    TooltipModule,
-    TreeTableModule,
-    PickListModule
+    PickListModule,
+    DialogModule,
   ]
 })
 export class ParametrageModule {}
