@@ -31,16 +31,21 @@ export class UserCloneComponent implements OnInit {
   }
 
   cloneUser() {
-    let groupIds = [];
+    if (!this.user.groups) {
+ const groupIds = [];
     this.user.groups.forEach(group => {
       groupIds.push(group.id);
     });
     this.user.groups = groupIds;
-    let entiteId = [];
+    }
+if (!this.user.entites) {
+   const entiteId = [];
     this.user.entites.forEach(entite => {
       entiteId.push(entite.id);
     });
     this.user.entites = entiteId;
+}
+
     this.userSrv.clone(this.original, this.user)
       .subscribe((data: any) => {
         this.router.navigate([this.userSrv.getRoutePrefix(), data.id]);
@@ -48,5 +53,10 @@ export class UserCloneComponent implements OnInit {
         this.userSrv.httpSrv.handleError(error);
       });
   }
+  onRemove(e: any) {
+    this.entites.push(e.value);
+    this.entites = this.entites.slice(0);
+  }
+
 
 }

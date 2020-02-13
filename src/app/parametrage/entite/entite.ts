@@ -10,7 +10,7 @@ export class Entite {
   entiteParent: Entite;
   users: User[];
 
-  constructor(nom: string) {
+  constructor(nom?: string) {
     this.nom = nom;
     this.id = 0;
   }

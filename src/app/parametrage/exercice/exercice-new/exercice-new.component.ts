@@ -38,6 +38,8 @@ export class ExerciceNewComponent implements OnInit {
   saveExercice() {
     this.tempDateDebut = this.exercice.dateDebut;
     this.tempDateFin = this.exercice.dateFin;
+    const exercicePrecedentTemp = new Exercice();
+    Object.assign(exercicePrecedentTemp, this.exercice.exerciceSuivant);
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
     if (this.exercice.exerciceSuivant) {
@@ -58,6 +60,7 @@ export class ExerciceNewComponent implements OnInit {
         } else {
           this.exercice.dateDebut = this.tempDateDebut;
           this.exercice.dateFin = this.tempDateFin;
+          this.exercice.exerciceSuivant = exercicePrecedentTemp;
           this.exerciceSrv.httpSrv.handleError(error)
         }
       });
@@ -66,6 +69,8 @@ export class ExerciceNewComponent implements OnInit {
   saveExerciceAndExit() {
     this.tempDateDebut = this.exercice.dateDebut;
     this.tempDateFin = this.exercice.dateFin;
+    const exercicePrecedentTemp = new Exercice();
+    Object.assign(exercicePrecedentTemp, this.exercice.exerciceSuivant);
     this.exercice.dateDebut = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateDebut);
     this.exercice.dateFin = this.convertDateServiceSrv.formatDateYmd(this.exercice.dateFin);
     if (this.exercice.exerciceSuivant) {
@@ -82,6 +87,7 @@ export class ExerciceNewComponent implements OnInit {
         } else {
           this.exercice.dateDebut = this.tempDateDebut;
           this.exercice.dateFin = this.tempDateFin;
+          this.exercice.exerciceSuivant = exercicePrecedentTemp;
           this.exerciceSrv.httpSrv.handleError(error)
         }
       });

@@ -7,8 +7,6 @@ import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { Group } from 'app/parametrage/group/group';
 import { Entite } from 'app/parametrage/entite/entite';
-import {Fournisseur} from '../../fournisseur/fournisseur';
-import {Secteur} from '../../secteur/secteur';
 
 @Component({
   selector: 'app-user-edit',
@@ -20,6 +18,7 @@ export class UserEditComponent implements OnInit {
   user: User;
   groups: Group[] = [];
   entites: Entite[] = [];
+  selectedEntite: Entite[] = [];
 
   constructor(public userSrv: UserService,
     public activatedRoute: ActivatedRoute,
@@ -31,6 +30,19 @@ export class UserEditComponent implements OnInit {
     this.user = this.activatedRoute.snapshot.data['user'];
     this.groups = this.activatedRoute.snapshot.data['groups'];
     this.entites = this.activatedRoute.snapshot.data['entites'];
+    const filteredEntite: Entite[] = [];
+    this.entites.forEach(entite => {
+      let founded = false;
+      this.user.entites.forEach(addedEntite => {
+        if (entite.id === addedEntite.id) {
+          founded = true;
+        }
+      })
+      if (!founded) {
+        filteredEntite.push(entite);
+      }
+    })
+    this.entites = filteredEntite;
   }
 
   updateUser() {
@@ -48,4 +60,10 @@ export class UserEditComponent implements OnInit {
       .subscribe(data => this.location.back(),
         error => this.userSrv.httpSrv.handleError(error));
   }
+
+  onRemove(e: any) {
+    this.entites.push(e.value);
+    this.entites = this.entites.slice(0);
+  }
+
 }

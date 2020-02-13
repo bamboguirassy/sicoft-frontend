@@ -6,10 +6,13 @@ import { ExerciceSourceFinancementCloneComponent } from './exercice_source_finan
 import { ExerciceSourceFinancementShowComponent } from './exercice_source_financement-show/exercice_source_financement-show.component';
 import { MultipleExerciceSourceFinancementResolver } from './multiple-exercice_source_financement.resolver';
 import { OneExerciceSourceFinancementResolver } from './one-exercice_source_financement.resolver';
+import { MultipleExerciceResolver } from '../exercice/multiple-exercice.resolver';
+import { MultipleEntiteResolver } from '../entite/multiple-entite.resolver';
 
 const exercice_source_financementRoutes: Route = {
     path: 'exerciceSourceFinancement', children: [
-        { path: '', component: ExerciceSourceFinancementListComponent, resolve: { exercice_source_financements: MultipleExerciceSourceFinancementResolver } },
+        { path: '', component: ExerciceSourceFinancementListComponent, resolve: { exercice_source_financements: MultipleExerciceSourceFinancementResolver,
+            exercices: MultipleExerciceResolver, entites: MultipleEntiteResolver } },
         { path: 'new', component: ExerciceSourceFinancementNewComponent },
         { path: ':id/edit', component: ExerciceSourceFinancementEditComponent, resolve: { exercice_source_financement: OneExerciceSourceFinancementResolver } },
         { path: ':id/clone', component: ExerciceSourceFinancementCloneComponent, resolve: { exercice_source_financement: OneExerciceSourceFinancementResolver } },
