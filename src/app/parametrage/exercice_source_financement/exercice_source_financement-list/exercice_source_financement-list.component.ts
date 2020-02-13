@@ -9,7 +9,7 @@ import { AuthService } from 'app/shared/services/auth.service';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { Exercice } from 'app/parametrage/exercice/exercice';
 import { Entite } from 'app/parametrage/entite/entite';
-import Swal from 'sweetalert2';
+import {Swal} from 'sweetalert2';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { element } from 'protractor';
 

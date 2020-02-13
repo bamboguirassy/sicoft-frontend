@@ -23,7 +23,8 @@ import {
   ProgressSpinnerModule,
   ConfirmDialogModule,
   ToggleButtonModule,
-  TooltipModule
+  TooltipModule,
+  PickListModule
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -255,7 +256,8 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
     ConfirmDialogModule,
     ToggleButtonModule,
     TooltipModule,
-    TreeTableModule
+    TreeTableModule,
+    PickListModule
   ]
 })
 export class ParametrageModule {}
