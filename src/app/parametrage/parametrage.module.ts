@@ -245,7 +245,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ConfirmDialogModule,
     PickListModule,
     DialogModule,
-    NgbModule,
   ]
 })
 export class ParametrageModule {}
