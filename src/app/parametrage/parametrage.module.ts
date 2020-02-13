@@ -9,30 +9,11 @@ import { UserShowComponent } from './user/user-show/user-show.component';
 import { TableModule } from 'primeng/table';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {
-<<<<<<< HEAD
   ContextMenuModule,PickListModule,DialogModule,
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
   ToolbarModule, TabViewModule,
   AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule, ProgressSpinnerModule, ConfirmDialogModule
-=======
-    ContextMenuModule,
-    MenuModule,
-    ButtonModule,
-    CardModule,
-    FieldsetModule,
-    ToolbarModule,
-    TabViewModule,
-    AccordionModule,
-    BreadcrumbModule,
-    DropdownModule,
-    AutoCompleteModule,
-    ProgressSpinnerModule,
-    ConfirmDialogModule,
-    ToggleButtonModule,
-    TooltipModule,
-    
->>>>>>> 4e2b3f704544b4a18e7e08daf18f69786f8f32ad
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -158,7 +139,6 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
     SousClasseCloneComponent,SousClasseEditComponent,SousClasseListComponent,SousClasseShowComponent,SousClasseNewComponent,
     ExerciceSourceFinancementCloneComponent,ExerciceSourceFinancementEditComponent,ExerciceSourceFinancementListComponent,ExerciceSourceFinancementNewComponent,ExerciceSourceFinancementShowComponent,
   ],
-<<<<<<< HEAD
   imports: [
     CommonModule,
     ParametrageRoutingModule,
@@ -190,38 +170,5 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
     DialogModule,
     NgbModule,
   ]
-=======
-    imports: [
-        CommonModule,
-        ParametrageRoutingModule,
-        ToastModule,
-        TableModule,
-        ContextMenuModule,
-        FormsModule,
-        SharedModule,
-        MenuModule,
-        ButtonModule,
-        CardModule,
-        FieldsetModule,
-        ToolbarModule,
-        TabViewModule,
-        CheckboxModule,
-        InputSwitchModule,
-        MultiSelectModule,
-        InputMaskModule,
-        ChipsModule,
-        NgSelectModule,
-        AccordionModule,
-        BreadcrumbModule,
-        OrgChartModule,
-        DropdownModule,
-        ProgressSpinnerModule,
-        AutoCompleteModule,
-        ConfirmDialogModule,
-        ToggleButtonModule,
-        TooltipModule,
-        TreeTableModule
-    ]
->>>>>>> 4e2b3f704544b4a18e7e08daf18f69786f8f32ad
 })
 export class ParametrageModule { }
