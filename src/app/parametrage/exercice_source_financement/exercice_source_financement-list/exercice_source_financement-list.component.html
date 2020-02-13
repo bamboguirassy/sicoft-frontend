@@ -242,9 +242,12 @@
                     <h3>Exercice fermé</h3>
                     <h4 *ngIf="tabExerciceSourceFinancements?.length == 0">Aucun paramétrage pour cet exercice</h4>
                     <p-toolbar>
-                        <div>
+                        <div class="col-sm-12 col-md-12 col-lg-12 mt-3">
                             <p-table [value]="tabExerciceSourceFinancements" [responsive]="true" [scrollable]="true">
                                 <ng-template pTemplate="header">
+                                    <tr>
+                                        <th colspan="5" style="text-align:center;"><strong>Sources financements paramétrées</strong></th>
+                                    </tr>
                                     <tr>
                                         <th>Source financement</th>
                                         <th>Type</th>
@@ -264,9 +267,14 @@
                                 </ng-template>
                             </p-table>
                         </div>
-                        <div>
+                    </p-toolbar>
+                    <p-toolbar>
+                        <div class="col-sm-12 col-md-12 col-lg-12 mt-3">
                             <p-table [value]="sourceFinancements" [responsive]="true" [scrollable]="true">
                                 <ng-template pTemplate="header">
+                                    <tr>
+                                        <th colspan="2" style="text-align:center;"> <strong>Sources financements dispinibles</strong></th>
+                                    </tr>
                                     <tr>
                                         <th>Libelle</th>
                                         <th>Type</th>

@@ -244,7 +244,6 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
     ConfirmDialogModule,
     PickListModule,
     DialogModule,
-    NgbModule,
   ]
 })
 export class ParametrageModule {}
