@@ -229,6 +229,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CardModule,
     FieldsetModule,
     ToolbarModule,
+    TreeTableModule,
     TabViewModule,
     CheckboxModule,
     InputSwitchModule,

@@ -20,6 +20,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class ExerciceListComponent implements OnInit {
   exercices: Exercice[] = [];
   exercicePrecedent: Exercice;
+  confirmation: Boolean;
   selectedExercices: Exercice[];
   selectedExercice: Exercice;
   clonedExercices: Exercice[];
@@ -99,20 +100,24 @@ export class ExerciceListComponent implements OnInit {
 
   deleteAfterConfirmation(exercice: Exercice) {
       this.exerciceSrv.remove(exercice).subscribe(
-        data => this.refreshList(),
+        () => {
+          this.refreshList(),
+          this.modalSrv.dismissAll();
+        },
         error => this.exerciceSrv.httpSrv.handleError(error)
       );
-      this.modalSrv.dismissAll();
   }
 
   deleteExercice(exercice: Exercice) {
     this.exerciceSrv.findExercicePrecedent(exercice).subscribe(
       (data: any) => {
-        (this.exercicePrecedent = data),
+        this.exercicePrecedent = data;
+        this.confirmation = true;
         this.toggleConfirmModal(this.modalContentRef);
       }, 
       error => {
         if (error.error.code === 404) {
+          this.confirmation = false;
           this.toggleConfirmModal(this.modalContentRef);
         }
       }
