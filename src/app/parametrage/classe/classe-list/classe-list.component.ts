@@ -22,6 +22,7 @@ export class ClasseListComponent implements OnInit {
   tableColumns=classeColumns;
 
   treeNodes: TreeNode[]=[];
+  loading: boolean;
 
   cMenuItems: MenuItem[] = [];
 
@@ -47,6 +48,7 @@ export class ClasseListComponent implements OnInit {
     if (this.authSrv.checkDeleteAccess('Classe')) {
       this.cMenuItems.push({ label: 'Supprimer', icon: 'pi pi-times', command: (event) => this.deleteClasse(this.selectedClasse) })
     }
+    this.loading=false;
 
     this.classes = this.activatedRoute.snapshot.data['classes'];
     this.treeNodes=this.getTreeNodes(this.classes);
@@ -59,15 +61,24 @@ export class ClasseListComponent implements OnInit {
       //sous classe node
       let sousClasseNodes:TreeNode[]=[];
       classe.sousClasses.forEach(sousClasse => {
-        sousClasseNodes.push({data:sousClasse,children:[]})
+        sousClasseNodes.push({data:sousClasse,children:[],leaf:false})
       });
-      treeNodes.push({data:classe,children:sousClasseNodes});
+      treeNodes.push({data:classe,children:sousClasseNodes,leaf:false});
     });
     return treeNodes;
   }
 
-  viewClasse(classe: Classe) {
-      this.router.navigate([this.classeSrv.getRoutePrefix(), classe.id]);
+  onNodeExpand(event) {
+  //const node = event.node;
+  //populate node.children
+
+  //refresh the data
+  this.treeNodes = [...this.treeNodes];
+}
+
+
+  viewClasse(node: any) {
+     console.log(node.data);
 
   }
 
