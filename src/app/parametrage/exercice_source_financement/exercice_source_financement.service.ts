@@ -47,6 +47,8 @@ export class ExerciceSourceFinancementService {
   }
 
   findSourceFinancementDisponible(id: any, entite: Entite){
+    console.log(id, entite);
+    
     return this.httpSrv.get(this.getRoutePrefixWithSlash ()+'sourceFinancement/exercice/'+id+'/entite/'+entite);
   }
   findExerciceSourceFinancementByExerciceAndEntite(id: any, entite: Entite){
