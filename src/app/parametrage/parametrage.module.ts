@@ -8,23 +8,11 @@ import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserShowComponent } from './user/user-show/user-show.component';
 import { TableModule } from 'primeng/table';
 import {
-    ContextMenuModule,
-    MenuModule,
-    ButtonModule,
-    CardModule,
-    FieldsetModule,
-    ToolbarModule,
-    TabViewModule,
-    AccordionModule,
-    BreadcrumbModule,
-    DropdownModule,
-    AutoCompleteModule,
-    ProgressSpinnerModule,
-    ConfirmDialogModule,
-    ToggleButtonModule,
-    TooltipModule,
-    PickListModule,
-    
+  ContextMenuModule,PickListModule,DialogModule,
+  MenuModule, ButtonModule,
+  CardModule, FieldsetModule,
+  ToolbarModule, TabViewModule,
+  AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule, ProgressSpinnerModule, ConfirmDialogModule
 } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -227,37 +215,36 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
     ExerciceSourceFinancementNewComponent,
     ExerciceSourceFinancementShowComponent
   ],
-    imports: [
-        CommonModule,
-        ParametrageRoutingModule,
-        ToastModule,
-        TableModule,
-        ContextMenuModule,
-        FormsModule,
-        SharedModule,
-        MenuModule,
-        ButtonModule,
-        CardModule,
-        FieldsetModule,
-        ToolbarModule,
-        TabViewModule,
-        CheckboxModule,
-        InputSwitchModule,
-        MultiSelectModule,
-        InputMaskModule,
-        ChipsModule,
-        NgSelectModule,
-        AccordionModule,
-        BreadcrumbModule,
-        OrgChartModule,
-        DropdownModule,
-        ProgressSpinnerModule,
-        AutoCompleteModule,
-        ConfirmDialogModule,
-        ToggleButtonModule,
-        TooltipModule,
-        TreeTableModule,
-        PickListModule
-    ]
+  imports: [
+    CommonModule,
+    ParametrageRoutingModule,
+    ToastModule,
+    TableModule,
+    ContextMenuModule,
+    FormsModule,
+    SharedModule,
+    MenuModule,
+    ButtonModule,
+    CardModule,
+    FieldsetModule,
+    ToolbarModule,
+    TabViewModule,
+    CheckboxModule,
+    InputSwitchModule,
+    MultiSelectModule,
+    InputMaskModule,
+    ChipsModule,
+    NgSelectModule,
+    AccordionModule,
+    BreadcrumbModule,
+    OrgChartModule,
+    DropdownModule,
+    ProgressSpinnerModule,
+    AutoCompleteModule,
+    ConfirmDialogModule,
+    PickListModule,
+    DialogModule,
+    TreeTableModule
+  ]
 })
 export class ParametrageModule {}

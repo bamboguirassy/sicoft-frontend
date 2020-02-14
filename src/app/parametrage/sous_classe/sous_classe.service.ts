@@ -48,4 +48,8 @@ export class SousClasseService {
     return this.routePrefix + '/';
   }
 
+  findByClasse(id: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/classe');
+  }
+
 }

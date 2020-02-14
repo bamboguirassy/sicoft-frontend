@@ -15,7 +15,7 @@ export class TypeEntiteNewComponent implements OnInit {
   constructor(public type_entiteSrv: TypeEntiteService,
     public notificationSrv: NotificationService,
     public router: Router, public location: Location) {
-    this.type_entite = new TypeEntite();
+    this.type_entite = new TypeEntite('');
   }
 
   ngOnInit() {
@@ -25,7 +25,7 @@ export class TypeEntiteNewComponent implements OnInit {
     this.type_entiteSrv.create(this.type_entite)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('TypeEntite créé avec succès');
-        this.type_entite = new TypeEntite();
+        this.type_entite = new TypeEntite('');
       }, error => this.type_entiteSrv.httpSrv.handleError(error));
   }
 
