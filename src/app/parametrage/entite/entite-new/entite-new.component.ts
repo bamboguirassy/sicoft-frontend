@@ -20,7 +20,7 @@ export class EntiteNewComponent implements OnInit {
     public notificationSrv: NotificationService,
     public router: Router, public location: Location,
     private activatedRoute: ActivatedRoute) {
-    this.entite = new Entite();
+    this.entite = new Entite('');
   }
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class EntiteNewComponent implements OnInit {
     this.entiteSrv.create(this.entite)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Entite créée avec succès');
-        this.entite = new Entite();
+        this.entite = new Entite('');
         this.findEntites();
       }, error => {
         this.entite.typeEntite = tempTypeEntite;

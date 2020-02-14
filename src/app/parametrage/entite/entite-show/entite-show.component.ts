@@ -30,7 +30,7 @@ export class EntiteShowComponent implements OnInit {
         public router: Router,
         public typeEntiteSrv: TypeEntiteService,
         private modalService: NgbModal) {
-        this.sousEntite = new Entite();
+        this.sousEntite = new Entite('');
     }
 
     ngOnInit() {
@@ -63,7 +63,7 @@ export class EntiteShowComponent implements OnInit {
             (data: any) => {
                 this.entiteSrv.httpSrv.notificationSrv.showInfo('Sous entité créée avec succès');
                 this.sousEntites.push(data)
-                this.sousEntite = new Entite();
+                this.sousEntite = new Entite('');
             },
             error => this.entiteSrv.httpSrv.handleError(error));
     }

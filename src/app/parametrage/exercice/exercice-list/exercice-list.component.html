@@ -8,9 +8,9 @@
                         <button *ngIf="'Exercice'|listable" type="button" class="btn btn-outline-secondary" (click)="refreshList()">
               <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
             </button>
-                        <button *ngIf="'Exercice'|deletable" (click)="deleteSelectedExercices()" type="button" class="btn btn-outline-danger pull-right ml-1">
+                        <!-- <button *ngIf="'Exercice'|deletable" (click)="deleteSelectedExercices()" type="button" class="btn btn-outline-danger pull-right ml-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
-            </button>
+            </button> -->
                         <button *ngIf="'Exercice'|creable" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
               <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
             </button>
@@ -110,9 +110,9 @@
                     </p-table>
                     <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
                     <p-toolbar>
-                        <button *ngIf="'Exercice'|deletable" (click)="deleteSelectedExercices()" type="button" class="btn btn-outline-danger mr-1">
+                        <!-- <button *ngIf="'Exercice'|deletable" (click)="deleteSelectedExercices()" type="button" class="btn btn-outline-danger mr-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
-            </button>
+            </button> -->
                         <button *ngIf="'Exercice'|creable" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
               <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
             </button>
@@ -122,3 +122,23 @@
         </p-fieldset>
     </div>
 </div>
+<!-- modal for delete confirmation -->
+<ng-template #confirm *ngIf="'Exercice' | deletable" let-modal>
+    <div class="modal-header new-sous-class-header">
+        <h4 class="modal-title" id="modal-title">Confirmer la suppression</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Êtes vous sûr de vouloir supprimer l'exercice: <span class="text-primary">{{selectedExercice.libelle}}</span> ?</strong></p>
+        <p *ngIf="exercicePrecedent">Il est le suivant de l'exercice: {{exercicePrecedent?.libelle}} .
+        <span class="text-danger">Voulez-vous continuer?</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="dissmissModal('cancel click')">Annuler</button>
+        <button type="button" ngbAutofocus class="btn btn-outline-danger" (click)="deleteAfterConfirmation(selectedExercice)">
+            Ok</button>
+      </div>
+</ng-template>

@@ -78,10 +78,10 @@ export class EntiteListComponent implements OnInit {
 
     this.entites = this.activatedRoute.snapshot.data['entites'];
     this.typeEntites = this.activatedRoute.snapshot.data['typeEntites'];
-    this.typeEntites.unshift(new TypeEntite('Tous les types entité'));
+    this.typeEntites.unshift(new TypeEntite('Tous les types d\'entité'));
     this.selectedTypeEntite = this.typeEntites[0];
     Object.assign(this.entiteParents, this.entites);
-    this.entiteParents.unshift(new Entite('Toutes les entités parent'));
+    this.entiteParents.unshift(new Entite('Toutes les entités parents'));
     this.selectedEntiteParent = this.entiteParents[0];
     Object.assign(this.originalEntites, this.entites);
     

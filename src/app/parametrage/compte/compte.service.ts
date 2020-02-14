@@ -45,7 +45,11 @@ export class CompteService {
   }
 
   private getRoutePrefixWithSlash(): string {
-    return this.routePrefix+'/';
+    return this.routePrefix + '/';
   }
 
+
+  findByCompteDivisionnaire(id: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/compte-divisionnaire');
+  }
 }
