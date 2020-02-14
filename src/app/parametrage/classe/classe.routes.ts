@@ -11,7 +11,7 @@ import { MultipleCategorieClasseResolver } from '../categorie_classe/multiple-ca
 
 const classeRoutes: Route = {
     path: 'classe', children: [
-        { path: '', component: ClasseListComponent, resolve: { classes: MultipleClasseResolver } },
+        { path: '', component: ClasseListComponent, resolve: { classes: MultipleClasseResolver, categorieClasses: MultipleCategorieClasseResolver, typeClasses: MultipleTypeClasseResolver } },
         // tslint:disable-next-line: max-line-length
         { path: 'new', component: ClasseNewComponent, resolve: { categorieClasses: MultipleCategorieClasseResolver, typeClasses: MultipleTypeClasseResolver } },
         // tslint:disable-next-line: max-line-length

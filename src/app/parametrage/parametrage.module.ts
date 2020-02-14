@@ -117,6 +117,7 @@ import { ExerciceSourceFinancementListComponent } from './exercice_source_financ
 import { ExerciceSourceFinancementNewComponent } from './exercice_source_financement/exercice_source_financement-new/exercice_source_financement-new.component';
 import { ExerciceSourceFinancementShowComponent } from './exercice_source_financement/exercice_source_financement-show/exercice_source_financement-show.component';
 @NgModule({
+  entryComponents: [ClasseNewComponent],
   declarations: [
     UserCloneComponent,
     UserEditComponent,

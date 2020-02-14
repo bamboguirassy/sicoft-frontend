@@ -52,4 +52,8 @@ export class SousClasseService {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/classe');
   }
 
+  createMultiple(subClasses: SousClasse[]) {
+    return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple', subClasses);
+  }
+
 }

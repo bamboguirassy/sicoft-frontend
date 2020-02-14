@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, Input } from '@angular/core';
 import { Classe } from '../classe';
 import { ClasseService } from '../classe.service';
 import { NotificationService } from 'app/shared/services/notification.service';
@@ -15,70 +16,46 @@ import { SelectItem } from 'primeng';
 })
 export class ClasseNewComponent implements OnInit {
   classe: Classe;
-  typeClasses: TypeClasse[] = [];
-  categorieClasses: CategorieClasse[] = [];
+  @Input() typeClasses: TypeClasse[] = [];
+  @Input() categorieClasses: CategorieClasse[] = [];
   types: SelectItem[];
   validNumero: boolean;
 
 
 
   constructor(public classeSrv: ClasseService,
-    private activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute, public modalSrv: NgbModal,
     public notificationSrv: NotificationService,
     public router: Router, public location: Location) {
     this.classe = new Classe();
   }
 
   ngOnInit() {
-    this.typeClasses = this.activatedRoute.snapshot.data['typeClasses'];
-    this.categorieClasses = this.activatedRoute.snapshot.data['categorieClasses'];
   }
 
   saveClasse() {
-    const tempCategorie = new CategorieClasse();
-    tempCategorie.code = this.classe.categorieClasse.code;
-    tempCategorie.id = this.classe.categorieClasse.id;
-    tempCategorie.nom = this.classe.categorieClasse.nom;
-
-    const tempTypeClasse = new TypeClasse();
-    tempTypeClasse.id = this.classe.typeClasse.id;
-    tempTypeClasse.code = this.classe.typeClasse.code;
-    tempTypeClasse.nom = this.classe.typeClasse.nom;
-
+    const tempClass = new Classe();
+    Object.assign(tempClass, this.classe);
     this.classe.typeClasse = this.classe.typeClasse.id;
     this.classe.categorieClasse = this.classe.categorieClasse.id;
     this.classeSrv.create(this.classe)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Classe créé avec succès');
         this.classe = new Classe();
-        this.classe.categorieClasse = tempCategorie;
       }, error => {
-        this.classe.typeClasse = tempTypeClasse;
-        this.classe.categorieClasse = tempCategorie;
+        this.classe = tempClass;
         this.classeSrv.httpSrv.handleError(error);
       });
   }
 
-  saveClasseAndExit() {
-    const tempTypeClasse = new TypeClasse();
-    tempTypeClasse.id = this.classe.typeClasse.id;
-    tempTypeClasse.code = this.classe.typeClasse.code;
-    tempTypeClasse.nom = this.classe.typeClasse.nom;
-
-    const tempCategorieClasse = new CategorieClasse();
-    tempCategorieClasse.code = this.classe.categorieClasse.code;
-    tempCategorieClasse.id = this.classe.categorieClasse.id;
-    tempCategorieClasse.nom = this.classe.categorieClasse.nom;
-
-    this.classeSrv.create(this.classe)
-      .subscribe((data: any) => {
-        this.router.navigate([this.classeSrv.getRoutePrefix(), data.id]);
-      }, error => {
-        this.classe.typeClasse = tempTypeClasse;
-        this.classe.categorieClasse = tempCategorieClasse;
-        this.classeSrv.httpSrv.handleError(error);
-      });
+  public closeModal() {
+    this.modalSrv.dismissAll('Cross click');
   }
+
+  addSubclasse() {
+    
+  }
+
 
 }
 

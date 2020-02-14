@@ -11,5 +11,5 @@ export class Classe {
   typeClasse: TypeClasse;
   sousClasses: SousClasse[];
   //temp fields
-  type: string='classe'; //value=classe
+  type: string = 'classe'; //value=classe
 }
