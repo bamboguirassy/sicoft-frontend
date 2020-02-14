@@ -16,15 +16,15 @@
                         <button *ngIf="'Classe'|creable" [routerLink]="['/'+classeSrv.getRoutePrefix(),'new']"
                             routerLinkActive="router-link-active" type="button"
                             class="btn btn-outline-primary pull-right ml-1">
-                            <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
+                            <i class="fa fa-plus-square-o" aria-hidden="true"></i> Ajouter classe
                         </button>
                     </p-toolbar>
 
 
                     <p-treeTable #tt [value]="treeNodes" [autoLayout]="true" [paginator]="true" [rows]="10"
-                        sortMode="multiple" [globalFilterFields]="globalFilterFields" selectionMode="multiple"
-                        [(selection)]="selectedClasses" dataKey="id" selectionMode="checkbox"
-                        [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedClasse">
+                        sortMode="multiple" [globalFilterFields]="globalFilterFields"
+                        [(selection)]="selectedClasses" dataKey="numero" selectionMode="checkbox"
+                        [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedClasse" [loading]="loading" (onNodeExpand)="onNodeExpand($event)">
                         <ng-template pTemplate="caption">
                             PLAN DES COMPTES ET ETATS FINANCIERS
                             <div class="row justify-content-center">
@@ -49,14 +49,46 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-                            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
-                                <td>
+                            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode"  [ttContextMenuRow]="rowNode">
+                                <td ttEditableColumn>
                                     <p-treeTableCheckbox [value]="rowNode"></p-treeTableCheckbox>
                                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                                    {{rowData.numero}}
+                                    <p-treeTableCellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input type="number" [(ngModel)]="rowData.numero">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{rowData.numero}}
+                                        </ng-template>
+                                    </p-treeTableCellEditor>
                                 </td>
-                                <td>{{rowData.libelle}}</td>
-                                <td>{{rowData.description}}</td>
+                                <td ttEditableColumn>
+                                    <p-treeTableCellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input class="form-control" type="text" [(ngModel)]="rowData.libelle">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{rowData.libelle}}
+                                        </ng-template>
+                                    </p-treeTableCellEditor>
+                                </td>
+                                <td ttEditableColumn>
+                                    <p-treeTableCellEditor>
+                                        <ng-template pTemplate="input">
+                                            <textarea class="form-control" type="text" [(ngModel)]="rowData.description"></textarea>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{rowData.description}}
+                                        </ng-template>
+                                    </p-treeTableCellEditor>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td [attr.colspan]="columns.length">
+                                    No records found
+                                </td>
                             </tr>
                         </ng-template>
                     </p-treeTable>

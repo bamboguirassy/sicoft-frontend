@@ -244,6 +244,7 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
     ConfirmDialogModule,
     PickListModule,
     DialogModule,
+    TreeTableModule
   ]
 })
 export class ParametrageModule {}
