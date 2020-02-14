@@ -2,6 +2,8 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from 'app/shared/services/http.service';
 import { ExerciceSourceFinancement } from './exercice_source_financement';
+import { Exercice } from '../exercice/exercice';
+import { Entite } from '../entite/entite';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +25,10 @@ export class ExerciceSourceFinancementService {
   create(exercice_source_financement: ExerciceSourceFinancement) {
     return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create', exercice_source_financement);
   }
+  
+  createMultiple(exercice_source_financements: ExerciceSourceFinancement[]) {
+    return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'createMultiple', exercice_source_financements);
+  }
 
   update(exercice_source_financement: ExerciceSourceFinancement) {
     return this.httpSrv.put(this.getRoutePrefixWithSlash()+exercice_source_financement.id+'/edit', exercice_source_financement);
@@ -38,6 +44,13 @@ export class ExerciceSourceFinancementService {
 
   removeSelection(exercice_source_financements: ExerciceSourceFinancement[]) {
     return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',exercice_source_financements);
+  }
+
+  findSourceFinancementDisponible(id: any){
+    return this.httpSrv.get(this.getRoutePrefixWithSlash ()+'exercice/'+id);
+  }
+  findExerciceSourceFinancementByExerciceAndEntite(id: any, entite: Entite){
+    return this.httpSrv.get(this.getRoutePrefixWithSlash ()+'exercice/'+id+'/entite/'+entite);
   }
 
   public getRoutePrefix(): string {

@@ -38,16 +38,7 @@ export const ROUTES: RouteInfo[] = [
                 path: '/typeClasse', title: 'Type Classe', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
-                path: '/classe', title: 'Classes', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
-            },
-            {
-                path: '/sousClasse', title: 'Sous Classes', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
-            },
-            {
-                path: '/compteDivisionnaire', title: 'Comptes Div.', icon: 'ft-layers', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
-            },
-            {
-                path: '/compte', title: 'Comptes', icon: 'ft-layers', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
+                path: '/classe', title: 'Classif. des comptes', icon: 'ft-grid', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
                 path: '/typeSourceFinancement', title: 'Types Source Fin.', icon: 'ft-command', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
