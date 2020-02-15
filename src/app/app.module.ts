@@ -24,7 +24,6 @@ import { FullLayoutComponent } from './layouts/full/full-layout.component';
 import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
 import { TitleCasePipe, CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -56,7 +55,7 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     PerfectScrollbarModule,
-    MessageModule,
+    MessageModule
   ],
   providers: [
     AuthService,

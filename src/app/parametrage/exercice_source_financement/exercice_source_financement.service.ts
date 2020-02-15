@@ -46,8 +46,8 @@ export class ExerciceSourceFinancementService {
     return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',exercice_source_financements);
   }
 
-  findSourceFinancementDisponible(id: any){
-    return this.httpSrv.get(this.getRoutePrefixWithSlash ()+'exercice/'+id);
+  findSourceFinancementDisponible(id: any, entite: Entite){
+    return this.httpSrv.get(this.getRoutePrefixWithSlash ()+'sourceFinancement/exercice/'+id+'/entite/'+entite);
   }
   findExerciceSourceFinancementByExerciceAndEntite(id: any, entite: Entite){
     return this.httpSrv.get(this.getRoutePrefixWithSlash ()+'exercice/'+id+'/entite/'+entite);

@@ -1,109 +1,196 @@
 <p-toast></p-toast>
 <div class="row" *ngIf="'ExerciceSourceFinancement'|listable">
+    <span *ngIf="encour == false" style="text-align: center;" class="col-sm-12 col-md-12 col-lg-12 alert alert-warning"> 
+        <h4>Cet exercice est fermé!</h4> 
+    </span>
     <div class="col-sm-12 col-md-12 col-lg-12">
         <p-fieldset legend="Gestion des exercices sources financements" [toggleable]="true">
             <!--debut partie selection-->
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <form *ngIf="'ExerciceSourceFinancement'|creable" class="form" role="form" #exercice_source_financementForm="ngForm" autocomplete="off">
-                        <p-toolbar header="Sélectionner les éléments:" *ngIf="step == 0 || step == 1 || step == 4">
-                            <!-- debut body -->
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
+            <form *ngIf="'ExerciceSourceFinancement'|creable" class="form" role="form" #exercice_source_financementForm="ngForm" autocomplete="off">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row" *ngIf="step == 0 || step == 1 || step == 4">
+                            <div class="col-sm-6 mb-4 mb-md-0" style="text-align: center; margin-left: -15px;">
+                                <div>
+                                    <div>
                                         <label class="col-form-label form-control-label" for="exercices">Exercice</label> <br>
-                                        <p-dropdown *ngIf="activeField == 0 || activeField == 2" [options]="exercices" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" placeholder="Sélectionner exercice" optionLabel="libelle" [showClear]="true"></p-dropdown>
-                                        <p-dropdown *ngIf="activeField == 1" [options]="exercices" [disabled]="true" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" placeholder="Sélectionner exercice" optionLabel="libelle" [showClear]="true"></p-dropdown>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="col-form-label form-control-label" for="rntites">Entite</label> <br>
-                                        <p-dropdown *ngIf="activeField == 0 || activeField == 2" [options]="entites" required name="entites" [(ngModel)]="exerciceSouceFinancement.entite" placeholder="Sélectionner entité" optionLabel="nom" [showClear]="true"></p-dropdown>
-                                        <p-dropdown *ngIf="activeField == 1" [options]="entites" [disabled]="true" required name="entites" [(ngModel)]="exerciceSouceFinancement.entite" placeholder="Sélectionner entité" optionLabel="nom" [showClear]="true"></p-dropdown>
+                                        <p-dropdown *ngIf="activeField == 0 || activeField == 2" [options]="exercices" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" placeholder="Choix exercice" optionLabel="libelle" [showClear]="true" [filter]="true"></p-dropdown>
+                                        <p-dropdown *ngIf="activeField == 1" [options]="exercices" [disabled]="true" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" placeholder="Choix exercice" optionLabel="libelle" [showClear]="true" [filter]="true"></p-dropdown>
                                     </div>
                                 </div>
                             </div>
-                            <p-toolbar>
-                                <button [disabled]="exercice_source_financementForm.invalid || activeModif1 == 1" (click)="findSourceFinancementDisponible()" class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
-                                Suivant
-                                </button>
-                                <button [disabled]="step == 0" class="btn btn-outline-warning pull-right" (click)="updateField()">
-                                <i class="fa fa-edit" aria-hidden="true"></i>Modifier
-                                </button>
-                            </p-toolbar>
-                            <!-- fin body -->
-                        </p-toolbar>
-                    </form>
+                            <div class="col-sm-6 mb-4 mb-md-0" style="text-align: center; margin-right: -   15px;">
+                                <div>
+                                    <div>
+                                        <label class="col-form-label form-control-label" for="rntites">Entite</label> <br>
+                                        <p-dropdown *ngIf="activeField == 0 || activeField == 2" [options]="entites" required name="entites" [(ngModel)]="exerciceSouceFinancement.entite" placeholder="Choix entité" optionLabel="nom" [showClear]="true" [filter]="true"></p-dropdown>
+                                        <p-dropdown *ngIf="activeField == 1" [options]="entites" [disabled]="true" required name="entites" [(ngModel)]="exerciceSouceFinancement.entite" placeholder="Choix entité" optionLabel="nom" [showClear]="true" [filter]="true"></p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p-toolbar>
+                    <button type="button" class="btn btn-outline-success pull-right mt-2" *ngIf="activeField == 0" [disabled]="exercice_source_financementForm.invalid" (click)="findSourceFinancementDisponible()"> <i class="fa fa-save" aria-hidden="true"></i>
+                        Suivant
+                        </button>
+                    <button type="button" class="btn btn-outline-warning pull-right mt-2" *ngIf="activeField == 1" (click)="updateField()">
+                        <i class="fa fa-edit" aria-hidden="true"></i>Modifier
+                        </button>
+                </p-toolbar>
+            </form>
+
+            <!--debut pickliste  *ngIf="sourceFinancements?.length > 0 || tab_choiceDatas?.length > 0"-->
+            <div class="card mt-2">
+                <div class="card-body">
+                    <div class="row" *ngIf="step == 0 || step == 1 || step == 4">
+
+                        <span *ngIf="sourceFinancements?.length == 0 && tab_choiceDatas?.length == 0" style="text-align: center; max-width: 500px;" class="alert alert-warning mt-3"> 
+                                <strong>Aucune source de financement disponible!</strong> 
+                            </span>
+
+                        <div class="col-sm-9 mb-10 mb-md-0 mt-2" style="text-align: center; margin-left: -15px;">
+                            <div>
+                                <div *ngIf="step == 1">
+                                    <!--picklist active-->
+                                    <p-pickList [source]="sourceFinancements" [target]="tab_choiceDatas" sourceHeader="Sources financements disponibles" targetHeader="Sources financements sélectionnées" [sourceStyle]="{'height':'200px','width': '250px'}" [targetStyle]="{'height':'200px','width': '250px'}"
+                                        filterBy="libelle" [dragdrop]="false" [responsive]="true">
+                                        <ng-template let-tabItem pTemplate="sourceFinancements">
+                                            <div class="ui-helper-clearfix">
+                                                <span style="font-size:15px;">{{tabItem.libelle}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-pickList>
+                                    <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-2">
+                                        <button [disabled]="tab_choiceDatas?.length == 0" (click)="activeStepParamMontant()" class="btn btn-outline-primary pull-right ml-1 mt-2"> <i class="fa fa-save" aria-hidden="true"></i>
+                                                Suivant
+                                                </button>
+                                        <button *ngIf="(step == 4 && tabExerciceSourceFinancements?.length > 0 && encour == true) || (step == 4 && sourceFinancements?.length > 0 && encour == true)" class="btn btn-outline-warning pull-right mt-2">
+                                                <i class="fa fa-edit" aria-hidden="true"></i>Modifier
+                                                </button>
+                                        <button [disabled]="step == 0" class="btn btn-outline-warning pull-left mt-2" (click)="previousPickList()">
+                                                    <i class="fa fa-angle-left" aria-hidden="true"></i>Précédant
+                                                </button>
+                                    </p-toolbar>
+
+                                </div>
+                                <!--picklist desactive-->
+                                <div *ngIf="step == 4">
+                                    <p-pickList [disabled]=" true " [source]="sourceFinancements " [target]="tab_choiceDatas " sourceHeader="Sources financements disponibles " targetHeader="Sources financements sélectionnées " [sourceStyle]="{
+                                        'height': '200px', 'width': '250px'} " [targetStyle]="{ 'height': '200px', 'width': '250px'} " filterBy="libelle " [dragdrop]="false ">
+                                        <ng-template let-tabItem pTemplate="sourceFinancements ">
+                                            <div class="ui-helper-clearfix ">
+                                                <span style="font-size:15px;float:left;margin:0 0 0 0 ">{{tabItem.libelle}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-pickList>
+                                    <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-2">
+                                        <button *ngIf="step == 1" (click)="activeStepParamMontant() " class="btn btn-outline-primary pull-right ml-1 mt-2"> <i class="fa fa-save " aria-hidden="true "></i>
+                                          Suivant
+                                          </button>
+                                        <button *ngIf="encour==true" [disabled]="step==1 && encour==false" class="btn btn-outline-warning pull-right mt-2" (click)="activePicklist()">
+                                          <i class="fa fa-edit " aria-hidden="true "></i>Modifier
+                                          </button>
+                                        <button *ngIf="encour==false" [disabled]="step==4 && encour==false" class="btn btn-outline-warning pull-right mt-2" (click)="activePicklist()">
+                                            <i class="fa fa-edit " aria-hidden="true "></i>Modifier
+                                            </button>
+                                        <button class="btn btn-outline-warning pull-left mt-2" (click)="previousPickList()">
+                                            <i class="fa fa-angle-left " aria-hidden="true "></i>Précédant
+                                        </button>
+                                    </p-toolbar>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 mb-2 mb-md-0 mt-2" style="text-align: right;">
+                            <div>
+                                <div *ngIf="((step==4 && tabExerciceSourceFinancements?.length> 0) || (step == 1 && tabExerciceSourceFinancements?.length > 0)) && encour == true">
+                                    <p-table [value]="tabExerciceSourceFinancements">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>Libelle</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-exercice_source_financement>
+                                            <tr>
+                                                <td>{{exercice_source_financement.sourceFinancement.libelle}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!--debut pickliste-->
-            <div class="row mt-2" *ngIf="sourceFinancements?.length > 0 || tab_choiceDatas?.length > 0">
-                <!--div class="row"-->
-                <!--div class="col-lg-9"-->
+            <!--partie tesnss-->
+            <!--div class="row mt-2">
                 <div class="col-sm-10 col-md-10 col-lg-10">
-                    <!--picklist active-->
-                    <p-toolbar *ngIf="step == 1">
+                    <div class="card" style="width: 54rem;" *ngIf="step == 1">
+                        <span *ngIf="sourceFinancements?.length == 0 && tab_choiceDatas?.length == 0" style="text-align: center;" class="alert alert-warning"> 
+                            <strong>Aucune source de financement disponible!</strong> 
+                        </span>
                         <p-pickList [source]="sourceFinancements" [target]="tab_choiceDatas" sourceHeader="Sources financements disponibles" targetHeader="Sources financements sélectionnées" [sourceStyle]="{'height':'200px','width': '300px'}" [targetStyle]="{'height':'200px','width': '300px'}"
-                            [filterBy]="libelle" [dragdrop]="false" [responsive]="true">
+                            filterBy="libelle" [dragdrop]="false" [responsive]="true">
                             <ng-template let-tabItem pTemplate="sourceFinancements">
                                 <div class="ui-helper-clearfix">
                                     <span style="font-size:15px;">{{tabItem.libelle}}</span>
                                 </div>
                             </ng-template>
                         </p-pickList>
-                        <button [disabled]="tab_choiceDatas?.length == 0" (click)="activeStepParamMontant()" class="btn btn-outline-primary pull-right ml-1 mt-2"> <i class="fa fa-save" aria-hidden="true"></i>
+                        <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-2">
+                            <button [disabled]="tab_choiceDatas?.length == 0" (click)="activeStepParamMontant()" class="btn btn-outline-primary pull-right ml-1 mt-2"> <i class="fa fa-save" aria-hidden="true"></i>
                                     Suivant
                                     </button>
-                        <button [disabled]="step == 1" class="btn btn-outline-warning pull-right mt-2">
+                            <button *ngIf="(step == 4 && tabExerciceSourceFinancements?.length > 0 && encour == true) || (step == 4 && sourceFinancements?.length > 0 && encour == true)" class="btn btn-outline-warning pull-right mt-2">
                                     <i class="fa fa-edit" aria-hidden="true"></i>Modifier
                                     </button>
-                        <button [disabled]="step == 0" class="btn btn-outline-warning pull-left mt-2" (click)="previousPickList()">
+                            <button [disabled]="step == 0" class="btn btn-outline-warning pull-left mt-2" (click)="previousPickList()">
                                         <i class="fa fa-angle-left" aria-hidden="true"></i>Précédant
                                     </button>
-                    </p-toolbar>
-                    <!--picklist desactivé-->
-                    <p-toolbar *ngIf="(step == 4 && tabExerciceSourceFinancements?.length > 0 && encour == true) || (step == 4 && sourceFinancements?.length > 0 && encour == true)">
+                        </p-toolbar>
+                    </div>
+                    <div class="card" style="width: 54rem;" *ngIf="step == 4">
                         <p-pickList [disabled]=" true " [source]="sourceFinancements " [target]="tab_choiceDatas " sourceHeader="Sources financements disponibles " targetHeader="Sources financements sélectionnées " [sourceStyle]="{
-                                'height': '200px', 'width': '300px'} " [targetStyle]="{ 'height': '200px', 'width': '300px'} " [filterBy]="libelle " [dragdrop]="false ">
+                                'height': '200px', 'width': '300px'} " [targetStyle]="{ 'height': '200px', 'width': '300px'} " filterBy="libelle " [dragdrop]="false ">
                             <ng-template let-tabItem pTemplate="sourceFinancements ">
                                 <div class="ui-helper-clearfix ">
                                     <span style="font-size:15px;float:left;margin:0 0 0 0 ">{{tabItem.libelle}}</span>
                                 </div>
                             </ng-template>
                         </p-pickList>
-                        <button [disabled]="true " (click)="activeStepParamMontant() " class="btn btn-outline-primary pull-right ml-1 mt-2"> <i class="fa fa-save " aria-hidden="true "></i>
+                        <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-2">
+                            <button *ngIf="step == 1" (click)="activeStepParamMontant() " class="btn btn-outline-primary pull-right ml-1 mt-2"> <i class="fa fa-save " aria-hidden="true "></i>
                                   Suivant
                                   </button>
-                        <button [disabled]="step==1 " class="btn btn-outline-warning pull-right mt-2" (click)="activePicklist()">
+                            <button *ngIf="encour==true" [disabled]="step==1 && encour==false" class="btn btn-outline-warning pull-right mt-2" (click)="activePicklist()">
                                   <i class="fa fa-edit " aria-hidden="true "></i>Modifier
                                   </button>
-                        <button class="btn btn-outline-warning pull-left mt-2" (click)="activePicklist()">
+                            <button *ngIf="encour==false" [disabled]="step==4 && encour==false" class="btn btn-outline-warning pull-right mt-2" (click)="activePicklist()">
+                                    <i class="fa fa-edit " aria-hidden="true "></i>Modifier
+                                    </button>
+                            <button class="btn btn-outline-warning pull-left mt-2" (click)="previousPickList()">
                                     <i class="fa fa-angle-left " aria-hidden="true "></i>Précédant
                                 </button>
-                    </p-toolbar>
+                        </p-toolbar>
+                    </div>
                 </div>
-                <!--card-->
-                <div class="col-sm-2 col-md-2 col-lg-2" *ngIf="((step==4 && tabExerciceSourceFinancements?.length> 0) || (step == 1 && tabExerciceSourceFinancements?.length > 0)) && encour == true">
-                    <p-toolbar>
-                        <p-card header="Déjà paramétrées" [style]="{width: '150px'}">
-                            <p-table [value]="tabExerciceSourceFinancements">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th>Libelle</th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-exercice_source_financement>
-                                    <tr>
-                                        <td>{{exercice_source_financement.sourceFinancement.libelle}}</td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-                        </p-card>
-                    </p-toolbar>
+                <div class="card col-sm-2 col-md-2 col-lg-2" style="width: 10rem;" header="Déjà paramétrées" *ngIf="((step==4 && tabExerciceSourceFinancements?.length> 0) || (step == 1 && tabExerciceSourceFinancements?.length > 0)) && encour == true">
+                    <p-table [value]="tabExerciceSourceFinancements">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Libelle</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-exercice_source_financement>
+                            <tr>
+                                <td>{{exercice_source_financement.sourceFinancement.libelle}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
                 </div>
-
-            </div>
+            </div-->
             <!--debut param montant-->
             <div class="row mt-2" *ngIf="tab_choiceDatas?.length > 0">
                 <div class="col-sm-12 col-md-12 col-lg-12">
@@ -122,7 +209,7 @@
                                     <tr>
                                         <td>{{tab_choiceData.libelle}}</td>
                                         <td>
-                                            <input required [(ngModel)]="tab_choiceData.montant" class="form-control" type="text" name="montant" id="montant" placeholder="Montant">
+                                            <input required [(ngModel)]="tab_choiceData.montant" class="form-control" type="text" name="montant" id="montant" placeholder="Montant" min="1">
                                         </td>
                                         <td>
                                             <button (click)="deletedItemSelect(tab_choiceData)">
@@ -132,12 +219,8 @@
                                     </tr>
                                 </ng-template>
                             </p-table>
-                            <!-- debut body -->
                             <button [disabled]="exercice_source_financementParam.invalid" class="btn btn-outline-primary pull-right ml-1 mt-3" (click)="createMultiple(tab_choiceDatas)">
                                  <i class="fa fa-save" aria-hidden="true"></i> Suivant
-                                </button>
-                            <button class="btn btn-outline-warning pull-right mt-3">
-                                <i class="fa fa-edit" aria-hidden="true"></i>Modifier
                                 </button>
                             <button [disabled]="step == 0" class="btn btn-outline-warning pull-left mt-3" (click)="previousParamMontant()">
                                 <i class="fa fa-angle-left" aria-hidden="true"></i>Précédant
@@ -184,52 +267,35 @@
                 </div>
             </div>
             <!--debut Modal recapitulatif 5-->
-            <div class="row mt-2">
-                <ng-template #mymodal let-modal class="col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+                <ng-template #mymodal let-modal>
                     <div class="col-sm-12 col-md-12 col-lg-12">
-                        <h3>Sources financements paramétrées </h3>
-                        <p-toolbar>
-                            <p-table [value]="tabExerciceSourceFinancements" [responsive]="true" [scrollable]="true">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th>Source financement</th>
-                                        <th>Type</th>
-                                        <th>Exercice</th>
-                                        <th>Entite</th>
-                                        <th>Montant</th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-sourceFinItem>
-                                    <tr>
-                                        <td>{{sourceFinItem.sourceFinancement.libelle}}</td>
-                                        <td>{{sourceFinItem.sourceFinancement.type.libelle}}</td>
-                                        <td>{{sourceFinItem.exercice.libelle}}</td>
-                                        <td>{{sourceFinItem.entite.nom}}</td>
-                                        <td>{{sourceFinItem.montant}}</td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-                        </p-toolbar>
-                    </div>
-
-                    <div class="col-sm-12 col-md-12 col-lg-12 mt-3">
-                        <h3>Sources financements disponibles </h3>
-                        <p-toolbar>
-                            <p-table [value]="sourceFinancements" [responsive]="true" [scrollable]="true">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th>Libelle</th>
-                                        <th>Type</th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-sourceFinancement>
-                                    <tr>
-                                        <td>{{sourceFinancement.libelle}}</td>
-                                        <td>{{sourceFinancement.type.libelle}}</td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-                        </p-toolbar>
+                        <p-table class="col-sm-12 col-md-12 col-lg-12 mt-2" [value]="tabExerciceSourceFinancements" [responsive]="true" [scrollable]="true" [style]="{'width':'600px', 'margin-left':'10%', 
+                        'margin-right':'15%'}">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th colspan="5" style="text-align:center;">
+                                        <h3>Sources financements paramétrées </h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Source financement</th>
+                                    <th>Type</th>
+                                    <th>Exercice</th>
+                                    <th>Entite</th>
+                                    <th>Montant</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-sourceFinItem>
+                                <tr style="text-align:center;">
+                                    <td>{{sourceFinItem.sourceFinancement.libelle}}</td>
+                                    <td>{{sourceFinItem.sourceFinancement.type.libelle}}</td>
+                                    <td>{{sourceFinItem.exercice.libelle}}</td>
+                                    <td>{{sourceFinItem.entite.nom}}</td>
+                                    <td>{{sourceFinItem.montant}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Fermer</button>
@@ -238,13 +304,17 @@
             </div>
             <!--Section exercice ferme-->
             <div class="row mt-2" *ngIf="encour == false">
+                <span *ngIf="tabExerciceSourceFinancements?.length == 0" style="text-align: center;" class="col-sm-12 col-md-12 col-lg-12 alert alert-warning mt-2"> 
+                    <h5 >Aucun paramétrage pour cet exercice</h5>
+                </span>
                 <div>
-                    <h3>Exercice fermé</h3>
-                    <h4 *ngIf="tabExerciceSourceFinancements?.length == 0">Aucun paramétrage pour cet exercice</h4>
-                    <p-toolbar>
+                    <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-2">
                         <div>
                             <p-table [value]="tabExerciceSourceFinancements" [responsive]="true" [scrollable]="true">
                                 <ng-template pTemplate="header">
+                                    <tr>
+                                        <th colspan="5" style="text-align:center;"><strong>Sources financements paramétrées</strong></th>
+                                    </tr>
                                     <tr>
                                         <th>Source financement</th>
                                         <th>Type</th>
@@ -264,26 +334,35 @@
                                 </ng-template>
                             </p-table>
                         </div>
-                        <div>
-                            <p-table [value]="sourceFinancements" [responsive]="true" [scrollable]="true">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th>Libelle</th>
-                                        <th>Type</th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-sourceFinancement>
-                                    <tr>
-                                        <td>{{sourceFinancement.libelle}}</td>
-                                        <td>{{sourceFinancement.type.libelle}}</td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-                        </div>
                     </p-toolbar>
+                    <<<<<<< HEAD <p-toolbar>
+                        <div class="col-sm-12 col-md-12 col-lg-12 mt-3">
+                            =======
+                            <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-3">
+                                <div>
+                                    >>>>>>> develop_local
+                                    <p-table [value]="sourceFinancements" [responsive]="true" [scrollable]="true">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th colspan="2" style="text-align:center;"> <strong>Sources financements dispinibles</strong></th>
+                                            </tr>
+                                            <tr>
+                                                <th>Libelle</th>
+                                                <th>Type</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-sourceFinancement>
+                                            <tr>
+                                                <td>{{sourceFinancement.libelle}}</td>
+                                                <td>{{sourceFinancement.type.libelle}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </p-toolbar>
+                        </div>
                 </div>
-            </div>
-            <!--Section exercice ferme-->
+                <!--Section exercice ferme-->
         </p-fieldset>
+        </div>
     </div>
-</div>
