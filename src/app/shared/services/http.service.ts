@@ -46,8 +46,8 @@ export class HttpService {
     return this.httpOptions;
   }
 
-  get(url: string) {
-    return this.httpSrv.get(this.customUrl + url, this.createAuthorizationHeader());
+  get<T>(url: string) {
+    return this.httpSrv.get<T>(this.customUrl + url, this.createAuthorizationHeader());
   }
 
   post(url: string, data: any) {
