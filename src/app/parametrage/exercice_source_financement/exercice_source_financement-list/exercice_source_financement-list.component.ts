@@ -141,7 +141,6 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     this.exercice_source_financementSrv.findSourceFinancementDisponible(this.exerciceSouceFinancement.exercice,this.exerciceSouceFinancement.entite)
     .subscribe(
       (data: any) => {this.sourceFinancements = data;
-        console.log(this.exerciceSouceFinancement.exercice,this.exerciceSouceFinancement.entite);
         
         this.refreshList();
         this.exerciceSouceFinancement.exercice = tempExercice;
