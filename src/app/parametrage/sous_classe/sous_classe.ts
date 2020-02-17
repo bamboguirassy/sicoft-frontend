@@ -6,4 +6,5 @@ export class SousClasse {
     libelle: string;
     description: string;
     classe: Classe;
+    type: string = 'sousClasse'; 
 }

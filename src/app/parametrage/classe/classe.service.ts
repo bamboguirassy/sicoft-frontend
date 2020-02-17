@@ -40,6 +40,10 @@ export class ClasseService {
     return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', classes);
   }
 
+  findByClass(id: number) {
+    return this.httpSrv.get('sousClasse/' + id + '/classe/')
+  }
+
   public getRoutePrefix(): string {
     return this.routePrefix;
   }
@@ -47,5 +51,7 @@ export class ClasseService {
   private getRoutePrefixWithSlash(): string {
     return this.routePrefix + '/';
   }
+
+
 
 }
