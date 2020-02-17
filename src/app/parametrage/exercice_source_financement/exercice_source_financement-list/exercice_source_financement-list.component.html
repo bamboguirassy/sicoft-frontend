@@ -335,34 +335,32 @@
                             </p-table>
                         </div>
                     </p-toolbar>
-                    <<<<<<< HEAD <p-toolbar>
-                        <div class="col-sm-12 col-md-12 col-lg-12 mt-3">
-                            =======
-                            <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-3">
-                                <div>
-                                    >>>>>>> develop_local
-                                    <p-table [value]="sourceFinancements" [responsive]="true" [scrollable]="true">
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th colspan="2" style="text-align:center;"> <strong>Sources financements dispinibles</strong></th>
-                                            </tr>
-                                            <tr>
-                                                <th>Libelle</th>
-                                                <th>Type</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-sourceFinancement>
-                                            <tr>
-                                                <td>{{sourceFinancement.libelle}}</td>
-                                                <td>{{sourceFinancement.type.libelle}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
-                                </div>
-                            </p-toolbar>
-                        </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12 mt-3">
+                        <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-3">
+                            <div>
+                                <p-table [value]="sourceFinancements" [responsive]="true" [scrollable]="true">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th colspan="2" style="text-align:center;"> <strong>Sources financements dispinibles</strong></th>
+                                        </tr>
+                                        <tr>
+                                            <th>Libelle</th>
+                                            <th>Type</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-sourceFinancement>
+                                        <tr>
+                                            <td>{{sourceFinancement.libelle}}</td>
+                                            <td>{{sourceFinancement.type.libelle}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </p-toolbar>
+                    </div>
                 </div>
-                <!--Section exercice ferme-->
+            </div>
+            <!--Section exercice ferme-->
         </p-fieldset>
-        </div>
     </div>
+</div>
