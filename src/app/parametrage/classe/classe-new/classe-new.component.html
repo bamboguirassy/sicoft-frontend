@@ -1,8 +1,14 @@
 <p-toast></p-toast>
 <!-- form classe info -->
 <form *ngIf="'Classe'|creable" class="form" role="form" #classeForm="ngForm" autocomplete="off">
-    <p-fieldset legend="Création de Classe" [toggleable]="true">
-        <!-- debut body -->
+    <!-- debut body -->
+    <div class="modal-header new-sous-class-header">
+        <h4 class="modal-title">Ajout d'une classe</h4>
+        <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <p-card>
         <div class="row">
 
             <div class="col-lg-6">
@@ -36,8 +42,8 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="numero">Numero</label>
-                    <input required [(ngModel)]="classe.numero"
-                        class="form-control" type="text" name="numero" id="numero">
+                    <input required [(ngModel)]="classe.numero" class="form-control" type="text" name="numero"
+                        id="numero">
                 </div>
             </div>
 
@@ -52,18 +58,13 @@
         </div>
         <!-- fin body -->
         <p-toolbar>
-            <button type="button" (click)="location.back()" class="btn btn-outline-secondary mr-1 pull-left"><i
-                    class="fa fa-reply" aria-hidden="true"></i>
-                Retour</button>
             <button type="reset" class="btn btn-secondary pull-left"><i class="fa fa-eraser" aria-hidden="true"></i>
                 Vider le formulaire</button>
-            <button [disabled]="classeForm.invalid && !validNumero" type="button" (click)="saveClasseAndExit()"
+            <button [disabled]="classeForm.invalid && !validNumero" type="button" (click)="saveClasse()"
                 class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
                 Enregistrer</button>
-            <button [disabled]="classeForm.invalid && !validNumero" type="button" (click)="saveClasse()"
-                class="btn btn-outline-primary pull-right"> <i class="fa fa-save" aria-hidden="true"></i>
-                Enregistrer & Créer un autre</button>
         </p-toolbar>
-    </p-fieldset>
+    </p-card>
+
 </form>
 <!-- /form classe info -->

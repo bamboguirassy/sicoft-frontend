@@ -9,7 +9,7 @@ import { AuthService } from 'app/shared/services/auth.service';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { Exercice } from 'app/parametrage/exercice/exercice';
 import { Entite } from 'app/parametrage/entite/entite';
-import  Swal  from 'sweetalert2';
+import Swal from 'sweetalert2';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { element } from 'protractor';
 
@@ -124,13 +124,13 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     this.sourceFinancements = [];
     //this.tabExerciceSourceFinancements = [];
     this.tab_choiceDatas = [];
-    this.step = 4;
+    this.step = 1;
     this.activeField = 1;
     this.activeModif1 = 1;
     let tempExercice = this.exerciceSouceFinancement.exercice;
     let tempEntite = this.exerciceSouceFinancement.entite;
     this.encour = this.exerciceSouceFinancement.exercice.encours;
-        
+   
     if (this.exerciceSouceFinancement.exercice) {
       this.exerciceSouceFinancement.exercice = this.exerciceSouceFinancement.exercice.id;
     }
@@ -138,14 +138,15 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     if (this.exerciceSouceFinancement.entite) {
       this.exerciceSouceFinancement.entite = this.exerciceSouceFinancement.entite.id;
     }
-    this.exercice_source_financementSrv.findSourceFinancementDisponible(this.exerciceSouceFinancement.exercice)
+    this.exercice_source_financementSrv.findSourceFinancementDisponible(this.exerciceSouceFinancement.exercice,this.exerciceSouceFinancement.entite)
     .subscribe(
       (data: any) => {this.sourceFinancements = data;
+        
         this.refreshList();
         this.exerciceSouceFinancement.exercice = tempExercice;
         this.exerciceSouceFinancement.entite = tempEntite;
         if (!this.encour){
-          this.display= true;
+          this.step = 4;
         }
         
       },
@@ -154,13 +155,13 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
 
   }
   updateField(){
-    this.activeField = 2;
+    this.activeField = 0;
     this.activeModif1 = 0;
   }
   previousPickList(){
-    this.activeField = 2;
+    this.activeField = 0;
     this.activeModif1 = 0;
-    this.step = 0;
+    this.step = 4;
     this.part3 = 0;
   }
   activePicklist() {
@@ -290,7 +291,7 @@ handleConfirmeDeleted(exerciceSourceFin){
   })
 }
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size:'lg'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;      
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

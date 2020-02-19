@@ -132,7 +132,7 @@
       </div>
       <div class="modal-body">
         <p><strong>Êtes vous sûr de vouloir supprimer l'exercice: <span class="text-primary">{{selectedExercice.libelle}}</span> ?</strong></p>
-        <p *ngIf="exercicePrecedent">Il est le suivant de l'exercice: {{exercicePrecedent?.libelle}} .
+        <p *ngIf="confirmation">Il est le suivant de l'exercice: {{exercicePrecedent?.libelle}} .
         <span class="text-danger">Voulez-vous continuer?</span>
         </p>
       </div>

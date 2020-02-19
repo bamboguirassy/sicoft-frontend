@@ -116,7 +116,9 @@ import { ExerciceSourceFinancementEditComponent } from './exercice_source_financ
 import { ExerciceSourceFinancementListComponent } from './exercice_source_financement/exercice_source_financement-list/exercice_source_financement-list.component';
 import { ExerciceSourceFinancementNewComponent } from './exercice_source_financement/exercice_source_financement-new/exercice_source_financement-new.component';
 import { ExerciceSourceFinancementShowComponent } from './exercice_source_financement/exercice_source_financement-show/exercice_source_financement-show.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
+  entryComponents: [ClasseNewComponent],
   declarations: [
     UserCloneComponent,
     UserEditComponent,
@@ -228,6 +230,7 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
     CardModule,
     FieldsetModule,
     ToolbarModule,
+    TreeTableModule,
     TabViewModule,
     CheckboxModule,
     InputSwitchModule,

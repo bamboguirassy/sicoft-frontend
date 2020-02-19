@@ -13,7 +13,7 @@
                             class="btn btn-outline-danger pull-right ml-1">
                             <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
                         </button> -->
-                        <button *ngIf="'Classe'|creable" [routerLink]="['/'+classeSrv.getRoutePrefix(),'new']"
+                        <button *ngIf="'Classe'|creable" (click)="toggleAddModal()"
                             routerLinkActive="router-link-active" type="button"
                             class="btn btn-outline-primary pull-right ml-1">
                             <i class="fa fa-plus-square-o" aria-hidden="true"></i> Ajouter classe
@@ -22,9 +22,10 @@
 
 
                     <p-treeTable #tt [value]="treeNodes" [autoLayout]="true" [paginator]="true" [rows]="10"
-                        sortMode="multiple" [globalFilterFields]="globalFilterFields"
-                        [(selection)]="selectedClasses" dataKey="numero" selectionMode="checkbox"
-                        [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedClasse" [loading]="loading" (onNodeExpand)="onNodeExpand($event)">
+                        sortMode="multiple" [globalFilterFields]="globalFilterFields" [(selection)]="selectedClasses"
+                        dataKey="numero" selectionMode="checkbox" [contextMenu]="contextMenu"
+                        [(contextMenuSelection)]="selectedClasse" [loading]="loading"
+                        (onNodeExpand)="onNodeExpand($event)">
                         <ng-template pTemplate="caption">
                             PLAN DES COMPTES ET ETATS FINANCIERS
                             <div class="row justify-content-center">
@@ -49,7 +50,7 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-                            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode"  [ttContextMenuRow]="rowNode">
+                            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode" [ttContextMenuRow]="rowNode">
                                 <td ttEditableColumn>
                                     <p-treeTableCheckbox [value]="rowNode"></p-treeTableCheckbox>
                                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
@@ -58,7 +59,7 @@
                                             <input type="number" [(ngModel)]="rowData.numero">
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{rowData.numero}}
+                                            {{rowData?.numero}}
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
@@ -68,17 +69,18 @@
                                             <input class="form-control" type="text" [(ngModel)]="rowData.libelle">
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{rowData.libelle}}
+                                            {{rowData?.libelle}}
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
                                 <td ttEditableColumn>
                                     <p-treeTableCellEditor>
                                         <ng-template pTemplate="input">
-                                            <textarea class="form-control" type="text" [(ngModel)]="rowData.description"></textarea>
+                                            <textarea class="form-control" type="text"
+                                                [(ngModel)]="rowData.description"></textarea>
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{rowData.description}}
+                                            {{rowData?.description}}
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
@@ -86,7 +88,7 @@
                         </ng-template>
                         <ng-template pTemplate="emptymessage" let-columns>
                             <tr>
-                                <td [attr.colspan]="columns.length">
+                                <td [attr.colspan]="columns?.length">
                                     No records found
                                 </td>
                             </tr>
@@ -178,19 +180,84 @@
                             </tr>
                         </ng-template>
                     </p-table> -->
-                    <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
+                    <p-contextMenu #contextMenu [model]="cMenuItems" (onShow)="pushAddButton()"></p-contextMenu>
                     <p-toolbar>
                         <!-- <button *ngIf="'Classe'|deletable" (click)="deleteSelectedClasses()" type="button"
                             class="btn btn-outline-danger mr-1">
                             <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
                         </button> -->
-                        <button *ngIf="'Classe'|creable" [routerLink]="['/'+classeSrv.getRoutePrefix(),'new']"
-                            routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
+                        <button *ngIf="'Classe'|creable" (click)="toggleAddModal()" type="button" class="btn btn-outline-primary mr-1">
                             <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
                         </button>
                     </p-toolbar>
                 </div>
             </div>
         </p-fieldset>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <ng-template #subClassModal *ngIf="'SousClasse' | editable" let-modal>
+
+            <div class="modal-header new-sous-class-header">
+                <h4 class="modal-title">Ajout de sous classe </h4>
+                <button type="button" (click)="closeModal()" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <p-card>
+                                <table
+                                    class="table table-striped table-responsive-md table-responsive-sm table-responsive-lg table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Numero</th>
+                                            <th scope="col">Libelle</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of inputObject">
+                                            <th scope="row">
+                                                <input  [(ngModel)]="item.value.numero" (input)="validNumber(item)" maxlength="2"
+                                                    class="form-control" type="text" name="numero" id="numero" >
+                                                <small class="text-danger" *ngIf="!item.isNumberValid && item?.value?.numero" >Attention le numéro doit commencer par {{selectedClasse?.data.numero}} </small>
+                                            </th>
+                                            <td>
+                                                <input  [(ngModel)]="item.value.libelle" (input)="labelValidator(item)" class="form-control"
+                                                    type="text" name="libelle" id="libelle"  >
+                                            </td>
+                                            <td>
+                                                <button *ngIf="item.id!=0" (click)="removeInputItem(item.id)"
+                                                    type="button" class="btn-sm btn-outline-danger"><i
+                                                        class="pi pi-minus" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-end">
+                                    <button [disabled]="!checkIfAllIsValid()"  *ngIf="'SousClasse'|creable" type="button"
+                                        (click)="addSubclasse()" class="btn btn-outline-primary mr-1">
+                                        <i class="pi pi-check-circle"></i> Valider
+                                    </button>
+                                    <button *ngIf="'SousClasse'|creable" type="button" (click)="addInputItem()"
+                                        class="btn btn-outline-primary mr-1">
+                                        <i class="fa fa-plus-circle"></i> Ajouter une nouvelle ligne
+                                    </button>
+                                </div>
+                        </p-card>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+
+        </ng-template>
     </div>
 </div>
