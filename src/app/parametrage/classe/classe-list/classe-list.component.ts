@@ -82,8 +82,6 @@ export class ClasseListComponent implements OnInit {
     this.classes.forEach(classe => {
       classe.sousClasses.forEach(subClass => subClass.type = 'sousClasse');
     });
-    console.log(this.classes);
-
   }
 
   public getTreeNodes(classes: Classe[]): TreeNode[] {
@@ -201,7 +199,6 @@ export class ClasseListComponent implements OnInit {
   }
 
   pushAddButton() {
-    console.log(this.selectedItem);
     this.maxlength = this.selectedItem.data.type === 'classe' ? 2 : (this.selectedItem.data.type === 'sousClasse' ? 3 : 100);
     if (this.selectedItem.data.type === 'classe') {
       this.modalTitle = 'Sous Classe'
