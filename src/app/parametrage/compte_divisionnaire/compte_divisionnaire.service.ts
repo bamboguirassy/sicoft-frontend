@@ -51,4 +51,8 @@ export class CompteDivisionnaireService {
   findBySousClasse(id: number) {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/sous-classe');
   }
+
+  createMultiple(divisionnalAccount: CompteDivisionnaire[]) {
+    return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple', divisionnalAccount);
+  }
 }

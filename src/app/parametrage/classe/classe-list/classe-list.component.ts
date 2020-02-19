@@ -1,3 +1,6 @@
+import { CompteDivisionnaireService } from './../../compte_divisionnaire/compte_divisionnaire.service';
+import { Compte } from './../../compte/compte';
+import { CompteDivisionnaire } from './../../compte_divisionnaire/compte_divisionnaire';
 import { NgForm } from '@angular/forms';
 import { SousClasseService } from './../../sous_classe/sous_classe.service';
 import { SousClasse } from './../../sous_classe/sous_classe';
@@ -25,21 +28,23 @@ export class ClasseListComponent implements OnInit {
 
   classes: Classe[] = [];
   selectedClasses: Classe[];
-  selectedClasse: any;
+  selectedItem: any;
   tableColumns = classeColumns;
   typeClasses: TypeClasse[] = [];
   categorieClasses: TypeClasse[] = [];
   isValidNumber = false;
   isValidLabel = false;
+  modalTitle: string;
+  maxlength: number = 2;
   isFormValid = false;
   inputObject: {
     id: number,
-    value: SousClasse,
+    value: SousClasse | CompteDivisionnaire | Compte | any,
     isNumberValid: boolean,
     isLabelValid: boolean,
   }[] = [{
     id: 0,
-    value: new SousClasse(),
+    value: new Object(),
     isNumberValid: false,
     isLabelValid: false,
   }];
@@ -59,6 +64,7 @@ export class ClasseListComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
     public classeSrv: ClasseService, public exportSrv: ExportService, public modalSrv: NgbModal,
     private router: Router, public authSrv: AuthService, public sousClasseSrv: SousClasseService,
+    public compteDivisionnaireSrv: CompteDivisionnaireService,
     public notificationSrv: NotificationService) { }
 
   ngOnInit() {
@@ -76,6 +82,8 @@ export class ClasseListComponent implements OnInit {
     this.classes.forEach(classe => {
       classe.sousClasses.forEach(subClass => subClass.type = 'sousClasse');
     });
+    console.log(this.classes);
+
   }
 
   public getTreeNodes(classes: Classe[]): TreeNode[] {
@@ -91,7 +99,27 @@ export class ClasseListComponent implements OnInit {
 
     if (node.data.type === 'classe') {
       this.fetchSubClasses(node);
+    } else if (node.data.type === 'sousClasse') {
+      this.fetchDivsionalAccount(node);
     }
+  }
+
+  fetchDivsionalAccount(node: any) {
+    this.loading = true;
+    this.compteDivisionnaireSrv.findBySousClasse(node.data.id)
+      .subscribe((data: any) => {
+        const divisionalAccountNode: TreeNode[] = [];
+        data.forEach((divisionalAccount: any) => {
+          divisionalAccount.type = 'compteDivisionnaire';
+          divisionalAccountNode.push({data: divisionalAccount, children: [], leaf: false});
+        });
+        node.children = divisionalAccountNode;
+        this.treeNodes = [...this.treeNodes];
+        this.loading = false;
+      }, error => {
+        this.notificationSrv.showError(error.error.message);
+        this.loading = false;
+      })
   }
 
   fetchSubClasses(node: any) {
@@ -100,7 +128,8 @@ export class ClasseListComponent implements OnInit {
       .subscribe((data: any) => {
         const subClassNode: TreeNode[] = [];
         data.forEach((subClass: any) => {
-          subClassNode.push({ data: subClass, children: [], leaf: false })
+          subClass.type = 'sousClasse';
+          subClassNode.push({ data: subClass, children: [], leaf: false });
         });
         node.children = subClassNode;
         this.treeNodes = [...this.treeNodes];
@@ -108,7 +137,7 @@ export class ClasseListComponent implements OnInit {
       }, error => {
         this.notificationSrv.showError(error.error.message);
         this.loading = false;
-      } );
+      });
 
   }
 
@@ -172,8 +201,47 @@ export class ClasseListComponent implements OnInit {
   }
 
   pushAddButton() {
-    if (this.selectedClasse.data.type === 'classe') {
+    console.log(this.selectedItem);
+    this.maxlength = this.selectedItem.data.type === 'classe' ? 2 : (this.selectedItem.data.type === 'sousClasse' ? 3 : 100);
+    if (this.selectedItem.data.type === 'classe') {
+      this.modalTitle = 'Sous Classe'
       this.showClassMenu();
+    } else if (this.selectedItem.data.type === 'sousClasse') {
+      this.modalTitle = 'Compte Divisionnaire';
+      this.showSubClassMenu();
+    } else if (this.selectedItem.data.type === 'compteDivisionnaire') {
+      this.modalTitle = 'Compte';
+      this.showDivisionalAccountMenu();
+    }
+  }
+
+  showDivisionalAccountMenu() {
+    if (this.authSrv.checkCreateAccess('Compte') && this.authSrv.checkDeleteAccess('Compte')) {
+      this.cMenuItems = [
+        {
+          label: 'Ajouter des comptes ', icon: 'pi pi-plus-circle',
+          command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef, this.selectedItem)
+        },
+        {
+          label: 'Supprimer', icon: 'pi pi-trash',
+          command: (event) => this.deleteClasse(this.selectedItem.data)
+        }
+      ]
+    }
+  }
+
+  showSubClassMenu() {
+    if (this.authSrv.checkCreateAccess('CompteDivisionnaire') && this.authSrv.checkDeleteAccess('CompteDivisionnaire')) {
+      this.cMenuItems = [
+        {
+          label: 'Ajouter des compte divisionnaire', icon: 'pi pi-plus-circle',
+          command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef, this.selectedItem)
+        },
+        {
+          label: 'Supprimer', icon: 'pi pi-trash',
+          command: (event) => this.deleteClasse(this.selectedItem.data)
+        }
+      ]
     }
   }
 
@@ -182,15 +250,13 @@ export class ClasseListComponent implements OnInit {
       this.cMenuItems = [
         {
           label: 'Ajouter des sous classe', icon: 'pi pi-plus-circle',
-          command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef, this.selectedClasse)
+          command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef, this.selectedItem)
         },
         {
           label: 'Supprimer', icon: 'pi pi-trash',
-          command: (event) => this.deleteClasse(this.selectedClasse.data)
+          command: (event) => this.deleteClasse(this.selectedItem.data)
         }
       ]
-
-
     }
   }
 
@@ -209,34 +275,70 @@ export class ClasseListComponent implements OnInit {
 
   removeInputItem(inputId: number) {
     this.inputObject = this.inputObject.filter(inputNumber => inputNumber.id !== inputId);
-    this.isFormValid = this.inputObject[this.inputObject.length-1].isLabelValid && this.inputObject[this.inputObject.length-1] ? true : false;
+    this.isFormValid =
+      this.inputObject[this.inputObject.length - 1].isLabelValid && this.inputObject[this.inputObject.length - 1] ? true : false;
   }
 
-  addSubclasse() {
+  addItems() {
+    if (this.selectedItem.data.type === 'classe') {
+      this.addSubClass();
+    } else if (this.selectedItem.data.type === 'sousClasse') {
+      this.addCompteDivisionnaire();
+    }
+  }
+
+  addCompteDivisionnaire() {
+    const divisionalAccountToCreate: CompteDivisionnaire[] = [];
+    this.inputObject.forEach(currentInput => {
+      currentInput.value.sousClasse = this.selectedItem.data.id;
+      divisionalAccountToCreate.push(currentInput.value);
+    })
+    this.loading = true;
+    this.compteDivisionnaireSrv.createMultiple(divisionalAccountToCreate)
+      .subscribe((createdDivisionalAccounts: any) => {
+        this.notificationSrv.showInfo('Enregistrement Effectué.');
+        const mutedTreeNode: TreeNode = this.selectedItem;
+        createdDivisionalAccounts.forEach((createdDivisionalAccount: any) => {
+          mutedTreeNode.children.push({ data: createdDivisionalAccount, children: [], leaf: false })
+        });
+        this.treeNodes = [...this.treeNodes];
+        this.loading = false;
+      }, error => {
+        this.notificationSrv.showError(error.error.message);
+        this.loading = false;
+      })
+
+  }
+
+
+  addSubClass() {
     const subClassesToCreate: SousClasse[] = [];
     this.inputObject.forEach(currentInput => {
-      currentInput.value.classe = this.selectedClasse.data.id;
+      currentInput.value.classe = this.selectedItem.data.id;
       subClassesToCreate.push(currentInput.value);
     })
+    this.loading = true;
     this.sousClasseSrv.createMultiple(subClassesToCreate)
       .subscribe((createdSubClasses: any) => {
-        createdSubClasses.forEach((createdSubclasse: any) => {
-          this.notificationSrv.showInfo('Enregistrement Effectué.')
-          const mutedTreeNode = this.treeNodes.filter(treeNode => treeNode.data.id === this.selectedClasse.data.id);
-          const subClassNode: TreeNode[] = [];
-          createdSubClasses.forEach((subClass: any) => {
-            mutedTreeNode[0].children.push({ data: subClass, children: [], leaf: false })
-          });
-          this.treeNodes = [...this.treeNodes];
+        this.notificationSrv.showInfo('Enregistrement Effectué.');
+        const mutedTreeNode = this.treeNodes.filter(treeNode => treeNode.data.id === this.selectedItem.data.id);
+        createdSubClasses.forEach((createdSubClasse: any) => {
+          mutedTreeNode[0].children.push({ data: createdSubClasse, children: [], leaf: false })
         })
-      }, error => this.notificationSrv.showError(error.error.message));
+        this.treeNodes = [...this.treeNodes];
+        this.loading = false;
+      }, error => {
+        this.notificationSrv.showError(error.error.message);
+        this.loading = false;
+      });
   }
 
   validNumber(e: any) {
     this.isFormValid = false;
     this.isValidNumber = false;
     this.isValidNumber =
-      e.isNumberValid = e.value.numero && e.value.numero.trim() !== '' && e.value.numero.startsWith(this.selectedClasse.data.numero) ? true : false;
+      e.isNumberValid =
+      e.value.numero && e.value.numero.trim() !== '' && e.value.numero.startsWith(this.selectedItem.data.numero) ? true : false;
     if (e.isNumberValid && e.isLabelValid && this.checkIfAllIsValid()) {
       this.isFormValid = true;
     }
