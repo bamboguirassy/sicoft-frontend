@@ -30,12 +30,18 @@ export class ClasseListComponent implements OnInit {
   typeClasses: TypeClasse[] = [];
   categorieClasses: TypeClasse[] = [];
   isValidNumber = false;
+  isValidLabel = false;
+  isFormValid = false;
   inputObject: {
     id: number,
-    value: SousClasse
+    value: SousClasse,
+    isNumberValid: boolean,
+    isLabelValid: boolean,
   }[] = [{
     id: 0,
-    value: new SousClasse()
+    value: new SousClasse(),
+    isNumberValid: false,
+    isLabelValid: false,
   }];
   randIds = 1;
   selectedSousClasses: SousClasse[] = [];
@@ -66,27 +72,44 @@ export class ClasseListComponent implements OnInit {
     this.classes.forEach(classe => {
       classe.type = 'classe';
     });
+
+    this.classes.forEach(classe => {
+      classe.sousClasses.forEach(subClass => subClass.type = 'sousClasse');
+    });
   }
 
   public getTreeNodes(classes: Classe[]): TreeNode[] {
-    let treeNodes: TreeNode[] = [];
+    const treeNodes: TreeNode[] = [];
     classes.forEach(classe => {
-      //sous classe node
-      let sousClasseNodes: TreeNode[] = [];
-      classe.sousClasses.forEach(sousClasse => {
-        sousClasseNodes.push({ data: sousClasse, children: [], leaf: false })
-      });
-      treeNodes.push({ data: classe, children: sousClasseNodes, leaf: false });
+      treeNodes.push({ data: classe, children: [], leaf: false });
     });
     return treeNodes;
   }
 
-  onNodeExpand(event) {
-    //const node = event.node;
-    //populate node.children
+  onNodeExpand(event: any) {
+    const node = event.node;
 
-    //refresh the data
-    this.treeNodes = [...this.treeNodes];
+    if (node.data.type === 'classe') {
+      this.fetchSubClasses(node);
+    }
+  }
+
+  fetchSubClasses(node: any) {
+    this.loading = true;
+    this.classeSrv.findByClass(node.data.id)
+      .subscribe((data: any) => {
+        const subClassNode: TreeNode[] = [];
+        data.forEach((subClass: any) => {
+          subClassNode.push({ data: subClass, children: [], leaf: false })
+        });
+        node.children = subClassNode;
+        this.treeNodes = [...this.treeNodes];
+        this.loading = false;
+      }, error => {
+        this.notificationSrv.showError(error.error.message);
+        this.loading = false;
+      } );
+
   }
 
 
@@ -118,8 +141,16 @@ export class ClasseListComponent implements OnInit {
   }
 
   refreshList() {
+    this.loading = true;
     this.classeSrv.findAll()
-      .subscribe((data: any) => this.classes = data, error => this.classeSrv.httpSrv.handleError(error));
+      .subscribe((data: any) => {
+        this.classes = data;
+        this.treeNodes = this.getTreeNodes(this.classes);
+        this.loading = false;
+      }, error => {
+        this.classeSrv.httpSrv.handleError(error);
+        this.loading = false;
+      });
   }
 
   exportPdf() {
@@ -168,12 +199,17 @@ export class ClasseListComponent implements OnInit {
   }
 
   addInputItem() {
-    this.inputObject.push({ id: this.randIds, value: new SousClasse() });
+    this.inputObject.push({ id: this.randIds, value: new SousClasse(), isLabelValid: false, isNumberValid: false });
+    this.inputObject = [...this.inputObject];
     this.randIds++;
+    this.isValidLabel = false;
+    this.isValidNumber = false;
+    this.isFormValid = false;
   }
 
   removeInputItem(inputId: number) {
     this.inputObject = this.inputObject.filter(inputNumber => inputNumber.id !== inputId);
+    this.isFormValid = this.inputObject[this.inputObject.length-1].isLabelValid && this.inputObject[this.inputObject.length-1] ? true : false;
   }
 
   addSubclasse() {
@@ -186,17 +222,58 @@ export class ClasseListComponent implements OnInit {
       .subscribe((createdSubClasses: any) => {
         createdSubClasses.forEach((createdSubclasse: any) => {
           this.notificationSrv.showInfo('Enregistrement Effectué.')
+          const mutedTreeNode = this.treeNodes.filter(treeNode => treeNode.data.id === this.selectedClasse.data.id);
+          const subClassNode: TreeNode[] = [];
+          createdSubClasses.forEach((subClass: any) => {
+            mutedTreeNode[0].children.push({ data: subClass, children: [], leaf: false })
+          });
+          this.treeNodes = [...this.treeNodes];
         })
       }, error => this.notificationSrv.showError(error.error.message));
   }
 
-  validNumber(e: string) {
-   this.isValidNumber = false;
-   this.isValidNumber = e.startsWith(this.selectedClasse.data.numero) ? true : false;
+  validNumber(e: any) {
+    this.isFormValid = false;
+    this.isValidNumber = false;
+    this.isValidNumber =
+      e.isNumberValid = e.value.numero && e.value.numero.trim() !== '' && e.value.numero.startsWith(this.selectedClasse.data.numero) ? true : false;
+    if (e.isNumberValid && e.isLabelValid && this.checkIfAllIsValid()) {
+      this.isFormValid = true;
+    }
+  }
+
+  labelValidator(e: any) {
+    this.isFormValid = false;
+    this.isValidLabel = false;
+    this.isValidLabel =
+      e.isLabelValid = e.value.libelle && e.value.libelle.trim() !== '' ? true : false;
+    if (e.isNumberValid && e.isLabelValid && this.checkIfAllIsValid()) {
+      this.isFormValid = true;
+    }
   }
 
   closeModal() {
+    this.inputObject = [{
+      id: 0,
+      value: new SousClasse(),
+      isNumberValid: false,
+      isLabelValid: false,
+    }];
+    this.randIds = 1;
+    this.isFormValid = false;
+    this.isValidLabel = false;
+    this.isValidNumber = false;
     this.modalSrv.dismissAll('Cross click');
+  }
+
+  checkIfAllIsValid() {
+    let validItems = 0;
+    this.inputObject.forEach(input => {
+      if (input.isLabelValid && input.isNumberValid) {
+        validItems++;
+      };
+    });
+    return validItems === this.inputObject.length ? true : false;
   }
 
 }

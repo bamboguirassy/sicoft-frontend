@@ -59,7 +59,7 @@
                                             <input type="number" [(ngModel)]="rowData.numero">
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{rowData.numero}}
+                                            {{rowData?.numero}}
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
@@ -69,7 +69,7 @@
                                             <input class="form-control" type="text" [(ngModel)]="rowData.libelle">
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{rowData.libelle}}
+                                            {{rowData?.libelle}}
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
@@ -80,7 +80,7 @@
                                                 [(ngModel)]="rowData.description"></textarea>
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{rowData.description}}
+                                            {{rowData?.description}}
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
@@ -186,8 +186,7 @@
                             class="btn btn-outline-danger mr-1">
                             <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
                         </button> -->
-                        <button *ngIf="'Classe'|creable" [routerLink]="['/'+classeSrv.getRoutePrefix(),'new']"
-                            routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
+                        <button *ngIf="'Classe'|creable" (click)="toggleAddModal()" type="button" class="btn btn-outline-primary mr-1">
                             <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
                         </button>
                     </p-toolbar>
@@ -223,13 +222,13 @@
                                     <tbody>
                                         <tr *ngFor="let item of inputObject">
                                             <th scope="row">
-                                                <input required #number [(ngModel)]="item.value.numero" (input)="validNumber(number.value)" maxlength="2"
-                                                    class="form-control" type="text" name="numero" id="numero">
-                                                <small class="text-danger" *ngIf="!isValidNumber && item?.value?.numero?.length" >Attention le numéro doit commencer par {{selectedClasse?.data.numero}} </small>
+                                                <input  [(ngModel)]="item.value.numero" (input)="validNumber(item)" maxlength="2"
+                                                    class="form-control" type="text" name="numero" id="numero" >
+                                                <small class="text-danger" *ngIf="!item.isNumberValid && item?.value?.numero" >Attention le numéro doit commencer par {{selectedClasse?.data.numero}} </small>
                                             </th>
                                             <td>
-                                                <input required [(ngModel)]="item.value.libelle" class="form-control"
-                                                    type="text" name="libelle" id="libelle">
+                                                <input  [(ngModel)]="item.value.libelle" (input)="labelValidator(item)" class="form-control"
+                                                    type="text" name="libelle" id="libelle"  >
                                             </td>
                                             <td>
                                                 <button *ngIf="item.id!=0" (click)="removeInputItem(item.id)"
@@ -238,11 +237,10 @@
                                                 </button>
                                             </td>
                                         </tr>
-
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-end">
-                                    <button *ngIf="'SousClasse'|creable" type="button"
+                                    <button [disabled]="!checkIfAllIsValid()"  *ngIf="'SousClasse'|creable" type="button"
                                         (click)="addSubclasse()" class="btn btn-outline-primary mr-1">
                                         <i class="pi pi-check-circle"></i> Valider
                                     </button>
