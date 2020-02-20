@@ -21,7 +21,7 @@ export class ExerciceService {
   }
 
   findExercicePrecedent(exercice: Exercice) {
-    return this.httpSrv.get(this.getRoutePrefixWithSlash() + 'precedent/' + exercice.id);
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + exercice.id+'/precedent/');
   }
 
   create(exercice: Exercice) {

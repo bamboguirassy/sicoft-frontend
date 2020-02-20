@@ -24,7 +24,7 @@
                     <p-treeTable #tt [value]="treeNodes" [autoLayout]="true" [paginator]="true" [rows]="10"
                         sortMode="multiple" [globalFilterFields]="globalFilterFields" [(selection)]="selectedClasses"
                         dataKey="numero" selectionMode="checkbox" [contextMenu]="contextMenu"
-                        [(contextMenuSelection)]="selectedClasse" [loading]="loading"
+                        [(contextMenuSelection)]="selectedItem" [loading]="loading"
                         (onNodeExpand)="onNodeExpand($event)">
                         <ng-template pTemplate="caption">
                             PLAN DES COMPTES ET ETATS FINANCIERS
@@ -59,7 +59,7 @@
                                             <input type="number" [(ngModel)]="rowData.numero">
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{rowData.numero}}
+                                            {{rowData?.numero}}
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
@@ -69,7 +69,7 @@
                                             <input class="form-control" type="text" [(ngModel)]="rowData.libelle">
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{rowData.libelle}}
+                                            {{rowData?.libelle}}
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
@@ -80,7 +80,7 @@
                                                 [(ngModel)]="rowData.description"></textarea>
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{rowData.description}}
+                                            {{rowData?.description}}
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
@@ -124,7 +124,7 @@
                             </colgroup>
                         </ng-template>
                         <ng-template pTemplate="header">
-                            <tr>
+                            <tr>sudo sysctl -p --system
                                 <th style="width: 3em">
                                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                 </th>
@@ -186,8 +186,8 @@
                             class="btn btn-outline-danger mr-1">
                             <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
                         </button> -->
-                        <button *ngIf="'Classe'|creable" [routerLink]="['/'+classeSrv.getRoutePrefix(),'new']"
-                            routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
+                        <button *ngIf="'Classe'|creable" (click)="toggleAddModal()" type="button"
+                            class="btn btn-outline-primary mr-1">
                             <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
                         </button>
                     </p-toolbar>
@@ -202,7 +202,7 @@
         <ng-template #subClassModal *ngIf="'SousClasse' | editable" let-modal>
 
             <div class="modal-header new-sous-class-header">
-                <h4 class="modal-title">Ajout de sous classe </h4>
+                <h4 class="modal-title">Ajout de {{modalTitle}}</h4>
                 <button type="button" (click)="closeModal()" class="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -211,46 +211,48 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <p-card>
-                                <table
-                                    class="table table-striped table-responsive-md table-responsive-sm table-responsive-lg table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Numero</th>
-                                            <th scope="col">Libelle</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of inputObject">
-                                            <th scope="row">
-                                                <input required #number [(ngModel)]="item.value.numero" (input)="validNumber(number.value)" maxlength="2"
-                                                    class="form-control" type="text" name="numero" id="numero">
-                                                <small class="text-danger" *ngIf="!isValidNumber && item?.value?.numero?.length" >Attention le numéro doit commencer par {{selectedClasse?.data.numero}} </small>
-                                            </th>
-                                            <td>
-                                                <input required [(ngModel)]="item.value.libelle" class="form-control"
-                                                    type="text" name="libelle" id="libelle">
-                                            </td>
-                                            <td>
-                                                <button *ngIf="item.id!=0" (click)="removeInputItem(item.id)"
-                                                    type="button" class="btn-sm btn-outline-danger"><i
-                                                        class="pi pi-minus" aria-hidden="true"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                                <div class="d-flex justify-content-end">
-                                    <button *ngIf="'SousClasse'|creable" type="button"
-                                        (click)="addSubclasse()" class="btn btn-outline-primary mr-1">
-                                        <i class="pi pi-check-circle"></i> Valider
-                                    </button>
-                                    <button *ngIf="'SousClasse'|creable" type="button" (click)="addInputItem()"
-                                        class="btn btn-outline-primary mr-1">
-                                        <i class="fa fa-plus-circle"></i> Ajouter une nouvelle ligne
-                                    </button>
-                                </div>
+                            <table
+                                class="table table-striped table-responsive-md table-responsive-sm table-responsive-lg table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Numero</th>
+                                        <th scope="col">Libelle</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of inputObject">
+                                        <th scope="row">
+                                            <input [(ngModel)]="item.value.numero" (input)="validNumber(item)"
+                                                [maxlength]="maxlength" class="form-control" type="text" name="numero"
+                                                id="numero">
+                                            <small class="text-danger"
+                                                *ngIf="!item.isNumberValid && item?.value?.numero">Attention le numéro
+                                                doit commencer par {{selectedItem?.data.numero}} </small>
+                                        </th>
+                                        <td>
+                                            <input [(ngModel)]="item.value.libelle" (input)="labelValidator(item)"
+                                                class="form-control" type="text" name="libelle" id="libelle">
+                                        </td>
+                                        <td>
+                                            <button *ngIf="item.id!=0" (click)="removeInputItem(item.id)" type="button"
+                                                class="btn-sm btn-outline-danger"><i class="pi pi-minus"
+                                                    aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-between">
+                                <button [disabled]="!checkIfAllIsValid()" *ngIf="'SousClasse'|creable" type="button"
+                                    (click)="addItems()" class="btn btn-outline-primary mr-1">
+                                    <i class="pi pi-check-circle"></i> Valider
+                                </button>
+                                <button *ngIf="'SousClasse'|creable" type="button" (click)="addInputItem()"
+                                    class="btn btn-outline-primary mr-1">
+                                    <i class="fa fa-plus-circle"></i> Ajouter une nouvelle ligne
+                                </button>
+                            </div>
                         </p-card>
 
 
