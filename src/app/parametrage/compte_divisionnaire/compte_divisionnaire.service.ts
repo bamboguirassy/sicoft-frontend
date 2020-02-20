@@ -55,4 +55,8 @@ export class CompteDivisionnaireService {
   createMultiple(divisionnalAccount: CompteDivisionnaire[]) {
     return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple', divisionnalAccount);
   }
+
+  deleteAfterConfirmation(divisionalAccount: CompteDivisionnaire) {
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + divisionalAccount.id + '/confirm');
+  }
 }

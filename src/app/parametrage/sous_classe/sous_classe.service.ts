@@ -56,4 +56,8 @@ export class SousClasseService {
     return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple', subClasses);
   }
 
+  deleteAfterConfirmation(subClass: SousClasse) {
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + subClass.id + '/confirm');
+  }
+
 }
