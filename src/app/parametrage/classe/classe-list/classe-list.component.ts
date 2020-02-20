@@ -1,3 +1,4 @@
+import { CompteService } from './../../compte/compte.service';
 import { CompteDivisionnaireService } from './../../compte_divisionnaire/compte_divisionnaire.service';
 import { Compte } from './../../compte/compte';
 import { CompteDivisionnaire } from './../../compte_divisionnaire/compte_divisionnaire';
@@ -40,11 +41,13 @@ export class ClasseListComponent implements OnInit {
   inputObject: {
     id: number,
     value: SousClasse | CompteDivisionnaire | Compte | any,
+    plainNumber: any,
     isNumberValid: boolean,
     isLabelValid: boolean,
   }[] = [{
     id: 0,
     value: new Object(),
+    plainNumber: '',
     isNumberValid: false,
     isLabelValid: false,
   }];
@@ -64,7 +67,7 @@ export class ClasseListComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
     public classeSrv: ClasseService, public exportSrv: ExportService, public modalSrv: NgbModal,
     private router: Router, public authSrv: AuthService, public sousClasseSrv: SousClasseService,
-    public compteDivisionnaireSrv: CompteDivisionnaireService,
+    public compteDivisionnaireSrv: CompteDivisionnaireService, public compteSrv: CompteService,
     public notificationSrv: NotificationService) { }
 
   ngOnInit() {
@@ -94,22 +97,48 @@ export class ClasseListComponent implements OnInit {
 
   onNodeExpand(event: any) {
     const node = event.node;
-
     if (node.data.type === 'classe') {
       this.fetchSubClasses(node);
     } else if (node.data.type === 'sousClasse') {
       this.fetchDivsionalAccount(node);
+    } else if (node.data.type === 'compteDivisionnaire') {
+      this.fetchAccount(node);
     }
+  }
+  fetchAccount(node: any) {
+    this.loading = true;
+    this.compteSrv.findByCompteDivisionnaire(node.data.id)
+      .subscribe((data: any) => {
+        if (data.length === 0) {
+          window.scrollTo(0, 0);
+          this.notificationSrv.showWarning('Aucun compte trouvé.')
+        }
+        const accountNode: TreeNode[] = [];
+        data.forEach((account: any) => {
+          account.type = 'compte';
+          accountNode.push({ data: account, children: [], leaf: true });
+        });
+        node.children = accountNode;
+        this.treeNodes = [...this.treeNodes];
+        this.loading = false;
+      }, error => {
+        this.notificationSrv.showError(error.error.message);
+        this.loading = false;
+      })
   }
 
   fetchDivsionalAccount(node: any) {
     this.loading = true;
     this.compteDivisionnaireSrv.findBySousClasse(node.data.id)
       .subscribe((data: any) => {
+        if (data.length === 0) {
+          window.scrollTo(0, 0);
+          this.notificationSrv.showWarning('Aucun compte divisionnaire trouvé.');
+        }
         const divisionalAccountNode: TreeNode[] = [];
         data.forEach((divisionalAccount: any) => {
           divisionalAccount.type = 'compteDivisionnaire';
-          divisionalAccountNode.push({data: divisionalAccount, children: [], leaf: false});
+          divisionalAccountNode.push({ data: divisionalAccount, children: [], leaf: false });
         });
         node.children = divisionalAccountNode;
         this.treeNodes = [...this.treeNodes];
@@ -124,6 +153,10 @@ export class ClasseListComponent implements OnInit {
     this.loading = true;
     this.classeSrv.findByClass(node.data.id)
       .subscribe((data: any) => {
+        if (data.length === 0) {
+          window.scrollTo(0, 0);
+          this.notificationSrv.showWarning('Aucune Sous classe trouvé.');
+        }
         const subClassNode: TreeNode[] = [];
         data.forEach((subClass: any) => {
           subClass.type = 'sousClasse';
@@ -172,7 +205,20 @@ export class ClasseListComponent implements OnInit {
     this.classeSrv.findAll()
       .subscribe((data: any) => {
         this.classes = data;
+        this.classes.forEach(classe => {
+          classe.type = 'classe';
+          classe.sousClasses.forEach(sousClasse => {
+            sousClasse.type = 'sousClasse';
+            sousClasse.compteDivisionnaires.forEach(divisionalAccount => {
+              divisionalAccount.type = 'CompteDivisionnaire';
+              divisionalAccount.comptes.forEach(account => {
+                account.type = 'compte';
+              })
+            })
+          })
+        })
         this.treeNodes = this.getTreeNodes(this.classes);
+        this.treeNodes = [...this.treeNodes];
         this.loading = false;
       }, error => {
         this.classeSrv.httpSrv.handleError(error);
@@ -199,15 +245,16 @@ export class ClasseListComponent implements OnInit {
   }
 
   pushAddButton() {
-    this.maxlength = this.selectedItem.data.type === 'classe' ? 2 : (this.selectedItem.data.type === 'sousClasse' ? 3 : 100);
+    // this.maxlength = this.selectedItem.data.type === 'classe' ? 1 : (this.selectedItem.data.type === 'sousClasse' ? 1 : 1);
+    this.maxlength = 1;
     if (this.selectedItem.data.type === 'classe') {
-      this.modalTitle = 'Sous Classe'
+      this.modalTitle = 'Sous Classe - ' + this.selectedItem.data.libelle;
       this.showClassMenu();
     } else if (this.selectedItem.data.type === 'sousClasse') {
-      this.modalTitle = 'Compte Divisionnaire';
+      this.modalTitle = 'Compte Divisionnaire - ' + this.selectedItem.data.libelle;
       this.showSubClassMenu();
     } else if (this.selectedItem.data.type === 'compteDivisionnaire') {
-      this.modalTitle = 'Compte';
+      this.modalTitle = 'Compte - ' + this.selectedItem.data.libelle;
       this.showDivisionalAccountMenu();
     }
   }
@@ -262,7 +309,7 @@ export class ClasseListComponent implements OnInit {
   }
 
   addInputItem() {
-    this.inputObject.push({ id: this.randIds, value: new SousClasse(), isLabelValid: false, isNumberValid: false });
+    this.inputObject.push({ id: this.randIds, value: new SousClasse(), plainNumber: '', isLabelValid: false, isNumberValid: false });
     this.inputObject = [...this.inputObject];
     this.randIds++;
     this.isValidLabel = false;
@@ -277,29 +324,56 @@ export class ClasseListComponent implements OnInit {
   }
 
   addItems() {
+
     if (this.selectedItem.data.type === 'classe') {
       this.addSubClass();
     } else if (this.selectedItem.data.type === 'sousClasse') {
       this.addCompteDivisionnaire();
+    } else if (this.selectedItem.data.type === 'compteDivisionnaire') {
+      this.addAccount();
     }
+  }
+
+  addAccount() {
+    const accountToCreate: Compte[] = [];
+    this.inputObject.forEach(currentInput => {
+      currentInput.value.compteDivisionnaire = this.selectedItem.data.id;
+      currentInput.value.numero = `${this.selectedItem.data.numero}${currentInput.plainNumber}`;
+      accountToCreate.push(currentInput.value);
+    })
+    this.loading = true;
+    this.compteSrv.createMultiple(accountToCreate)
+      .subscribe((createdAccounts: any) => {
+        const mutedTreeNode: TreeNode = this.selectedItem
+        createdAccounts.forEach((createdAccount: any) => {
+          mutedTreeNode.children.push({ data: createdAccount, children: [], leaf: true })
+        });
+        this.treeNodes = [...this.treeNodes];
+        this.loading = false;
+        this.notificationSrv.showInfo('Enregistrement Effectué');
+      }, error => {
+        this.notificationSrv.showError(error.error.message);
+        this.loading = false;
+      })
   }
 
   addCompteDivisionnaire() {
     const divisionalAccountToCreate: CompteDivisionnaire[] = [];
     this.inputObject.forEach(currentInput => {
       currentInput.value.sousClasse = this.selectedItem.data.id;
+      currentInput.value.numero = `${this.selectedItem.data.numero}${currentInput.plainNumber}`;
       divisionalAccountToCreate.push(currentInput.value);
     })
     this.loading = true;
     this.compteDivisionnaireSrv.createMultiple(divisionalAccountToCreate)
       .subscribe((createdDivisionalAccounts: any) => {
-        this.notificationSrv.showInfo('Enregistrement Effectué.');
         const mutedTreeNode: TreeNode = this.selectedItem;
         createdDivisionalAccounts.forEach((createdDivisionalAccount: any) => {
           mutedTreeNode.children.push({ data: createdDivisionalAccount, children: [], leaf: false })
         });
         this.treeNodes = [...this.treeNodes];
         this.loading = false;
+        this.notificationSrv.showInfo('Enregistrement Effectué.');
       }, error => {
         this.notificationSrv.showError(error.error.message);
         this.loading = false;
@@ -312,8 +386,9 @@ export class ClasseListComponent implements OnInit {
     const subClassesToCreate: SousClasse[] = [];
     this.inputObject.forEach(currentInput => {
       currentInput.value.classe = this.selectedItem.data.id;
+      currentInput.value.numero = `${this.selectedItem.data.numero}${currentInput.plainNumber}`;
       subClassesToCreate.push(currentInput.value);
-    })
+    });
     this.loading = true;
     this.sousClasseSrv.createMultiple(subClassesToCreate)
       .subscribe((createdSubClasses: any) => {
@@ -335,7 +410,7 @@ export class ClasseListComponent implements OnInit {
     this.isValidNumber = false;
     this.isValidNumber =
       e.isNumberValid =
-      e.value.numero && e.value.numero.trim() !== '' && e.value.numero.startsWith(this.selectedItem.data.numero) ? true : false;
+      e.plainNumber && e.plainNumber.trim() !== '' && /^[0-9]+$/.test(e.plainNumber) ? true : false;
     if (e.isNumberValid && e.isLabelValid && this.checkIfAllIsValid()) {
       this.isFormValid = true;
     }
@@ -357,6 +432,7 @@ export class ClasseListComponent implements OnInit {
       value: new SousClasse(),
       isNumberValid: false,
       isLabelValid: false,
+      plainNumber: '',
     }];
     this.randIds = 1;
     this.isFormValid = false;
