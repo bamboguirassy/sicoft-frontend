@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { TypeEntite } from 'app/parametrage/type_entite/type_entite';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, Validators } from '@angular/forms';
+import { read } from 'fs';
+import { ReadVarExpr } from '@angular/compiler';
 
 @Component({
     selector: 'app-user-profile-page',
@@ -19,8 +22,10 @@ export class UserProfilePageComponent implements OnInit {
     content1: any;
     showAlert: any;
     showAlert1: any;
-
-
+    selecetedFile : File = null;
+    imagePreview: any;
+    imageUrl: string = null;
+    fileToUpload: File = null;
     type_entites: TypeEntite[] = [];
     selectedTypeEntites: TypeEntite[];
     selectedTypeEntite: TypeEntite;
@@ -28,8 +33,10 @@ export class UserProfilePageComponent implements OnInit {
     // Variable Declaration
     currentPage = 'About';
 
+
     constructor(public authSrv: AuthService,
         public modalProfil: NgbModal,
+        public modalPhoto: NgbModal,
         public userSrv: UserService,
         public modalService: NgbModal, public activatedRoute: ActivatedRoute) { }
 
@@ -50,6 +57,9 @@ export class UserProfilePageComponent implements OnInit {
     toggle1Modal(content1) {
         this.modalService.open(content1, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
     }
+    toggleModalPhoto(contentPhoto) {
+        this.modalPhoto.open(contentPhoto, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+    }
     updatePassword() {
         this.showAlert = false;
         this.user.currentPassword = this.user.currentPassword;
@@ -65,7 +75,30 @@ export class UserProfilePageComponent implements OnInit {
                 error => this.userSrv.httpSrv.handleError(error));
     }
 
-     modalClose() {
+    onFileSelected(file: FileList){
+        this.fileToUpload = file.item(0);
+        var reader = new FileReader();
+        reader.onload = (event: any) => {
+            this.imageUrl = event.target.result;
+        }
+        reader.readAsDataURL(this.fileToUpload);
+               
+      };
+    
+
+    onUpload(){
+       this.userSrv.uploadFileProfil(this.fileToUpload)
+        .subscribe((data: any) => { 
+            console.log(data)
+        },error => this.userSrv.httpSrv.handleError(error)
+        );
+    }
+
+    modalClosePhoto() {
+            this.modalProfil.dismissAll('Cross click');
+    } 
+
+    modalClose() {
         this.modalProfil.dismissAll('Cross click');
     }
     modalClose1() {
@@ -80,11 +113,14 @@ export class UserProfilePageComponent implements OnInit {
   editProfilUser(modal: any) {
 
     this.showAlert1 = false;
+    this.user.photoUrl = this.user.photoUrl;
+    
         this.userSrv.editProfil(this.user).subscribe(
             (data: any) => {
                 this.userSrv.httpSrv.notificationSrv.showInfo('Utilisateur modifié avec succès');
                 this.showAlert1 = true;
                 this.modalClose1();
+                console.log(this.user);
             },
         error => this.userSrv.httpSrv.handleError(error));
 

@@ -1,4 +1,3 @@
-
 <section id="user-profile">
     <div class="row">
         <div class="col-12">
@@ -6,9 +5,12 @@
                 <div class="profil-cover-details row">
                     <div class="col-7">
                         <div class="media align-self-start text-left">
-                            <a class="profile-image">
+
+                            <button type="button" (click)="toggleModalPhoto(contentPhoto)" class="profile-image">
                                 <img src="assets/img/portrait/avatars/user.png" class="rounded-circle img-border gradient-summer width-150" alt="Profil image">
-                            </a>
+                                changer Photo
+                            </button>
+
                             <div class="media-body">
                                 <h3 class="mt-5 content-header">{{user?.username}} </h3>
                                 <p class="grey font-small-2"> Fonction </p>
@@ -16,12 +18,12 @@
                         </div>
                     </div>
                     <div class="col-5">
-                        
+
                         <div class="alert-success" *ngIf="showAlert">
                             <ngb-alert type="success" (close)="alertClose()">Mot de passe modifié avec succés</ngb-alert>
                         </div>
                         <div class="alert-success" *ngIf="showAlert1">
-                            <ngb-alert type="success" (close)="alertClose1()">Utilisateur modifié  avec succés</ngb-alert>
+                            <ngb-alert type="success" (close)="alertClose1()">Utilisateur modifié avec succés</ngb-alert>
                         </div>
                         <div class="profile-cover-buttons">
                             <div class="align-self-end">
@@ -35,7 +37,7 @@
                                 </div>
                             </div>
                             <!-- Modal modifier le profil -->
-                            
+
                         </div>
                     </div>
                 </div>
@@ -63,7 +65,7 @@
                             </ul>
                         </div>
                     </div>
-                   
+
 
                     <ng-template #content let-modal>
                         <p-toast></p-toast>
@@ -102,65 +104,92 @@
 
                         </form>
                     </ng-template>
-                    
-                                       <!-- Modal start -->
-<ng-template #content1 let-modal>
-        <p-toast></p-toast>
-        <form #profil="ngForm">
-            <div class="modal-header new-sous-class-header">
-                <h4 class="modal-title">Modifier Votre Profil</h4>
-                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="col-form-label form-control-label" for="code">prenom</label>
-                            <input required [(ngModel)]="user.prenom" class="form-control" type="text" name="prenom" id="prenom" />
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="col-form-label form-control-label" for="nom">Nom</label>
-                            <input required [(ngModel)]="user.nom" class="form-control" type="text" name="nom" id="nom" />
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="col-form-label form-control-label" for="telephone">Telephone</label>
-                           <p-inputMask required [(ngModel)]="user.telephone" styleClass="form-control" type="text"
-                           name="telephone" id="telephone" mask="99-999-99-99">
-                       </p-inputMask>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="col-form-label form-control-label" for="fonction">Fonction</label>
-                            <input required [(ngModel)]="user.fonction" class="form-control" type="text" name="fonction" id="fonction" />
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="col-form-label form-control-label" for="email">Email</label>
-                                <input disabled required [(ngModel)]="user.email" class="form-control" type="text" name="email" id="email" />
+
+                    <!-- Modal start -->
+                    <ng-template #content1 let-modal>
+                        <p-toast></p-toast>
+                        <form #profil="ngForm">
+                            <div class="modal-header new-sous-class-header">
+                                <h4 class="modal-title">Modifier Votre Profil</h4>
+                                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                        </div>
-                </div>
-                
-                
-                
-            </div>
-            <div class="modal-footer new-sous-class-footer">
-                <button [disabled]="profil.invalid" type="button" class="btn btn-outline-primary" (click)="editProfilUser(modal)">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label form-control-label" for="code">prenom</label>
+                                            <input required [(ngModel)]="user.prenom" class="form-control" type="text" name="prenom" id="prenom" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label form-control-label" for="nom">Nom</label>
+                                            <input required [(ngModel)]="user.nom" class="form-control" type="text" name="nom" id="nom" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label form-control-label" for="telephone">Telephone</label>
+                                            <p-inputMask required [(ngModel)]="user.telephone" styleClass="form-control" type="text" name="telephone" id="telephone" mask="99-999-99-99">
+                                            </p-inputMask>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label form-control-label" for="fonction">Fonction</label>
+                                            <input required [(ngModel)]="user.fonction" class="form-control" type="text" name="fonction" id="fonction" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label form-control-label" for="email">Email</label>
+                                            <input disabled required [(ngModel)]="user.email" class="form-control" type="text" name="email" id="email" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer new-sous-class-footer">
+                                <button [disabled]="profil.invalid" type="button" class="btn btn-outline-primary" (click)="editProfilUser(modal)">
                     Enregistrer
                 </button>
-            </div>
-        </form>
-    </ng-template>
-    <!-- Modal end -->
-                   
+                            </div>
+                        </form>
+                    </ng-template>
+                    <!-- Modal end -->
+                    <!-- Modal change photo -->
+                    <ng-template #contentPhoto let-modal>
+                        <p-toast></p-toast>
+                        <form #formPhoto="ngForm">
+                            <div class="modal-header new-sous-class-header">
+                                <h4 class="modal-title">Modifier Photo</h4>
+                                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input class="form-control" type="file" name="photoUrl" id="photoUrl" (change)="onFileSelected($event.target.files)" #selectFile />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <img [src]="imageUrl" style="width: 250px; height: 200px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer new-sous-class-footer">
+                                <button [disabled]="formPhoto.invalid" type="button" class="btn btn-outline-primary" (click)="onUpload()">Enregistrer</button>
+                            </div>
+                        </form>
+                    </ng-template>
+                    <!-- Modal change photo end -->
+
                 </div>
             </div>
         </div>
@@ -212,7 +241,7 @@
             </div>
         </div>
     </div>
-    
+
 </section>
 
 <section *ngIf="currentPage === 'Entity'">
@@ -295,4 +324,3 @@
         </tbody>
     </table>
 </section>
-
