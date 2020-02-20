@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from 'app/shared/services/http.service';
 import { User } from './user';
 import { of } from 'rxjs';
+import { userColumns } from './user.columns';
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +64,12 @@ export class UserService {
   updatePassword(user: User) {
     return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'password_update', user);
   }
+
   editProfil(user: User) {
     return this.httpSrv.put(this.getRoutePrefixWithSlash() + user.id + '/edit_profil', user);
+  }
+
+  uploadFileProfil(param: any) {
+    return this.httpSrv.put(this.getRoutePrefixWithSlash()+'change_image_profil', param);
   }
 }

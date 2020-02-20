@@ -18,6 +18,7 @@ export class User {
         fonction: string;
         entites: any;
         etatMarche: any;
+        photoUrl: any;
 
         // temp variable
         currentPassword: string;
