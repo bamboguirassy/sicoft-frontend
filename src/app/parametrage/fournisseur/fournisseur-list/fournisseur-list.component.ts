@@ -40,6 +40,7 @@ export class FournisseurListComponent implements OnInit {
 
   ngOnInit() {
     if (this.authSrv.checkShowAccess('Fournisseur')) {
+      // tslint:disable-next-line:max-line-length
       this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (_event) => this.viewFournisseur(this.selectedFournisseur) });
     }
     if (this.authSrv.checkEditAccess('Fournisseur')) {
@@ -49,6 +50,7 @@ export class FournisseurListComponent implements OnInit {
       this.cMenuItems.push({ label: 'Cloner', icon: 'pi pi-clone', command: (_event) => this.cloneFournisseur(this.selectedFournisseur) })
     }
     if (this.authSrv.checkDeleteAccess('Fournisseur')) {
+      // tslint:disable-next-line:max-line-length
       this.cMenuItems.push({ label: 'Supprimer', icon: 'pi pi-times', command: (_event) => this.deleteFournisseur(this.selectedFournisseur) })
     }
 
