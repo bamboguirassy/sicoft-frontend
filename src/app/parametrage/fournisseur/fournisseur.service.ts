@@ -39,9 +39,6 @@ export class FournisseurService {
   removeSelection(fournisseurs: Fournisseur[]) {
     return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', fournisseurs);
   }
-  findSecteursFourniseur(id: number) {
-    return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/secteurs_fournisseur');
-  }
 
   public getRoutePrefix(): string {
     return this.routePrefix;

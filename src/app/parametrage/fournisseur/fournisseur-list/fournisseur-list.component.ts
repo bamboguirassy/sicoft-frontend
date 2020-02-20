@@ -8,6 +8,7 @@ import { ExportService } from 'app/shared/services/export.service';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NotificationService } from 'app/shared/services/notification.service';
+import { SecteurService } from '../../secteur/secteur.service';
 
 
 @Component({
@@ -34,7 +35,9 @@ export class FournisseurListComponent implements OnInit {
 
 
   constructor(private activatedRoute: ActivatedRoute,
-    public fournisseurSrv: FournisseurService, public exportSrv: ExportService,
+    public fournisseurSrv: FournisseurService,
+    public secteurSrv: SecteurService,
+     public exportSrv: ExportService,
     private router: Router, public authSrv: AuthService,
     public notificationSrv: NotificationService) { }
 
@@ -57,6 +60,7 @@ export class FournisseurListComponent implements OnInit {
     this.fournisseurs = this.activatedRoute.snapshot.data['fournisseurs'];
     this.originalFournisseurs = this.activatedRoute.snapshot.data['fournisseurs'];
     this.allSecteurs = this.activatedRoute.snapshot.data['secteurs'];
+    this.getSector();
 
   }
 
@@ -118,6 +122,12 @@ export class FournisseurListComponent implements OnInit {
   handleSwitchChange() {
     this.filterProvidersBySectors(this.checkedSectors);
   }
+  getSector() {
+        this.secteurSrv.findSecteursFourniseur().subscribe(
+              (data: any) => {
+                      },
+          error => this.secteurSrv.httpSrv.handleError(error));
+    }
 
   filterProvidersBySectors(checkedSectors: any) {
     const tempFournisseurs = new Array();
@@ -160,5 +170,4 @@ export class FournisseurListComponent implements OnInit {
       }
     }
   }
-
 }
