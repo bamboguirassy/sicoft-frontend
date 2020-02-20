@@ -1,3 +1,4 @@
+import { CompteDivisionnaire } from './../compte_divisionnaire/compte_divisionnaire';
 import { Classe } from '../classe/classe';
 
 export class SousClasse {
@@ -6,5 +7,6 @@ export class SousClasse {
     libelle: string;
     description: string;
     classe: Classe;
+    compteDivisionnaires: CompteDivisionnaire[];
     type: string = 'sousClasse'; 
 }
