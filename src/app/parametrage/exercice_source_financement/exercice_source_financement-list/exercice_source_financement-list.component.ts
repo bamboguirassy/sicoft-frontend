@@ -205,7 +205,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
   createMultiple(tab_choiceDatas){
     let exerciceSouceFinancementItem: ExerciceSourceFinancement;
     let tempExercice = this.exerciceSouceFinancement.exercice;
-    let tempEntite = this.exerciceSouceFinancement.entite;;
+    let tempEntite = this.exerciceSouceFinancement.entite;
     this.exerciceSourceFinancements = [];
     tab_choiceDatas.forEach(element => {
       exerciceSouceFinancementItem = new ExerciceSourceFinancement();
@@ -248,8 +248,7 @@ updateExerciceSourceFinancement(exerciceSourceFin) {
 modalUpdateMontant(exerciceSourceFin){
   let tempExercice = exerciceSourceFin.exercice;
   let tempEntite = exerciceSourceFin.entite;
-  this.exerciceSouceFinancement.exercice = tempExercice.id;
-  this.exerciceSouceFinancement.entite = tempEntite.id;
+  
   Swal.fire({
       title: 'Saisir le nouveau montant',
       text: 'Source Financement: '+exerciceSourceFin.sourceFinancement.libelle+','+' Montant: '+exerciceSourceFin.montant,
@@ -262,6 +261,8 @@ modalUpdateMontant(exerciceSourceFin){
       if (result.value) {
         exerciceSourceFin.montant = result.value;
         this.updateExerciceSourceFinancement(exerciceSourceFin);
+        this.exerciceSouceFinancement.exercice = tempExercice.id;
+        this.exerciceSouceFinancement.entite = tempEntite.id;
         this.refreshList();
         this.exerciceSouceFinancement.exercice = tempExercice;
         this.exerciceSouceFinancement.entite = tempEntite;
