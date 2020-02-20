@@ -8,7 +8,7 @@ import { Group } from './group';
 })
 export class GroupService {
 
-  private routePrefix: string = 'group';
+  private routePrefix = 'group';
 
   constructor(public httpSrv: HttpService) { }
 
@@ -29,19 +29,19 @@ export class GroupService {
   }
 
   update(group: Group) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+group.id+'/edit', group);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + group.id + '/edit', group);
   }
 
   clone(original: Group, clone: Group) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+original.id+'/clone', clone);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + original.id + '/clone', clone);
   }
 
   remove(group: Group) {
-    return this.httpSrv.delete(this.getRoutePrefixWithSlash()+group.id);
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + group.id);
   }
 
   removeSelection(groups: Group[]) {
-    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',groups);
+    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', groups);
   }
 
   public getRoutePrefix(): string {
@@ -49,7 +49,7 @@ export class GroupService {
   }
 
   private getRoutePrefixWithSlash(): string {
-    return this.routePrefix+'/';
+    return this.routePrefix + '/';
   }
 
 }
