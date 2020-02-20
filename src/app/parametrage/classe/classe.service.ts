@@ -44,6 +44,10 @@ export class ClasseService {
     return this.httpSrv.get('sousClasse/' + id + '/classe/')
   }
 
+  deleteAfterConfirmation(classe: Classe) {
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + classe.id + '/confirm');
+  }
+
   public getRoutePrefix(): string {
     return this.routePrefix;
   }

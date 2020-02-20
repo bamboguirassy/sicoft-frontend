@@ -50,7 +50,8 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-                            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode" [ttContextMenuRow]="rowNode">
+                            <tr [ttRow]="rowNode" #rowNodeTemplate [ttSelectableRow]="rowNode"
+                                [ttContextMenuRow]="rowNode">
                                 <td ttEditableColumn>
                                     <p-treeTableCheckbox [value]="rowNode"></p-treeTableCheckbox>
                                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
@@ -94,98 +95,8 @@
                             </tr>
                         </ng-template>
                     </p-treeTable>
-
-                    <!-- <p-table #tt [value]="classes" [paginator]="true" [rows]="50" sortMode="multiple"
-                        selectionMode="multiple" [(selection)]="selectedClasses" [resizableColumns]="true"
-                        [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedClasse"
-                        [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
-                        <ng-template pTemplate="caption">
-                            Liste des classes<br>
-                            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                            <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
-                                (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
-                            <div class="ui-helper-clearfix" style="text-align: left">
-                                <button *ngIf="'Classe'|listable" type="button" pButton icon="pi pi-file-pdf"
-                                    iconPos="left" label="PDF" (click)="exportPdf()"
-                                    class="ui-button-warning pull-right ml-1"></button>
-                                <button *ngIf="'Classe'|listable" type="button" pButton icon="pi pi-file-excel"
-                                    iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;"
-                                    class="ui-button-success pull-right"></button>
-                            </div>
-                        </ng-template>
-                        <ng-template pTemplate="colgroup">
-                            <colgroup>
-                                <col>
-                                <col>
-                                <col>
-                                <col>
-                                <col>
-                                <col>
-                            </colgroup>
-                        </ng-template>
-                        <ng-template pTemplate="header">
-                            <tr>sudo sysctl -p --system
-                                <th style="width: 3em">
-                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                </th>
-                                <th [pSortableColumn]="'numero'" pResizableColumn>
-                                    Numero <p-sortIcon [field]="'numero'"></p-sortIcon>
-                                </th>
-                                <th [pSortableColumn]="'libelle'" pResizableColumn>
-                                    Libelle <p-sortIcon [field]="'libelle'"></p-sortIcon>
-                                </th>
-                                <th [pSortableColumn]="'description'" pResizableColumn>
-                                    Description <p-sortIcon [field]="'description'"></p-sortIcon>
-                                </th>
-                                <th [pSortableColumn]="'typeClasse'" pResizableColumn>
-                                    Type <p-sortIcon [field]="'typeClasse'"></p-sortIcon>
-                                </th>
-                                <th [pSortableColumn]="'categorieClasse'" pResizableColumn>
-                                    Catégorie <p-sortIcon [field]="'categorieClasse'"></p-sortIcon>
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-classe let-editing="editing">
-                            <tr [pEditableRow]="classe" [pSelectableRow]="classe" [pContextMenuRow]="classe">
-                                <td style="width: 3em">
-                                    <p-tableCheckbox [value]="classe"></p-tableCheckbox>
-                                </td>
-                                <td class="ui-resizable-column">
-                                    {{ classe.numero }}
-                                </td>
-                                <td class="ui-resizable-column">
-                                    {{ classe.libelle }}
-                                </td>
-                                <td class="ui-resizable-column">
-                                    {{ classe.description }}
-                                </td>
-                                <td class="ui-resizable-column">
-                                    {{ classe.typeClasse.nom }}
-                                </td>
-                                <td class="ui-resizable-column">
-                                    {{ classe.categorieClasse.nom }}
-                                </td>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="footer" let-columns>
-                            <tr>
-                                <td style="width: 3em">
-                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                </td>
-                                <td>Numero</td>
-                                <td>Libelle</td>
-                                <td>Description</td>
-                                <td>Type</td>
-                                <td>Catégorie</td>
-                            </tr>
-                        </ng-template>
-                    </p-table> -->
                     <p-contextMenu #contextMenu [model]="cMenuItems" (onShow)="pushAddButton()"></p-contextMenu>
                     <p-toolbar>
-                        <!-- <button *ngIf="'Classe'|deletable" (click)="deleteSelectedClasses()" type="button"
-                            class="btn btn-outline-danger mr-1">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
-                        </button> -->
                         <button *ngIf="'Classe'|creable" (click)="toggleAddModal()" type="button"
                             class="btn btn-outline-primary mr-1">
                             <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
@@ -223,16 +134,30 @@
                                 <tbody>
                                     <tr *ngFor="let item of inputObject">
                                         <th scope="row">
-                                            <input [(ngModel)]="item.value.numero" (input)="validNumber(item)"
-                                                [maxlength]="maxlength" class="form-control" type="text" name="numero"
-                                                id="numero">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text font-weight-bold" id="basic-addon1">
+                                                        {{selectedItem?.data.numero}} </span>
+                                                </div>
+                                                <input [class.is-valid]="item.isNumberValid && item?.plainNumber.length"
+                                                    [class.is-invalid]="!item.isNumberValid && item?.plainNumber.length"
+                                                    [(ngModel)]="item.plainNumber" (input)="validNumber(item)"
+                                                    minlength="1" [maxlength]="maxlength" class="form-control is-valid"
+                                                    type="text" name="numero" id="numero"
+                                                    placeholder="saisir le numero">
+                                            </div>
                                             <small class="text-danger"
-                                                *ngIf="!item.isNumberValid && item?.value?.numero">Attention le numéro
-                                                doit commencer par {{selectedItem?.data.numero}} </small>
+                                                *ngIf="!item.isNumberValid && item?.plainNumber">Veuillez
+                                                saisir
+                                                chiffre.</small>
+
                                         </th>
                                         <td>
-                                            <input [(ngModel)]="item.value.libelle" (input)="labelValidator(item)"
-                                                class="form-control" type="text" name="libelle" id="libelle">
+                                            <input [(ngModel)]="item.value.libelle"
+                                                [class.is-valid]="item.isLabelValid && item?.value?.libelle?.length"
+                                                [class.is-invalid]="!item.isLabelValid && item?.value?.libelle?.length"
+                                                (input)="labelValidator(item)" class="form-control" type="text"
+                                                name="libelle" id="libelle" placeholder="saisir le libelle">
                                         </td>
                                         <td>
                                             <button *ngIf="item.id!=0" (click)="removeInputItem(item.id)" type="button"
@@ -265,3 +190,32 @@
         </ng-template>
     </div>
 </div>
+<ng-template #deletionConfirm *ngIf="'Classe' | deletable" let-modal>
+    <div class="modal-header new-sous-class-header">
+        <h4 class="modal-title" id="modal-title">Confirmer la suppression</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>
+            <span class="font-weight-bold">Êtes vous sûr de vouloir supprimer
+                la {{ nativeType }} : <span class="text-primary"> {{ selectedItem.data.libelle }} </span> ?
+            </span></p>
+        <p>Tous ces éléments le seront aussi: </p>
+        <ul>
+            <li *ngFor="let item of childs" > {{ item.libelle }} </li>
+        </ul>
+        <p>
+            <span class="text-danger">Effectuer l'operation ?</span>
+        </p>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="dissmissModal('cancel click')">Annuler</button>
+        <button type="button" ngbAutofocus class="btn btn-outline-danger"
+            (click)="deleteItemAfterConfirmation(selectedItem)">
+            Ok</button>
+    </div>
+</ng-template>

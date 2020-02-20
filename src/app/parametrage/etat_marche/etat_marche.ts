@@ -1,3 +1,5 @@
+import { TypePassation } from '../type_passation/type_passation';
+
 export class EtatMarche {
     id?: any;
     code: string;
@@ -5,4 +7,5 @@ export class EtatMarche {
     description: string;
     etatSuivant: EtatMarche;
     users: any[];
+    typePassation: TypePassation;
 }

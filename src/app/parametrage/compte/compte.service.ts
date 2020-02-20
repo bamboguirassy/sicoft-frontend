@@ -48,8 +48,11 @@ export class CompteService {
     return this.routePrefix + '/';
   }
 
-
   findByCompteDivisionnaire(id: number) {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/compte-divisionnaire');
+  }
+
+  createMultiple(comptes: Compte[] ) {
+    return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple', comptes);
   }
 }

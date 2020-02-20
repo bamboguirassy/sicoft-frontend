@@ -1,5 +1,5 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Classe } from '../classe';
 import { ClasseService } from '../classe.service';
 import { NotificationService } from 'app/shared/services/notification.service';
@@ -18,6 +18,7 @@ export class ClasseNewComponent implements OnInit {
   classe: Classe;
   @Input() typeClasses: TypeClasse[] = [];
   @Input() categorieClasses: CategorieClasse[] = [];
+  @Output() onAddedClasse: EventEmitter<any> = new EventEmitter();
   types: SelectItem[];
   validNumero: boolean;
 
@@ -40,6 +41,7 @@ export class ClasseNewComponent implements OnInit {
     this.classe.categorieClasse = this.classe.categorieClasse.id;
     this.classeSrv.create(this.classe)
       .subscribe((data: any) => {
+        this.onAddedClasse.emit(data);
         this.notificationSrv.showInfo('Classe créé avec succès');
         this.classe = new Classe();
       }, error => {
@@ -58,4 +60,3 @@ export class ClasseNewComponent implements OnInit {
 
 
 }
-

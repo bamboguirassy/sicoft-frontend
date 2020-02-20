@@ -51,5 +51,8 @@ export class EtatMarcheService {
   fetchNotAddedUser(id: number): Observable<any> {
     return this.httpSrv.get(`${this.getRoutePrefix()}/${id}/users`);
   }
+  getEtatMarcheByTypePassation(id: number){
+    return this.httpSrv.get(this.getRoutePrefixWithSlash()+'etatMarche_by_typePassaton/' + id);
+  }
 
 }
