@@ -221,21 +221,12 @@ export class EtatMarcheListComponent implements OnInit {
   }
   
   getEtatMarcheByTypePassation(event){
-  let tempEatMarches = this.etat_marches;
-    this.typePassation = null;
-    
-    this.etat_marches = null;
     this.typePassation = event.value;
-    if (!this.typePassation){
-      this.etat_marches = tempEatMarches;
-    }
-    console.log(this.typePassation);
+    
     this.etat_marcheSrv.getEtatMarcheByTypePassation(this.typePassation.id)
     .subscribe((data:any) => 
     {
       this.etat_marches = data;
-      console.log(this.etat_marches);
     }), error => this.etat_marcheSrv.httpSrv.handleError(error);
-    //this.etat_marches = tempEatMarches;
   }
 }

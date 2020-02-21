@@ -9,7 +9,8 @@
               <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
             </button>
                         <!--filtre type de passation-->
-                        <p-dropdown class="btn btn-outline-secondary pull-center ml-5" [options]="typePassations" [(ngModel)]="typePassation" (onChange)="getEtatMarcheByTypePassation($event)" placeholder="Filtre par type de passation" optionLabel="libelle" [showClear]="true"></p-dropdown>
+                        <p-dropdown *ngIf="'EtatMarche'|listable" name="typePassation" class="btn btn-outline-secondary pull-center ml-5" [options]="typePassations" [(ngModel)]="typePassation" (onChange)="getEtatMarcheByTypePassation($event)" placeholder="Filtre par type de passation"
+                            optionLabel="libelle" [showClear]="true"></p-dropdown>
                         <button *ngIf="'EtatMarche'|deletable" (click)="deleteSelectedEtatMarches()" type="button" class="btn btn-outline-danger pull-right ml-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
             </button>
@@ -107,17 +108,17 @@
         </p-fieldset>
     </div>
 </div>
-
+<!--
 <div class="row mt-3" *ngIf="etat_marches && 'EtatMarche'|listable">
     <div class="col-sm-12 col-md-12 col-lg-12">
         <p-card>
             <div class="prog-buttons mb-3 mt-2">
                 <button type="button" pButton icon="pi pi-chevron-up" (click)="openPrev()"></button>&nbsp;
                 <button type="button" pButton icon="pi pi-chevron-down" (click)="openNext()"></button>
-            </div>
+            </div>-->
 
-            <!--      <mui-org-chart [topEmployee]="topEmployee" direction="vertical"></mui-org-chart>-->
-
+<!--      <mui-org-chart [topEmployee]="topEmployee" direction="vertical"></mui-org-chart>-->
+<!--
             <p-accordion (onOpen)="fetchNextStates($event)" [activeIndex]="index">
                 <p-accordionTab *ngFor="let etat_marche of etat_marches" header="{{etat_marche?.libelle}}">
                     <p-breadcrumb [model]="items" [home]="info"></p-breadcrumb>
@@ -204,4 +205,4 @@
 
         </ng-template>
     </div>
-</div>
+</div>-->
