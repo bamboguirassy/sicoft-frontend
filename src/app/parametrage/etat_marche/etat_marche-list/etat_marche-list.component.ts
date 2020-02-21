@@ -221,6 +221,10 @@ export class EtatMarcheListComponent implements OnInit {
   }
   
   getEtatMarcheByTypePassation(event){
+    if(event.value == null){
+      this.etat_marcheSrv.findAll()
+      .subscribe((data: any) => this.etat_marches = data, error => this.etat_marcheSrv.httpSrv.handleError(error));
+    } else{
     this.typePassation = event.value;
     
     this.etat_marcheSrv.getEtatMarcheByTypePassation(this.typePassation.id)
@@ -229,4 +233,5 @@ export class EtatMarcheListComponent implements OnInit {
       this.etat_marches = data;
     }), error => this.etat_marcheSrv.httpSrv.handleError(error);
   }
+}
 }
