@@ -16,14 +16,18 @@ export class EtatMarcheCloneComponent implements OnInit {
   original: EtatMarche;
   etats: EtatMarche[];
   typePassations: TypePassation[] = [];
+  typePassation: TypePassation;
   constructor(public etat_marcheSrv: EtatMarcheService, public location: Location,
     public activatedRoute: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
+    this.typePassations = this.activatedRoute.snapshot.data['typePassations']
     this.original = this.activatedRoute.snapshot.data['etat_marche'];
     this.etat_marche = Object.assign({}, this.original);
     this.etat_marche.id = null;
-    this.etats = this.activatedRoute.snapshot.data['etats'];
+    //this.etats = this.activatedRoute.snapshot.data['etats'];
+    this.getEtatMarcheByTypePassation(this.original.typePassation);
+    
   }
 
   cloneEtatMarche() {
@@ -49,5 +53,24 @@ export class EtatMarcheCloneComponent implements OnInit {
         this.etat_marcheSrv.httpSrv.handleError(error);
       });
   }
+
+  getEtatMarcheByTypePassation(event){
+    if(event == null){
+      this.etat_marcheSrv.findAll()
+      .subscribe((data: any) => this.etats = data, error => this.etat_marcheSrv.httpSrv.handleError(error));
+    } else{
+      let tempTypePassation = null;
+    this.typePassation = event;
+    tempTypePassation = this.typePassation;
+    
+    this.etat_marcheSrv.getEtatMarcheByTypePassation(this.typePassation.id)
+    .subscribe((data:any) => 
+    {
+      this.etats = data;
+    }), error => {
+      this.typePassation = tempTypePassation;
+      this.etat_marcheSrv.httpSrv.handleError(error)};
+  }
+}
 
 }

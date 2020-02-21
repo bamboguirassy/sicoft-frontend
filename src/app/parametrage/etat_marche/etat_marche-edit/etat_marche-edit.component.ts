@@ -20,6 +20,7 @@ export class EtatMarcheEditComponent implements OnInit {
   etat_marche: EtatMarche;
   etats: EtatMarche[];
   typePassations: TypePassation[] = [];
+  typePassation: TypePassation;
 
   constructor(public etat_marcheSrv: EtatMarcheService,
     public activatedRoute: ActivatedRoute,
@@ -31,7 +32,8 @@ export class EtatMarcheEditComponent implements OnInit {
     this.typePassations = this.activatedRoute.snapshot.data['typePassations'];
     this.etat_marche = this.activatedRoute.snapshot.data['etat_marche'];
     this.etats = this.activatedRoute.snapshot.data['etats'];
-    this.etats = this.etats.filter(etat => etat.id !== this.etat_marche.id);
+    //this.etats = this.etats.filter(etat => etat.id !== this.etat_marche.id);
+    this.getEtatMarcheByTypePassation(this.etat_marche.typePassation);
   }
 
   updateEtatMarche() {
@@ -53,5 +55,24 @@ export class EtatMarcheEditComponent implements OnInit {
           this.etat_marcheSrv.httpSrv.handleError(error);
         });
   }
+
+  getEtatMarcheByTypePassation(event){
+    if(event == null){
+      this.etat_marcheSrv.findAll()
+      .subscribe((data: any) => this.etats = data, error => this.etat_marcheSrv.httpSrv.handleError(error));
+    } else{
+      let tempTypePassation = null;
+    this.typePassation = event;
+    tempTypePassation = this.typePassation;
+    
+    this.etat_marcheSrv.getEtatMarcheByTypePassation(this.typePassation.id)
+    .subscribe((data:any) => 
+    {
+      this.etats = data;
+    }), error => {
+      this.typePassation = tempTypePassation;
+      this.etat_marcheSrv.httpSrv.handleError(error)};
+  }
+}
 
 }
