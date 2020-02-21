@@ -14,7 +14,7 @@ const fournisseurRoutes: Route = {
     {
       path: '',
       component: FournisseurListComponent,
-      resolve: { 
+      resolve: {
         fournisseurs: MultipleFournisseurResolver,
         secteurs: MultipleSecteurResolver,
        }

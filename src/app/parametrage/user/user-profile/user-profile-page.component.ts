@@ -22,7 +22,7 @@ export class UserProfilePageComponent implements OnInit {
     content1: any;
     showAlert: any;
     showAlert1: any;
-    selecetedFile : File = null;
+    selecetedFile: File = null;
     imagePreview: any;
     imageUrl: string = null;
     fileToUpload: File = null;
@@ -75,9 +75,9 @@ export class UserProfilePageComponent implements OnInit {
                 error => this.userSrv.httpSrv.handleError(error));
     }
 
-    onFileSelected(file: FileList){
+    onFileSelected(file: FileList) {
         this.fileToUpload = file.item(0);
-        var reader = new FileReader();
+        const reader = new FileReader();
         reader.onload = (event: any) => {
             this.imageUrl = event.target.result;
         }

@@ -8,7 +8,7 @@ import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserShowComponent } from './user/user-show/user-show.component';
 import { TableModule } from 'primeng/table';
 import {
-  ContextMenuModule,PickListModule,DialogModule,
+  ContextMenuModule, PickListModule, DialogModule,
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
   ToolbarModule, TabViewModule,
@@ -23,6 +23,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ChipsModule } from 'primeng/chips';
 import { TreeTableModule } from 'primeng/treetable';
+import {PasswordModule} from 'primeng/password';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { GroupCloneComponent } from './group/group-clone/group-clone.component';
 import { GroupEditComponent } from './group/group-edit/group-edit.component';
@@ -79,10 +80,15 @@ import { FournisseurEditComponent } from './fournisseur/fournisseur-edit/fournis
 import { FournisseurListComponent } from './fournisseur/fournisseur-list/fournisseur-list.component';
 import { FournisseurNewComponent } from './fournisseur/fournisseur-new/fournisseur-new.component';
 import { FournisseurShowComponent } from './fournisseur/fournisseur-show/fournisseur-show.component';
+// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementCloneComponent } from './type_source_financement/type_source_financement-clone/type_source_financement-clone.component';
+// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementEditComponent } from './type_source_financement/type_source_financement-edit/type_source_financement-edit.component';
+// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementListComponent } from './type_source_financement/type_source_financement-list/type_source_financement-list.component';
+// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementNewComponent } from './type_source_financement/type_source_financement-new/type_source_financement-new.component';
+// tslint:disable-next-line:max-line-length
 import { TypeSourceFinancementShowComponent } from './type_source_financement/type_source_financement-show/type_source_financement-show.component';
 import { SourceFinancementCloneComponent } from './source_financement/source_financement-clone/source_financement-clone.component';
 import { SourceFinancementEditComponent } from './source_financement/source_financement-edit/source_financement-edit.component';
@@ -111,10 +117,15 @@ import { SousClasseEditComponent } from './sous_classe/sous_classe-edit/sous_cla
 import { SousClasseListComponent } from './sous_classe/sous_classe-list/sous_classe-list.component';
 import { SousClasseShowComponent } from './sous_classe/sous_classe-show/sous_classe-show.component';
 import { SousClasseNewComponent } from './sous_classe/sous_classe-new/sous_classe-new.component';
+// tslint:disable-next-line:max-line-length
 import { ExerciceSourceFinancementCloneComponent } from './exercice_source_financement/exercice_source_financement-clone/exercice_source_financement-clone.component';
+// tslint:disable-next-line:max-line-length
 import { ExerciceSourceFinancementEditComponent } from './exercice_source_financement/exercice_source_financement-edit/exercice_source_financement-edit.component';
+// tslint:disable-next-line:max-line-length
 import { ExerciceSourceFinancementListComponent } from './exercice_source_financement/exercice_source_financement-list/exercice_source_financement-list.component';
+// tslint:disable-next-line:max-line-length
 import { ExerciceSourceFinancementNewComponent } from './exercice_source_financement/exercice_source_financement-new/exercice_source_financement-new.component';
+// tslint:disable-next-line:max-line-length
 import { ExerciceSourceFinancementShowComponent } from './exercice_source_financement/exercice_source_financement-show/exercice_source_financement-show.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
@@ -247,7 +258,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ConfirmDialogModule,
     PickListModule,
     DialogModule,
-    TreeTableModule
+    TreeTableModule,
+    PasswordModule
   ]
 })
 export class ParametrageModule {}

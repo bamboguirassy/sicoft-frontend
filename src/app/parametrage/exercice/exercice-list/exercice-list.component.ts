@@ -114,7 +114,7 @@ export class ExerciceListComponent implements OnInit {
         this.exercicePrecedent = data;
         this.confirmation = true;
         this.toggleConfirmModal(this.modalContentRef);
-      }, 
+      },
       error => {
         if (error.error.code === 404) {
           this.confirmation = false;

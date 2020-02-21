@@ -8,7 +8,7 @@ import { Fournisseur } from './fournisseur';
 })
 export class FournisseurService {
 
-  private routePrefix: string = 'fournisseur';
+  private routePrefix = 'fournisseur';
 
   constructor(public httpSrv: HttpService) { }
 
@@ -25,19 +25,19 @@ export class FournisseurService {
   }
 
   update(fournisseur: Fournisseur) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+fournisseur.id+'/edit', fournisseur);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + fournisseur.id + '/edit', fournisseur);
   }
 
   clone(original: Fournisseur, clone: Fournisseur) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+original.id+'/clone', clone);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + original.id + '/clone', clone);
   }
 
   remove(fournisseur: Fournisseur) {
-    return this.httpSrv.delete(this.getRoutePrefixWithSlash()+fournisseur.id);
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + fournisseur.id);
   }
 
   removeSelection(fournisseurs: Fournisseur[]) {
-    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',fournisseurs);
+    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', fournisseurs);
   }
 
   public getRoutePrefix(): string {
