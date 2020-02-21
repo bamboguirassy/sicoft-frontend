@@ -1,4 +1,4 @@
-<p-toast></p-toast>
+<p-toast auto ></p-toast>
 <div class="row" *ngIf="'Classe'|listable">
     <div class="col-sm-12 col-md-12 col-lg-12">
         <p-fieldset legend="Liste des classes" [toggleable]="true">
@@ -25,6 +25,7 @@
                         sortMode="multiple" [globalFilterFields]="globalFilterFields" [(selection)]="selectedClasses"
                         dataKey="numero" selectionMode="checkbox" [contextMenu]="contextMenu"
                         [(contextMenuSelection)]="selectedItem" [loading]="loading"
+                        (onEditComplete)="update($event)"
                         (onNodeExpand)="onNodeExpand($event)">
                         <ng-template pTemplate="caption">
                             PLAN DES COMPTES ET ETATS FINANCIERS
@@ -52,10 +53,10 @@
                         <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
                             <tr [ttRow]="rowNode" #rowNodeTemplate [ttSelectableRow]="rowNode"
                                 [ttContextMenuRow]="rowNode">
-                                <td ttEditableColumn>
+                                <td [ttEditableColumn]="rowData" >
                                     <p-treeTableCheckbox [value]="rowNode"></p-treeTableCheckbox>
                                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                                    <p-treeTableCellEditor>
+                                    <p-treeTableCellEditor >
                                         <ng-template pTemplate="input">
                                             <input type="number" [(ngModel)]="rowData.numero">
                                         </ng-template>
@@ -64,7 +65,7 @@
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
-                                <td ttEditableColumn>
+                                <td [ttEditableColumn]="rowData">
                                     <p-treeTableCellEditor>
                                         <ng-template pTemplate="input">
                                             <input class="form-control" type="text" [(ngModel)]="rowData.libelle">
@@ -74,7 +75,7 @@
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
-                                <td ttEditableColumn>
+                                <td [ttEditableColumn]="rowData">
                                     <p-treeTableCellEditor>
                                         <ng-template pTemplate="input">
                                             <textarea class="form-control" type="text"
@@ -95,7 +96,7 @@
                             </tr>
                         </ng-template>
                     </p-treeTable>
-                    <p-contextMenu #contextMenu [model]="cMenuItems" (onShow)="pushAddButton()"></p-contextMenu>
+                    <p-contextMenu #contextMenu [model]="cMenuItems" (onShow)="toggleContextMenu()"></p-contextMenu>
                     <p-toolbar>
                         <button *ngIf="'Classe'|creable" (click)="toggleAddModal()" type="button"
                             class="btn btn-outline-primary mr-1">
@@ -201,16 +202,8 @@
     <div class="modal-body">
         <p>
             <span class="font-weight-bold">Êtes vous sûr de vouloir supprimer
-                la {{ nativeType }} : <span class="text-primary"> {{ selectedItem.data.libelle }} </span> ?
+            {{ nativeType }} : <span class="text-primary"> {{ selectedItem.data.libelle }} </span> ?
             </span></p>
-        <p>Tous ces éléments le seront aussi: </p>
-        <ul>
-            <li *ngFor="let item of childs" > {{ item.libelle }} </li>
-        </ul>
-        <p>
-            <span class="text-danger">Effectuer l'operation ?</span>
-        </p>
-
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" (click)="dissmissModal('cancel click')">Annuler</button>
