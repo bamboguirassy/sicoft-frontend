@@ -11,7 +11,7 @@ import { MultipleTypePassationResolver } from '../type_passation/multiple-type_p
 const etat_marcheRoutes: Route = {
     path: 'etatMarche', children: [
         { path: '', component: EtatMarcheListComponent, resolve: { etat_marches: MultipleEtatMarcheResolver, typePassations: MultipleTypePassationResolver } },
-        { path: 'new', component: EtatMarcheNewComponent, resolve: { etats: MultipleEtatMarcheResolver } },
+        { path: 'new', component: EtatMarcheNewComponent, resolve: { etats: MultipleEtatMarcheResolver, typePassations: MultipleTypePassationResolver } },
         { path: ':id/edit', component: EtatMarcheEditComponent, resolve: { etat_marche: OneEtatMarcheResolver, etats: MultipleEtatMarcheResolver } },
         { path: ':id/clone', component: EtatMarcheCloneComponent, resolve: { etat_marche: OneEtatMarcheResolver, etats: MultipleEtatMarcheResolver } },
         { path: ':id', component: EtatMarcheShowComponent, resolve: { etat_marche: OneEtatMarcheResolver } }
