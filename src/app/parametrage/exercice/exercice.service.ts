@@ -8,7 +8,7 @@ import { Exercice } from './exercice';
 })
 export class ExerciceService {
 
-  private routePrefix: string = 'exercice';
+  private routePrefix = 'exercice';
 
   constructor(public httpSrv: HttpService) { }
 

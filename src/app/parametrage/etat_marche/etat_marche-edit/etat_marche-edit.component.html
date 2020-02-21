@@ -1,58 +1,61 @@
 <p-toast></p-toast>
 <!-- form etat_marche info -->
-<form *ngIf="'EtatMarche'|editable" class="form" role="form" #etat_marcheForm="ngForm" autocomplete="off"
-  (ngSubmit)="updateEtatMarche()">
-  <p-fieldset legend="Modification Etat Marche" [toggleable]="true">
-    <p-toolbar>
-      <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
+<form *ngIf="'EtatMarche'|editable" class="form" role="form" #etat_marcheForm="ngForm" autocomplete="off" (ngSubmit)="updateEtatMarche()">
+    <p-fieldset legend="Modification Etat Marche" [toggleable]="true">
+        <p-toolbar>
+            <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
           class="fa fa-eraser" aria-hidden="true"></i>
         Retour</button>
-      <button [disabled]="etat_marcheForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
+            <button [disabled]="etat_marcheForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
         <i class="fa fa-edit" aria-hidden="true"></i>
         Enregistrer</button>
-    </p-toolbar>
-    <!-- debut body -->
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="col-form-label form-control-label" for="code">Code</label>
-          <input [(ngModel)]="etat_marche.code" class="form-control" type="text" name="code" id="code">
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-          <input [(ngModel)]="etat_marche.libelle" class="form-control" type="text" name="libelle" id="libelle">
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="col-form-label form-control-label" for="description">Description</label>
-          <input [(ngModel)]="etat_marche.description" class="form-control" type="text" name="description"
-            id="description">
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="form-group">
-            <label class="col-form-label form-control-label" for="etat">Etat Suivant</label>
-            <ng-select name="entiteParent" [items]="etats" bindLabel="libelle"
-                placeholder="Selectionner etat suivant" appendTo="body" [multiple]="false" [searchable]="true"
-                [(ngModel)]="etat_marche.etatSuivant">
-            </ng-select>
-        </div>
-    </div>
+        </p-toolbar>
+        <!-- debut body -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="typePassation">Type passation</label>
+                    <ng-select name="typePassation" [items]="typePassations" bindLabel="libelle" placeholder="Selectionner type passation" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="etat_marche.typePassation">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
+                    <input [(ngModel)]="etat_marche.libelle" class="form-control" type="text" name="libelle" id="libelle">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="code">Code</label>
+                    <input [(ngModel)]="etat_marche.code" class="form-control" type="text" name="code" id="code">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="description">Description</label>
+                    <input [(ngModel)]="etat_marche.description" class="form-control" type="text" name="description" id="description">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="etat">Etat Suivant</label>
+                    <ng-select name="entiteParent" [items]="etats" bindLabel="libelle" placeholder="Selectionner etat suivant" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="etat_marche.etatSuivant">
+                    </ng-select>
+                </div>
+            </div>
 
 
-    </div>
-    <!-- fin body -->
-    <p-toolbar>
-      <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
+        </div>
+        <!-- fin body -->
+        <p-toolbar>
+            <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
           class="fa fa-eraser" aria-hidden="true"></i>
         Retour</button>
-      <button [disabled]="etat_marcheForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
+            <button [disabled]="etat_marcheForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
         <i class="fa fa-edit" aria-hidden="true"></i>
         Enregistrer</button>
-    </p-toolbar>
-  </p-fieldset>
+        </p-toolbar>
+    </p-fieldset>
 </form>
 <!-- /form etat_marche info -->

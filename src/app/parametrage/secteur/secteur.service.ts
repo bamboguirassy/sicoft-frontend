@@ -8,7 +8,7 @@ import { Secteur } from './secteur';
 })
 export class SecteurService {
 
-  private routePrefix: string = 'secteur';
+  private routePrefix = 'secteur';
 
   constructor(public httpSrv: HttpService) { }
 
@@ -25,19 +25,22 @@ export class SecteurService {
   }
 
   update(secteur: Secteur) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+secteur.id+'/edit', secteur);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + secteur.id + '/edit', secteur);
   }
 
   clone(original: Secteur, clone: Secteur) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+original.id+'/clone', clone);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + original.id + '/clone', clone);
   }
 
   remove(secteur: Secteur) {
-    return this.httpSrv.delete(this.getRoutePrefixWithSlash()+secteur.id);
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + secteur.id);
   }
 
   removeSelection(secteurs: Secteur[]) {
-    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',secteurs);
+    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', secteurs);
+  }
+  findSecteursFourniseur() {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + 'secteurs_fournisseur');
   }
 
   public getRoutePrefix(): string {
@@ -45,7 +48,7 @@ export class SecteurService {
   }
 
   private getRoutePrefixWithSlash(): string {
-    return this.routePrefix+'/';
+    return this.routePrefix + '/';
   }
 
 }

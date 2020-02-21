@@ -9,6 +9,7 @@ import { ExportService } from 'app/shared/services/export.service';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NotificationService } from 'app/shared/services/notification.service';
+import { TypePassation } from 'app/parametrage/type_passation/type_passation';
 
 
 
@@ -20,6 +21,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 export class EtatMarcheListComponent implements OnInit {
   index: number = 0;
   etat_marches: EtatMarche[] = [];
+  typePassations: TypePassation[] = [];
   selectedEtatMarches: EtatMarche[];
   selectedEtatMarche: EtatMarche;
   selectedUser: any[];
@@ -29,6 +31,7 @@ export class EtatMarcheListComponent implements OnInit {
   info: MenuItem;
   alert: any = null;
   loading: Boolean = false;
+  typePassation: TypePassation;
   @ViewChild('content', { static: false }) public modalContentRef: TemplateRef<any>;
 
 
@@ -47,6 +50,8 @@ export class EtatMarcheListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.typePassations = this.activatedRoute.snapshot.data['typePassations'];
+    
     if (this.authSrv.checkShowAccess('EtatMarche')) {
       // tslint:disable-next-line:max-line-length
       this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewEtatMarche(this.selectedEtatMarche) });
@@ -214,4 +219,19 @@ export class EtatMarcheListComponent implements OnInit {
     this.alert = null;
     this.loading = false;
   }
+  
+  getEtatMarcheByTypePassation(event){
+    if(event.value == null){
+      this.etat_marcheSrv.findAll()
+      .subscribe((data: any) => this.etat_marches = data, error => this.etat_marcheSrv.httpSrv.handleError(error));
+    } else{
+    this.typePassation = event.value;
+    
+    this.etat_marcheSrv.getEtatMarcheByTypePassation(this.typePassation.id)
+    .subscribe((data:any) => 
+    {
+      this.etat_marches = data;
+    }), error => this.etat_marcheSrv.httpSrv.handleError(error);
+  }
+}
 }

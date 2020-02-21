@@ -8,7 +8,7 @@ import { Compte } from './compte';
 })
 export class CompteService {
 
-  private routePrefix: string = 'compte';
+  private routePrefix = 'compte';
 
   constructor(public httpSrv: HttpService) { }
 
@@ -25,19 +25,19 @@ export class CompteService {
   }
 
   update(compte: Compte) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+compte.id+'/edit', compte);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + compte.id + '/edit', compte);
   }
 
   clone(original: Compte, clone: Compte) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+original.id+'/clone', clone);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + original.id + '/clone', clone);
   }
 
   remove(compte: Compte) {
-    return this.httpSrv.delete(this.getRoutePrefixWithSlash()+compte.id);
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + compte.id);
   }
 
   removeSelection(comptes: Compte[]) {
-    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',comptes);
+    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', comptes);
   }
 
   public getRoutePrefix(): string {

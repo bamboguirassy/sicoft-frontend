@@ -1,210 +1,209 @@
 <p-toast></p-toast>
 <div class="row" *ngIf="'EtatMarche'|listable">
-  <div class="col-sm-12 col-md-12 col-lg-12">
-    <p-fieldset legend="Liste des Etat Marches" [toggleable]="true">
-      <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-          <p-toolbar>
-            <button *ngIf="'EtatMarche'|listable" type="button" class="btn btn-outline-secondary"
-              (click)="refreshList()">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <p-fieldset legend="Liste des Etat Marches" [toggleable]="true">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <p-toolbar>
+                        <button *ngIf="'EtatMarche'|listable" type="button" class="btn btn-outline-secondary" (click)="refreshList()">
               <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
             </button>
-            <button *ngIf="'EtatMarche'|deletable" (click)="deleteSelectedEtatMarches()" type="button"
-              class="btn btn-outline-danger pull-right ml-1">
+                        <!--filtre type de passation-->
+                        <p-dropdown *ngIf="'EtatMarche'|listable" name="typePassation" class="btn btn-outline-secondary pull-center ml-5" [options]="typePassations" [(ngModel)]="typePassation" (onChange)="getEtatMarcheByTypePassation($event)" placeholder="Filtre par type de passation"
+                            optionLabel="libelle" [showClear]="true"></p-dropdown>
+                        <button *ngIf="'EtatMarche'|deletable" (click)="deleteSelectedEtatMarches()" type="button" class="btn btn-outline-danger pull-right ml-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
             </button>
-            <button *ngIf="'EtatMarche'|creable" [routerLink]="['/'+etat_marcheSrv.getRoutePrefix(),'new']"
-              routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
+                        <button *ngIf="'EtatMarche'|creable" [routerLink]="['/'+etat_marcheSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
               <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
             </button>
-          </p-toolbar>
-          <p-table #tt [value]="etat_marches" [paginator]="true" [rows]="50" sortMode="multiple"
-            selectionMode="multiple" [(selection)]="selectedEtatMarches" [resizableColumns]="true" [responsive]="true"
-            [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedEtatMarche" [scrollable]="true"
-            scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
-            <ng-template pTemplate="caption">
-              Liste des Etat Marches<br>
-              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-              <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
-                (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
-              <div class="ui-helper-clearfix" style="text-align: left">
-                <button *ngIf="'EtatMarche'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left"
-                  label="PDF" (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>
-                <button *ngIf="'EtatMarche'|listable" type="button" pButton icon="pi pi-file-excel" iconPos="left"
-                  label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;"
-                  class="ui-button-success pull-right"></button>
-              </div>
-            </ng-template>
-            <ng-template pTemplate="colgroup">
-              <colgroup>
-                <col>
-                <col>
-                <col>
-              </colgroup>
-            </ng-template>
-            <ng-template pTemplate="header">
-              <tr>
-                <th style="width: 3em">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
-                <th [pSortableColumn]="'code'" pResizableColumn>
-                  Code <p-sortIcon [field]="'code'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'libelle'" pResizableColumn>
-                  Libelle <p-sortIcon [field]="'libelle'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'description'" pResizableColumn>
-                  Description <p-sortIcon [field]="'description'"></p-sortIcon>
-                </th>
-                <th [pSortableColumn]="'etatSuivant'" pResizableColumn>
-                  Etat Suivant <p-sortIcon [field]="'etatSuivant'"></p-sortIcon>
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-etat_marche let-editing="editing">
-              <tr [pEditableRow]="etat_marche" [pSelectableRow]="etat_marche" [pContextMenuRow]="etat_marche">
-                <td style="width: 3em">
-                  <p-tableCheckbox [value]="etat_marche"></p-tableCheckbox>
-                </td>
-                <td class="ui-resizable-column">
-                  {{ etat_marche.code }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ etat_marche.libelle }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ etat_marche?.description }}
-                </td>
-                <td class="ui-resizable-column">
-                  {{ etat_marche?.etatSuivant?.libelle }}
-                </td>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="footer" let-columns>
-              <tr>
-                <td style="width: 3em">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </td>
-                <td>Code</td>
-                <td>Libelle</td>
-                <td>Description</td>
-                <td>Etat Suivant</td>
-              </tr>
-            </ng-template>
-          </p-table>
-          <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
-          <p-toolbar>
-            <button *ngIf="'EtatMarche'|deletable" (click)="deleteSelectedEtatMarches()" type="button"
-              class="btn btn-outline-danger mr-1">
+                    </p-toolbar>
+                    <p-table #tt [value]="etat_marches" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedEtatMarches" [resizableColumns]="true" [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedEtatMarche"
+                        [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
+                        <ng-template pTemplate="caption">
+
+                            Liste des Etat Marches<br>
+                            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                            <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+
+
+
+                            <div class="ui-helper-clearfix" style="text-align: left">
+                                <button *ngIf="'EtatMarche'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>
+                                <button *ngIf="'EtatMarche'|listable" type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="colgroup">
+                            <colgroup>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3em">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+                                <th [pSortableColumn]="'code'" pResizableColumn>
+                                    Code
+                                    <p-sortIcon [field]="'code'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'libelle'" pResizableColumn>
+                                    Libelle
+                                    <p-sortIcon [field]="'libelle'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'description'" pResizableColumn>
+                                    Description
+                                    <p-sortIcon [field]="'description'"></p-sortIcon>
+                                </th>
+                                <th [pSortableColumn]="'etatSuivant'" pResizableColumn>
+                                    Etat Suivant
+                                    <p-sortIcon [field]="'etatSuivant'"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-etat_marche let-editing="editing">
+                            <tr [pEditableRow]="etat_marche" [pSelectableRow]="etat_marche" [pContextMenuRow]="etat_marche">
+                                <td style="width: 3em">
+                                    <p-tableCheckbox [value]="etat_marche"></p-tableCheckbox>
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ etat_marche.code }}
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ etat_marche.libelle }}
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ etat_marche?.description }}
+                                </td>
+                                <td class="ui-resizable-column">
+                                    {{ etat_marche?.etatSuivant?.libelle }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="footer" let-columns>
+                            <tr>
+                                <td style="width: 3em">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </td>
+                                <td>Code</td>
+                                <td>Libelle</td>
+                                <td>Description</td>
+                                <td>Etat Suivant</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
+                    <p-toolbar>
+                        <button *ngIf="'EtatMarche'|deletable" (click)="deleteSelectedEtatMarches()" type="button" class="btn btn-outline-danger mr-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
             </button>
-            <button *ngIf="'EtatMarche'|creable" [routerLink]="['/'+etat_marcheSrv.getRoutePrefix(),'new']"
-              routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
+                        <button *ngIf="'EtatMarche'|creable" [routerLink]="['/'+etat_marcheSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
               <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
             </button>
-          </p-toolbar>
-        </div>
-      </div>
-    </p-fieldset>
-  </div>
+                    </p-toolbar>
+                </div>
+            </div>
+        </p-fieldset>
+    </div>
 </div>
 
-<div class="row mt-3" *ngIf="etat_marches && 'EtatMarche'|listable">
-  <div class="col-sm-12 col-md-12 col-lg-12">
-    <p-card>
-      <div class="prog-buttons mb-3 mt-2">
-        <button type="button" pButton icon="pi pi-chevron-up" (click)="openPrev()"></button>&nbsp;
-        <button type="button" pButton icon="pi pi-chevron-down" (click)="openNext()"></button>
-      </div>
+<!--div class="row mt-3" *ngIf="etat_marches && 'EtatMarche'|listable">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <p-card>
+            <div class="prog-buttons mb-3 mt-2">
+                <button type="button" pButton icon="pi pi-chevron-up" (click)="openPrev()"></button>&nbsp;
+                <button type="button" pButton icon="pi pi-chevron-down" (click)="openNext()"></button>
+            </div>
 
-      <!--      <mui-org-chart [topEmployee]="topEmployee" direction="vertical"></mui-org-chart>-->
+                 <mui-org-chart [topEmployee]="topEmployee" direction="vertical"></mui-org-chart>
 
-      <p-accordion (onOpen)="fetchNextStates($event)" [activeIndex]="index">
-        <p-accordionTab *ngFor="let etat_marche of etat_marches" header="{{etat_marche?.libelle}}">
-          <p-breadcrumb [model]="items" [home]="info"></p-breadcrumb>
-        </p-accordionTab>
-      </p-accordion>
-    </p-card>
-  </div>
-</div>
+            <p-accordion (onOpen)="fetchNextStates($event)" [activeIndex]="index">
+                <p-accordionTab *ngFor="let etat_marche of etat_marches" header="{{etat_marche?.libelle}}">
+                    <p-breadcrumb [model]="items" [home]="info"></p-breadcrumb>
+                </p-accordionTab>
+            </p-accordion>
+        </p-card>
+    </div>
+</div> -->
 <div class="row">
-  <div class="col-sm-12 col-md-12 col-lg-12">
-    <ng-template #content *ngIf="'RoleSurMarche' | editable" let-modal>
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <ng-template #content *ngIf="'RoleSurMarche' | editable" let-modal>
 
-      <div class="modal-header new-sous-class-header">
-      <h4 class="modal-title">Droit D'accés - Etat {{ selectedEtatMarche.libelle }} </h4>
-        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+            <div class="modal-header new-sous-class-header">
+                <h4 class="modal-title">Droit D'accés - Etat {{ selectedEtatMarche.libelle }} </h4>
+                <button type="button" class="close" aria-label="Close" (click)="closeModal()">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
-        <div class="row" *ngIf="!loading && selectedEtatMarche.users.length" >
-          <div class="col-md-12 col-sm-12 col-lg-12 ">
-            <h5 class="text-center font-weight-bold" >Liste des utilisateurs habilités</h5>
-          </div>
-        </div>
-        <div *ngIf="loading" class="row">
-          <div class="offset-sm-5 offset-xl-5 offset-md-5 col-sm-7 col-md-7 col-lg-7">
-            <p-progressSpinner animationDuration=".3s" ></p-progressSpinner>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 col-md-12 col-lg-12 ">
-            <table *ngIf="!loading && selectedEtatMarche.users.length" class="table table-responsive-md table-responsive-sm table-responsive-lg table-striped table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">Prenom</th>
-                  <th scope="col">Nom</th>
-                  <th scope="col">E - Mail</th>
-                  <th scope="col">Fonction</th>
-                  <th scope="col" *ngIf="'RoleSurMarche'|deletable">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let user of selectedEtatMarche.users">
-                  <td> {{ user.prenom }} </td>
-                  <td> {{ user.nom }} </td>
-                  <td> {{ user.username }} </td>
-                  <td> {{ user.email }} </td>
-                  <td *ngIf="'RoleSurMarche'|deletable">  <button type="button" (click)="removeUser(user)" class="btn-sm btn-outline-danger"><i
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngIf="!loading && selectedEtatMarche.users.length">
+                    <div class="col-md-12 col-sm-12 col-lg-12 ">
+                        <h5 class="text-center font-weight-bold">Liste des utilisateurs habilités</h5>
+                    </div>
+                </div>
+                <div *ngIf="loading" class="row">
+                    <div class="offset-sm-5 offset-xl-5 offset-md-5 col-sm-7 col-md-7 col-lg-7">
+                        <p-progressSpinner animationDuration=".3s"></p-progressSpinner>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 ">
+                        <table *ngIf="!loading && selectedEtatMarche.users.length" class="table table-responsive-md table-responsive-sm table-responsive-lg table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Prenom</th>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">E - Mail</th>
+                                    <th scope="col">Fonction</th>
+                                    <th scope="col" *ngIf="'RoleSurMarche'|deletable">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let user of selectedEtatMarche.users">
+                                    <td> {{ user.prenom }} </td>
+                                    <td> {{ user.nom }} </td>
+                                    <td> {{ user.username }} </td>
+                                    <td> {{ user.email }} </td>
+                                    <td *ngIf="'RoleSurMarche'|deletable"> <button type="button" (click)="removeUser(user)" class="btn-sm btn-outline-danger"><i
                     class="fa fa-trash" aria-hidden="true"></i>
                   </button> </td>
-                </tr>
-              </tbody>
-            </table>
-          </div> 
-        </div>
-        <div class="row" *ngIf="alert" >
-          <div class="col-sm-12 col-md-12 col-lg-12">
-            <ngb-alert [type]="alert.type" (close)="closeAlert()">{{ alert.message }}</ngb-alert>
-          </div>
-        </div>
-        <form *ngIf="'RoleSurMarche'|creable" class="form" role="form" #userForm="ngForm" autocomplete="off">
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-lg-12">
-              <label class="col-form-label form-control-label" for="code">Ajouter un utilisateur</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-9 col-md-9 col-lg-9">
-              <div class="form-group">
-                <ng-select required name="selectedEtatMarche" [items]="users" bindLabel="username"
-                  placeholder="Selectionner un ou plusieurs utilisateurs" appendTo="body" [multiple]="true" [searchable]="true"
-                  [(ngModel)]="selectedUser">
-                </ng-select>
-              </div>
-            </div>
-            <div class="col-sm-3 col-md-3 col-lg-3 ">
-              <button type="button" [disabled]="userForm.invalid" (click)="addUser()" class="btn btn-outline-secondary"><i
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" *ngIf="alert">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <ngb-alert [type]="alert.type" (close)="closeAlert()">{{ alert.message }}</ngb-alert>
+                    </div>
+                </div>
+                <form *ngIf="'RoleSurMarche'|creable" class="form" role="form" #userForm="ngForm" autocomplete="off">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label class="col-form-label form-control-label" for="code">Ajouter un utilisateur</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 col-md-9 col-lg-9">
+                            <div class="form-group">
+                                <ng-select required name="selectedEtatMarche" [items]="users" bindLabel="username" placeholder="Selectionner un ou plusieurs utilisateurs" appendTo="body" [multiple]="true" [searchable]="true" [(ngModel)]="selectedUser">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3 ">
+                            <button type="button" [disabled]="userForm.invalid" (click)="addUser()" class="btn btn-outline-secondary"><i
                   class="pi pi-check" aria-hidden="true"></i>
                 Valider</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-      </div>
-    
-    </ng-template>
-  </div>
+            <div class="modal-footer">
+            </div>
+
+        </ng-template>
+    </div>
 </div>
