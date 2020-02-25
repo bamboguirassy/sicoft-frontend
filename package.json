@@ -33,6 +33,7 @@
     "@ngx-translate/core": "11.0.1",
     "@ngx-translate/http-loader": "4.0.0",
     "bootstrap": "4.3.1",
+    "bootstrap-sweetalert": "^1.0.1",
     "chart.js": "^2.9.3",
     "classlist.js": "1.1.20150312",
     "core-js": "3.1.3",
