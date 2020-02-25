@@ -206,13 +206,13 @@ export class ClasseListComponent implements OnInit {
         }
       })
   }
-  
+
 
   deleteSubClasse(sousClasse: SousClasse) {
     this.sousClasseSrv.remove(sousClasse)
       .subscribe((data: any) => {
         this.modalSrv.dismissAll();
-        this.refreshParent(data);
+        this.refreshParentWithoutChild(data);
         this.notificationSrv.showInfo('Suppression réussi');
       }, error => {
         if (error.error.code === 417) {
@@ -229,7 +229,7 @@ export class ClasseListComponent implements OnInit {
     this.compteDivisionnaireSrv.remove(compteDivisionnaire)
       .subscribe(data => {
         this.modalSrv.dismissAll();
-        this.refreshParent(data);
+        this.refreshParentWithoutChild(data);
         this.notificationSrv.showInfo('Suppression réussi');
       }, error => {
         if (error.error.code === 417) {
@@ -247,7 +247,7 @@ export class ClasseListComponent implements OnInit {
     this.compteSrv.remove(compte)
       .subscribe((data: any) => {
         this.modalSrv.dismissAll();
-        this.refreshParent(data);
+        this.refreshParentWithoutChild(data);
         this.notificationSrv.showInfo('Suppression réussi');
       }, error => {
         this.modalSrv.dismissAll();
@@ -257,10 +257,30 @@ export class ClasseListComponent implements OnInit {
 
   /** fin Fonction de suppressions **/
 
-  refreshParent(data: any) {
+  refreshParentWithoutChild(data: any) {
     const parent = this.selectedItem.parent;
     parent.children = parent.children.filter(child => child.data.numero !== data.numero)
     this.treeNodes = [...this.treeNodes];
+  }
+
+  refreshNodeChild(node: TreeNode) {
+    switch (node.data.type) {
+      case 'classe': {
+        this.fetchSubClasses(node);
+        break;
+      }
+      case 'sousClasse': {
+        this.fetchDivsionalAccount(node);
+        break;
+      }
+      case 'compteDivisionnaire': {
+        this.fetchAccount(node);
+        break;
+      }
+      default:
+        console.log('can\'t handle this type');
+    }
+
   }
 
   toggleConfirmModal() {
@@ -430,7 +450,7 @@ export class ClasseListComponent implements OnInit {
     }
   }
 
-    /** fin Gestion du menu contextuelle dynamique **/
+  /** fin Gestion du menu contextuelle dynamique **/
 
 
   toggleSubClassModal(content: TemplateRef<any>) {
@@ -552,30 +572,30 @@ export class ClasseListComponent implements OnInit {
         this.loading = false;
       });
   }
-   /**** fin fonctions pour la fonctionnalité d'ajout multiple.  ******/
+  /**** fin fonctions pour la fonctionnalité d'ajout multiple.  ******/
 
 
 
   /**** fonction de mise à jour pour la modification inline  */
   update(e: any) {
-    switch (e.data.type) {
+    switch (e.data.node.data.type) {
       case 'classe': {
-        this.updateClasse(e.data);
+        this.updateClasse(e.data.node.data);
         break;
       }
 
       case 'sousClasse': {
-        this.updateSubClasse(e.data);
+        this.updateSubClasse(e.data.node);
         break;
       }
 
       case 'compteDivisionnaire': {
-        this.updateDivisionalAccount(e.data);
+        this.updateDivisionalAccount(e.data.node);
         break;
       }
 
       case 'compte': {
-        this.updateAccount(e.data);
+        this.updateAccount(e.data.node);
         break;
       }
       default: {
@@ -594,35 +614,54 @@ export class ClasseListComponent implements OnInit {
       })
   }
 
-  updateSubClasse(sousClasse: SousClasse) {
-    this.sousClasseSrv.update(sousClasse)
-      .subscribe(updatedSubClasse => {
-      }, error => {
-        this.notificationSrv.showError(error.error.message);
-      })
+  updateSubClasse(sousClasseNode: TreeNode) {
+    if (this.hasValidNumero(sousClasseNode)) {
+      this.sousClasseSrv.update(sousClasseNode.data)
+        .subscribe(updatedSubClasse => {
+        }, error => {
+          this.notificationSrv.showError(error.error.message);
+        })
+    } else {
+      this.rollbackChildChanges(sousClasseNode);
+    }
+
+  }
+  hasValidNumero(node: TreeNode): boolean {
+    const validLength = node.parent.data.numero.toString().length + 1;
+    return node.data.numero.toString().startsWith(node.parent.data.numero)
+      && node.data.numero.toString().length <= validLength
+      ? true : false;
   }
 
-  updateDivisionalAccount(compteDivisionnaire: CompteDivisionnaire) {
-    this.compteDivisionnaireSrv.update(compteDivisionnaire)
-      .subscribe(updatedDivisionnalAccount => {
-      }, error => {
-        this.notificationSrv.showError(error.error.message);
-      })
+  updateDivisionalAccount(compteDivisionnaireNode: TreeNode) {
+    if (this.hasValidNumero(compteDivisionnaireNode)) {
+      this.compteDivisionnaireSrv.update(compteDivisionnaireNode.data)
+        .subscribe(updatedDivisionnalAccount => {
+        }, error => {
+          this.notificationSrv.showError(error.error.message);
+        })
+    } else {
+      this.rollbackChildChanges(compteDivisionnaireNode);
+    }
+
   }
 
-  updateAccount(compte: Compte) {
-    this.compteSrv.update(compte)
-      .subscribe(updatedAccount => {
+  updateAccount(compteNode: TreeNode) {
+    if (this.hasValidNumero(compteNode)) {
+      this.compteSrv.update(compteNode.data)
+        .subscribe(updatedAccount => {
 
-      }, error => {
-        this.notificationSrv.showError(error.error.message);
-      })
-
+        }, error => {
+          this.notificationSrv.showError(error.error.message);
+        });
+    } else {
+      this.rollbackChildChanges(compteNode);
+    }
   }
 
   /**** fin fonction de mise à jour pour la modification inline  */
 
- /************ Validation functions  *********************/
+  /************ Validation functions  *********************/
   validNumber(e: any) {
     this.isFormValid = false;
     this.isValidNumber = false;
@@ -671,6 +710,17 @@ export class ClasseListComponent implements OnInit {
     this.modalSrv.dismissAll('Cross click');
   }
 
+  rollbackChanges(e: any) {
+    this.refreshList();
+  }
 
-
+  rollbackChildChanges(node: TreeNode) {
+    let message = 'Le numero doit commencer par ' + node.parent.data.numero;
+    const validLength = node.parent.data.numero.toString().length + 1;
+    if (node.data.numero.toString().length > validLength) {
+      message += ' et doit contenir au plus ' + validLength + ' chiffres.'
+    }
+    this.notificationSrv.showWarning(message);
+    this.refreshNodeChild(node.parent);
+  }
 }

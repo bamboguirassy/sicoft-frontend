@@ -25,7 +25,7 @@
                         sortMode="multiple" [globalFilterFields]="globalFilterFields" [(selection)]="selectedClasses"
                         dataKey="numero" selectionMode="checkbox" [contextMenu]="contextMenu"
                         [(contextMenuSelection)]="selectedItem" [loading]="loading"
-                        (onEditComplete)="update($event)"
+                        (onEditComplete)="update($event)" (onEditCancel)="rollbackChanges($event)"
                         (onNodeExpand)="onNodeExpand($event)">
                         <ng-template pTemplate="caption">
                             PLAN DES COMPTES ET ETATS FINANCIERS
@@ -53,7 +53,7 @@
                         <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
                             <tr [ttRow]="rowNode" #rowNodeTemplate [ttSelectableRow]="rowNode"
                                 [ttContextMenuRow]="rowNode">
-                                <td [ttEditableColumn]="rowData" >
+                                <td [ttEditableColumn]="rowNode" >
                                     <p-treeTableCheckbox [value]="rowNode"></p-treeTableCheckbox>
                                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                                     <p-treeTableCellEditor >
@@ -65,7 +65,7 @@
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
-                                <td [ttEditableColumn]="rowData">
+                                <td [ttEditableColumn]="rowNode">
                                     <p-treeTableCellEditor>
                                         <ng-template pTemplate="input">
                                             <input class="form-control" type="text" [(ngModel)]="rowData.libelle">
@@ -75,7 +75,7 @@
                                         </ng-template>
                                     </p-treeTableCellEditor>
                                 </td>
-                                <td [ttEditableColumn]="rowData">
+                                <td [ttEditableColumn]="rowNode">
                                     <p-treeTableCellEditor>
                                         <ng-template pTemplate="input">
                                             <textarea class="form-control" type="text"
