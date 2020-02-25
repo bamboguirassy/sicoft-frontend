@@ -611,7 +611,7 @@ export class ClasseListComponent implements OnInit {
   }
 
   updateClasse(classe: Classe) {
-    if (classe.numero.toString().length === 1 && classe.libelle.trim().length !== 0) {
+    if ((classe.numero && classe.numero.toString().length === 1) && (classe.libelle && classe.libelle.trim().length !== 0)) {
       this.classeSrv.update(classe)
         .subscribe(updatedClasse => {
         }, error => {
