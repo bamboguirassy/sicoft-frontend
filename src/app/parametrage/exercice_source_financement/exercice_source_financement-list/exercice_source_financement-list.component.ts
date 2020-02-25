@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ExerciceSourceFinancement } from '../exercice_source_financement';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExerciceSourceFinancementService } from '../exercice_source_financement.service';
@@ -10,8 +10,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
 import { Exercice } from 'app/parametrage/exercice/exercice';
 import { Entite } from 'app/parametrage/entite/entite';
 import Swal from 'sweetalert2';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import { element } from 'protractor';
+import {NgbModal, ModalDismissReasons, NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-exercice_source_financement-list',
@@ -28,10 +27,12 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
   encour: any;
   exercices: Exercice[] = [];
   entites: Entite[] = [];
+  tempTabParamMontant = [];
   exerciceSouceFinancement: ExerciceSourceFinancement;
   sourceFinancements: ExerciceSourceFinancement[];
   tabExerciceSourceFinancements: ExerciceSourceFinancement[];
   tab_choiceDatas: ExerciceSourceFinancement[];
+  tabParamMontant: ExerciceSourceFinancement[] = [];
   display = false;
   step = 0;
   part3=0;
@@ -39,7 +40,6 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
   activeModif1 = 0;
   activeModif2 = 0;
   closeResult: string;
-
 
   cMenuItems: MenuItem[]=[];
 
@@ -117,6 +117,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     this.exercice_source_financementSrv.findExerciceSourceFinancementByExerciceAndEntite(this.exerciceSouceFinancement.exercice, this.exerciceSouceFinancement.entite)
       .subscribe((data: any) => 
       {this.tabExerciceSourceFinancements = data;
+        this.tempTabParamMontant = this.tabExerciceSourceFinancements;
       }
       , error => this.exercice_source_financementSrv.httpSrv.handleError(error));
   }
@@ -173,9 +174,14 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     //this.findSourceFinancementByExerciceAndEntite();
     this.step = 4;
     this.part3 = 1;
+    this.tab_choiceDatas.forEach(element => {
+      this.tabParamMontant = this.tabParamMontant.filter(data => data.id !== element.id);
+      this.tabParamMontant.push(element);
+    });
   } 
   previousParamMontant(){
     //console.log(this.tab_choiceDatas);
+    this.tabParamMontant = [];
     this.activeModif2 = 1;
     this.step = 1;
     this.part3 = 0;
@@ -199,6 +205,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
 
   deletedItemSelect(tab_choiceData){
     this.tab_choiceDatas = this.tab_choiceDatas.filter(data => data.id !== tab_choiceData.id);
+    this.tabParamMontant = this.tabParamMontant.filter(data => data.id !== tab_choiceData.id);
     this.sourceFinancements.push(tab_choiceData);
     //this.part3 = 0;
   }
@@ -225,6 +232,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
       this.exerciceSouceFinancement.exercice = tempExercice;
       this.exerciceSouceFinancement.entite = tempEntite;
       this.tab_choiceDatas = [];
+      this.tabParamMontant = [];
     },error => this.exercice_source_financementSrv.httpSrv.handleError(error));
   }
 
@@ -246,30 +254,31 @@ updateExerciceSourceFinancement(exerciceSourceFin) {
 }
 
 modalUpdateMontant(exerciceSourceFin){
-  let tempExercice = exerciceSourceFin.exercice;
-  let tempEntite = exerciceSourceFin.entite;
-  
   Swal.fire({
+    
       title: 'Saisir le nouveau montant',
       text: 'Source Financement: '+exerciceSourceFin.sourceFinancement.libelle+','+' Montant: '+exerciceSourceFin.montant,
       input: 'text',
+      showLoaderOnConfirm: true,
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Enregistrer'
+      confirmButtonText: 'Enregistrer',
     }).then((result) => {
+      if (result.value == "") {
+        Swal.fire({
+          icon: "error",
+          titleText: "Aucun montant saisi!",
+          showCancelButton: true,
+          showConfirmButton: false,
+      });
+      }
       if (result.value) {
         exerciceSourceFin.montant = result.value;
         this.updateExerciceSourceFinancement(exerciceSourceFin);
-        this.exerciceSouceFinancement.exercice = tempExercice.id;
-        this.exerciceSouceFinancement.entite = tempEntite.id;
-        this.refreshList();
-        this.exerciceSouceFinancement.exercice = tempExercice;
-        this.exerciceSouceFinancement.entite = tempEntite;
       }
+      
     })
-        this.exerciceSouceFinancement.exercice = tempExercice;
-        this.exerciceSouceFinancement.entite = tempEntite;
   }
 
 handleConfirmeDeleted(exerciceSourceFin){
@@ -284,10 +293,12 @@ handleConfirmeDeleted(exerciceSourceFin){
   }).then((result) => {
     if (result.value) {
       this.deleteExerciceSourceFinancement(exerciceSourceFin);
-      //this.refreshList();
       this.sourceFinancements.push(exerciceSourceFin.sourceFinancement);
       this.tabExerciceSourceFinancements = this.tabExerciceSourceFinancements.filter(data => data.id !== exerciceSourceFin.id);
-      
+      this.tempTabParamMontant.length = this.tempTabParamMontant.length-1;
+      if (this.tempTabParamMontant.length == 0){
+        this.step = 1;
+      }
     }
   })
 }

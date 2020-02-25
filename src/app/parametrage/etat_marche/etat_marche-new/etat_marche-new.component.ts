@@ -14,6 +14,7 @@ import { TypePassation } from 'app/parametrage/type_passation/type_passation';
 export class EtatMarcheNewComponent implements OnInit {
   etat_marche: EtatMarche;
   etats: EtatMarche[];
+  typePassation: TypePassation;
   typePassations: TypePassation[] = [];
   constructor(public etat_marcheSrv: EtatMarcheService,
     public notificationSrv: NotificationService,
@@ -74,8 +75,23 @@ export class EtatMarcheNewComponent implements OnInit {
         this.etat_marcheSrv.httpSrv.handleError(error);
       });
   }
-
-
-
+  getEtatMarcheByTypePassation(event){
+    if(event == null){
+      this.etat_marcheSrv.findAll()
+      .subscribe((data: any) => this.etats = data, error => this.etat_marcheSrv.httpSrv.handleError(error));
+    } else{
+      let tempTypePassation = null;
+    this.typePassation = event;
+    tempTypePassation = this.typePassation;
+    
+    this.etat_marcheSrv.getEtatMarcheByTypePassation(this.typePassation.id)
+    .subscribe((data:any) => 
+    {
+      this.etats = data;
+    }), error => {
+      this.typePassation = tempTypePassation;
+      this.etat_marcheSrv.httpSrv.handleError(error)};
+  }
+}
 }
 

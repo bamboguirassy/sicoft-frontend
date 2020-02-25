@@ -6,8 +6,9 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label class="col-form-label form-control-label" for="code">Code</label>
-                    <input required [(ngModel)]="etat_marche.code" class="form-control" type="text" name="code" id="code">
+                    <label class="col-form-label form-control-label" for="typePassation">Type passation</label>
+                    <ng-select (change)="getEtatMarcheByTypePassation($event)" name="typePassation" [items]="typePassations" bindLabel="libelle" placeholder="Selectionner type passation" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="etat_marche.typePassation">
+                    </ng-select>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -18,9 +19,8 @@
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label class="col-form-label form-control-label" for="typePassation">Type passation</label>
-                    <ng-select name="typePassation" [items]="typePassations" bindLabel="libelle" placeholder="Selectionner type passation" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="etat_marche.typePassation">
-                    </ng-select>
+                    <label class="col-form-label form-control-label" for="code">Code</label>
+                    <input required [(ngModel)]="etat_marche.code" class="form-control" type="text" name="code" id="code">
                 </div>
             </div>
             <div class="col-lg-6">

@@ -2,7 +2,6 @@ import { CompteService } from './../../compte/compte.service';
 import { CompteDivisionnaireService } from './../../compte_divisionnaire/compte_divisionnaire.service';
 import { Compte } from './../../compte/compte';
 import { CompteDivisionnaire } from './../../compte_divisionnaire/compte_divisionnaire';
-import { NgForm } from '@angular/forms';
 import { SousClasseService } from './../../sous_classe/sous_classe.service';
 import { SousClasse } from './../../sous_classe/sous_classe';
 import { TypeClasse } from 'app/parametrage/type_classe/type_classe';
@@ -29,7 +28,7 @@ export class ClasseListComponent implements OnInit {
 
   classes: Classe[] = [];
   selectedClasses: Classe[];
-  selectedItem: any;
+  selectedItem: TreeNode;
   tableColumns = classeColumns;
   typeClasses: TypeClasse[] = [];
   categorieClasses: TypeClasse[] = [];
@@ -54,7 +53,6 @@ export class ClasseListComponent implements OnInit {
   randIds = 1;
   nativeType: string;
   selectedSousClasses: SousClasse[] = [];
-  childs: any[] = [];
   @ViewChild('subClassModal', { static: false }) subClassemodalContentRef: TemplateRef<any>;
   @ViewChild('deletionConfirm', { static: false }) deletionModalContentRef: TemplateRef<any>;
 
@@ -113,13 +111,15 @@ export class ClasseListComponent implements OnInit {
     this.compteSrv.findByCompteDivisionnaire(node.data.id)
       .subscribe((data: any) => {
         if (data.length === 0) {
+          this.loading = false;
           window.scrollTo(0, 0);
-          this.notificationSrv.showWarning('Aucun compte trouvé.')
+          this.notificationSrv.showWarning('Aucun compte trouvé.');
+          return;
         }
         const accountNode: TreeNode[] = [];
         data.forEach((account: any) => {
           account.type = 'compte';
-          accountNode.push({ data: account, children: [], leaf: true });
+          accountNode.push({ data: account, children: [], leaf: true, parent: node });
         });
         node.children = accountNode;
         this.treeNodes = [...this.treeNodes];
@@ -135,13 +135,15 @@ export class ClasseListComponent implements OnInit {
     this.compteDivisionnaireSrv.findBySousClasse(node.data.id)
       .subscribe((data: any) => {
         if (data.length === 0) {
+          this.loading = false;
           window.scrollTo(0, 0);
           this.notificationSrv.showWarning('Aucun compte divisionnaire trouvé.');
+          return;
         }
         const divisionalAccountNode: TreeNode[] = [];
         data.forEach((divisionalAccount: any) => {
           divisionalAccount.type = 'compteDivisionnaire';
-          divisionalAccountNode.push({ data: divisionalAccount, children: [], leaf: false });
+          divisionalAccountNode.push({ data: divisionalAccount, children: [], leaf: false, parent: node });
         });
         node.children = divisionalAccountNode;
         this.treeNodes = [...this.treeNodes];
@@ -157,13 +159,15 @@ export class ClasseListComponent implements OnInit {
     this.classeSrv.findByClass(node.data.id)
       .subscribe((data: any) => {
         if (data.length === 0) {
+          this.loading = false;
           window.scrollTo(0, 0);
           this.notificationSrv.showWarning('Aucune Sous classe trouvé.');
+          return;
         }
         const subClassNode: TreeNode[] = [];
         data.forEach((subClass: any) => {
           subClass.type = 'sousClasse';
-          subClassNode.push({ data: subClass, children: [], leaf: false });
+          subClassNode.push({ data: subClass, children: [], leaf: false, parent: node });
         });
         node.children = subClassNode;
         this.treeNodes = [...this.treeNodes];
@@ -189,28 +193,38 @@ export class ClasseListComponent implements OnInit {
     this.router.navigate([this.classeSrv.getRoutePrefix(), classe.id, 'clone']);
   }
 
+  /** Fonction de suppressions **/
   deleteClasse(classe: Classe) {
     this.classeSrv.remove(classe)
       .subscribe(data => {
-        this.refreshList()
+        this.refreshList();
+        this.modalSrv.dismissAll();
+        this.notificationSrv.showInfo('Suppression réussi.');
       }, error => {
         if (error.error.code === 417) {
-          this.toggleConfirmModal();
+          window.scrollTo(0, 0);
+          this.modalSrv.dismissAll();
+          this.notificationSrv.showError('Suppression impossible. La sous classe n\'est pas vide.');
         } else {
-          this.classeSrv.httpSrv.handleError(error);
+          this.notificationSrv.showError(error.error.message)
         }
-      });
+      })
   }
+
 
   deleteSubClasse(sousClasse: SousClasse) {
     this.sousClasseSrv.remove(sousClasse)
-      .subscribe(data => {
-        this.refreshList();
+      .subscribe((data: any) => {
+        this.modalSrv.dismissAll();
+        this.refreshParentWithoutChild(data);
+        this.notificationSrv.showInfo('Suppression réussi');
       }, error => {
         if (error.error.code === 417) {
-          this.toggleConfirmModal();
+          window.scrollTo(0, 0);
+          this.modalSrv.dismissAll();
+          this.notificationSrv.showError('Suppression impossible. La sous classe n\'est pas vide.');
         } else {
-          this.classeSrv.httpSrv.handleError(error);
+          this.notificationSrv.showError(error.error.message);
         }
       })
   }
@@ -218,29 +232,70 @@ export class ClasseListComponent implements OnInit {
   deleteDivisionalAccount(compteDivisionnaire: CompteDivisionnaire) {
     this.compteDivisionnaireSrv.remove(compteDivisionnaire)
       .subscribe(data => {
-        this.refreshList();
+        this.modalSrv.dismissAll();
+        this.refreshParentWithoutChild(data);
+        this.notificationSrv.showInfo('Suppression réussi');
       }, error => {
         if (error.error.code === 417) {
-          this.toggleConfirmModal();
+          window.scrollTo(0, 0);
+          this.modalSrv.dismissAll();
+          this.notificationSrv.showError('Suppression impossible. La sous classe n\'est pas vide.');
         } else {
-          this.compteDivisionnaireSrv.httpSrv.handleError(error);
+          this.modalSrv.dismissAll();
+          this.notificationSrv.showError(error.error.message);
         }
       })
   }
 
+  deleteAccount(compte: Compte) {
+    this.compteSrv.remove(compte)
+      .subscribe((data: any) => {
+        this.modalSrv.dismissAll();
+        this.refreshParentWithoutChild(data);
+        this.notificationSrv.showInfo('Suppression réussi');
+      }, error => {
+        this.modalSrv.dismissAll();
+        this.notificationSrv.showError(error.error.message);
+      })
+  }
+
+  /** fin Fonction de suppressions **/
+
+  refreshParentWithoutChild(data: any) {
+    const parent = this.selectedItem.parent;
+    parent.children = parent.children.filter(child => child.data.numero !== data.numero)
+    this.treeNodes = [...this.treeNodes];
+  }
+
+  refreshNodeChild(node: TreeNode) {
+    switch (node.data.type) {
+      case 'classe': {
+        this.fetchSubClasses(node);
+        break;
+      }
+      case 'sousClasse': {
+        this.fetchDivsionalAccount(node);
+        break;
+      }
+      case 'compteDivisionnaire': {
+        this.fetchAccount(node);
+        break;
+      }
+      default:
+        console.log('can\'t handle this type');
+    }
+
+  }
+
   toggleConfirmModal() {
     if (this.selectedItem.data.type === 'classe') {
-      this.nativeType = 'Classe';
-      this.childs = this.selectedItem.data.sousClasses;
+      this.nativeType = 'la Classe';
     } else if (this.selectedItem.data.type === 'sousClasse') {
-      this.nativeType = 'Sous Classe';
-      this.childs = this.selectedItem.data.compteDivisionnaires;
+      this.nativeType = 'la Sous Classe';
     } else if (this.selectedItem.data.type === 'compteDivisionnaire') {
-      this.nativeType = 'Compte Divisionnaire';
-      this.childs = this.selectedItem.data.compte;
+      this.nativeType = 'le Compte Divisionnaire';
     } else if (this.selectedItem.data.type === 'compte') {
-      this.childs = []
-      this.nativeType = 'Compte';
+      this.nativeType = 'le Compte';
     }
     this.modalSrv.open(this.deletionModalContentRef, {
       size: 'lg',
@@ -251,32 +306,13 @@ export class ClasseListComponent implements OnInit {
 
   deleteItemAfterConfirmation(item: any): void {
     if (item.data.type === 'classe') {
-      this.classeSrv.deleteAfterConfirmation(item.data)
-        .subscribe(data => {
-          this.refreshList();
-          this.modalSrv.dismissAll();
-          this.notificationSrv.showInfo('Suppression réussi.')
-        }, error => {
-          this.notificationSrv.showError(error.error.message);
-        })
+      this.deleteClasse(item.data);
     } else if (item.data.type === 'sousClasse') {
-      this.sousClasseSrv.deleteAfterConfirmation(item.data)
-        .subscribe(data => {
-          this.refreshList();
-          this.modalSrv.dismissAll();
-          this.notificationSrv.showInfo('Suppression réussi');
-        }, error => {
-          this.notificationSrv.showError(error.error.message);
-        })
+      this.deleteSubClasse(item.data)
     } else if (item.data.type === 'compteDivisionnaire') {
-      this.compteDivisionnaireSrv.deleteAfterConfirmation(item.data)
-        .subscribe(data => {
-          this.refreshList();
-          this.modalSrv.dismissAll();
-          this.notificationSrv.showInfo('Suppression réussi');
-        }, error => {
-          this.notificationSrv.showError(error.error.message);
-        })
+      this.deleteDivisionalAccount(item.data);
+    } else if (item.data.type === 'compte') {
+      this.deleteAccount(item.data);
     }
 
   }
@@ -343,7 +379,8 @@ export class ClasseListComponent implements OnInit {
       }, (error: any) => this.classeSrv.httpSrv.handleError(error));
   }
 
-  pushAddButton() {
+  /** Gestion du menu contextuelle dynamique **/
+  toggleContextMenu() {
     // this.maxlength = this.selectedItem.data.type === 'classe' ? 1 : (this.selectedItem.data.type === 'sousClasse' ? 1 : 1);
     this.maxlength = 1;
     if (this.selectedItem.data.type === 'classe') {
@@ -359,16 +396,13 @@ export class ClasseListComponent implements OnInit {
       this.showLeafMenu();
     }
   }
+
   showLeafMenu() {
     if (this.authSrv.checkDeleteAccess('Compte')) {
       this.cMenuItems = [
-        /* {
-           label: 'Ajouter des comptes ', icon: 'pi pi-plus-circle',
-           command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef, this.selectedItem)
-         },*/
         {
           label: 'Supprimer', icon: 'pi pi-trash',
-          command: (event) => this.deleteClasse(this.selectedItem.data)
+          command: (event) => this.toggleConfirmModal()
         }
       ]
     }
@@ -379,27 +413,27 @@ export class ClasseListComponent implements OnInit {
       this.cMenuItems = [
         {
           label: 'Ajouter des comptes ', icon: 'pi pi-plus-circle',
-          command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef, this.selectedItem)
+          command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef)
         },
         {
           label: 'Supprimer', icon: 'pi pi-trash',
-          command: (event) => this.deleteDivisionalAccount(this.selectedItem.data)
+          command: (event) => this.toggleConfirmModal()
         }
       ]
     }
   }
-  
+
 
   showSubClassMenu() {
     if (this.authSrv.checkCreateAccess('CompteDivisionnaire') && this.authSrv.checkDeleteAccess('CompteDivisionnaire')) {
       this.cMenuItems = [
         {
           label: 'Ajouter des compte divisionnaire', icon: 'pi pi-plus-circle',
-          command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef, this.selectedItem)
+          command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef)
         },
         {
           label: 'Supprimer', icon: 'pi pi-trash',
-          command: (event) => this.deleteSubClasse(this.selectedItem.data)
+          command: (event) => this.toggleConfirmModal()
         }
       ]
     }
@@ -410,20 +444,24 @@ export class ClasseListComponent implements OnInit {
       this.cMenuItems = [
         {
           label: 'Ajouter des sous classe', icon: 'pi pi-plus-circle',
-          command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef, this.selectedItem)
+          command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef)
         },
         {
           label: 'Supprimer', icon: 'pi pi-trash',
-          command: (event) => this.deleteClasse(this.selectedItem.data)
+          command: (event) => this.toggleConfirmModal()
         }
       ]
     }
   }
 
-  toggleSubClassModal(content: TemplateRef<any>, selectedClass: Classe) {
+  /** fin Gestion du menu contextuelle dynamique **/
+
+
+  toggleSubClassModal(content: TemplateRef<any>) {
     this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
   }
 
+  /** Gestion du formulaire dynamique **/
   addInputItem() {
     this.inputObject.push({ id: this.randIds, value: new SousClasse(), plainNumber: '', isLabelValid: false, isNumberValid: false });
     this.inputObject = [...this.inputObject];
@@ -438,6 +476,18 @@ export class ClasseListComponent implements OnInit {
     this.isFormValid =
       this.inputObject[this.inputObject.length - 1].isLabelValid && this.inputObject[this.inputObject.length - 1] ? true : false;
   }
+
+  refeshAddForm() {
+    this.inputObject = [{
+      id: 0,
+      value: new Object(),
+      plainNumber: '',
+      isNumberValid: false,
+      isLabelValid: false,
+    }];
+  }
+  /** fin Gestion du formulaire dynamique **/
+  /**** fonctions pour la fonctionnalité d'ajout multiple.  ******/
 
   addItems() {
 
@@ -468,6 +518,7 @@ export class ClasseListComponent implements OnInit {
         this.treeNodes = [...this.treeNodes];
         this.loading = false;
         this.notificationSrv.showInfo('Enregistrement Effectué');
+        this.refeshAddForm();
       }, error => {
         this.notificationSrv.showError(error.error.message);
         this.loading = false;
@@ -492,6 +543,7 @@ export class ClasseListComponent implements OnInit {
         this.treeNodes = [...this.treeNodes];
         this.loading = false;
         this.notificationSrv.showInfo('Enregistrement Effectué.');
+        this.refeshAddForm();
       }, error => {
         this.notificationSrv.showError(error.error.message);
         this.loading = false;
@@ -518,12 +570,103 @@ export class ClasseListComponent implements OnInit {
         })
         this.treeNodes = [...this.treeNodes];
         this.loading = false;
+        this.refeshAddForm();
       }, error => {
         this.notificationSrv.showError(error.error.message);
         this.loading = false;
       });
   }
+  /**** fin fonctions pour la fonctionnalité d'ajout multiple.  ******/
 
+
+
+  /**** fonction de mise à jour pour la modification inline  */
+  update(e: any) {
+    switch (e.data.node.data.type) {
+      case 'classe': {
+        this.updateClasse(e.data.node.data);
+        break;
+      }
+
+      case 'sousClasse': {
+        this.updateSubClasse(e.data.node);
+        break;
+      }
+
+      case 'compteDivisionnaire': {
+        this.updateDivisionalAccount(e.data.node);
+        break;
+      }
+
+      case 'compte': {
+        this.updateAccount(e.data.node);
+        break;
+      }
+      default: {
+        console.log('cant handle this type');
+        break;
+      }
+
+    }
+  }
+
+  updateClasse(classe: Classe) {
+    if ((classe.numero && classe.numero.toString().length === 1) && (classe.libelle && classe.libelle.trim().length !== 0)) {
+      this.classeSrv.update(classe)
+        .subscribe(updatedClasse => {
+        }, error => {
+          this.notificationSrv.showError(error.error.message);
+        })
+    } else {
+      this.notificationSrv.showWarning('Le numero de la classe doit comporter au plus 1 chiffres et son libelle ne peut être vide.');
+      this.refreshList();
+    }
+
+  }
+
+  updateSubClasse(sousClasseNode: TreeNode) {
+    if (this.hasValidNumero(sousClasseNode) && this.hasValidLibelle(sousClasseNode)) {
+      this.sousClasseSrv.update(sousClasseNode.data)
+        .subscribe(updatedSubClasse => {
+        }, error => {
+          this.notificationSrv.showError(error.error.message);
+        })
+    } else {
+      this.rollbackChildChanges(sousClasseNode);
+    }
+
+  }
+
+
+  updateDivisionalAccount(compteDivisionnaireNode: TreeNode) {
+    if (this.hasValidNumero(compteDivisionnaireNode) && this.hasValidLibelle(compteDivisionnaireNode)) {
+      this.compteDivisionnaireSrv.update(compteDivisionnaireNode.data)
+        .subscribe(updatedDivisionnalAccount => {
+        }, error => {
+          this.notificationSrv.showError(error.error.message);
+        })
+    } else {
+      this.rollbackChildChanges(compteDivisionnaireNode);
+    }
+
+  }
+
+  updateAccount(compteNode: TreeNode) {
+    if (this.hasValidNumero(compteNode) && this.hasValidLibelle(compteNode)) {
+      this.compteSrv.update(compteNode.data)
+        .subscribe(updatedAccount => {
+
+        }, error => {
+          this.notificationSrv.showError(error.error.message);
+        });
+    } else {
+      this.rollbackChildChanges(compteNode);
+    }
+  }
+
+  /**** fin fonction de mise à jour pour la modification inline  */
+
+  /************ Validation functions  *********************/
   validNumber(e: any) {
     this.isFormValid = false;
     this.isValidNumber = false;
@@ -545,6 +688,18 @@ export class ClasseListComponent implements OnInit {
     }
   }
 
+  checkIfAllIsValid() {
+    let validItems = 0;
+    this.inputObject.forEach(input => {
+      if (input.isLabelValid && input.isNumberValid) {
+        validItems++;
+      };
+    });
+    return validItems === this.inputObject.length ? true : false;
+  }
+
+  /************ end Validation functions  *********************/
+
   closeModal() {
     this.inputObject = [{
       id: 0,
@@ -560,14 +715,41 @@ export class ClasseListComponent implements OnInit {
     this.modalSrv.dismissAll('Cross click');
   }
 
-  checkIfAllIsValid() {
-    let validItems = 0;
-    this.inputObject.forEach(input => {
-      if (input.isLabelValid && input.isNumberValid) {
-        validItems++;
-      };
-    });
-    return validItems === this.inputObject.length ? true : false;
+  rollbackChanges(e: any) {
+    this.refreshList();
   }
 
+  rollbackChildChanges(node: TreeNode) {
+    let msg = '';
+    const validLength = node.parent.data.numero.toString().length + 1;
+    if (!this.hasValidNumero(node)) {
+      msg += 'Le numero doit commencer par ' + node.parent.data.numero + '.\n';
+    }
+    if (!this.hasValidLibelle(node)) {
+      msg += 'La valeur du libelle ne peut être vide.\n';
+    }
+    if (node.data.numero && node.data.numero.toString().length > validLength) {
+      msg += ' et doit contenir au plus ' + validLength + ' chiffres.\n'
+    }
+    window.scrollTo(0, 0);
+    this.notificationSrv.showWarning(msg);
+    this.refreshNodeChild(node.parent);
+  }
+
+  hasValidNumero(node: TreeNode): boolean {
+    const validLength = node.parent.data.numero.toString().length + 1;
+    return node.data.numero && node.data.numero.toString().startsWith(node.parent.data.numero)
+      && node.data.numero.toString().length <= validLength
+      ? true : false;
+  }
+  hasValidLibelle(node: TreeNode): boolean {
+    if (!node.data.libelle) {
+      return false;
+    }
+    if (node.data.libelle === '') {
+      return false;
+    }
+
+    return true;
+  }
 }

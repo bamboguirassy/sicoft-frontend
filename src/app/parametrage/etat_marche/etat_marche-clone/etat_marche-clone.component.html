@@ -8,12 +8,24 @@
                 Retour</button>
             <button type="reset" class="btn btn-secondary pull-left"><i class="fa fa-eraser" aria-hidden="true"></i>
                 Vider le formulaire</button>
-            <button [disabled]="etat_marcheForm.invalid" type="button" (click)="cloneEtatMarche()"
-                class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
+            <button [disabled]="etat_marcheForm.invalid" type="button" (click)="cloneEtatMarche()" class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
                 Enregistrer</button>
         </p-toolbar>
         <!-- debut body -->
         <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="typePassation">Type passation</label>
+                    <ng-select (change)="getEtatMarcheByTypePassation($event)" name="typePassation" [items]="typePassations" bindLabel="libelle" placeholder="Selectionner type passation" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="etat_marche.typePassation">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
+                    <input [(ngModel)]="etat_marche.libelle" class="form-control" type="text" name="libelle" id="libelle">
+                </div>
+            </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="code">Code</label>
@@ -22,25 +34,15 @@
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input [(ngModel)]="etat_marche.libelle" class="form-control" type="text" name="libelle"
-                        id="libelle">
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
                     <label class="col-form-label form-control-label" for="description">Description</label>
-                    <input [(ngModel)]="etat_marche.description" class="form-control" type="text" name="description"
-                        id="description">
+                    <input [(ngModel)]="etat_marche.description" class="form-control" type="text" name="description" id="description">
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="etat">Etat Precedent</label>
-                    <ng-select name="entiteParent" [items]="etats" bindLabel="libelle"
-                        placeholder="Selectionner etat suivant" appendTo="body" [multiple]="false" [searchable]="true"
-                        [(ngModel)]="etat_marche.etatSuivant">
+                    <ng-select name="entiteParent" [items]="etats" bindLabel="libelle" placeholder="Selectionner etat suivant" appendTo="body" [multiple]="false" [searchable]="true" [(ngModel)]="etat_marche.etatSuivant">
                     </ng-select>
                 </div>
             </div>
@@ -52,8 +54,7 @@
                 Retour</button>
             <button type="reset" class="btn btn-secondary pull-left"><i class="fa fa-eraser" aria-hidden="true"></i>
                 Vider le formulaire</button>
-            <button [disabled]="etat_marcheForm.invalid" type="button" (click)="cloneEtatMarche()"
-                class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
+            <button [disabled]="etat_marcheForm.invalid" type="button" (click)="cloneEtatMarche()" class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
                 Enregistrer</button>
         </p-toolbar>
     </p-fieldset>
