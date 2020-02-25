@@ -2,7 +2,6 @@ import { CompteService } from './../../compte/compte.service';
 import { CompteDivisionnaireService } from './../../compte_divisionnaire/compte_divisionnaire.service';
 import { Compte } from './../../compte/compte';
 import { CompteDivisionnaire } from './../../compte_divisionnaire/compte_divisionnaire';
-import { NgForm } from '@angular/forms';
 import { SousClasseService } from './../../sous_classe/sous_classe.service';
 import { SousClasse } from './../../sous_classe/sous_classe';
 import { TypeClasse } from 'app/parametrage/type_classe/type_classe';
@@ -17,7 +16,6 @@ import { ExportService } from 'app/shared/services/export.service';
 import { MenuItem, TreeNode } from 'primeng/api';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NotificationService } from 'app/shared/services/notification.service';
-import { constants } from 'os';
 
 
 
@@ -113,8 +111,10 @@ export class ClasseListComponent implements OnInit {
     this.compteSrv.findByCompteDivisionnaire(node.data.id)
       .subscribe((data: any) => {
         if (data.length === 0) {
+          this.loading = false;
           window.scrollTo(0, 0);
-          this.notificationSrv.showWarning('Aucun compte trouvé.')
+          this.notificationSrv.showWarning('Aucun compte trouvé.');
+          return;
         }
         const accountNode: TreeNode[] = [];
         data.forEach((account: any) => {
@@ -135,8 +135,10 @@ export class ClasseListComponent implements OnInit {
     this.compteDivisionnaireSrv.findBySousClasse(node.data.id)
       .subscribe((data: any) => {
         if (data.length === 0) {
+          this.loading = false;
           window.scrollTo(0, 0);
           this.notificationSrv.showWarning('Aucun compte divisionnaire trouvé.');
+          return;
         }
         const divisionalAccountNode: TreeNode[] = [];
         data.forEach((divisionalAccount: any) => {
@@ -157,8 +159,10 @@ export class ClasseListComponent implements OnInit {
     this.classeSrv.findByClass(node.data.id)
       .subscribe((data: any) => {
         if (data.length === 0) {
+          this.loading = false;
           window.scrollTo(0, 0);
           this.notificationSrv.showWarning('Aucune Sous classe trouvé.');
+          return;
         }
         const subClassNode: TreeNode[] = [];
         data.forEach((subClass: any) => {
@@ -607,15 +611,21 @@ export class ClasseListComponent implements OnInit {
   }
 
   updateClasse(classe: Classe) {
-    this.classeSrv.update(classe)
-      .subscribe(updatedClasse => {
-      }, error => {
-        this.notificationSrv.showError(error.error.message);
-      })
+    if ((classe.numero && classe.numero.toString().length === 1) && (classe.libelle && classe.libelle.trim().length !== 0)) {
+      this.classeSrv.update(classe)
+        .subscribe(updatedClasse => {
+        }, error => {
+          this.notificationSrv.showError(error.error.message);
+        })
+    } else {
+      this.notificationSrv.showWarning('Le numero de la classe doit comporter au plus 1 chiffres et son libelle ne peut être vide.');
+      this.refreshList();
+    }
+
   }
 
   updateSubClasse(sousClasseNode: TreeNode) {
-    if (this.hasValidNumero(sousClasseNode)) {
+    if (this.hasValidNumero(sousClasseNode) && this.hasValidLibelle(sousClasseNode)) {
       this.sousClasseSrv.update(sousClasseNode.data)
         .subscribe(updatedSubClasse => {
         }, error => {
@@ -626,15 +636,10 @@ export class ClasseListComponent implements OnInit {
     }
 
   }
-  hasValidNumero(node: TreeNode): boolean {
-    const validLength = node.parent.data.numero.toString().length + 1;
-    return node.data.numero.toString().startsWith(node.parent.data.numero)
-      && node.data.numero.toString().length <= validLength
-      ? true : false;
-  }
+
 
   updateDivisionalAccount(compteDivisionnaireNode: TreeNode) {
-    if (this.hasValidNumero(compteDivisionnaireNode)) {
+    if (this.hasValidNumero(compteDivisionnaireNode) && this.hasValidLibelle(compteDivisionnaireNode)) {
       this.compteDivisionnaireSrv.update(compteDivisionnaireNode.data)
         .subscribe(updatedDivisionnalAccount => {
         }, error => {
@@ -647,7 +652,7 @@ export class ClasseListComponent implements OnInit {
   }
 
   updateAccount(compteNode: TreeNode) {
-    if (this.hasValidNumero(compteNode)) {
+    if (this.hasValidNumero(compteNode) && this.hasValidLibelle(compteNode)) {
       this.compteSrv.update(compteNode.data)
         .subscribe(updatedAccount => {
 
@@ -715,12 +720,36 @@ export class ClasseListComponent implements OnInit {
   }
 
   rollbackChildChanges(node: TreeNode) {
-    let message = 'Le numero doit commencer par ' + node.parent.data.numero;
+    let msg = '';
     const validLength = node.parent.data.numero.toString().length + 1;
-    if (node.data.numero.toString().length > validLength) {
-      message += ' et doit contenir au plus ' + validLength + ' chiffres.'
+    if (!this.hasValidNumero(node)) {
+      msg += 'Le numero doit commencer par ' + node.parent.data.numero + '.\n';
     }
-    this.notificationSrv.showWarning(message);
+    if (!this.hasValidLibelle(node)) {
+      msg += 'La valeur du libelle ne peut être vide.\n';
+    }
+    if (node.data.numero && node.data.numero.toString().length > validLength) {
+      msg += ' et doit contenir au plus ' + validLength + ' chiffres.\n'
+    }
+    window.scrollTo(0, 0);
+    this.notificationSrv.showWarning(msg);
     this.refreshNodeChild(node.parent);
+  }
+
+  hasValidNumero(node: TreeNode): boolean {
+    const validLength = node.parent.data.numero.toString().length + 1;
+    return node.data.numero && node.data.numero.toString().startsWith(node.parent.data.numero)
+      && node.data.numero.toString().length <= validLength
+      ? true : false;
+  }
+  hasValidLibelle(node: TreeNode): boolean {
+    if (!node.data.libelle) {
+      return false;
+    }
+    if (node.data.libelle === '') {
+      return false;
+    }
+
+    return true;
   }
 }
