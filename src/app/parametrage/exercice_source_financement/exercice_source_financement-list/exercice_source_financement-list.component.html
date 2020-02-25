@@ -126,9 +126,6 @@
             <!--debut param montant-->
             <div class="row mt-2" *ngIf="tabParamMontant?.length > 0">
                 <div class="col-sm-12 col-md-12 col-lg-12">
-                    <span *ngIf="hasMontant == true" style="text-align: center;" class="col-sm-12 col-md-12 col-lg-12 alert alert-warning"> 
-                        <h4>Vueillez saisir le montant!</h4> 
-                    </span>
                     <form *ngIf="'ExerciceSourceFinancement'|creable" class="form" role="form" #exercice_source_financementParam="ngForm" autocomplete="off">
                         <p-toolbar *ngIf="part3 == 1 && encour == true">
                             <p-header class="font-weight-bold mt-3" styleClass="text-align: center;">Paramétrage du montant</p-header>
