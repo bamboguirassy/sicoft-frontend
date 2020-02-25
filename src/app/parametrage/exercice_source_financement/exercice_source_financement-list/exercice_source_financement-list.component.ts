@@ -27,6 +27,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
   encour: any;
   exercices: Exercice[] = [];
   entites: Entite[] = [];
+  tempTabParamMontant = [];
   exerciceSouceFinancement: ExerciceSourceFinancement;
   sourceFinancements: ExerciceSourceFinancement[];
   tabExerciceSourceFinancements: ExerciceSourceFinancement[];
@@ -116,6 +117,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     this.exercice_source_financementSrv.findExerciceSourceFinancementByExerciceAndEntite(this.exerciceSouceFinancement.exercice, this.exerciceSouceFinancement.entite)
       .subscribe((data: any) => 
       {this.tabExerciceSourceFinancements = data;
+        this.tempTabParamMontant = this.tabExerciceSourceFinancements;
       }
       , error => this.exercice_source_financementSrv.httpSrv.handleError(error));
   }
@@ -173,11 +175,13 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     this.step = 4;
     this.part3 = 1;
     this.tab_choiceDatas.forEach(element => {
+      this.tabParamMontant = this.tabParamMontant.filter(data => data.id !== element.id);
       this.tabParamMontant.push(element);
     });
   } 
   previousParamMontant(){
     //console.log(this.tab_choiceDatas);
+    this.tabParamMontant = [];
     this.activeModif2 = 1;
     this.step = 1;
     this.part3 = 0;
@@ -228,6 +232,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
       this.exerciceSouceFinancement.exercice = tempExercice;
       this.exerciceSouceFinancement.entite = tempEntite;
       this.tab_choiceDatas = [];
+      this.tabParamMontant = [];
     },error => this.exercice_source_financementSrv.httpSrv.handleError(error));
   }
 
@@ -290,11 +295,10 @@ handleConfirmeDeleted(exerciceSourceFin){
       this.deleteExerciceSourceFinancement(exerciceSourceFin);
       this.sourceFinancements.push(exerciceSourceFin.sourceFinancement);
       this.tabExerciceSourceFinancements = this.tabExerciceSourceFinancements.filter(data => data.id !== exerciceSourceFin.id);
-      this.tabParamMontant.length = this.tabParamMontant.length -1;
-      if (this.tabParamMontant.length == 0){
+      this.tempTabParamMontant.length = this.tempTabParamMontant.length-1;
+      if (this.tempTabParamMontant.length == 0){
         this.step = 1;
       }
-      
     }
   })
 }
