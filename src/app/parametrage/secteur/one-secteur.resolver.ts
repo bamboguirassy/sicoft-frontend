@@ -18,6 +18,6 @@ export class OneSecteurResolver implements Resolve<any> {
     }));
   }
 
-  constructor(public secteurSrv:SecteurService) { }
+  constructor(public secteurSrv: SecteurService) { }
 }
 
