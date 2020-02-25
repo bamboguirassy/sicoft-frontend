@@ -5,8 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { TypeEntite } from 'app/parametrage/type_entite/type_entite';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, Validators } from '@angular/forms';
-import { read } from 'fs';
 import { ReadVarExpr } from '@angular/compiler';
 
 @Component({

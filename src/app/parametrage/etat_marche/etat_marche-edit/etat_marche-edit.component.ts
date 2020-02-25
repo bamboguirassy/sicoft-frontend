@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { TypePassation } from 'app/parametrage/type_passation/type_passation';
-import { timingSafeEqual } from 'crypto';
 
 @Component({
   // tslint:disable-next-line:component-selector
