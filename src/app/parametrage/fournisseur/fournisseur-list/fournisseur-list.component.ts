@@ -23,7 +23,7 @@ export class FournisseurListComponent implements OnInit {
   selectedFournisseurs: Fournisseur[];
   selectedFournisseur: Fournisseur;
   clonedFournisseurs: Fournisseur[];
-  allSecteurs: Secteur[] = [];
+  secteurs: Secteur[] = [];
   strict: boolean;
   checkedSectors: Secteur[] = [];
 
@@ -59,9 +59,7 @@ export class FournisseurListComponent implements OnInit {
 
     this.fournisseurs = this.activatedRoute.snapshot.data['fournisseurs'];
     this.originalFournisseurs = this.activatedRoute.snapshot.data['fournisseurs'];
-    this.allSecteurs = this.activatedRoute.snapshot.data['secteurs'];
-    this.getSector();
-
+    this.secteurs = this.activatedRoute.snapshot.data['secteurs'];
   }
 
   viewFournisseur(fournisseur: Fournisseur) {
@@ -122,12 +120,6 @@ export class FournisseurListComponent implements OnInit {
   handleSwitchChange() {
     this.filterProvidersBySectors(this.checkedSectors);
   }
-  getSector() {
-        this.secteurSrv.findSecteursFourniseur().subscribe(
-              (data: any) => {
-                      },
-          error => this.secteurSrv.httpSrv.handleError(error));
-    }
 
   filterProvidersBySectors(checkedSectors: any) {
     const tempFournisseurs = new Array();
