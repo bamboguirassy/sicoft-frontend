@@ -44,7 +44,7 @@ export class EntiteListComponent implements OnInit {
     private router: Router,
     public authSrv: AuthService,
     public notificationSrv: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.authSrv.checkShowAccess('Entite')) {
@@ -84,13 +84,12 @@ export class EntiteListComponent implements OnInit {
     this.entiteParents.unshift(new Entite('Toutes les entités parents'));
     this.selectedEntiteParent = this.entiteParents[0];
     Object.assign(this.originalEntites, this.entites);
-    
-
     this.etats = [
       { label: 'Actif', value: 'true' },
       { label: 'Inactif', value: 'false' }
     ];
   }
+
 
   viewEntite(entite: Entite) {
     this.router.navigate([this.entiteSrv.getRoutePrefix(), entite.id]);
@@ -144,31 +143,31 @@ export class EntiteListComponent implements OnInit {
   }
 
   filter() {
-      Object.assign(this.entites, this.originalEntites);
-      if (this.selectedTypeEntite.id !== 0){
-        this.entites = this.originalEntites.filter(entite => {
-          return entite.typeEntite.id === this.selectedTypeEntite.id;
-        });
-      }
+    Object.assign(this.entites, this.originalEntites);
+    if (this.selectedTypeEntite.id !== 0) {
+      this.entites = this.originalEntites.filter(entite => {
+        return entite.typeEntite.id === this.selectedTypeEntite.id;
+      });
+    }
 
-     if (this.selectedEntiteParent.id !== 0){
-        this.entites = this.entites.filter(entite => {
-          if (entite.entiteParent != null) {
-            return entite.entiteParent.id === this.selectedEntiteParent.id;
-          }
-        });
-      }
+    if (this.selectedEntiteParent.id !== 0) {
+      this.entites = this.entites.filter(entite => {
+        if (entite.entiteParent != null) {
+          return entite.entiteParent.id === this.selectedEntiteParent.id;
+        }
+      });
+    }
 
-      if (this.selectedEtat.length === 1 && this.selectedEtat.includes('true')){
-        this.entites = this.entites.filter(entite => {
-          return entite.etat === true;
-        });
-      }
+    if (this.selectedEtat.length === 1 && this.selectedEtat.includes('true')) {
+      this.entites = this.entites.filter(entite => {
+        return entite.etat === true;
+      });
+    }
 
-      if (this.selectedEtat.length === 1 && this.selectedEtat.includes('false')){
-        this.entites = this.entites.filter(entite => {
-          return entite.etat === false;
-        });
-      }
+    if (this.selectedEtat.length === 1 && this.selectedEtat.includes('false')) {
+      this.entites = this.entites.filter(entite => {
+        return entite.etat === false;
+      });
+    }
   }
 }
