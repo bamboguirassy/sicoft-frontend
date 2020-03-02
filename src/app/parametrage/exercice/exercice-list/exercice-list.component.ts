@@ -71,7 +71,7 @@ export class ExerciceListComponent implements OnInit {
       });
       this.cMenuItems.push({
         label: this.selectedExercice.encours ? 'Désactiver' : 'Activer',
-        icon: this.selectedExercice.encours ? 'pi pi-lock' : 'pi pi-unlock',
+        icon: this.selectedExercice.encours ? 'fa fa-toggle-on' : 'fa fa-toggle-off',
         command: event => this.editExerciceState()
       });
     }
