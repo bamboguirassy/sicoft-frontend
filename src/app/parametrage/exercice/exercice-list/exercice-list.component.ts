@@ -33,6 +33,7 @@ export class ExerciceListComponent implements OnInit {
   @ViewChild('confirm', { static: false }) public modalContentRef: TemplateRef<
     any
   >;
+  @ViewChild('editState', { static: false }) public editModalContentRef: TemplateRef<any>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -42,9 +43,19 @@ export class ExerciceListComponent implements OnInit {
     public authSrv: AuthService,
     private modalSrv: NgbModal,
     public notificationSrv: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit() {
+    //voir dans buildContextualMenu() pour voir la construction du menu contextuel
+    this.exercices = this.activatedRoute.snapshot.data['exercices'];
+  }
+
+  viewExercice(exercice: Exercice) {
+    this.router.navigate([this.exerciceSrv.getRoutePrefix(), exercice.id]);
+  }
+
+  buildContextualMenu() {
+    this.cMenuItems = [];
     if (this.authSrv.checkShowAccess('Exercice')) {
       this.cMenuItems.push({
         label: 'Afficher détails',
@@ -57,6 +68,11 @@ export class ExerciceListComponent implements OnInit {
         label: 'Modifier',
         icon: 'pi pi-pencil',
         command: event => this.editExercice(this.selectedExercice)
+      });
+      this.cMenuItems.push({
+        label: this.selectedExercice.encours ? 'Désactiver' : 'Activer',
+        icon: this.selectedExercice.encours ? 'pi pi-lock' : 'pi pi-unlock',
+        command: event => this.editExerciceState()
       });
     }
     if (this.authSrv.checkCloneAccess('Exercice')) {
@@ -73,13 +89,36 @@ export class ExerciceListComponent implements OnInit {
         command: event => this.deleteExercice(this.selectedExercice)
       });
     }
+  }
+  editExerciceState(): void {
+    const hint = this.selectedExercice.encours ? 'Désactivé' : 'Activé';
+    this.selectedExercice.encours = !this.selectedExercice.encours;
+    this.exerciceSrv.update(this.selectedExercice)
+      .subscribe((data) => {
+        this.notificationSrv.showInfo('Exercice ' + hint + ' avec succés.');
+      }, error => {
+        if (error.error.code === 417) {
+          this.toggleConfirmModal(this.editModalContentRef);
+        } else {
+          this.exerciceSrv.httpSrv.handleError(error)
+        }
+      });
 
-    this.exercices = this.activatedRoute.snapshot.data['exercices'];
-    console.log(this.selectedExercices);
   }
 
-  viewExercice(exercice: Exercice) {
-    this.router.navigate([this.exerciceSrv.getRoutePrefix(), exercice.id]);
+  public disableExerciceExcept() {
+    const hint = this.selectedExercice.encours ? 'Désactivé' : 'Activé';
+    this.exerciceSrv.disableExerciceExcept(this.selectedExercice, 'update')
+      .subscribe((data: any) => {
+        this.notificationSrv.showInfo('Exercice ' + hint + ' avec succés.');
+        this.exercices.forEach(ex => {
+          if (ex.id !== data.id) {
+            ex.encours = false;
+          }
+        });
+        this.exercices = [...this.exercices];
+      });
+    this.modalSrv.dismissAll();
   }
 
   editExercice(exercice: Exercice) {
@@ -99,13 +138,13 @@ export class ExerciceListComponent implements OnInit {
   }
 
   deleteAfterConfirmation(exercice: Exercice) {
-      this.exerciceSrv.remove(exercice).subscribe(
-        () => {
-          this.refreshList(),
+    this.exerciceSrv.remove(exercice).subscribe(
+      () => {
+        this.refreshList(),
           this.modalSrv.dismissAll();
-        },
-        error => this.exerciceSrv.httpSrv.handleError(error)
-      );
+      },
+      error => this.exerciceSrv.httpSrv.handleError(error)
+    );
   }
 
   deleteExercice(exercice: Exercice) {
@@ -160,11 +199,17 @@ export class ExerciceListComponent implements OnInit {
     this.modalSrv.open(content, {
       size: 'lg',
       backdropClass: 'light-blue-backdrop',
-      centered: true
+      centered: true,
+      keyboard: false,
+      backdrop: 'static'
     });
   }
 
   dissmissModal(param: string) {
     this.modalSrv.dismissAll(param);
+  }
+  dissmissEditModal(param: string) {
+    this.modalSrv.dismissAll(param);
+    this.selectedExercice.encours = !this.selectedExercice.encours;
   }
 }
