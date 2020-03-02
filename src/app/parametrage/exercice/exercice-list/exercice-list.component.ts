@@ -46,7 +46,7 @@ export class ExerciceListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //voir dans buildContextualMenu() pour voir la construction du menu contextuel
+    // voir dans buildContextualMenu() pour voir la construction du menu contextuel
     this.exercices = this.activatedRoute.snapshot.data['exercices'];
   }
 
@@ -110,6 +110,7 @@ export class ExerciceListComponent implements OnInit {
     const hint = this.selectedExercice.encours ? 'Désactivé' : 'Activé';
     this.exerciceSrv.disableExerciceExcept(this.selectedExercice, 'update')
       .subscribe((data: any) => {
+        window.scrollTo(0, 0);
         this.notificationSrv.showInfo('Exercice ' + hint + ' avec succés.');
         this.exercices.forEach(ex => {
           if (ex.id !== data.id) {
