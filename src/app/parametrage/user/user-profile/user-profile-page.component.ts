@@ -5,8 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { TypeEntite } from 'app/parametrage/type_entite/type_entite';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ReadVarExpr } from '@angular/compiler';
-
 @Component({
     selector: 'app-user-profile-page',
     templateUrl: './user-profile-page.component.html',
@@ -73,21 +71,19 @@ export class UserProfilePageComponent implements OnInit {
                 error => this.userSrv.httpSrv.handleError(error));
     }
 
-    onFileSelected(file: FileList) {
-        this.fileToUpload = file.item(0);
+    onFileSelected(event) {
+        this.fileToUpload = event.target.files[0];
         const reader = new FileReader();
-        reader.onload = (event: any) => {
+        reader.onload = (event: any) => {           
             this.imageUrl = event.target.result;
         }
-        reader.readAsDataURL(this.fileToUpload);
-               
-      };
-    
+        reader.readAsDataURL(this.fileToUpload);               
+      };    
 
-    onUpload(){
+    onUpload(){        
        this.userSrv.uploadFileProfil(this.fileToUpload)
         .subscribe((data: any) => { 
-            console.log(data)
+            //console.log(data)
         },error => this.userSrv.httpSrv.handleError(error)
         );
     }

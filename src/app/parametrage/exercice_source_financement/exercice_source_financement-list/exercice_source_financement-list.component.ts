@@ -27,10 +27,10 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
   encour: any;
   exercices: Exercice[] = [];
   entites: Entite[] = [];
-  tempTabParamMontant = [];
+  tempTabParamMontant: any;
   exerciceSouceFinancement: ExerciceSourceFinancement;
   sourceFinancements: ExerciceSourceFinancement[];
-  tabExerciceSourceFinancements: ExerciceSourceFinancement[];
+  paramTabExerciceSourceFinancements: any;
   tab_choiceDatas: ExerciceSourceFinancement[];
   tabParamMontant: ExerciceSourceFinancement[] = [];
   display = false;
@@ -97,11 +97,6 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     }
   }
 
- /* refreshList() {
-    this.exercice_source_financementSrv.findAll()
-      .subscribe((data: any) => this.exerciceSourceFinancements = data, error => this.exercice_source_financementSrv.httpSrv.handleError(error));
-  }*/
-
   exportPdf() {
     this.exportSrv.exportPdf(this.tableColumns, this.exercice_source_financements, 'exercice_source_financements');
   }
@@ -116,8 +111,8 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
   refreshList(){
     this.exercice_source_financementSrv.findExerciceSourceFinancementByExerciceAndEntite(this.exerciceSouceFinancement.exercice, this.exerciceSouceFinancement.entite)
       .subscribe((data: any) => 
-      {this.tabExerciceSourceFinancements = data;
-        this.tempTabParamMontant = this.tabExerciceSourceFinancements;
+      {this.paramTabExerciceSourceFinancements = data;
+        this.tempTabParamMontant = this.paramTabExerciceSourceFinancements;
       }
       , error => this.exercice_source_financementSrv.httpSrv.handleError(error));
   }
@@ -239,7 +234,8 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
   deleteExerciceSourceFinancement(exerciceSourceFin: ExerciceSourceFinancement) {
     this.exercice_source_financementSrv.remove(exerciceSourceFin)
       .subscribe(data => 
-        {this.exercice_source_financementSrv.httpSrv.notificationSrv.showInfo(" ");
+        {;
+          //this.paramTabExerciceSourceFinancements.tabExerciceSourceFinancements = this.paramTabExerciceSourceFinancements.tabExerciceSourceFinancements.filter(data => data.id !== exerciceSourceFin.id);
         
       },
        error => this.exercice_source_financementSrv.httpSrv.handleError(error));
@@ -254,6 +250,8 @@ updateExerciceSourceFinancement(exerciceSourceFin) {
 }
 
 modalUpdateMontant(exerciceSourceFin){
+  let tempExerice = this.exerciceSouceFinancement.exercice;
+  let tempEntite = this.exerciceSouceFinancement.entite;
   Swal.fire({
     
       title: 'Saisir le nouveau montant',
@@ -276,6 +274,11 @@ modalUpdateMontant(exerciceSourceFin){
       if (result.value) {
         exerciceSourceFin.montant = result.value;
         this.updateExerciceSourceFinancement(exerciceSourceFin);
+       this.exerciceSouceFinancement.exercice = tempExerice.id;
+      this.exerciceSouceFinancement.entite = tempEntite.id;
+      this.refreshList();
+      this.exerciceSouceFinancement.exercice = tempExerice;
+      this.exerciceSouceFinancement.entite = tempEntite;
       }
       
     })
@@ -293,10 +296,11 @@ handleConfirmeDeleted(exerciceSourceFin){
   }).then((result) => {
     if (result.value) {
       this.deleteExerciceSourceFinancement(exerciceSourceFin);
+      this.paramTabExerciceSourceFinancements.tabExerciceSourceFinancements = this.paramTabExerciceSourceFinancements.tabExerciceSourceFinancements.filter(data => data.id !== exerciceSourceFin.id);
       this.sourceFinancements.push(exerciceSourceFin.sourceFinancement);
-      this.tabExerciceSourceFinancements = this.tabExerciceSourceFinancements.filter(data => data.id !== exerciceSourceFin.id);
-      this.tempTabParamMontant.length = this.tempTabParamMontant.length-1;
-      if (this.tempTabParamMontant.length == 0){
+      this.paramTabExerciceSourceFinancements.montantTotal = this.paramTabExerciceSourceFinancements.montantTotal - exerciceSourceFin.montant;    
+      //this.tempTabParamMontant.tabExerciceSourceFinancements.length = this.tempTabParamMontant.tabExerciceSourceFinancements.length-1;
+      if (this.tempTabParamMontant.tabExerciceSourceFinancements.length == 0){
         this.step = 1;
       }
     }

@@ -67,7 +67,7 @@
                                     <button [disabled]="tab_choiceDatas?.length == 0" (click)="activeStepParamMontant()" class="btn btn-outline-primary pull-right ml-1 mt-2"> <i class="fa fa-save" aria-hidden="true"></i>
                                                 Suivant
                                                 </button>
-                                    <button *ngIf="(step == 4 && tabExerciceSourceFinancements?.length > 0 && encour == true) || (step == 4 && sourceFinancements?.length > 0 && encour == true)" class="btn btn-outline-warning pull-right mt-2">
+                                    <button *ngIf="(step == 4 && paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements?.length > 0 && encour == true) || (step == 4 && sourceFinancements?.length > 0 && encour == true)" class="btn btn-outline-warning pull-right mt-2">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>Modifier
                                                 </button>
                                     <button [disabled]="step == 0" class="btn btn-outline-warning pull-left mt-2" (click)="previousPickList()">
@@ -105,8 +105,8 @@
                         </div>
                         <!--card deja parametre -->
                         <div class="col-sm-3 mb-2 mb-md-0 mt-2" style="text-align: right;">
-                            <div *ngIf="((step==4 && tabExerciceSourceFinancements?.length> 0) || (step == 1 && tabExerciceSourceFinancements?.length > 0)) && encour == true">
-                                <p-table [value]="tabExerciceSourceFinancements">
+                            <div *ngIf="((step==4 && paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements?.length> 0) || (step == 1 && paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements?.length > 0)) && encour == true">
+                                <p-table [value]="paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th style="text-align: center;">Source-fin paramétrée(s)</th>
@@ -163,7 +163,7 @@
                 </div>
             </div>
             <!--debut partie 4-->
-            <div class="row mt-2" *ngIf="tabExerciceSourceFinancements?.length> 0">
+            <div class="row mt-2" *ngIf="paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements?.length> 0">
                 <div class="col-sm-12 col-md-12 col-lg-12 mt-3">
                     <form *ngIf="'ExerciceSourceFinancement'|creable" class="form" role="form" #exercice_source_financementForm="ngForm" autocomplete="off">
                         <p-header class="font-weight-bold " styleClass="text-align: center;">Suivi des exercices sources financements</p-header>
@@ -176,7 +176,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let exerciceSourceFin of tabExerciceSourceFinancements">
+                                <tr *ngFor="let exerciceSourceFin of paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements">
                                     <td>{{exerciceSourceFin.sourceFinancement.libelle}}</td>
                                     <td>{{exerciceSourceFin.montant}}</td>
                                     <td>
@@ -189,6 +189,12 @@
                                     </td>
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th> Somme totale </th>
+                                    <th colspan="2">{{paramTabExerciceSourceFinancements.montantTotal}}</th>
+                                </tr>
+                            </tfoot>
                         </table>
                         <p-toolbar>
                             <button class="btn btn-outline-primary pull-right ml-1 mt-3" (click)="open(mymodal)">
@@ -201,9 +207,8 @@
             <!--debut Modal recapitulatif 5-->
             <div class="row">
                 <ng-template #mymodal let-modal>
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <p-table class="col-sm-12 col-md-12 col-lg-12 mt-2" [value]="tabExerciceSourceFinancements" [responsive]="true" [scrollable]="true" [style]="{'width':'600px', 'margin-left':'10%', 
-                        'margin-right':'15%'}">
+                    <div class="mymodal modal-xl">
+                        <p-table class="col-sm-12 col-md-12 col-lg-12" [value]="paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements" [responsive]="true" [scrollable]="true">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th colspan="5" style="text-align:center;">
@@ -227,25 +232,70 @@
                                     <td>{{sourceFinItem.montant}}</td>
                                 </tr>
                             </ng-template>
+                            <ng-template pTemplate="footer">
+                                <tr style="text-align:center;">
+                                    <td colspan="4"> Somme totale </td>
+                                    <td>{{paramTabExerciceSourceFinancements.montantTotal}}</td>
+                                </tr>
+                            </ng-template>
+
                         </p-table>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Fermer</button>
                     </div>
                 </ng-template>
+                <!--div class="modal fade mymodal-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th colspan="5" style="text-align:center;">
+                                            <h3>Sources financements paramétrées </h3>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Source financement</th>
+                                        <th>Type</th>
+                                        <th>Exercice</th>
+                                        <th>Entite</th>
+                                        <th>Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="text-align:center;" *ngFor="let sourceFinItem of paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements">
+                                        <td>{{sourceFinItem.sourceFinancement.libelle}}</td>
+                                        <td>{{sourceFinItem.sourceFinancement.type.libelle}}</td>
+                                        <td>{{sourceFinItem.exercice.libelle}}</td>
+                                        <td>{{sourceFinItem.entite.nom}}</td>
+                                        <td>{{sourceFinItem.montant}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr style="text-align:center;">
+                                        <td colspan="4"> Somme totale </td>
+                                        <td>{{paramTabExerciceSourceFinancements.montantTotal}}</td>
+                                    </tr>
+                                </tfoot>
+
+                            </table>
+                        </div>
+                    </div>
+                </div-->
             </div>
             <!--Section exercice ferme-->
             <div class="row mt-2" *ngIf="encour == false">
-                <span *ngIf="tabExerciceSourceFinancements?.length == 0" style="text-align: center;" class="col-sm-12 col-md-12 col-lg-12 alert alert-warning mt-2"> 
+                <span *ngIf="paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements?.length==0 " style="text-align: center; " class="col-sm-12 col-md-12 col-lg-12 alert alert-warning mt-2 "> 
                     <h5 >Aucun paramétrage pour cet exercice</h5>
                 </span>
                 <div>
-                    <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-2">
+                    <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-2 ">
                         <div>
-                            <p-table [value]="tabExerciceSourceFinancements" [responsive]="true" [scrollable]="true">
-                                <ng-template pTemplate="header">
+                            <p-table [value]="paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements " [responsive]="true " [scrollable]="true ">
+                                <ng-template pTemplate="header ">
                                     <tr>
-                                        <th colspan="5" style="text-align:center;"><strong>Sources financements paramétrées</strong></th>
+                                        <th colspan="5 " style="text-align:center; "><strong>Sources financements paramétrées</strong></th>
                                     </tr>
                                     <tr>
                                         <th>Source financement</th>
@@ -255,7 +305,7 @@
                                         <th>Montant</th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-sourceFinItem>
+                                <ng-template pTemplate="body " let-sourceFinItem>
                                     <tr>
                                         <td>{{sourceFinItem.sourceFinancement.libelle}}</td>
                                         <td>{{sourceFinItem.sourceFinancement.type.libelle}}</td>
@@ -267,20 +317,20 @@
                             </p-table>
                         </div>
                     </p-toolbar>
-                    <div class="col-sm-12 col-md-12 col-lg-12 mt-3">
-                        <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-3">
+                    <div class="col-sm-12 col-md-12 col-lg-12 mt-3 ">
+                        <p-toolbar class="col-sm-12 col-md-12 col-lg-12 mt-3 ">
                             <div>
-                                <p-table [value]="sourceFinancements" [responsive]="true" [scrollable]="true">
-                                    <ng-template pTemplate="header">
+                                <p-table [value]="sourceFinancements " [responsive]="true " [scrollable]="true ">
+                                    <ng-template pTemplate="header ">
                                         <tr>
-                                            <th colspan="2" style="text-align:center;"> <strong>Sources financements dispinibles</strong></th>
+                                            <th colspan="2 " style="text-align:center; "> <strong>Sources financements dispinibles</strong></th>
                                         </tr>
                                         <tr>
                                             <th>Libelle</th>
                                             <th>Type</th>
                                         </tr>
                                     </ng-template>
-                                    <ng-template pTemplate="body" let-sourceFinancement>
+                                    <ng-template pTemplate="body " let-sourceFinancement>
                                         <tr>
                                             <td>{{sourceFinancement.libelle}}</td>
                                             <td>{{sourceFinancement.type.libelle}}</td>
