@@ -77,7 +77,9 @@ export class ExerciceShowComponent implements OnInit {
     this.modalSrv.open(content, {
       size: "lg",
       backdropClass: "light-blue-backdrop",
-      centered: true
+      centered: true,
+      keyboard: false,
+      backdrop: 'static',
     });
   }
 
@@ -85,10 +87,10 @@ export class ExerciceShowComponent implements OnInit {
     this.modalSrv.dismissAll(param);
   }
 
-  refresh(){
+  refresh() {
     this.exerciceSrv.findOneById(this.exercice.id)
-    .subscribe((data:any)=>this.exercice=data,
-      error=>this.exerciceSrv.httpSrv.handleError(error));
+      .subscribe((data: any) => this.exercice = data,
+        error => this.exerciceSrv.httpSrv.handleError(error));
   }
 
 }
