@@ -24,7 +24,7 @@ export class FournisseurListComponent implements OnInit {
   selectedFournisseur: Fournisseur;
   clonedFournisseurs: Fournisseur[];
   secteurs: Secteur[] = [];
-  strict: boolean;
+  strict: boolean
   checkedSectors: Secteur[] = [];
 
   cMenuItems: MenuItem[] = [];

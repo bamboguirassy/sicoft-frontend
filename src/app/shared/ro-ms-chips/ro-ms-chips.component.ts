@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ro-ms-chips',
   templateUrl: './ro-ms-chips.component.html',
   styleUrls: ['./ro-ms-chips.component.scss']

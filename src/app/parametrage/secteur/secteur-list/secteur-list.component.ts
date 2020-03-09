@@ -15,16 +15,15 @@ import { NotificationService } from 'app/shared/services/notification.service';
   styleUrls: ['./secteur-list.component.scss']
 })
 export class SecteurListComponent implements OnInit {
-
   secteurs: Secteur[] = [];
   selectedSecteurs: Secteur[];
   selectedSecteur: Secteur;
   clonedSecteurs: Secteur[];
 
-  cMenuItems: MenuItem[]=[];
+  cMenuItems: MenuItem[] = [];
 
   tableColumns = secteurColumns;
-  //allowed fields for filter
+  // allowed fields for filter
   globalFilterFields = allowedSecteurFieldsForFilter;
 
 
@@ -34,16 +33,16 @@ export class SecteurListComponent implements OnInit {
     public notificationSrv: NotificationService) { }
 
   ngOnInit() {
-    if(this.authSrv.checkShowAccess('Secteur')){
+    if (this.authSrv.checkShowAccess('Secteur')) {
       this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewSecteur(this.selectedSecteur) });
     }
-    if(this.authSrv.checkEditAccess('Secteur')){
+    if (this.authSrv.checkEditAccess('Secteur')) {
       this.cMenuItems.push({ label: 'Modifier', icon: 'pi pi-pencil', command: (event) => this.editSecteur(this.selectedSecteur) })
     }
-    if(this.authSrv.checkCloneAccess('Secteur')){
+    if (this.authSrv.checkCloneAccess('Secteur')) {
       this.cMenuItems.push({ label: 'Cloner', icon: 'pi pi-clone', command: (event) => this.cloneSecteur(this.selectedSecteur) })
     }
-    if(this.authSrv.checkDeleteAccess('Secteur')){
+    if (this.authSrv.checkDeleteAccess('Secteur')) {
       this.cMenuItems.push({ label: 'Supprimer', icon: 'pi pi-times', command: (event) => this.deleteSecteur(this.selectedSecteur) })
     }
 
@@ -73,7 +72,7 @@ export class SecteurListComponent implements OnInit {
         this.secteurSrv.removeSelection(this.selectedSecteurs)
           .subscribe(data => this.refreshList(), error => this.secteurSrv.httpSrv.handleError(error));
       } else {
-        this.secteurSrv.httpSrv.notificationSrv.showWarning("Selectionner au moins un élement");
+        this.secteurSrv.httpSrv.notificationSrv.showWarning('Selectionner au moins un élement');
       }
   }
 

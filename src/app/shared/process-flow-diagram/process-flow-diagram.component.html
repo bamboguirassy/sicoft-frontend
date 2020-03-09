@@ -1,0 +1,21 @@
+<div class="row container">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <div class="processs  ml-1 p-1 mt-1" >{{items[0].bindLabel}} <br><br>  <ul class="itemss">
+    <li>
+      {{items[0].subItems}}
+    </li>
+
+  </ul></div>
+    <div [hidden]="!hasItems" *ngFor="let item of items | after:1">
+      <div class="process col-sm-6 mt-1 p-1" >
+        {{item.bindLabel}} <br><br>
+      <ul class="itemss">
+    <li >
+      {{item.subItems}}
+    </li>
+
+  </ul>
+      </div>
+    </div>
+  </div>
+</div>
