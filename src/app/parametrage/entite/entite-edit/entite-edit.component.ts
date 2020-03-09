@@ -31,7 +31,7 @@ export class EntiteEditComponent implements OnInit {
   }
 
   updateEntite() {
-    let tempTypeEntite = this.entite.typeEntite;
+    const tempTypeEntite = this.entite.typeEntite;
     this.entite.typeEntite = this.entite.typeEntite.id;
     let tempEntiteParent = null;
     if (this.entite.entiteParent) {

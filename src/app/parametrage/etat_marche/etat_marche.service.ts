@@ -8,7 +8,7 @@ import { EtatMarche } from './etat_marche';
 })
 export class EtatMarcheService {
 
-  private routePrefix: string = 'etatMarche';
+  private routePrefix = 'etatMarche';
 
   constructor(public httpSrv: HttpService) { }
 
@@ -25,19 +25,19 @@ export class EtatMarcheService {
   }
 
   update(etat_marche: EtatMarche) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+etat_marche.id+'/edit', etat_marche);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + etat_marche.id + '/edit', etat_marche);
   }
 
   clone(original: EtatMarche, clone: EtatMarche) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+original.id+'/clone', clone);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + original.id + '/clone', clone);
   }
 
   remove(etat_marche: EtatMarche) {
-    return this.httpSrv.delete(this.getRoutePrefixWithSlash()+etat_marche.id);
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + etat_marche.id);
   }
 
   removeSelection(etat_marches: EtatMarche[]) {
-    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',etat_marches);
+    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', etat_marches);
   }
 
   public getRoutePrefix(): string {
@@ -45,14 +45,14 @@ export class EtatMarcheService {
   }
 
   private getRoutePrefixWithSlash(): string {
-    return this.routePrefix+'/';
+    return this.routePrefix + '/';
   }
 
   fetchNotAddedUser(id: number): Observable<any> {
     return this.httpSrv.get(`${this.getRoutePrefix()}/${id}/users`);
   }
-  getEtatMarcheByTypePassation(id: number){
-    return this.httpSrv.get(this.getRoutePrefixWithSlash()+'etatMarche_by_typePassaton/' + id);
+  getEtatMarcheByTypePassation(id: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + 'etatMarche_by_typePassaton/' + id);
   }
 
 }
