@@ -39,7 +39,7 @@
             <div class="col-lg-4">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="groups">Groupes d'utilisateur</label> <br>
-                    <p-multiSelect name="groups" id="groups" defaultLabel="Selectionner un ou plusieurs groupes" [options]="groups" [(ngModel)]="user.groups" optionLabel="name"></p-multiSelect>
+                    <p-multiSelect required name="groups" id="groups" defaultLabel="Selectionner un ou plusieurs groupes" [options]="groups" [(ngModel)]="user.groups" optionLabel="name"></p-multiSelect>
                 </div>
             </div>
             <div class="col-lg-4">

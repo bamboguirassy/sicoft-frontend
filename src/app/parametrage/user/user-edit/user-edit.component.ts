@@ -46,19 +46,21 @@ export class UserEditComponent implements OnInit {
   }
 
   updateUser() {
-    const groupIds = [];
-    this.user.groups.forEach(group => {
-      groupIds.push(group.id);
-    });
-    this.user.groups = groupIds;
-    const entiteId = [];
-    this.user.entites.forEach(entite => {
-      entiteId.push(entite.id);
-    });
-    this.user.entites = entiteId;
+    const tempUser = new User();
+    Object.assign(tempUser, this.user);
+    if (this.user.groups) {
+      this.user.groups = this.user.groups.map(group => group.id);
+    }
+    if (this.user.entites) {
+      this.user.entites = this.user.entites.map(entite => entite.id);
+    }
     this.userSrv.update(this.user)
       .subscribe(data => this.location.back(),
-        error => this.userSrv.httpSrv.handleError(error));
+        error => {
+          this.user = tempUser;
+          window.scrollTo(0, 0);
+          this.userSrv.httpSrv.handleError(error);
+        });
   }
 
   onRemove(e: any) {

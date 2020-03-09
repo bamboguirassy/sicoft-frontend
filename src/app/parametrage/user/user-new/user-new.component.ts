@@ -31,40 +31,40 @@ export class UserNewComponent implements OnInit {
   }
 
   saveUser() {
-    let groupIds = [];
-    this.user.groups.forEach(group => {
-      groupIds.push(group.id);
-    });
-    this.user.groups = groupIds;
-// recupérationd des entité dans user
-    let entiteId = [];
-    this.user.entites.forEach(entite => {
-      entiteId.push(entite.id);
-    });
-    this.user.entites = entiteId;
+    const tempUser = new User();
+    Object.assign(tempUser, this.user);
+    if (this.user.groups) {
+      this.user.groups = this.user.groups.map(group => group.id);
+    }
+    if (this.user.entites) {
+      this.user.entites = this.user.entites.map(entite => entite.id);
+    }
     this.userSrv.create(this.user)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('User créé avec succès');
         this.user = new User();
-      }, error => this.userSrv.httpSrv.handleError(error));
+      }, error => {
+        this.user = tempUser;
+        this.userSrv.httpSrv.handleError(error)
+      });
   }
 
   saveUserAndExit() {
-    let groupIds = [];
-    this.user.groups.forEach(group => {
-      groupIds.push(group.id);
-    });
-    this.user.groups = groupIds;
-
-    let entiteId = [];
-    this.user.entites.forEach(entite => {
-      entiteId.push(entite.id);
-    });
-    this.user.entites = entiteId;
+    const tempUser = new User();
+    Object.assign(tempUser, this.user);
+    if (this.user.groups) {
+      this.user.groups = this.user.groups.map(group => group.id);
+    }
+    if (this.user.entites) {
+      this.user.entites = this.user.entites.map(entite => entite.id);
+    }
     this.userSrv.create(this.user)
       .subscribe((data: any) => {
         this.router.navigate([this.userSrv.getRoutePrefix(), data.id]);
-      }, error => this.userSrv.httpSrv.handleError(error));
+      }, error => {
+        this.user = tempUser;
+        this.userSrv.httpSrv.handleError(error)
+      });
   }
 
 }

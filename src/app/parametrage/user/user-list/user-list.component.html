@@ -147,7 +147,7 @@
                         </ng-template>
                     </p-table>
                     
-                    <p-contextMenu #contextMenu [model]="cMenuItems" (onShow)="showButtonActivationUser()"></p-contextMenu>
+                    <p-contextMenu #contextMenu [model]="cMenuItems" (onShow)="buildContextualMenu()"></p-contextMenu>
                     <p-toolbar>
                         <button *ngIf="'User'|deletable" (click)="deleteSelectedUsers()" type="button" class="btn btn-outline-danger mr-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection

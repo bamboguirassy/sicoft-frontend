@@ -144,7 +144,7 @@
               </tr>
             </ng-template>
           </p-table>
-          <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
+          <p-contextMenu #contextMenu (onShow)="buildContextualMenu()" [model]="cMenuItems"></p-contextMenu>
           <p-toolbar>
             <button *ngIf="'Fournisseur'|deletable" (click)="deleteSelectedFournisseurs()" type="button"
               class="btn btn-outline-danger mr-1">

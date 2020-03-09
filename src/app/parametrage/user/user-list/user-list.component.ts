@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {User} from '../user';
-import {ActivatedRoute, Router} from '@angular/router';
-import {UserService} from '../user.service';
-import {userColumns, allowedUserFieldsForFilter} from '../user.columns';
-import {MenuItem} from 'primeng/api';
-import {AuthService} from 'app/shared/services/auth.service';
-import {NotificationService} from 'app/shared/services/notification.service';
-import {ExportService} from 'app/shared/services/export.service';
-import {Group} from '../../group/group';
+import { Component, OnInit } from '@angular/core';
+import { User } from '../user';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../user.service';
+import { userColumns, allowedUserFieldsForFilter } from '../user.columns';
+import { MenuItem } from 'primeng/api';
+import { AuthService } from 'app/shared/services/auth.service';
+import { NotificationService } from 'app/shared/services/notification.service';
+import { ExportService } from 'app/shared/services/export.service';
+import { Group } from '../../group/group';
 
 @Component({
     selector: 'app-user-list',
@@ -33,9 +33,9 @@ export class UserListComponent implements OnInit {
     originalUsers: User[] = [];
 
     states = [
-        {label: 'Tous les utilisateurs'},
-        {label: 'Actif', value: true},
-        {label: 'Inactif', value: false},
+        { label: 'Tous les utilisateurs' },
+        { label: 'Actif', value: true },
+        { label: 'Inactif', value: false },
     ];
 
     constructor(
@@ -54,6 +54,11 @@ export class UserListComponent implements OnInit {
         this.originalUsers = this.users.slice();
         this.groups = this.activatedRoute.snapshot.data['groups'];
 
+        this.buildContextualMenu();
+    }
+
+    buildContextualMenu(): void {
+        this.cMenuItems = [];
         if (this.authSrv.checkShowAccess('User')) {
             this.cMenuItems.push({
                 label: 'Afficher détails',
@@ -67,6 +72,13 @@ export class UserListComponent implements OnInit {
                 icon: 'pi pi-pencil',
                 command: event => this.editUser(this.selectedUser)
             });
+            if (this.selectedUser && this.authSrv.currentUser.id !== this.selectedUser.id) {
+                this.cMenuItems.push({
+                    label: this.selectedUser.enabled ? 'Désactiver' : 'Activer',
+                    icon: this.selectedUser.enabled ? 'pi pi-lock' : 'pi pi-unlock',
+                    command: event => this.updateEtatUser(this.selectedUser)
+                });
+            }
         }
         if (this.authSrv.checkCloneAccess('User')) {
             this.cMenuItems.push({
@@ -75,7 +87,7 @@ export class UserListComponent implements OnInit {
                 command: event => this.cloneUser(this.selectedUser)
             });
         }
-        if (this.authSrv.checkDeleteAccess('User')) {
+        if (this.authSrv.checkDeleteAccess('User') && this.selectedUser && this.authSrv.currentUser.id !== this.selectedUser.id) {
             this.cMenuItems.push({
                 label: 'Supprimer',
                 icon: 'pi pi-times',
@@ -112,7 +124,10 @@ export class UserListComponent implements OnInit {
 
     refreshList() {
         this.userSrv.findAll().subscribe(
-            (data: any) => (this.users = data),
+            (data: any) => {
+                this.users = data;
+                this.originalUsers = data;
+            },
             error => this.userSrv.httpSrv.handleError(error)
         );
     }
@@ -141,20 +156,6 @@ export class UserListComponent implements OnInit {
                     }
                 }
                 , error => this.userSrv.httpSrv.handleError(error));
-    }
-
-    showButtonActivationUser() {
-        this.cMenuItems = this.cMenuItems.filter(data => data.label !== 'Activer');
-        this.cMenuItems = this.cMenuItems.filter(data => data.label !== 'Désactiver');
-        const activeUser = this.selectedUser.enabled ? 'Désactiver' : 'Activer';
-        const activeIcone = this.selectedUser.enabled ? 'pi pi-lock' : 'pi pi-unlock';
-        if (this.authSrv.checkEditAccess('User')) {
-            this.cMenuItems.push({
-                label: activeUser,
-                icon: activeIcone,
-                command: event => this.updateEtatUser(this.selectedUser)
-            });
-        }
     }
 
     updateEtatUser(user) {
