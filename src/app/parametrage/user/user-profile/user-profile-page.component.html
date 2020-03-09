@@ -74,7 +74,7 @@
 
                     <ng-template #content let-modal>
                         <p-toast></p-toast>
-                        <form #profilForm="ngForm">
+                        <form #updatePasswordForm="ngForm">
                             <div class="modal-header new-sous-class-header">
                                 <h4 class="modal-title">Changer votre mot de passe</h4>
                                 <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -85,28 +85,24 @@
                                 <div class="control-group">
                                     <label class="col-form-label form-control-label" for="currentPasword">Mot de passe actuel </label>
                                     <div class="controls">
-                                        <input required [(ngModel)]="user.currentPassword" class="form-control" type="password" name="currentPassword" class="form-control mb-3"
-                                            id="currentPassword" />
+                                        <input required [(ngModel)]="user.currentPassword" class="form-control" type="password" name="currentPassword" class="form-control mb-3" id="currentPassword" />
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="col-form-label form-control-label" for="newPassword">Nouveau mot de passe</label>
                                     <div class="controls">
-                                        <input type="password" feedback="true"
-                                        required  pPassword [(ngModel)]="user.newPassword" class="form-control" name="newPassword" class="form-control mb-3"
-                                            id="newPassword" />
+                                        <input type="password" feedback="true" required pPassword [(ngModel)]="user.newPassword" class="form-control" name="newPassword" class="form-control mb-3" id="newPassword" />
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="col-form-label form-control-label" for="confirmPassword">Confirmer mot de passe</label>
                                     <div class="controls">
-                                        <input feedback="true" pPassword required [(ngModel)]="user.confirmPassword" class="form-control" type="password" name="confirmPassword" class="form-control mb-3"
-                                            id="confirmPassword" />
+                                        <input feedback="true" pPassword required [(ngModel)]="user.confirmPassword" class="form-control" type="password" name="confirmPassword" class="form-control mb-3" id="confirmPassword" />
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer new-sous-class-footer">
-                                <button [disabled]="profilForm.invalid" type="button" class="btn btn-outline-primary" (click)="updatePassword()">
+                                <button [disabled]="updatePasswordForm.invalid" type="button" class="btn btn-outline-primary" (click)="updatePassword()">
                                     Enregistrer
                                 </button>
                             </div>
@@ -141,8 +137,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="col-form-label form-control-label" for="telephone">Telephone</label>
-                                            <p-inputMask required [(ngModel)]="user.telephone" styleClass="form-control" type="text" name="telephone" id="telephone"
-                                                mask="99-999-99-99">
+                                            <p-inputMask required [(ngModel)]="user.telephone" styleClass="form-control" type="text" name="telephone" id="telephone" mask="99-999-99-99">
                                             </p-inputMask>
                                         </div>
                                     </div>
@@ -183,8 +178,7 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input class="form-control" type="file" name="photoUrl" id="photoUrl" (change)="onFileSelected($event.target.files)" #selectFile
-                                            />
+                                            <input class="form-control" type="file" name="image" id="image" (change)="onFileSelected($event)" #selectFile />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -273,8 +267,7 @@
             <div class="content-header">Entité(s)</div>
         </div>
     </div>
-    <p-table #tt [value]="type_entites" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedTypeEntites"
-        [resizableColumns]="true" [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedTypeEntite"
+    <p-table #tt [value]="type_entites" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedTypeEntites" [resizableColumns]="true" [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedTypeEntite"
         [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
         <ng-template pTemplate="colgroup">
             <colgroup>

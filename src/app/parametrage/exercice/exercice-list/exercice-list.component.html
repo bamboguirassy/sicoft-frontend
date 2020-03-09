@@ -5,25 +5,35 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <p-toolbar>
-                        <button *ngIf="'Exercice'|listable" type="button" class="btn btn-outline-secondary" (click)="refreshList()">
-              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
-            </button>
+                        <button *ngIf="'Exercice'|listable" type="button" class="btn btn-outline-secondary"
+                            (click)="refreshList()">
+                            <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+                        </button>
                         <!-- <button *ngIf="'Exercice'|deletable" (click)="deleteSelectedExercices()" type="button" class="btn btn-outline-danger pull-right ml-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
             </button> -->
-                        <button *ngIf="'Exercice'|creable" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
-              <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
-            </button>
+                        <button *ngIf="'Exercice'|creable" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),'new']"
+                            routerLinkActive="router-link-active" type="button"
+                            class="btn btn-outline-primary pull-right ml-1">
+                            <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
+                        </button>
                     </p-toolbar>
-                    <p-table #tt [value]="exercices" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedExercices" [resizableColumns]="true" [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedExercice"
+                    <p-table #tt [value]="exercices" [paginator]="true" [rows]="50" sortMode="multiple"
+                        selectionMode="multiple" [(selection)]="selectedExercices" [resizableColumns]="true"
+                        [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedExercice"
                         [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
                         <ng-template pTemplate="caption">
                             Liste des exercices<br>
                             <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                            <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                            <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
+                                (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
                             <div class="ui-helper-clearfix" style="text-align: left">
-                                <button *ngIf="'Exercice'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>
-                                <button *ngIf="'Exercice'|listable" type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
+                                <button *ngIf="'Exercice'|listable" type="button" pButton icon="pi pi-file-pdf"
+                                    iconPos="left" label="PDF" (click)="exportPdf()"
+                                    class="ui-button-warning pull-right ml-1"></button>
+                                <button *ngIf="'Exercice'|listable" type="button" pButton icon="pi pi-file-excel"
+                                    iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;"
+                                    class="ui-button-success pull-right"></button>
                             </div>
                         </ng-template>
                         <ng-template pTemplate="colgroup">
@@ -108,14 +118,15 @@
                             </tr>
                         </ng-template>
                     </p-table>
-                    <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
+                    <p-contextMenu #contextMenu [model]="cMenuItems" (onShow)="buildContextualMenu()"></p-contextMenu>
                     <p-toolbar>
                         <!-- <button *ngIf="'Exercice'|deletable" (click)="deleteSelectedExercices()" type="button" class="btn btn-outline-danger mr-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
             </button> -->
-                        <button *ngIf="'Exercice'|creable" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
-              <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
-            </button>
+                        <button *ngIf="'Exercice'|creable" [routerLink]="['/'+exerciceSrv.getRoutePrefix(),'new']"
+                            routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
+                            <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
+                        </button>
                     </p-toolbar>
                 </div>
             </div>
@@ -127,19 +138,46 @@
 <ng-template #confirm *ngIf="'Exercice' | deletable" let-modal>
     <div class="modal-header new-sous-class-header">
         <h4 class="modal-title" id="modal-title">Confirmer la suppression</h4>
-        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
-        <p><strong>Êtes vous sûr de vouloir supprimer l'exercice: <span class="text-primary">{{selectedExercice.libelle}}</span> ?</strong></p>
+    </div>
+    <div class="modal-body">
+        <p><strong>Êtes vous sûr de vouloir supprimer l'exercice: <span
+                    class="text-primary">{{selectedExercice.libelle}}</span> ?</strong></p>
         <p *ngIf="confirmation">Il est le suivant de l'exercice: {{exercicePrecedent?.libelle}} .
-        <span class="text-danger">Voulez-vous continuer?</span>
+            <span class="text-danger">Voulez-vous continuer?</span>
         </p>
-      </div>
-      <div class="modal-footer">
+    </div>
+    <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" (click)="dissmissModal('cancel click')">Annuler</button>
-        <button type="button" ngbAutofocus class="btn btn-outline-danger" (click)="deleteAfterConfirmation(selectedExercice)">
+        <button type="button" ngbAutofocus class="btn btn-outline-danger"
+            (click)="deleteAfterConfirmation(selectedExercice)">
             Ok</button>
-      </div>
+    </div>
+</ng-template>
+
+
+<ng-template #editState *ngIf="'Exercice' | editable" let-modal>
+    <div class="modal-header new-sous-class-header">
+        <h4 class="modal-title" id="modal-title">Confirmer l'activation</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="dissmissEditModal('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p><strong>Êtes vous sûr de vouloir activer l'exercice: <span class="text-primary">{{selectedExercice.libelle}}
+                    ?</span></strong></p>
+        <p>Tous les autres exercices seront par conséquent inactifs.
+            <span class="text-danger">Effectuer l'opération ?</span>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="dissmissEditModal('cancel click')">Annuler</button>
+        <button type="button" ngbAutofocus class="btn btn-outline-danger" (click)="disableExerciceExcept()">
+            Ok</button>
+    </div>
+
 </ng-template>

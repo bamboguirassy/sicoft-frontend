@@ -14,6 +14,7 @@ import {
   ToolbarModule, TabViewModule,
   AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule, ProgressSpinnerModule, ConfirmDialogModule
 } from 'primeng';
+import { OrganizationChartModule } from 'primeng/organizationchart';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
@@ -23,7 +24,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ChipsModule } from 'primeng/chips';
 import { TreeTableModule } from 'primeng/treetable';
-import {PasswordModule} from 'primeng/password';
+import { PasswordModule } from 'primeng/password';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { GroupCloneComponent } from './group/group-clone/group-clone.component';
 import { GroupEditComponent } from './group/group-edit/group-edit.component';
@@ -128,6 +129,7 @@ import { ExerciceSourceFinancementNewComponent } from './exercice_source_finance
 // tslint:disable-next-line:max-line-length
 import { ExerciceSourceFinancementShowComponent } from './exercice_source_financement/exercice_source_financement-show/exercice_source_financement-show.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { EntiteOrgchartComponent } from './entite/entite-orgchart/entite-orgchart.component';
 @NgModule({
   entryComponents: [ClasseNewComponent],
   declarations: [
@@ -226,7 +228,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ExerciceSourceFinancementEditComponent,
     ExerciceSourceFinancementListComponent,
     ExerciceSourceFinancementNewComponent,
-    ExerciceSourceFinancementShowComponent
+    ExerciceSourceFinancementShowComponent,
+    EntiteOrgchartComponent
   ],
   imports: [
     CommonModule,
@@ -259,7 +262,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     PickListModule,
     DialogModule,
     TreeTableModule,
-    PasswordModule
+    PasswordModule,
+    OrganizationChartModule,
   ]
 })
-export class ParametrageModule {}
+export class ParametrageModule { }
