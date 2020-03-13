@@ -7,6 +7,8 @@ import { ExportService } from 'app/shared/services/export.service';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NotificationService } from 'app/shared/services/notification.service';
+import { Exercice } from 'app/parametrage/exercice/exercice';
+import { Entite } from 'app/parametrage/entite/entite';
 
 
 @Component({
@@ -20,6 +22,8 @@ export class BudgetListComponent implements OnInit {
   selectedBudgets: Budget[];
   selectedBudget: Budget;
   clonedBudgets: Budget[];
+  exercices: Exercice[] = [];
+  entites: Entite[] = [];
 
   cMenuItems: MenuItem[]=[];
 
@@ -34,6 +38,8 @@ export class BudgetListComponent implements OnInit {
     public notificationSrv: NotificationService) { }
 
   ngOnInit() {
+    this.exercices = this.activatedRoute.snapshot.data['exerices'];
+    this.entites = this.activatedRoute.snapshot.data['entites'];
     if(this.authSrv.checkShowAccess('Budget')){
       this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewBudget(this.selectedBudget) });
     }

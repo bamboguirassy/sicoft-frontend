@@ -168,17 +168,18 @@
                     <ng-template #contentPhoto let-modal>
                         <p-toast></p-toast>
                         <form #formPhoto="ngForm">
-                            <div class="modal-header new-sous-class-header">
-                                <h4 class="modal-title">Modifier Photo</h4>
-                                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <!--div class="modal-header new-sous-class-header">
+                                <h4 class="modal-title">Modifier Photo</h4>-->
+                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                            </div>
+                            <!--
+                            </div-->
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input class="form-control" type="file" name="image" id="image" (change)="onFileSelected($event)" #selectFile />
+                                            <input class="form-control" type="file" name="image" accept="image/*" (change)="onFileSelected($event)" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">

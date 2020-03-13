@@ -20,8 +20,8 @@ export class UserProfilePageComponent implements OnInit {
     showAlert1: any;
     selecetedFile: File = null;
     imagePreview: any;
-    imageUrl: string = null;
-    fileToUpload: File = null;
+    imageUrl: File = null;
+    fileToUpload: File;
     type_entites: TypeEntite[] = [];
     selectedTypeEntites: TypeEntite[];
     selectedTypeEntite: TypeEntite;
@@ -35,6 +35,7 @@ export class UserProfilePageComponent implements OnInit {
         public modalPhoto: NgbModal,
         public userSrv: UserService,
         public modalService: NgbModal, public activatedRoute: ActivatedRoute) { }
+        contenu: string;
 
     ngOnInit() {
         return this.authSrv.currentUserProvider.subscribe((user: any) => {
@@ -72,7 +73,7 @@ export class UserProfilePageComponent implements OnInit {
     }
 
     onFileSelected(event) {
-        this.fileToUpload = event.target.files[0];
+        this.fileToUpload = <File>event.target.files[0];
         const reader = new FileReader();
         reader.onload = (event: any) => {           
             this.imageUrl = event.target.result;
@@ -80,10 +81,17 @@ export class UserProfilePageComponent implements OnInit {
         reader.readAsDataURL(this.fileToUpload);               
       };    
 
-    onUpload(){        
+    onUpload(){    
+        let fd = new FormData();
+        const hearder = new Headers();
+        hearder.append('content-type', 'application/json');
+        fd.append('image', this.imageUrl);
+        fd.append('content', JSON.stringify(this.content));
+        //let body = {photoUrl: this.fileToUpload, content: JSON.stringify(this.contenu)}
+         
        this.userSrv.uploadFileProfil(this.fileToUpload)
         .subscribe((data: any) => { 
-            //console.log(data)
+            console.log(data)
         },error => this.userSrv.httpSrv.handleError(error)
         );
     }

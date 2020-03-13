@@ -39,6 +39,9 @@ export class BudgetService {
   removeSelection(budgets: Budget[]) {
     return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',budgets);
   }
+  findBudgetByExercice(id: any){
+    return this.httpSrv.get(this.getRoutePrefixWithSlash()+'exercice/'+id);
+  }
 
   public getRoutePrefix(): string {
     return this.routePrefix;
