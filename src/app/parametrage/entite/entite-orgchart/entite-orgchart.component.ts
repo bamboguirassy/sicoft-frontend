@@ -1,23 +1,33 @@
+import { Router } from '@angular/router';
 import { TreeNode } from 'primeng/api';
 import { Entite } from './../entite';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-entite-orgchart',
   templateUrl: './entite-orgchart.component.html',
   styleUrls: ['./entite-orgchart.component.scss']
 })
-export class EntiteOrgchartComponent implements OnInit {
+export class EntiteOrgchartComponent implements OnInit, OnDestroy {
 
   @Input() entites: Entite[];
-  data: TreeNode[];
-  rootEntite: Entite;
-
+  @Input() deletedItemNotifier: Subject<Boolean>;
+  orgTree: TreeNode[];
 
   constructor() { }
 
   ngOnInit() {
     this.buildOrgChart();
+    this.deletedItemNotifier.subscribe((deletedEntite: any) => {
+      this.entites = this.entites.filter(entite => entite.code !== deletedEntite.code);
+      this.orgTree = [];
+      this.buildOrgChart();
+    });
+  }
+
+  ngOnDestroy() {
+    this.deletedItemNotifier.unsubscribe();
   }
 
   getChildrenOf(entite: Entite): {
@@ -30,9 +40,9 @@ export class EntiteOrgchartComponent implements OnInit {
   }[] {
     const childs: any[] = [];
     if (this.hasAtLeastOneChildren(entite)) {
-      this.entites = this.entites.filter(currentEntite => currentEntite.entiteParent !== null);
+      console.log(entite.nom + ' Has at least one children !');
       this.entites.forEach(currentEntite => {
-        if (currentEntite.entiteParent.id === entite.id) {
+        if (currentEntite.entiteParent && currentEntite.entiteParent.id === entite.id) {
           childs.push({
             label: currentEntite.code,
             type: 'person',
@@ -45,7 +55,9 @@ export class EntiteOrgchartComponent implements OnInit {
       });
 
       return childs;
+
     } else {
+      console.log(entite.nom + ' does not have children !');
       return [];
     }
 
@@ -54,21 +66,11 @@ export class EntiteOrgchartComponent implements OnInit {
   hasAtLeastOneChildren(entite: Entite) {
     let founded = false;
     this.entites.forEach(currentEntite => {
-      if (currentEntite.entiteParent !== null) {
+      if (currentEntite.entiteParent && currentEntite.entiteParent.code === entite.code) {
         founded = true;
       }
     });
     return founded;
-  }
-
-  getRootEntite(): Entite {
-    let rootEntity: Entite = null;
-    this.entites.forEach(entite => {
-      if (entite.entiteParent == null) {
-        rootEntity = entite;
-      }
-    });
-    return rootEntity;
   }
 
   buildOrgChart() {
@@ -83,6 +85,6 @@ export class EntiteOrgchartComponent implements OnInit {
         children: this.getChildrenOf(entite)
       });
     });
-    this.data = orgTree;
+    this.orgTree = orgTree;
   }
 }
