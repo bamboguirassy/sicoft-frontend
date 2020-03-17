@@ -11,8 +11,7 @@
                 <div class="form-group">
 
                     <label class="col-form-label form-control-label" for="exercice">Exercice en cours</label> <br>
-                    <p-dropdown [disabled]="true" required="true" [options]="exercices" name="exercices" [(ngModel)]="budget.exercice" autoDisplayFirst="true" optionLabel="libelle" [showClear]="true" emptyFilterMessage="Aucun exercice en cours, veuillez contacté l'adminstrateur!"
-                        [filter]="true"></p-dropdown>
+                    <p-dropdown [disabled]="true" required="true" [options]="exercices" name="exercices" [(ngModel)]="budget.exercice" autoDisplayFirst="true" optionLabel="libelle" [showClear]="true" [filter]="true"></p-dropdown>
                 </div>
             </div>
             <div class="col-lg-6">

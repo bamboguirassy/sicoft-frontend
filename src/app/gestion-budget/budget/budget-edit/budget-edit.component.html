@@ -16,14 +16,13 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="exercice">Exercice en cours</label> <br>
-                    <p-dropdown [disabled]="true" required="true" [options]="exercices" name="exercices" [(ngModel)]="budget.exercice" autoDisplayFirst="true" optionLabel="libelle" [showClear]="true" emptyFilterMessage="Aucun exercice en cours, veuillez contacté l'adminstrateur!"
-                        [filter]="true"></p-dropdown>
+                    <p-dropdown [disabled]="true" required="true" [options]="exercices" name="exercices" [(ngModel)]="budget.exercice" optionLabel="libelle" [showClear]="true" [filter]="true"></p-dropdown>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="entite">Entite</label> <br>
-                    <p-dropdown [options]="entites" required="true" name="entites" [(ngModel)]="budget.entite" placeholder="Selectionner entite" optionLabel="nom" [showClear]="true"></p-dropdown>
+                    <p-dropdown [options]="entites" required="true" name="entites" [(ngModel)]="budget.entite" optionLabel="nom" [showClear]="true"></p-dropdown>
                 </div>
             </div>
             <div class="col-lg-6">
