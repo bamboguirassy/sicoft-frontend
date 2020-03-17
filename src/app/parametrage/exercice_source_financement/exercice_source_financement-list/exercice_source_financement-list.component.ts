@@ -77,9 +77,10 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     }
 
     this.exercice_source_financements = this.activatedRoute.snapshot.data['exercice_source_financements'];
-    this.exercices = this.activatedRoute.snapshot.data['exercices'];
+    //this.exercices = this.activatedRoute.snapshot.data['exercices'];
     //this.entites = this.activatedRoute.snapshot.data['entites'];
     //this.budgets = this.activatedRoute.snapshot.data['budgets'];
+    this.findExerciceEncours();
   }
 
   viewExerciceSourceFinancement(exercice_source_financement: ExerciceSourceFinancement) {
@@ -123,6 +124,14 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
       }
       , error => this.exercice_source_financementSrv.httpSrv.handleError(error));
   }
+  findExerciceEncours(){
+    this.exerciceSrv.findExerciceEncours()
+    .subscribe(
+      (data: any) => {this.exercices = data;},
+      error => this.notificationSrv.showError(error)
+    );
+  }
+  
   findSourceFinancementDisponible(){
     this.sourceFinancements = [];
     //this.tabExerciceSourceFinancements = [];
@@ -158,7 +167,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
 
   }
   
-  findBudgetByExercice(event){
+  findBudgetByAndAccessEntity(event){
     if(event.value == null){
       this.budgetSvr.findAll()
       .subscribe(
@@ -166,8 +175,8 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
         error => this.exercice_source_financementSrv.httpSrv.handleError(error)
     );
   } else{
-    this.exercice = event.value;
-    this.budgetSvr.findBudgetByExercice(this.exercice.id)
+    //this.exercice = event.value;
+    this.budgetSvr.findBudgetByAndAccessEntity()
     .subscribe(
       (data: any) => this.budgets = data,
       error => this.budgetSvr.httpSrv.handleError(error)

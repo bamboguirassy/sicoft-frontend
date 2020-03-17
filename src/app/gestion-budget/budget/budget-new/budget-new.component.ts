@@ -6,6 +6,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Exercice } from 'app/parametrage/exercice/exercice';
 import { Entite } from 'app/parametrage/entite/entite';
+import { ExerciceService } from 'app/parametrage/exercice/exercice.service';
+import { EntiteService } from 'app/parametrage/entite/entite.service';
 
 @Component({
   selector: 'app-budget-new',
@@ -17,15 +19,32 @@ export class BudgetNewComponent implements OnInit {
   exercices: Exercice[] = [];
   entites: Entite[] = [];
   constructor(public budgetSrv: BudgetService,
-    public notificationSrv: NotificationService, 
-    public activateRoute: ActivatedRoute,
+    public notificationSrv: NotificationService, public entiteSrv: EntiteService,
+    public activateRoute: ActivatedRoute, public exerciceSrv: ExerciceService,
     public router: Router, public location: Location) {
     this.budget = new Budget();
   }
 
   ngOnInit() {
-    this.exercices = this.activateRoute.snapshot.data['exercices'];
-    this.entites = this.activateRoute.snapshot.data['entites'];
+    //this.exercices = this.activateRoute.snapshot.data['exercices'];
+    //this.entites = this.activateRoute.snapshot.data['entites'];
+    this.findBudgetByAndAccessEntity();
+    this.findExerciceEncours();
+  }
+  findExerciceEncours(){
+    this.exerciceSrv.findExerciceEncours()
+    .subscribe(
+      (data: any) => {this.exercices = data; },
+      error => this.exerciceSrv.httpSrv.handleError(error)
+    );
+  }
+
+  findBudgetByAndAccessEntity(){
+    this.entiteSrv.findAll()
+    .subscribe(
+      (data:any) => this.entites = data,
+      error => this.entiteSrv.httpSrv.handleError(error)
+    );
   }
 
   saveBudget() {

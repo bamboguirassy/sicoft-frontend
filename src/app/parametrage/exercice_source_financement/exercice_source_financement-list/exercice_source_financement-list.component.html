@@ -15,10 +15,10 @@
                                     <div>
                                         <div>
                                             <!--label class="col-form-label form-control-label" for="exercices">Exercice</label> <br-->
-                                            <p-dropdown *ngIf="activeField == 0 || activeField == 2" [options]="exercices" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" (onChange)="findBudgetByExercice($event)" placeholder="Exercice" optionLabel="libelle" [showClear]="true"
-                                                [filter]="true"></p-dropdown>
-                                            <p-dropdown *ngIf="activeField == 1" [options]="exercices" [disabled]="true" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" (onChange)="findBudgetByExercice($event)" placeholder="Exercice" optionLabel="libelle" [showClear]="true"
-                                                [filter]="true"></p-dropdown>
+                                            <p-dropdown *ngIf="activeField == 0 || activeField == 2" [options]="exercices" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" (onChange)="findBudgetByExerciceEncoursAndAccessEntity($event)" placeholder="Exercice" optionLabel="libelle"
+                                                [showClear]="true" [filter]="true"></p-dropdown>
+                                            <p-dropdown *ngIf="activeField == 1" [options]="exercices" [disabled]="true" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" (onChange)="findBudgetByExerciceEncoursAndAccessEntity($event)" placeholder="Exercice" optionLabel="libelle"
+                                                [showClear]="true" [filter]="true"></p-dropdown>
                                         </div>
                                     </div>
                                 </div>

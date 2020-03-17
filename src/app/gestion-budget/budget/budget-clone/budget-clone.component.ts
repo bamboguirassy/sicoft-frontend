@@ -6,6 +6,8 @@ import { Budget } from '../budget';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Exercice } from 'app/parametrage/exercice/exercice';
 import { Entite } from 'app/parametrage/entite/entite';
+import { EntiteService } from 'app/parametrage/entite/entite.service';
+import { ExerciceService } from 'app/parametrage/exercice/exercice.service';
 
 @Component({
   selector: 'app-budget-clone',
@@ -18,14 +20,33 @@ export class BudgetCloneComponent implements OnInit {
   exercices: Exercice[] = [];
   entites: Entite[] = [];
   constructor(public budgetSrv: BudgetService, public location: Location,
+    public entiteSrv: EntiteService, public exerciceSrv: ExerciceService,
     public activatedRoute: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
     this.original = this.activatedRoute.snapshot.data['budget'];
-    this.exercices = this.activatedRoute.snapshot.data['exercices'];
-    this.entites = this.activatedRoute.snapshot.data['entites'];
+    //this.exercices = this.activatedRoute.snapshot.data['exercices'];
+    //this.entites = this.activatedRoute.snapshot.data['entites'];
     this.budget = Object.assign({}, this.original);
     this.budget.id = null;
+    this.findExerciceEncours();
+    this.findBudgetByAndAccessEntity();
+  }
+
+  findExerciceEncours(){
+    this.exerciceSrv.findExerciceEncours()
+    .subscribe(
+      (data: any) => {this.exercices = data; },
+      error => this.exerciceSrv.httpSrv.handleError(error)
+    );
+  }
+
+  findBudgetByAndAccessEntity(){
+    this.entiteSrv.findAll()
+    .subscribe(
+      (data:any) => this.entites = data,
+      error => this.entiteSrv.httpSrv.handleError(error)
+    );
   }
 
   cloneBudget() {

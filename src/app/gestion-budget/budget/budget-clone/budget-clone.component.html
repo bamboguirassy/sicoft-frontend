@@ -13,22 +13,26 @@
         </p-toolbar>
         <!-- debut body -->
         <div class="row">
+            <span *ngIf="exercices?.length==0" style="text-align: center; " class="col-sm-12 col-md-12 col-lg-12 alert alert-warning mt-2 "> 
+                <h5 >Aucune année en cours paramétrée. Veuillez contacter l'administrateur!</h5>
+            </span>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label class="col-form-label form-control-label" for="exercice">Exercice</label> <br>
-                    <p-dropdown [options]="exercices" name="exercices" [(ngModel)]="budget.exercice" placeholder="Selectionner exercice" optionLabel="libelle" [showClear]="true"></p-dropdown>
+                    <label class="col-form-label form-control-label" for="exercice">Exercice en cours</label> <br>
+                    <p-dropdown [disabled]="true" required="true" [options]="exercices" name="exercices" [(ngModel)]="budget.exercice" autoDisplayFirst="true" optionLabel="libelle" [showClear]="true" emptyFilterMessage="Aucun exercice en cours, veuillez contacté l'adminstrateur!"
+                        [filter]="true"></p-dropdown>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="entite">Entite</label> <br>
-                    <p-dropdown [options]="entites" name="entites" [(ngModel)]="budget.entite" placeholder="Selectionner entite" optionLabel="nom" [showClear]="true"></p-dropdown>
+                    <p-dropdown [options]="entites" required="true" name="entites" [(ngModel)]="budget.entite" placeholder="Selectionner entite" optionLabel="nom" [showClear]="true"></p-dropdown>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input [(ngModel)]="budget.libelle" class="form-control" type="text" name="libelle" id="libelle">
+                    <input [(ngModel)]="budget.libelle" required="true" class="form-control" type="text" name="libelle" id="libelle">
                 </div>
             </div>
             <div class="col-lg-6">

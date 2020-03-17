@@ -7,7 +7,7 @@
             <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
           class="fa fa-eraser" aria-hidden="true"></i>
         Retour</button>
-            <button [disabled]="budgetForm.invalid" type="submit" class="btn btn-warning pull-right">
+            <button [disabled]="budgetForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
         <i class="fa fa-edit" aria-hidden="true"></i>
         Enregistrer</button>
         </p-toolbar>
@@ -15,20 +15,21 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label class="col-form-label form-control-label" for="exercice">Exercice</label> <br>
-                    <p-dropdown [options]="exercices" name="exercices" [(ngModel)]="budget.exercice" placeholder="Selectionner exercice" optionLabel="libelle" [showClear]="true"></p-dropdown>
+                    <label class="col-form-label form-control-label" for="exercice">Exercice en cours</label> <br>
+                    <p-dropdown [disabled]="true" required="true" [options]="exercices" name="exercices" [(ngModel)]="budget.exercice" autoDisplayFirst="true" optionLabel="libelle" [showClear]="true" emptyFilterMessage="Aucun exercice en cours, veuillez contacté l'adminstrateur!"
+                        [filter]="true"></p-dropdown>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="entite">Entite</label> <br>
-                    <p-dropdown [options]="entites" name="entites" [(ngModel)]="budget.entite" placeholder="Selectionner entite" optionLabel="nom" [showClear]="true"></p-dropdown>
+                    <p-dropdown [options]="entites" required="true" name="entites" [(ngModel)]="budget.entite" placeholder="Selectionner entite" optionLabel="nom" [showClear]="true"></p-dropdown>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="libelle">Libelle</label>
-                    <input [(ngModel)]="budget.libelle" class="form-control" type="text" name="libelle" id="libelle">
+                    <input [(ngModel)]="budget.libelle" required="true" class="form-control" type="text" name="libelle" id="libelle">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -43,7 +44,7 @@
             <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
           class="fa fa-eraser" aria-hidden="true"></i>
         Retour</button>
-            <button [disabled]="budgetForm.invalid" type="submit" class="btn btn-warning pull-right">
+            <button [disabled]="budgetForm.invalid" type="submit" class="btn btn-outline-warning pull-right">
         <i class="fa fa-edit" aria-hidden="true"></i>
         Enregistrer</button>
         </p-toolbar>

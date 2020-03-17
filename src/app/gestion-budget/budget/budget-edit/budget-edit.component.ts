@@ -7,6 +7,8 @@ import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { Exercice } from 'app/parametrage/exercice/exercice';
 import { Entite } from 'app/parametrage/entite/entite';
+import { ExerciceService } from 'app/parametrage/exercice/exercice.service';
+import { EntiteService } from 'app/parametrage/entite/entite.service';
 
 @Component({
   selector: 'app-budget-edit',
@@ -18,20 +20,34 @@ export class BudgetEditComponent implements OnInit {
   budget: Budget;
   exercices: Exercice[] = [];
   entites: Entite[] = [];
-  constructor(public budgetSrv: BudgetService,
-    public activatedRoute: ActivatedRoute,
+  constructor(public budgetSrv: BudgetService, public entiteSrv: EntiteService,
+    public activatedRoute: ActivatedRoute, public exerciceSrv: ExerciceService,
     public router: Router, public location: Location,
     public notificationSrv: NotificationService) {
   }
 
   ngOnInit() {
-    //console.log(this.budget.entite);
-    
     this.budget = this.activatedRoute.snapshot.data['budget'];
-    this.exercices = this.activatedRoute.snapshot.data['exercices'];
-    this.entites = this.activatedRoute.snapshot.data['entites'];
-    //this.exercices = this.exercices.filter(data => data.id !== this.budget.exercice.id);
-    //this.entites = this.entites.filter(data => data.id !== this.budget.entite.id);
+    //this.exercices = this.activatedRoute.snapshot.data['exercices'];
+    //this.entites = this.activatedRoute.snapshot.data['entites'];
+    this.findExerciceEncours();
+    this.findBudgetByAndAccessEntity();
+  }
+
+  findExerciceEncours(){
+    this.exerciceSrv.findExerciceEncours()
+    .subscribe(
+      (data: any) => {this.exercices = data; },
+      error => this.exerciceSrv.httpSrv.handleError(error)
+    );
+  }
+
+  findBudgetByAndAccessEntity(){
+    this.entiteSrv.findAll()
+    .subscribe(
+      (data:any) => this.entites = data,
+      error => this.entiteSrv.httpSrv.handleError(error)
+    );
   }
 
   updateBudget() {

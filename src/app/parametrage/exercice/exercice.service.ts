@@ -43,6 +43,9 @@ export class ExerciceService {
   removeSelection(exercices: Exercice[]) {
     return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', exercices);
   }
+  findExerciceEncours(){
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + 'exerciceEncours');
+  }
 
   public getRoutePrefix(): string {
     return this.routePrefix;
