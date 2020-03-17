@@ -40,7 +40,6 @@ export class EntiteOrgchartComponent implements OnInit, OnDestroy {
   }[] {
     const childs: any[] = [];
     if (this.hasAtLeastOneChildren(entite)) {
-      console.log(entite.nom + ' Has at least one children !');
       this.entites.forEach(currentEntite => {
         if (currentEntite.entiteParent && currentEntite.entiteParent.id === entite.id) {
           childs.push({
@@ -57,7 +56,6 @@ export class EntiteOrgchartComponent implements OnInit, OnDestroy {
       return childs;
 
     } else {
-      console.log(entite.nom + ' does not have children !');
       return [];
     }
 
