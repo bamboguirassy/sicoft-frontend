@@ -165,8 +165,10 @@
                     </div>
                 </p-tabPanel>
                 <p-tabPanel header="Representation Graphique">
-                    <app-entite-orgchart [deletedItemNotifier]="deletedItemSubject" [entites]="entites">
-                    </app-entite-orgchart>
+                    <div class="container" style="overflow: auto;" >
+                        <app-entite-orgchart [deletedItemNotifier]="deletedItemSubject" [entites]="entites">
+                        </app-entite-orgchart>
+                    </div>
                 </p-tabPanel>
             </p-tabView>
         </p-fieldset>
