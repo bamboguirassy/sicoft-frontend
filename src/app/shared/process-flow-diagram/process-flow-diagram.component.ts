@@ -29,19 +29,21 @@ export class ProcessFlowDiagramComponent implements OnInit {
       this.items.forEach(item => {
         item.bindLabel = item[this.bindLabel],
         item.subItems = item[this.subItems]
-        // item.color = this.getColor();
+       item.color = this.getColor();
       })
     } else {
       this.hasItems = false;
       throw new Error('No item found, you passed an empty array.');
     }
   }
-  // getColor() {
-  //     // tslint:disable-next-line:prefer-const
-  //     let color = Math.floor(0x1000000 * Math.random()).toString(16);
-  //     return '#' + ('000000' + color).slice(6);
-  //   }
+  getColor() {
+      // tslint:disable-next-line:prefer-const
+      let color = Math.floor(0x1000000 * Math.random()).toString(16);
+      return '#' + ('000000' + color).slice(6);
+    }
+
 
 
 
 }
+
