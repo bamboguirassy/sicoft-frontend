@@ -20,8 +20,8 @@ export class UserProfilePageComponent implements OnInit {
     showAlert1: any;
     selecetedFile: File = null;
     imagePreview: any;
-    imageUrl: string = null;
-    fileToUpload: File = null;
+    imageUrl: File = null;
+    fileToUpload: File;
     type_entites: TypeEntite[] = [];
     selectedTypeEntites: TypeEntite[];
     selectedTypeEntite: TypeEntite;
@@ -35,6 +35,7 @@ export class UserProfilePageComponent implements OnInit {
         public modalPhoto: NgbModal,
         public userSrv: UserService,
         public modalService: NgbModal, public activatedRoute: ActivatedRoute) { }
+    contenu: string;
 
     ngOnInit() {
         return this.authSrv.currentUserProvider.subscribe((user: any) => {
@@ -48,13 +49,31 @@ export class UserProfilePageComponent implements OnInit {
     }
 
     toggleModal(content) {
-           this.modalProfil.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+        this.modalProfil.open(content, {
+            size: 'lg',
+            backdropClass: 'light-blue-backdrop',
+            centered: true,
+            keyboard: false,
+            backdrop: 'static'
+        });
     }
     toggle1Modal(content1) {
-        this.modalService.open(content1, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+        this.modalService.open(content1, {
+            size: 'lg',
+            keyboard: false,
+            backdrop: 'static',
+            backdropClass: 'light-blue-backdrop',
+            centered: true
+        });
     }
     toggleModalPhoto(contentPhoto) {
-        this.modalPhoto.open(contentPhoto, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+        this.modalPhoto.open(contentPhoto, {
+            size: 'lg',
+            backdropClass: 'light-blue-backdrop',
+            centered: true,
+            keyboard: false,
+            backdrop: 'static'
+        });
     }
     updatePassword() {
         this.showAlert = false;
@@ -72,25 +91,32 @@ export class UserProfilePageComponent implements OnInit {
     }
 
     onFileSelected(event) {
-        this.fileToUpload = event.target.files[0];
+        this.fileToUpload = <File>event.target.files[0];
         const reader = new FileReader();
-        reader.onload = (event: any) => {           
+        reader.onload = (event: any) => {
             this.imageUrl = event.target.result;
         }
-        reader.readAsDataURL(this.fileToUpload);               
-      };    
+        reader.readAsDataURL(this.fileToUpload);
+    };
 
-    onUpload(){        
-       this.userSrv.uploadFileProfil(this.fileToUpload)
-        .subscribe((data: any) => { 
-            //console.log(data)
-        },error => this.userSrv.httpSrv.handleError(error)
-        );
+    onUpload() {
+        let fd = new FormData();
+        const hearder = new Headers();
+        hearder.append('content-type', 'application/json');
+        fd.append('image', this.imageUrl);
+        fd.append('content', JSON.stringify(this.content));
+        //let body = {photoUrl: this.fileToUpload, content: JSON.stringify(this.contenu)}
+
+        this.userSrv.uploadFileProfil(this.fileToUpload)
+            .subscribe((data: any) => {
+                console.log(data)
+            }, error => this.userSrv.httpSrv.handleError(error)
+            );
     }
 
     modalClosePhoto() {
-            this.modalProfil.dismissAll('Cross click');
-    } 
+        this.modalProfil.dismissAll('Cross click');
+    }
 
     modalClose() {
         this.modalProfil.dismissAll('Cross click');
@@ -104,11 +130,11 @@ export class UserProfilePageComponent implements OnInit {
     alertClose1() {
         this.showAlert1 = false;
     }
-  editProfilUser(modal: any) {
+    editProfilUser(modal: any) {
 
-    this.showAlert1 = false;
-    this.user.photoUrl = this.user.photoUrl;
-    
+        this.showAlert1 = false;
+        this.user.photoUrl = this.user.photoUrl;
+
         this.userSrv.editProfil(this.user).subscribe(
             (data: any) => {
                 this.userSrv.httpSrv.notificationSrv.showInfo('Utilisateur modifié avec succès');
@@ -116,8 +142,8 @@ export class UserProfilePageComponent implements OnInit {
                 this.modalClose1();
                 console.log(this.user);
             },
-        error => this.userSrv.httpSrv.handleError(error));
+            error => this.userSrv.httpSrv.handleError(error));
 
 
-  }
+    }
 }

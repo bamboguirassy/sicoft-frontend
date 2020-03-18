@@ -159,7 +159,7 @@
                     </div>
                 </p-tabPanel>
                 <p-tabPanel header="Representation Graphique">
-                    <app-entite-orgchart [entites]="entites" ></app-entite-orgchart>
+                    <app-entite-orgchart [deletedItemNotifier]="deletedItemSubject" [entites]="entites" ></app-entite-orgchart>
                 </p-tabPanel>
             </p-tabView>
             
@@ -168,3 +168,25 @@
     <div class="col-sm-12">
     </div>
 </div>
+
+<ng-template #deletionConfirm *ngIf="'Classe' | deletable" let-modal>
+    <div class="modal-header new-sous-class-header">
+        <h4 class="modal-title" id="modal-title">Confirmer la suppression</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="dissmissModal('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>
+            <span class="font-weight-bold">Êtes vous sûr de vouloir supprimer
+             l'Entite <span class="text-primary"> {{ selectedEntite.nom }} </span> ?
+            </span></p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="dissmissModal('cancel click')">Annuler</button>
+        <button type="button" ngbAutofocus class="btn btn-outline-danger"
+            (click)="deleteEntiteAfterConfirmation()">
+            Ok</button>
+    </div>
+</ng-template>

@@ -8,11 +8,12 @@ import { MultipleExerciceSourceFinancementResolver } from './multiple-exercice_s
 import { OneExerciceSourceFinancementResolver } from './one-exercice_source_financement.resolver';
 import { MultipleExerciceResolver } from '../exercice/multiple-exercice.resolver';
 import { MultipleEntiteResolver } from '../entite/multiple-entite.resolver';
+import { MultipleBudgetResolver } from 'app/gestion-budget/budget/multiple-budget.resolver';
 
 const exercice_source_financementRoutes: Route = {
     path: 'exerciceSourceFinancement', children: [
         { path: '', component: ExerciceSourceFinancementListComponent, resolve: { exercice_source_financements: MultipleExerciceSourceFinancementResolver,
-            exercices: MultipleExerciceResolver, entites: MultipleEntiteResolver } },
+            exercices: MultipleExerciceResolver, entites: MultipleEntiteResolver, budgets: MultipleBudgetResolver } },
         { path: 'new', component: ExerciceSourceFinancementNewComponent },
         { path: ':id/edit', component: ExerciceSourceFinancementEditComponent, resolve: { exercice_source_financement: OneExerciceSourceFinancementResolver } },
         { path: ':id/clone', component: ExerciceSourceFinancementCloneComponent, resolve: { exercice_source_financement: OneExerciceSourceFinancementResolver } },

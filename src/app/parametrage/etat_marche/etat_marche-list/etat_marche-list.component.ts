@@ -51,7 +51,7 @@ export class EtatMarcheListComponent implements OnInit {
 
   ngOnInit() {
     this.typePassations = this.activatedRoute.snapshot.data['typePassations'];
-    
+
     if (this.authSrv.checkShowAccess('EtatMarche')) {
       // tslint:disable-next-line:max-line-length
       this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewEtatMarche(this.selectedEtatMarche) });
@@ -148,7 +148,13 @@ export class EtatMarcheListComponent implements OnInit {
   }
 
   public toggleSearchModal(content: TemplateRef<any>, selectedEtatMarche: EtatMarche) {
-    this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+    this.modalSrv.open(content, {
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
+      centered: true,
+      keyboard: false,
+      backdrop: 'static'
+    });
     this.etat_marcheSrv.fetchNotAddedUser(selectedEtatMarche.id).subscribe(data => this.users = data);
   }
 
@@ -219,19 +225,18 @@ export class EtatMarcheListComponent implements OnInit {
     this.alert = null;
     this.loading = false;
   }
-  
-  getEtatMarcheByTypePassation(event){
-    if(event.value == null){
+
+  getEtatMarcheByTypePassation(event) {
+    if (event.value == null) {
       this.etat_marcheSrv.findAll()
-      .subscribe((data: any) => this.etat_marches = data, error => this.etat_marcheSrv.httpSrv.handleError(error));
-    } else{
-    this.typePassation = event.value;
-    
-    this.etat_marcheSrv.getEtatMarcheByTypePassation(this.typePassation.id)
-    .subscribe((data:any) => 
-    {
-      this.etat_marches = data;
-    }), error => this.etat_marcheSrv.httpSrv.handleError(error);
+        .subscribe((data: any) => this.etat_marches = data, error => this.etat_marcheSrv.httpSrv.handleError(error));
+    } else {
+      this.typePassation = event.value;
+
+      this.etat_marcheSrv.getEtatMarcheByTypePassation(this.typePassation.id)
+        .subscribe((data: any) => {
+          this.etat_marches = data;
+        }), error => this.etat_marcheSrv.httpSrv.handleError(error);
+    }
   }
-}
 }

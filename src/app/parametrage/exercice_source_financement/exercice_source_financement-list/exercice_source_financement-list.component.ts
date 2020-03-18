@@ -11,6 +11,9 @@ import { Exercice } from 'app/parametrage/exercice/exercice';
 import { Entite } from 'app/parametrage/entite/entite';
 import Swal from 'sweetalert2';
 import {NgbModal, ModalDismissReasons, NgbAlert} from '@ng-bootstrap/ng-bootstrap';
+import { Budget } from 'app/gestion-budget/budget/budget';
+import { BudgetService } from 'app/gestion-budget/budget/budget.service';
+import { ExerciceService } from 'app/parametrage/exercice/exercice.service';
 
 @Component({
   selector: 'app-exercice_source_financement-list',
@@ -24,9 +27,11 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
   selectedExerciceSourceFinancements: ExerciceSourceFinancement[];
   selectedExerciceSourceFinancement: ExerciceSourceFinancement;
   clonedExerciceSourceFinancements: ExerciceSourceFinancement[];
-  encour: any;
+  verouille: any;
+  exercice: Exercice;
   exercices: Exercice[] = [];
   entites: Entite[] = [];
+  budgets: Budget[] = [];
   tempTabParamMontant: any;
   exerciceSouceFinancement: ExerciceSourceFinancement;
   sourceFinancements: ExerciceSourceFinancement[];
@@ -52,6 +57,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     public exercice_source_financementSrv: ExerciceSourceFinancementService, public exportSrv: ExportService,
     private router: Router, public authSrv: AuthService,
     public notificationSrv: NotificationService,
+    public budgetSvr: BudgetService, public exerciceSrv: ExerciceService,
     public modalService: NgbModal,) {
       this.exerciceSouceFinancement = new ExerciceSourceFinancement();
      }
@@ -71,8 +77,10 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     }
 
     this.exercice_source_financements = this.activatedRoute.snapshot.data['exercice_source_financements'];
-    this.exercices = this.activatedRoute.snapshot.data['exercices'];
-    this.entites = this.activatedRoute.snapshot.data['entites'];
+    //this.exercices = this.activatedRoute.snapshot.data['exercices'];
+    //this.entites = this.activatedRoute.snapshot.data['entites'];
+    //this.budgets = this.activatedRoute.snapshot.data['budgets'];
+    this.findExerciceEncours();
   }
 
   viewExerciceSourceFinancement(exercice_source_financement: ExerciceSourceFinancement) {
@@ -109,13 +117,22 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     this.exportSrv.saveAsExcelFile(buffer, fileName);
   }
   refreshList(){
-    this.exercice_source_financementSrv.findExerciceSourceFinancementByExerciceAndEntite(this.exerciceSouceFinancement.exercice, this.exerciceSouceFinancement.entite)
+    this.exercice_source_financementSrv.findExerciceSourceFinancementByBudget(this.exerciceSouceFinancement.budget)
       .subscribe((data: any) => 
       {this.paramTabExerciceSourceFinancements = data;
         this.tempTabParamMontant = this.paramTabExerciceSourceFinancements;
       }
       , error => this.exercice_source_financementSrv.httpSrv.handleError(error));
   }
+  
+  findExerciceEncours(){
+    this.exerciceSrv.findExerciceEncours()
+    .subscribe(
+      (data: any) => {this.exercices = data;},
+      error => this.notificationSrv.showError(error)
+    );
+  }
+  
   findSourceFinancementDisponible(){
     this.sourceFinancements = [];
     //this.tabExerciceSourceFinancements = [];
@@ -123,25 +140,25 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     this.step = 1;
     this.activeField = 1;
     this.activeModif1 = 1;
-    let tempExercice = this.exerciceSouceFinancement.exercice;
-    let tempEntite = this.exerciceSouceFinancement.entite;
-    this.encour = this.exerciceSouceFinancement.exercice.encours;
+    //let tempExercice = this.exerciceSouceFinancement.exercice;
+    let tempBudget = this.exerciceSouceFinancement.budget;
+    this.verouille = this.exerciceSouceFinancement.budget.verrouille;
    
-    if (this.exerciceSouceFinancement.exercice) {
+   /* if (this.exerciceSouceFinancement.exercice) {
       this.exerciceSouceFinancement.exercice = this.exerciceSouceFinancement.exercice.id;
-    }
+    }*/
     
-    if (this.exerciceSouceFinancement.entite) {
-      this.exerciceSouceFinancement.entite = this.exerciceSouceFinancement.entite.id;
+    if (this.exerciceSouceFinancement.budget) {
+      this.exerciceSouceFinancement.budget = this.exerciceSouceFinancement.budget.id;
     }
-    this.exercice_source_financementSrv.findSourceFinancementDisponible(this.exerciceSouceFinancement.exercice,this.exerciceSouceFinancement.entite)
+    this.exercice_source_financementSrv.findSourceFinancementDisponible(this.exerciceSouceFinancement.budget)
     .subscribe(
       (data: any) => {this.sourceFinancements = data;
         
         this.refreshList();
-        this.exerciceSouceFinancement.exercice = tempExercice;
-        this.exerciceSouceFinancement.entite = tempEntite;
-        if (!this.encour){
+        //this.exerciceSouceFinancement.exercice = tempExercice;
+        this.exerciceSouceFinancement.budget = tempBudget;
+        if (!this.verouille){
           this.step = 4;
         }
         
@@ -150,6 +167,24 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     );
 
   }
+  
+  findBudgetByEntiteAccess(event){
+    if(event.value == null){
+      this.budgetSvr.findAll()
+      .subscribe(
+        (data:any) => this.budgets = data, 
+        error => this.exercice_source_financementSrv.httpSrv.handleError(error)
+    );
+  } else{
+    //this.exercice = event.value;
+    this.budgetSvr.findBudgetByEntiteAccess()
+    .subscribe(
+      (data: any) => this.budgets = data,
+      error => this.budgetSvr.httpSrv.handleError(error)
+    );
+  }
+}
+
   updateField(){
     this.activeField = 0;
     this.activeModif1 = 0;
@@ -182,18 +217,18 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     this.part3 = 0;
   }
   savaExerciceSourceFinancement(tab_choiceData) {
-    let tempExercice = this.exerciceSouceFinancement.exercice;
-    let tempEntite = this.exerciceSouceFinancement.entite;
-    this.exerciceSouceFinancement.entite = this.exerciceSouceFinancement.entite.id;
-    this.exerciceSouceFinancement.exercice = this.exerciceSouceFinancement.exercice.id;
+    //let tempExercice = this.exerciceSouceFinancement.exercice;
+    let tempBudget = this.exerciceSouceFinancement.budget;
+    this.exerciceSouceFinancement.budget = this.exerciceSouceFinancement.budget.id;
+   // this.exerciceSouceFinancement.exercice = this.exerciceSouceFinancement.exercice.id;
     this.exerciceSouceFinancement.sourceFinancement = tab_choiceData.id;
     this.exerciceSouceFinancement.montant = tab_choiceData.montant;
     this.exercice_source_financementSrv.create(this.exerciceSouceFinancement)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Exercice Source-Financement créé avec succès');
         this.refreshList();
-        this.exerciceSouceFinancement.exercice = tempExercice;
-        this.exerciceSouceFinancement.entite = tempEntite;
+        //this.exerciceSouceFinancement.exercice = tempExercice;
+        this.exerciceSouceFinancement.budget = tempBudget;
         this.tab_choiceDatas = [];
       }, error => this.exercice_source_financementSrv.httpSrv.handleError(error));
   }
@@ -206,13 +241,13 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
   }
   createMultiple(tab_choiceDatas){
     let exerciceSouceFinancementItem: ExerciceSourceFinancement;
-    let tempExercice = this.exerciceSouceFinancement.exercice;
-    let tempEntite = this.exerciceSouceFinancement.entite;
+   // let tempExercice = this.exerciceSouceFinancement.exercice;
+    let tempBudget = this.exerciceSouceFinancement.budget;
     this.exerciceSourceFinancements = [];
     tab_choiceDatas.forEach(element => {
       exerciceSouceFinancementItem = new ExerciceSourceFinancement();
-      exerciceSouceFinancementItem.exercice = tempExercice.id;
-      exerciceSouceFinancementItem.entite = tempEntite.id;
+      //exerciceSouceFinancementItem.exercice = tempExercice.id;
+      exerciceSouceFinancementItem.budget = tempBudget.id;
       exerciceSouceFinancementItem.sourceFinancement = element.id;
       exerciceSouceFinancementItem.montant = element.montant;
     this.exerciceSourceFinancements.push(exerciceSouceFinancementItem);
@@ -220,12 +255,12 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     this.exercice_source_financementSrv.createMultiple(this.exerciceSourceFinancements)
     .subscribe((data: any) => {
       this.notificationSrv.showInfo('Enregistrement réussi');
-      this.exerciceSouceFinancement.exercice = tempExercice.id;
-      this.exerciceSouceFinancement.entite = tempEntite.id;
+      //this.exerciceSouceFinancement.exercice = tempExercice.id;
+      this.exerciceSouceFinancement.budget = tempBudget.id;
       this.refreshList();
       this.part3 = 0;
-      this.exerciceSouceFinancement.exercice = tempExercice;
-      this.exerciceSouceFinancement.entite = tempEntite;
+      //this.exerciceSouceFinancement.exercice = tempExercice;
+      this.exerciceSouceFinancement.budget = tempBudget;
       this.tab_choiceDatas = [];
       this.tabParamMontant = [];
     },error => this.exercice_source_financementSrv.httpSrv.handleError(error));
@@ -250,8 +285,8 @@ updateExerciceSourceFinancement(exerciceSourceFin) {
 }
 
 modalUpdateMontant(exerciceSourceFin){
-  let tempExerice = this.exerciceSouceFinancement.exercice;
-  let tempEntite = this.exerciceSouceFinancement.entite;
+  //let tempExerice = this.exerciceSouceFinancement.exercice;
+  let tempBudget = this.exerciceSouceFinancement.budget;
   Swal.fire({
     
       title: 'Saisir le nouveau montant',
@@ -274,11 +309,11 @@ modalUpdateMontant(exerciceSourceFin){
       if (result.value) {
         exerciceSourceFin.montant = result.value;
         this.updateExerciceSourceFinancement(exerciceSourceFin);
-       this.exerciceSouceFinancement.exercice = tempExerice.id;
-      this.exerciceSouceFinancement.entite = tempEntite.id;
+       //this.exerciceSouceFinancement.exercice = tempExerice.id;
+      this.exerciceSouceFinancement.budget = tempBudget.id;
       this.refreshList();
-      this.exerciceSouceFinancement.exercice = tempExerice;
-      this.exerciceSouceFinancement.entite = tempEntite;
+      //this.exerciceSouceFinancement.exercice = tempExerice;
+      this.exerciceSouceFinancement.budget = tempBudget;
       }
       
     })

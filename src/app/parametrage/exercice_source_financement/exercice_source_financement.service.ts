@@ -4,6 +4,7 @@ import { HttpService } from 'app/shared/services/http.service';
 import { ExerciceSourceFinancement } from './exercice_source_financement';
 import { Exercice } from '../exercice/exercice';
 import { Entite } from '../entite/entite';
+import { Budget } from 'app/gestion-budget/budget/budget';
 
 @Injectable({
   providedIn: 'root'
@@ -46,11 +47,11 @@ export class ExerciceSourceFinancementService {
     return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',exercice_source_financements);
   }
 
-  findSourceFinancementDisponible(id: any, entite: Entite){
-    return this.httpSrv.get(this.getRoutePrefixWithSlash ()+'sourceFinancement/exercice/'+id+'/entite/'+entite);
+  findSourceFinancementDisponible(id: any){
+    return this.httpSrv.get(this.getRoutePrefixWithSlash ()+'sourceFinancement/budget/'+id);
   }
-  findExerciceSourceFinancementByExerciceAndEntite(id: any, entite: Entite){
-    return this.httpSrv.get(this.getRoutePrefixWithSlash ()+'exercice/'+id+'/entite/'+entite);
+  findExerciceSourceFinancementByBudget(id: any){
+    return this.httpSrv.get(this.getRoutePrefixWithSlash ()+'budget/'+id);
   }
 
   public getRoutePrefix(): string {

@@ -13,5 +13,9 @@ export const Full_ROUTES: Routes = [
   {
     path: '',
     loadChildren: () => import('../../parametrage/parametrage.module').then(m => m.ParametrageModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('../../gestion-budget/gestion-budget.module').then(m => m.GestionBudgetModule)
   }
 ];

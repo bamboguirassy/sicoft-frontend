@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Entite } from '../entite';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EntiteService } from '../entite.service';
@@ -26,6 +28,8 @@ export class EntiteListComponent implements OnInit {
   selectedEtat: any[] = [];
   clonedEntites: Entite[];
 
+  deletedItemSubject: Subject<Entite> = new Subject();
+  @ViewChild('deletionConfirm', {static: false}) deletionModalContentRef: TemplateRef<any>;
   cMenuItems: MenuItem[] = [];
 
   cols: any[];
@@ -43,7 +47,7 @@ export class EntiteListComponent implements OnInit {
     public exportSrv: ExportService,
     private router: Router,
     public authSrv: AuthService,
-    public notificationSrv: NotificationService
+    public notificationSrv: NotificationService, public modalSrv: NgbModal
   ) { }
 
   ngOnInit() {
@@ -104,19 +108,20 @@ export class EntiteListComponent implements OnInit {
   }
 
   deleteEntite(entite: Entite) {
-    this.entiteSrv.remove(entite).subscribe(
-      data => this.refreshList(),
-      error => this.entiteSrv.httpSrv.handleError(error)
-    );
+    this.toggleConfirmModal();
   }
 
   deleteSelectedEntites() {
     if (this.selectedEntites) {
       this.entiteSrv.removeSelection(this.selectedEntites).subscribe(
-        data => this.refreshList(),
+        (data: any) => {
+          this.refreshList();
+          this.notifyOrgChartComponent(data);
+        },
         error => this.entiteSrv.httpSrv.handleError(error)
       );
     } else {
+      window.scrollTo(0, 0);
       this.entiteSrv.httpSrv.notificationSrv.showWarning(
         'Selectionner au moins un élement'
       );
@@ -130,6 +135,38 @@ export class EntiteListComponent implements OnInit {
     );
   }
 
+  toggleConfirmModal() {
+    this.modalSrv.open(this.deletionModalContentRef, {
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
+      centered: true,
+      keyboard: false,
+      backdrop: 'static'
+    });
+  }
+
+  deleteEntiteAfterConfirmation() {
+    this.entiteSrv.remove(this.selectedEntite)
+      .subscribe((data: any) => {
+        this.refreshList();
+        this.notifyOrgChartComponent(data);
+        this.modalSrv.dismissAll();
+        window.scrollTo(0, 0);
+        this.notificationSrv.showInfo('Suppression réussi.');
+      }, error => {
+        if (error.error.code === 417) {
+          window.scrollTo(0, 0);
+          this.modalSrv.dismissAll();
+          this.notificationSrv.showError('Suppression impossible. L\'Entite n\'est pas autonome.');
+        } else {
+          this.notificationSrv.showError(error.error.message)
+        }
+      })
+  }
+
+  dissmissModal(param: string) {
+    this.modalSrv.dismissAll(param);
+  }
   exportPdf() {
     this.exportSrv.exportPdf(this.tableColumns, this.entites, 'entites');
   }
@@ -169,5 +206,9 @@ export class EntiteListComponent implements OnInit {
         return entite.etat === false;
       });
     }
+  }
+
+  notifyOrgChartComponent(deletedEntite: Entite) {
+    this.deletedItemSubject.next(deletedEntite);
   }
 }

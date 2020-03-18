@@ -300,7 +300,9 @@ export class ClasseListComponent implements OnInit {
     this.modalSrv.open(this.deletionModalContentRef, {
       size: 'lg',
       backdropClass: 'light-blue-backdrop',
-      centered: true
+      centered: true,
+      keyboard: false,
+      backdrop: 'static'
     });
   }
 
@@ -369,7 +371,13 @@ export class ClasseListComponent implements OnInit {
   }
 
   toggleAddModal() {
-    const modalRef = this.modalSrv.open(ClasseNewComponent, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+    const modalRef = this.modalSrv.open(ClasseNewComponent, {
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
+      centered: true,
+      keyboard: false,
+      backdrop: 'static'
+    });
     modalRef.componentInstance.typeClasses = this.typeClasses;
     modalRef.componentInstance.categorieClasses = this.categorieClasses;
     modalRef.componentInstance.onAddedClasse
@@ -458,7 +466,13 @@ export class ClasseListComponent implements OnInit {
 
 
   toggleSubClassModal(content: TemplateRef<any>) {
-    this.modalSrv.open(content, { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+    this.modalSrv.open(content, {
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
+      centered: true,
+      keyboard: false,
+      backdrop: 'static'
+    });
   }
 
   /** Gestion du formulaire dynamique **/
