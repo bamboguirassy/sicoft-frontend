@@ -41,9 +41,10 @@ export class EtatMarcheNewComponent implements OnInit {
     this.etat_marcheSrv.create(this.etat_marche)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('EtatMarche créé avec succès');
-        //  this.etat_marche = new EtatMarche();
+       
         this.etats.push(data);
         this.etats = this.etats.slice(0);
+          this.etat_marche = new EtatMarche();
       }, error => {
         if (this.etat_marche.etatSuivant) {
           this.etat_marche.etatSuivant = etatMarcheSuivTemp;
