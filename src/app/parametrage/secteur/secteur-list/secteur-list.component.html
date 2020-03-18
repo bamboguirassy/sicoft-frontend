@@ -27,8 +27,6 @@
               <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
                 (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
 
-
-                <app-process-flow-diagram [items] = "secteurs" bindLabel="libelle" subItems="description"></app-process-flow-diagram>
              <br><br>  <div class="ui-helper-clearfix" style="text-align: left">
                 <button *ngIf="'Secteur'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF"
                   (click)="exportPdf()" class="ui-button-warning pull-right ml-1"></button>

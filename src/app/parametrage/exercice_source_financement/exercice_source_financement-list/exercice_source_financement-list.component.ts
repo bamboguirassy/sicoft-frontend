@@ -32,6 +32,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
   exercices: Exercice[] = [];
   entites: Entite[] = [];
   budgets: Budget[] = [];
+  existeBudget = false;
   tempTabParamMontant: any;
   exerciceSouceFinancement: ExerciceSourceFinancement;
   sourceFinancements: ExerciceSourceFinancement[];
@@ -77,10 +78,10 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     }
 
     this.exercice_source_financements = this.activatedRoute.snapshot.data['exercice_source_financements'];
-    //this.exercices = this.activatedRoute.snapshot.data['exercices'];
+    this.exercices = this.activatedRoute.snapshot.data['exercices'];
     //this.entites = this.activatedRoute.snapshot.data['entites'];
     //this.budgets = this.activatedRoute.snapshot.data['budgets'];
-    this.findExerciceEncours();
+    //this.findExerciceEncours();
   }
 
   viewExerciceSourceFinancement(exercice_source_financement: ExerciceSourceFinancement) {
@@ -124,6 +125,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
       }
       , error => this.exercice_source_financementSrv.httpSrv.handleError(error));
   }
+  
   findExerciceEncours(){
     this.exerciceSrv.findExerciceEncours()
     .subscribe(
@@ -167,7 +169,8 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
 
   }
   
-  findBudgetByAndAccessEntity(event){
+  findBudgetByEntiteAccessAndExercice(event){
+    this.existeBudget = false;
     if(event.value == null){
       this.budgetSvr.findAll()
       .subscribe(
@@ -175,10 +178,14 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
         error => this.exercice_source_financementSrv.httpSrv.handleError(error)
     );
   } else{
-    //this.exercice = event.value;
-    this.budgetSvr.findBudgetByAndAccessEntity()
+    this.exercice = event.value;
+    this.budgetSvr.findBudgetByEntiteAccessAndExercice(this.exercice.id)
     .subscribe(
-      (data: any) => this.budgets = data,
+      (data: any) => {this.budgets = data;
+        if (this.budgets.length == 0){
+          this.existeBudget = true;
+        }
+      },
       error => this.budgetSvr.httpSrv.handleError(error)
     );
   }
