@@ -124,6 +124,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
       }
       , error => this.exercice_source_financementSrv.httpSrv.handleError(error));
   }
+  
   findExerciceEncours(){
     this.exerciceSrv.findExerciceEncours()
     .subscribe(
@@ -167,7 +168,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
 
   }
   
-  findBudgetByAndAccessEntity(event){
+  findBudgetByEntiteAccess(event){
     if(event.value == null){
       this.budgetSvr.findAll()
       .subscribe(
@@ -176,7 +177,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     );
   } else{
     //this.exercice = event.value;
-    this.budgetSvr.findBudgetByAndAccessEntity()
+    this.budgetSvr.findBudgetByEntiteAccess()
     .subscribe(
       (data: any) => this.budgets = data,
       error => this.budgetSvr.httpSrv.handleError(error)
