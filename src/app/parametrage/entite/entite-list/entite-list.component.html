@@ -22,22 +22,23 @@
                                 </button>
                             </p-toolbar>
                             <p-table #tt [value]="entites" [paginator]="true" [rows]="50"
-                                [globalFilterFields]="globalFilterFields" dataKey="id" [responsive]="true" sortMode="multiple"
-                                selectionMode="multiple" [(selection)]="selectedEntites" [contextMenu]="contextMenu"
-                                [(contextMenuSelection)]="selectedEntite" [scrollable]="true" scrollHeight="400px"
-                                [resizableColumns]="true">
+                                [globalFilterFields]="globalFilterFields" dataKey="id" [responsive]="true"
+                                sortMode="multiple" selectionMode="multiple" [(selection)]="selectedEntites"
+                                [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedEntite"
+                                [scrollable]="true" scrollHeight="400px" [resizableColumns]="true">
                                 <ng-template pTemplate="caption">
                                     Liste des entités<br>
                                     <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
                                     <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
-                                        (input)="tt.filterGlobal($event.target['value'], 'contains')" style="width:auto">
+                                        (input)="tt.filterGlobal($event.target['value'], 'contains')"
+                                        style="width:auto">
                                     <div class="ui-helper-clearfix" style="text-align: left">
                                         <button *ngIf="'Entite'|listable" type="button" pButton icon="pi pi-file-pdf"
                                             iconPos="left" label="PDF" (click)="exportPdf()"
                                             class="ui-button-warning pull-right ml-1"></button>
                                         <button *ngIf="'Entite'|listable" type="button" pButton icon="pi pi-file-excel"
-                                            iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;"
-                                            class="ui-button-success pull-right"></button>
+                                            iconPos="left" label="EXCEL" (click)="exportExcel()"
+                                            style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
                                     </div>
                                 </ng-template>
                                 <ng-template pTemplate="colgroup">
@@ -91,17 +92,20 @@
                                         <th>
                                             <p-multiSelect [options]="etats" [(ngModel)]="selectedEtat"
                                                 [style]="{'width':'100%','min-width':'100%'}" appendTo="body"
-                                                defaultLabel="Sélectionner les états" (onChange)="filter()"></p-multiSelect>
+                                                defaultLabel="Sélectionner les états" (onChange)="filter()">
+                                            </p-multiSelect>
                                         </th>
                                         <th>
                                             <p-dropdown [options]="entiteParents" [(ngModel)]="selectedEntiteParent"
-                                                optionLabel="nom" appendTo="body" placeholder="Sélectionner un entité parent"
+                                                optionLabel="nom" appendTo="body"
+                                                placeholder="Sélectionner un entité parent"
                                                 [style]="{'width':'100%','min-width':'100%'}" (onChange)="filter()">
                                             </p-dropdown>
                                         </th>
                                         <th>
-                                            <p-dropdown [(ngModel)]="selectedTypeEntite" optionLabel="libelle" appendTo="body"
-                                                [options]="typeEntites" [style]="{'width':'100%','min-width':'100%'}"
+                                            <p-dropdown [(ngModel)]="selectedTypeEntite" optionLabel="libelle"
+                                                appendTo="body" [options]="typeEntites"
+                                                [style]="{'width':'100%','min-width':'100%'}"
                                                 placeholder="Sélectionner un type d'entité" (onChange)="filter()">
                                             </p-dropdown>
                                         </th>
@@ -124,7 +128,8 @@
                                         </td>
                                         <td class="ui-resizable-column">
                                             {{ entite?.entiteParent?.nom }}
-                                            <span class="badge badge-danger" *ngIf="!entite?.entiteParent">Non précisé</span>
+                                            <span class="badge badge-danger" *ngIf="!entite?.entiteParent">Non
+                                                précisé</span>
                                         </td>
                                         <td class="ui-resizable-column">
                                             {{ entite.typeEntite.libelle }}
@@ -151,7 +156,8 @@
                                     <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
                                 </button>
                                 <button *ngIf="'Entite'|creable" [routerLink]="['/'+entiteSrv.getRoutePrefix(),'new']"
-                                    routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
+                                    routerLinkActive="router-link-active" type="button"
+                                    class="btn btn-outline-primary mr-1">
                                     <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
                                 </button>
                             </p-toolbar>
@@ -159,10 +165,10 @@
                     </div>
                 </p-tabPanel>
                 <p-tabPanel header="Representation Graphique">
-                    <app-entite-orgchart [deletedItemNotifier]="deletedItemSubject" [entites]="entites" ></app-entite-orgchart>
+                    <app-entite-orgchart [deletedItemNotifier]="deletedItemSubject" [entites]="entites">
+                    </app-entite-orgchart>
                 </p-tabPanel>
             </p-tabView>
-            
         </p-fieldset>
     </div>
     <div class="col-sm-12">
@@ -180,13 +186,12 @@
     <div class="modal-body">
         <p>
             <span class="font-weight-bold">Êtes vous sûr de vouloir supprimer
-             l'Entite <span class="text-primary"> {{ selectedEntite.nom }} </span> ?
+                l'Entite <span class="text-primary"> {{ selectedEntite.nom }} </span> ?
             </span></p>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" (click)="dissmissModal('cancel click')">Annuler</button>
-        <button type="button" ngbAutofocus class="btn btn-outline-danger"
-            (click)="deleteEntiteAfterConfirmation()">
+        <button type="button" ngbAutofocus class="btn btn-outline-danger" (click)="deleteEntiteAfterConfirmation()">
             Ok</button>
     </div>
 </ng-template>

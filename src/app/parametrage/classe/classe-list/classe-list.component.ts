@@ -82,10 +82,6 @@ export class ClasseListComponent implements OnInit {
     this.classes.forEach(classe => {
       classe.type = 'classe';
     });
-
-    this.classes.forEach(classe => {
-      classe.sousClasses.forEach(subClass => subClass.type = 'sousClasse');
-    });
   }
 
   public getTreeNodes(classes: Classe[]): TreeNode[] {
@@ -339,15 +335,6 @@ export class ClasseListComponent implements OnInit {
         this.classes = data;
         this.classes.forEach(classe => {
           classe.type = 'classe';
-          classe.sousClasses.forEach(sousClasse => {
-            sousClasse.type = 'sousClasse';
-            sousClasse.compteDivisionnaires.forEach(divisionalAccount => {
-              divisionalAccount.type = 'CompteDivisionnaire';
-              divisionalAccount.comptes.forEach(account => {
-                account.type = 'compte';
-              })
-            })
-          })
         })
         this.treeNodes = this.getTreeNodes(this.classes);
         this.treeNodes = [...this.treeNodes];
