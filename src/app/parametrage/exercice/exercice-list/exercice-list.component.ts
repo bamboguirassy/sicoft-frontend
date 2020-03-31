@@ -24,6 +24,7 @@ export class ExerciceListComponent implements OnInit {
   selectedExercices: Exercice[];
   selectedExercice: Exercice;
   clonedExercices: Exercice[];
+  exercicesSuivant: Exercice;
 
   cMenuItems: MenuItem[] = [];
 

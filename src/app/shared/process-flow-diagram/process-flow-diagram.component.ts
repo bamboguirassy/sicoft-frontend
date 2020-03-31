@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ProcessFlowDiagramComponent implements OnInit {
   @Input() items: any[];
-  @Input() bindLabel: string;
+  @Input() bindLabel: any;
   @Input() subItems: string;
   hasItems = true;
 

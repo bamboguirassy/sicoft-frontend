@@ -35,7 +35,7 @@ export class ClasseListComponent implements OnInit {
   isValidNumber = false;
   isValidLabel = false;
   modalTitle: string;
-  maxlength: number = 2;
+  maxlength = 2;
   isFormValid = false;
   inputObject: {
     id: number,

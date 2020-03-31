@@ -11,9 +11,11 @@
                         <button *ngIf="'Budget'|deletable" (click)="deleteSelectedBudgets()" type="button" class="btn btn-outline-danger pull-right ml-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
             </button>
-                        <button *ngIf="'Budget'|creable" [routerLink]="['/'+budgetSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
-              <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
-            </button>
+            <button *ngIf="'Budget'|creable" (click)="toggleAddModal()"
+            routerLinkActive="router-link-active" type="button"
+            class="btn btn-outline-primary pull-right ml-1">
+            <i class="fa fa-plus-square-o" aria-hidden="true"></i> Ajouter budget
+        </button>
                     </p-toolbar>
                     <p-table #tt [value]="budgets" [paginator]="true" [rows]="50" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedBudgets" [resizableColumns]="true" [responsive]="true" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedBudget"
                         [scrollable]="true" scrollHeight="400px" [globalFilterFields]="globalFilterFields" dataKey="id">
@@ -84,9 +86,6 @@
                     <p-toolbar>
                         <button *ngIf="'Budget'|deletable" (click)="deleteSelectedBudgets()" type="button" class="btn btn-outline-danger mr-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
-            </button>
-                        <button *ngIf="'Budget'|creable" [routerLink]="['/'+budgetSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary mr-1">
-              <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
             </button>
                     </p-toolbar>
                 </div>

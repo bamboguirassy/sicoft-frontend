@@ -8,7 +8,8 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class MultipleBudgetResolver implements Resolve<any> {
-  resolve(route: import("@angular/router").ActivatedRouteSnapshot, state: import("@angular/router").RouterStateSnapshot): any | import("rxjs").Observable<any> | Promise<any> {
+  // tslint:disable-next-line:max-line-length
+  resolve(route: import('@angular/router').ActivatedRouteSnapshot, state: import('@angular/router').RouterStateSnapshot): any | import('rxjs').Observable<any> | Promise<any> {
     return this.budgetSrv.findAll().pipe(map(data => {
       return data;
     }),

@@ -34,6 +34,7 @@
                                 <button *ngIf="'Exercice'|listable" type="button" pButton icon="pi pi-file-excel"
                                     iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;"
                                     class="ui-button-success pull-right"></button>
+                                    <app-process-flow-diagram [items]="exercices" bindLabel="libelle"></app-process-flow-diagram>
                             </div>
                         </ng-template>
                         <ng-template pTemplate="colgroup">

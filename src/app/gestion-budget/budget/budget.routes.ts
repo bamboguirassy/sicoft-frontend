@@ -1,4 +1,4 @@
-import { Route } from "@angular/router";
+import { Route } from '@angular/router';
 import { BudgetListComponent } from './budget-list/budget-list.component';
 import { BudgetNewComponent } from './budget-new/budget-new.component';
 import { BudgetEditComponent } from './budget-edit/budget-edit.component';
@@ -13,10 +13,14 @@ import { OneEntiteResolver } from 'app/parametrage/entite/one-entite.resolver';
 
 const budgetRoutes: Route = {
     path: 'budget', children: [
+        // tslint:disable-next-line:max-line-length
         { path: '', component: BudgetListComponent, resolve: { budgets: MultipleBudgetResolver, exercices: MultipleExerciceResolver, entites: MultipleEntiteResolver } },
+        // tslint:disable-next-line:max-line-length
         { path: 'new', component: BudgetNewComponent, resolve: {budgets: MultipleBudgetResolver, exercices: MultipleExerciceResolver, entites: MultipleEntiteResolver } },
+        // tslint:disable-next-line:max-line-length
         { path: ':id/edit', component: BudgetEditComponent, resolve: { budget: OneBudgetResolver, exercices: MultipleExerciceResolver, entites: MultipleEntiteResolver,
         exercice: OneExerciceResolver, entite: OneEntiteResolver } },
+        // tslint:disable-next-line:max-line-length
         { path: ':id/clone', component: BudgetCloneComponent, resolve: { budget: OneBudgetResolver, exercices: MultipleExerciceResolver, entites: MultipleEntiteResolver,
             exercice: OneExerciceResolver, entite: OneEntiteResolver } },
         { path: ':id', component: BudgetShowComponent, resolve: { budget: OneBudgetResolver } }

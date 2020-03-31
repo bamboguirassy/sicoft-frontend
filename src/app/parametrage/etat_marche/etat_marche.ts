@@ -8,4 +8,5 @@ export class EtatMarche {
     etatSuivant: EtatMarche;
     users: any[];
     typePassation: TypePassation;
+  bindLabel: any;
 }

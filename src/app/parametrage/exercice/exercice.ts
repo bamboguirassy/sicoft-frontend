@@ -6,4 +6,5 @@ export class Exercice {
     dateFin: string;
     encours: boolean;
     exerciceSuivant: Exercice;
+  bindLabel: any;
 }

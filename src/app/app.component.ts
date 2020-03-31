@@ -12,6 +12,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     subscription: Subscription;
     includeSpinner = false;
+  newsActive: any;
 
     constructor(private router: Router, public authSrv: AuthService) {
     }

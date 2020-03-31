@@ -8,7 +8,7 @@ import { Budget } from './budget';
 })
 export class BudgetService {
 
-  private routePrefix: string = 'budget';
+  private routePrefix = 'budget';
 
   constructor(public httpSrv: HttpService) { }
 
@@ -25,22 +25,22 @@ export class BudgetService {
   }
 
   update(budget: Budget) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+budget.id+'/edit', budget);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + budget.id + '/edit', budget);
   }
 
   clone(original: Budget, clone: Budget) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+original.id+'/clone', clone);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + original.id + '/clone', clone);
   }
 
   remove(budget: Budget) {
-    return this.httpSrv.delete(this.getRoutePrefixWithSlash()+budget.id);
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + budget.id);
   }
 
   removeSelection(budgets: Budget[]) {
-    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',budgets);
+    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', budgets);
   }
-  findBudgetByEntiteAccess(){
-    return this.httpSrv.get(this.getRoutePrefixWithSlash()+'entite/access');
+  findBudgetByEntiteAccess() {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + 'entite/access');
   }
 
   public getRoutePrefix(): string {
@@ -48,7 +48,7 @@ export class BudgetService {
   }
 
   private getRoutePrefixWithSlash(): string {
-    return this.routePrefix+'/';
+    return this.routePrefix + '/';
   }
 
 }

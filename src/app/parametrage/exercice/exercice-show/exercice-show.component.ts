@@ -16,8 +16,8 @@ export class ExerciceShowComponent implements OnInit {
   exercice: Exercice;
   exercicePrecedent: Exercice;
   exerciceLabel: string;
-  @ViewChild("confirm", { static: false }) public modalContentRef: TemplateRef<any>;
-  @ViewChild("simpleConfirm", { static: false }) public simpleModalContentRef: TemplateRef<any>;
+  @ViewChild('confirm', { static: false }) public modalContentRef: TemplateRef<any>;
+  @ViewChild('simpleConfirm', { static: false }) public simpleModalContentRef: TemplateRef<any>;
   constructor(public activatedRoute: ActivatedRoute,
     public exerciceSrv: ExerciceService, public location: Location, private modalSrv: NgbModal,
     public router: Router, public notificationSrv: NotificationService) {
@@ -75,8 +75,8 @@ export class ExerciceShowComponent implements OnInit {
 
   public toggleConfirmModal(content: TemplateRef<any>) {
     this.modalSrv.open(content, {
-      size: "lg",
-      backdropClass: "light-blue-backdrop",
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
       centered: true,
       keyboard: false,
       backdrop: 'static',

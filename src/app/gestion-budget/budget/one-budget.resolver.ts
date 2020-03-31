@@ -8,7 +8,7 @@ import { BudgetService } from './budget.service';
   providedIn: 'root'
 })
 export class OneBudgetResolver implements Resolve<any> {
-  resolve(route: import("@angular/router").ActivatedRouteSnapshot, state: import("@angular/router").RouterStateSnapshot) {
+  resolve(route: import('@angular/router').ActivatedRouteSnapshot, state: import('@angular/router').RouterStateSnapshot) {
     return this.budgetSrv.findOneById(route.params.id).pipe(map(data => {
       return data;
     }),
@@ -18,6 +18,6 @@ export class OneBudgetResolver implements Resolve<any> {
     }));
   }
 
-  constructor(public budgetSrv:BudgetService) { }
+  constructor(public budgetSrv: BudgetService) { }
 }
 

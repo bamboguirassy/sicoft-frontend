@@ -14,12 +14,13 @@ import { TypePassation } from 'app/parametrage/type_passation/type_passation';
 
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'app-etat_marche-list',
   templateUrl: './etat_marche-list.component.html',
   styleUrls: ['./etat_marche-list.component.scss']
 })
 export class EtatMarcheListComponent implements OnInit {
-  index: number = 0;
+  index = 0;
   etat_marches: EtatMarche[] = [];
   typePassations: TypePassation[] = [];
   selectedEtatMarches: EtatMarche[];
@@ -38,7 +39,7 @@ export class EtatMarcheListComponent implements OnInit {
   cMenuItems: MenuItem[] = [];
 
   tableColumns = etat_marcheColumns;
-  //allowed fields for filter
+  // allowed fields for filter
   globalFilterFields = allowedEtatMarcheFieldsForFilter;
 
 
@@ -236,6 +237,7 @@ export class EtatMarcheListComponent implements OnInit {
       this.etat_marcheSrv.getEtatMarcheByTypePassation(this.typePassation.id)
         .subscribe((data: any) => {
           this.etat_marches = data;
+        // tslint:disable-next-line:no-unused-expression
         }), error => this.etat_marcheSrv.httpSrv.handleError(error);
     }
   }

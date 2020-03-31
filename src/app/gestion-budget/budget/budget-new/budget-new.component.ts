@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Budget } from '../budget';
 import { BudgetService } from '../budget.service';
 import { NotificationService } from 'app/shared/services/notification.service';
@@ -8,6 +8,7 @@ import { Exercice } from 'app/parametrage/exercice/exercice';
 import { Entite } from 'app/parametrage/entite/entite';
 import { ExerciceService } from 'app/parametrage/exercice/exercice.service';
 import { EntiteService } from 'app/parametrage/entite/entite.service';
+import { NgbModal } from '../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-budget-new',
@@ -18,38 +19,44 @@ export class BudgetNewComponent implements OnInit {
   budget: Budget;
   exercices: Exercice[] = [];
   entites: Entite[] = [];
+
   constructor(public budgetSrv: BudgetService,
     public notificationSrv: NotificationService, public entiteSrv: EntiteService,
     public activateRoute: ActivatedRoute, public exerciceSrv: ExerciceService,
-    public router: Router, public location: Location) {
+    public router: Router, public location: Location, public modalSrv: NgbModal) {
     this.budget = new Budget();
-  }
+    }
 
   ngOnInit() {
-    //this.exercices = this.activateRoute.snapshot.data['exercices'];
-    //this.entites = this.activateRoute.snapshot.data['entites'];
+    this.exercices = this.activateRoute.snapshot.data['exercices'];
+    this.entites = this.activateRoute.snapshot.data['entites'];
     this.findBudgetByAndAccessEntity();
-    this.findExerciceEncours();
+     this.findExerciceEncours();
+    //  this.saveBudget();
+    //  this.saveBudgetAndExit();
   }
-  findExerciceEncours(){
+
+  findExerciceEncours() {
     this.exerciceSrv.findExerciceEncours()
     .subscribe(
-      (data: any) => {this.exercices = data; },
+      (data: any) => {this.exercices = data; this.budget.exercice = data[0] },
       error => this.exerciceSrv.httpSrv.handleError(error)
     );
   }
 
-  findBudgetByAndAccessEntity(){
+  findBudgetByAndAccessEntity() {
     this.entiteSrv.findAll()
     .subscribe(
-      (data:any) => this.entites = data,
+      (data: any) => this.entites = data,
       error => this.entiteSrv.httpSrv.handleError(error)
     );
   }
 
   saveBudget() {
-    let tempExercice = this.budget.exercice;
-    let tempEntite = this.budget.entite; 
+    let tempExercice;
+    let tempEntite;
+     tempExercice = this.budget.exercice;
+     tempEntite = this.budget.entite;
     this.budget.exercice = this.budget.exercice.id;
     this.budget.entite = this.budget.entite.id;
     this.budgetSrv.create(this.budget)
@@ -65,20 +72,30 @@ export class BudgetNewComponent implements OnInit {
   }
 
   saveBudgetAndExit() {
-    let tempExercice = this.budget.exercice;
-    let tempEntite = this.budget.entite; 
-    this.budget.exercice = this.budget.exercice.id;
-    this.budget.entite = this.budget.entite.id;
+    let tempExercice;
+    let tempEntite;
+    if (this.budget.exercice) {
+      tempExercice = this.budget.exercice;
+      this.budget.exercice = this.budget.exercice.id;
+    }
+    if (this.budget.entite) {
+      tempEntite = this.budget.entite;
+      this.budget.entite = this.budget.entite.id;
+    }
     this.budgetSrv.create(this.budget)
       .subscribe((data: any) => {
         this.router.navigate([this.budgetSrv.getRoutePrefix(), data.id]);
+        this.budget = new Budget();
       }, error => {
-        this.budgetSrv.httpSrv.handleError(error);
-        this.budget.exercice = tempExercice;
         this.budget.entite = tempEntite;
-      }
-      );
+          this.budget.exercice = tempExercice;
+        this.budgetSrv.httpSrv.handleError(error);
+      });
   }
+  public closeModal() {
+    this.modalSrv.dismissAll('Cross click');
+  }
+
 
 }
 
