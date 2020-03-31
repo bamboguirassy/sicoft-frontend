@@ -3,6 +3,9 @@
     <span *ngIf="verouille == false" style="text-align: center;" class="col-sm-12 col-md-12 col-lg-12 alert alert-warning"> 
         <h4>Ce budget est vérouillé!</h4> 
     </span>
+    <span *ngIf="existeBudget == true" style="text-align: center;" class="col-sm-12 col-md-12 col-lg-12 alert alert-warning"> 
+        <h4>Aucune entité disponible pour les budgets de l'exercice {{exerciceSouceFinancement.exercice.libelle}}!</h4> 
+    </span>
     <div class="col-sm-12 col-md-12 col-lg-12">
         <p-fieldset legend="Gestion des exercices sources financements" [toggleable]="true">
             <!--debut partie selection-->
@@ -15,10 +18,10 @@
                                     <div>
                                         <div>
                                             <!--label class="col-form-label form-control-label" for="exercices">Exercice</label> <br-->
-                                            <p-dropdown *ngIf="activeField == 0 || activeField == 2" [options]="exercices" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" (onChange)="findBudgetByEntiteAccess($event)" placeholder="Exercice" optionLabel="libelle" [showClear]="true"
-                                                [filter]="true"></p-dropdown>
-                                            <p-dropdown *ngIf="activeField == 1" [options]="exercices" [disabled]="true" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" (onChange)="findBudgetByEntiteAccess($event)" placeholder="Exercice" optionLabel="libelle" [showClear]="true"
-                                                [filter]="true"></p-dropdown>
+                                            <p-dropdown *ngIf="activeField == 0 || activeField == 2" [options]="exercices" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" (onChange)="findBudgetByEntiteAccessAndExercice($event)" placeholder="Exercice" optionLabel="libelle"
+                                                [showClear]="true" [filter]="true"></p-dropdown>
+                                            <p-dropdown *ngIf="activeField == 1" [options]="exercices" [disabled]="true" required name="exercices" [(ngModel)]="exerciceSouceFinancement.exercice" (onChange)="findBudgetByEntiteAccessAndExercice($event)" placeholder="Exercice" optionLabel="libelle"
+                                                [showClear]="true" [filter]="true"></p-dropdown>
                                         </div>
                                     </div>
                                 </div>

@@ -48,7 +48,7 @@ export const ROUTES: RouteInfo[] = [
                  badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
-                path: '/classe', title: 'Classif. des comptes', icon: 'ft-grid', class: '',
+                path: '/classe', title: 'Plan des comptes', icon: 'ft-grid', class: '',
                  badge: '', badgeClass: '', isExternalLink: false, submenu: [], display: false
             },
             {
