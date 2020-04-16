@@ -23,7 +23,7 @@ export class BudgetNewComponent implements OnInit {
   constructor(public budgetSrv: BudgetService,
     public notificationSrv: NotificationService, public entiteSrv: EntiteService,
     public activateRoute: ActivatedRoute, public exerciceSrv: ExerciceService,
-    public router: Router, public location: Location, public modalSrv: NgbModal) {
+    public router: Router, public location: Location, public modalSercive: NgbModal) {
     this.budget = new Budget();
     }
 
@@ -85,6 +85,7 @@ export class BudgetNewComponent implements OnInit {
     this.budgetSrv.create(this.budget)
       .subscribe((data: any) => {
         this.router.navigate([this.budgetSrv.getRoutePrefix(), data.id]);
+        this.closeModal();
         this.budget = new Budget();
       }, error => {
         this.budget.entite = tempEntite;
@@ -93,9 +94,8 @@ export class BudgetNewComponent implements OnInit {
       });
   }
   public closeModal() {
-    this.modalSrv.dismissAll('Cross click');
+    this.modalSercive.dismissAll('Cross click');
   }
-
 
 }
 
