@@ -55,7 +55,6 @@ export class ClasseNewComponent implements OnInit {
   }
 
   addSubclasse() {
-    
   }
 
 

@@ -9,34 +9,34 @@
                             <p-toolbar>
                                 <button *ngIf="'EtatMarche'|listable" type="button" class="btn btn-outline-secondary" (click)="refreshList()">
                                     <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
-                                  </button>
-                                              <!-- filtre type de passation -->
-                                              <p-dropdown *ngIf="'EtatMarche'|listable" name="typePassation" class="btn btn-outline-secondary pull-center ml-5" [options]="typePassations" [(ngModel)]="typePassation" (onChange)="getEtatMarcheByTypePassation($event)" placeholder="Filtre par type de passation"
-                                                  optionLabel="libelle" [showClear]="true"></p-dropdown>
-                                              <button *ngIf="'EtatMarche'|deletable" (click)="deleteSelectedEtatMarches()" type="button" class="btn btn-outline-danger pull-right ml-1">
+                                </button>
+                                <!-- filtre type de passation -->
+                                <p-dropdown *ngIf="'EtatMarche'|listable" name="typePassation" class="btn btn-outline-secondary pull-center ml-5" [options]="typePassations"
+                                    [(ngModel)]="typePassation" (onChange)="getEtatMarcheByTypePassation($event)" placeholder="Filtre par type de passation"
+                                    optionLabel="libelle" [showClear]="true"></p-dropdown>
+                                <button *ngIf="'EtatMarche'|deletable" (click)="deleteSelectedEtatMarches()" type="button" class="btn btn-outline-danger pull-right ml-1">
                                     <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
-                                  </button>
-                                              <button *ngIf="'EtatMarche'|creable" [routerLink]="['/'+etat_marcheSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
+                                </button>
+                                <button *ngIf="'EtatMarche'|creable" [routerLink]="['/'+etat_marcheSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active"
+                                    type="button" class="btn btn-outline-primary pull-right ml-1">
                                     <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
-                                  </button>
+                                </button>
                             </p-toolbar>
-                            <p-table #tt [value]="etat_marches" [paginator]="true" [rows]="50"
-                                [globalFilterFields]="globalFilterFields" dataKey="id" [responsive]="true" sortMode="multiple"
-                                selectionMode="multiple" [(selection)]="selectedEtatMarche" [contextMenu]="contextMenu"
-                                [(contextMenuSelection)]="selectedEtatMarche" [scrollable]="true" scrollHeight="400px"
-                                [resizableColumns]="true">
+                            <p-table #tt [value]="etat_marches" [paginator]="true" [rows]="50" [globalFilterFields]="globalFilterFields" dataKey="id"
+                                [responsive]="true" sortMode="multiple" selectionMode="multiple" [(selection)]="selectedEtatMarche"
+                                [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedEtatMarche" [scrollable]="true"
+                                scrollHeight="400px" [resizableColumns]="true">
                                 <ng-template pTemplate="caption">
-                                    Liste des etats marches<br>
+                                    Liste des etats marches
+                                    <br>
                                     <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                                    <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau"
-                                        (input)="tt.filterGlobal($event.target['value'], 'contains')" style="width:auto">
+                                    <input type="text" pInputText size="50" placeholder="Rechercher dans le tableau" (input)="tt.filterGlobal($event.target['value'], 'contains')"
+                                        style="width:auto">
                                     <div class="ui-helper-clearfix" style="text-align: left">
-                                        <button *ngIf="'EtatMarche'|listable" type="button" pButton icon="pi pi-file-pdf"
-                                            iconPos="left" label="PDF" (click)="exportPdf()"
+                                        <button *ngIf="'EtatMarche'|listable" type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()"
                                             class="ui-button-warning pull-right ml-1"></button>
-                                        <button *ngIf="'EtatMarche'|listable" type="button" pButton icon="pi pi-file-excel"
-                                            iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;"
-                                            class="ui-button-success pull-right"></button>
+                                        <button *ngIf="'EtatMarche'|listable" type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()"
+                                            style="margin-right: 0.5em;" class="ui-button-success pull-right"></button>
                                     </div>
                                 </ng-template>
                                 <ng-template pTemplate="colgroup">
@@ -105,10 +105,11 @@
                             <p-toolbar>
                                 <button *ngIf="'EtatMarche'|deletable" (click)="deleteSelectedEtatMarches()" type="button" class="btn btn-outline-danger pull-right ml-1">
                                     <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
-                                  </button>
-                                              <button *ngIf="'EtatMarche'|creable" [routerLink]="['/'+etat_marcheSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-primary pull-right ml-1">
+                                </button>
+                                <button *ngIf="'EtatMarche'|creable" [routerLink]="['/'+etat_marcheSrv.getRoutePrefix(),'new']" routerLinkActive="router-link-active"
+                                    type="button" class="btn btn-outline-primary pull-right ml-1">
                                     <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
-                                  </button>
+                                </button>
                             </p-toolbar>
                         </div>
                     </div>
@@ -116,12 +117,12 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <ng-template #content *ngIf="'RoleSurMarche' | editable" let-modal>
-                
+
                             <div class="modal-header new-sous-class-header">
                                 <h4 class="modal-title">Droit D'accés - Etat {{ selectedEtatMarche.libelle }} </h4>
                                 <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                             <div class="modal-body">
                                 <div class="row" *ngIf="!loading && selectedEtatMarche.users.length">
@@ -152,9 +153,11 @@
                                                     <td> {{ user.nom }} </td>
                                                     <td> {{ user.username }} </td>
                                                     <td> {{ user.email }} </td>
-                                                    <td *ngIf="'RoleSurMarche'|deletable"> <button type="button" (click)="removeUser(user)" class="btn-sm btn-outline-danger"><i
-                                    class="fa fa-trash" aria-hidden="true"></i>
-                                  </button> </td>
+                                                    <td *ngIf="'RoleSurMarche'|deletable">
+                                                        <button type="button" (click)="removeUser(user)" class="btn-sm btn-outline-danger">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -174,30 +177,32 @@
                                     <div class="row">
                                         <div class="col-sm-9 col-md-9 col-lg-9">
                                             <div class="form-group">
-                                                <ng-select required name="selectedEtatMarche" [items]="users" bindLabel="username" placeholder="Selectionner un ou plusieurs utilisateurs" appendTo="body" [multiple]="true" [searchable]="true" [(ngModel)]="selectedUser">
+                                                <ng-select required name="selectedEtatMarche" [items]="users" bindLabel="username" placeholder="Selectionner un ou plusieurs utilisateurs"
+                                                    appendTo="body" [multiple]="true" [searchable]="true" [(ngModel)]="selectedUser">
                                                 </ng-select>
                                             </div>
                                         </div>
                                         <div class="col-sm-3 col-md-3 col-lg-3 ">
-                                            <button type="button" [disabled]="userForm.invalid" (click)="addUser()" class="btn btn-outline-secondary"><i
-                                  class="pi pi-check" aria-hidden="true"></i>
-                                Valider</button>
+                                            <button type="button" [disabled]="userForm.invalid" (click)="addUser()" class="btn btn-outline-secondary">
+                                                <i class="pi pi-check" aria-hidden="true"></i>
+                                                Valider</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
                             </div>
-                
+
                         </ng-template>
                     </div>
                 </div>
 
                 <p-tabPanel header="Representation Graphique">
-                      
+                    
+
                 </p-tabPanel>
             </p-tabView>
-            
+
         </p-fieldset>
     </div>
     <div class="col-sm-12">
