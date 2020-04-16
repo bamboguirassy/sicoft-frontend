@@ -11,11 +11,6 @@
                         <button *ngIf="'Budget'|deletable" (click)="deleteSelectedBudgets()" type="button" class="btn btn-outline-danger pull-right ml-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection
             </button>
-            <!-- <button *ngIf="'Budget'|creable" (click)="toggleAddModal()"
-            routerLinkActive="router-link-active" type="button"
-            class="btn btn-outline-primary pull-right ml-1">
-            <i class="fa fa-plus-square-o" aria-hidden="true"></i> Ajouter budget
-        </button> -->
         <button type="button" *ngIf="'Budget'|creable" (click)="toggleAddModal()"
         routerLinkActive="router-link-active" class="btn btn-outline-primary pull-right ml-1">
         <i class="fa fa-plus-square-o" aria-hidden="true"></i>Ajouter Budget</button>
