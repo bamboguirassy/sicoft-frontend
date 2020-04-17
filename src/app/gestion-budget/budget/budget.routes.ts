@@ -10,6 +10,7 @@ import { MultipleExerciceResolver } from 'app/parametrage/exercice/multiple-exer
 import { MultipleEntiteResolver } from 'app/parametrage/entite/multiple-entite.resolver';
 import { OneExerciceResolver } from 'app/parametrage/exercice/one-exercice.resolver';
 import { OneEntiteResolver } from 'app/parametrage/entite/one-entite.resolver';
+import { MultipleClasseResolver } from 'app/parametrage/classe/multiple-classe.resolver';
 
 const budgetRoutes: Route = {
     path: 'budget', children: [
@@ -23,7 +24,14 @@ const budgetRoutes: Route = {
         // tslint:disable-next-line:max-line-length
         { path: ':id/clone', component: BudgetCloneComponent, resolve: { budget: OneBudgetResolver, exercices: MultipleExerciceResolver, entites: MultipleEntiteResolver,
             exercice: OneExerciceResolver, entite: OneEntiteResolver } },
-        { path: ':id', component: BudgetShowComponent, resolve: { budget: OneBudgetResolver } }
+        {
+            path: ':id',
+            component: BudgetShowComponent,
+            resolve: { 
+                budget: OneBudgetResolver,
+                classes: MultipleClasseResolver,
+             }
+        }
     ]
 
 };

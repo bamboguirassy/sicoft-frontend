@@ -6,4 +6,5 @@ export class Compte {
     description: string;
     compteDivisionnaire: CompteDivisionnaire;
     type: string = 'compte';
+    bindLabel?: string;
 }

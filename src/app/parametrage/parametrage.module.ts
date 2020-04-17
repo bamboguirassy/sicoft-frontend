@@ -132,7 +132,6 @@ import { ExerciceSourceFinancementNewComponent } from './exercice_source_finance
 import { ExerciceSourceFinancementShowComponent } from './exercice_source_financement/exercice_source_financement-show/exercice_source_financement-show.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EntiteOrgchartComponent } from './entite/entite-orgchart/entite-orgchart.component';
-import { SuccissionEtatsComponent } from './etat_marche/succission-etats/succission-etats.component';
 @NgModule({
   entryComponents: [ClasseNewComponent],
   declarations: [
@@ -233,7 +232,6 @@ import { SuccissionEtatsComponent } from './etat_marche/succission-etats/succiss
     ExerciceSourceFinancementNewComponent,
     ExerciceSourceFinancementShowComponent,
     EntiteOrgchartComponent,
-    SuccissionEtatsComponent
   ],
   imports: [
     CommonModule,

@@ -82,7 +82,7 @@
                             </tr>
                         </ng-template>
                     </p-table>
-                    <p-contextMenu #contextMenu [model]="cMenuItems"></p-contextMenu>
+                    <p-contextMenu [appendTo]="'body'" #contextMenu [model]="cMenuItems"></p-contextMenu>
                     <p-toolbar>
                         <button *ngIf="'Budget'|deletable" (click)="deleteSelectedBudgets()" type="button" class="btn btn-outline-danger mr-1">
               <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer selection

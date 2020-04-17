@@ -54,6 +54,10 @@ export class ExerciceSourceFinancementService {
     return this.httpSrv.get(this.getRoutePrefixWithSlash ()+'budget/'+id);
   }
 
+  findNotDispatchedExerciceSourceFinancementByBudget(id: any) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/budget-non-alloue');
+  }
+
   public getRoutePrefix(): string {
     return this.routePrefix;
   }

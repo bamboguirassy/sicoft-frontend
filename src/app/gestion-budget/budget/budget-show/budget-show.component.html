@@ -1,19 +1,21 @@
-<p-toast></p-toast>
-<p-fieldset *ngIf="'Budget'|showable" legend="Affichage des informations - Utilisateur" [toggleable]="true">
+<p-toast baseZIndex="8000"></p-toast>
+<p-fieldset *ngIf="'Budget'|showable" legend="Allocations Budgetaires" [toggleable]="true">
     <p-toolbar>
-        <button *ngIf="'Budget'|editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/'+budgetSrv.getRoutePrefix(),budget.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
-      Modifier</button>
-        <button *ngIf="'Budget'|clonable" [routerLink]="['/'+budgetSrv.getRoutePrefix(),budget.id,'clone']" type="button" class="btn btn-outline-secondary pull-right ml-1">
-      <i class="fa fa-clone" aria-hidden="true"></i> Cloner
-    </button>
-        <button *ngIf="'Budget'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeBudget()"><i
-        class="fa fa-trash-o"></i> Supprimer</button>
+        <!--<button *ngIf="'Budget'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+            [routerLink]="['/'+budgetSrv.getRoutePrefix(),budget.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
+            Modifier</button>
+        <button *ngIf="'Budget'|clonable" [routerLink]="['/'+budgetSrv.getRoutePrefix(),budget.id,'clone']"
+            type="button" class="btn btn-outline-secondary pull-right ml-1">
+            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+        </button>-->
+        <button *ngIf="'Budget'|deletable" type="button" class="btn btn-outline-primary pull-right ml-1"
+            (click)="toggleAllocationModal()"><i class="fa fa-money" aria-hidden="true"></i> Allouer Recette</button>
         <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
-        class="fa fa-reply"></i> Retour</button>
+                class="fa fa-reply"></i> Retour</button>
     </p-toolbar>
-    <p-tabView>
-        <p-tabPanel header="Détails">
-            <p-fieldset [legend]="budget.id">
+    <!--<p-tabView>
+        <!--<p-tabPanel header="General">
+            <p-fieldset [legend]="budget.libelle">
                 <table class="table">
                     <tr>
                         <th>Libelle</th>
@@ -33,23 +35,252 @@
                     </tr>
                 </table>
                 <p-toolbar>
-                    <button *ngIf="'Budget'|editable" type="button" class="btn btn-outline-warning pull-right ml-1" [routerLink]="['/'+budgetSrv.getRoutePrefix(),budget.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
-            Modifier</button>
-                    <button *ngIf="'Budget'|clonable" [routerLink]="['/'+budgetSrv.getRoutePrefix(),budget.id,'clone']" type="button" class="btn btn-outline-secondary pull-right ml-1">
-            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
-          </button>
-                    <button *ngIf="'Budget'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1" (click)="removeBudget()"><i
-              class="fa fa-trash-o"></i> Supprimer</button>
+                    <button *ngIf="'Budget'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
+                        [routerLink]="['/'+budgetSrv.getRoutePrefix(),budget.id,'edit']"><i
+                            class="fa fa-pencil-square-o ml-1"></i>
+                        Modifier</button>
+                    <button *ngIf="'Budget'|clonable" [routerLink]="['/'+budgetSrv.getRoutePrefix(),budget.id,'clone']"
+                        type="button" class="btn btn-outline-secondary pull-right ml-1">
+                        <i class="fa fa-clone" aria-hidden="true"></i> Cloner
+                    </button>
+                    <button *ngIf="'Budget'|deletable" type="button" class="btn btn-outline-danger pull-right ml-1"
+                        (click)="removeBudget()"><i class="fa fa-trash-o"></i> Supprimer</button>
                     <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
-              class="fa fa-reply"></i> Retour</button>
+                            class="fa fa-reply"></i> Retour</button>
                     <button *ngIf="'Budget'|showable" type="button" class="btn btn-secondary ml-1" (click)="refresh()">
-              <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
-          </button>
+                        <i class="fa fa-refresh" aria-hidden="true"></i> Raffraichir les données
+                    </button>
                 </p-toolbar>
             </p-fieldset>
         </p-tabPanel>
-        <p-tabPanel header="Liste associée">
-
+        <p-tabPanel header="Allocation">
+            
         </p-tabPanel>
-    </p-tabView>
+
+    </p-tabView>-->
+    <div class="card-body">
+        <p-treeTable #tt [value]="treeNodes" [autoLayout]="true" [paginator]="true" [rows]="10" sortMode="multiple"
+            [globalFilterFields]="globalFilterFields" dataKey="numero" [loading]="loading"
+            (onNodeExpand)="onNodeExpand($event)">
+
+            <ng-template pTemplate="caption">
+                ETATS DES ALLOCATIONS
+                <div class="row justify-content-center">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon bg-primary"><i class="fa fa-search text-white-50"></i></span>
+                        <input class="form-control" type="text" pInputText size="50"
+                            placeholder="Rechercher dans le tableau"
+                            (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="colgroup">
+                <colgroup>
+                    <col>
+                    <col>
+                </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [ttSortableColumn]="'numero'">Numero
+                        <p-treeTableSortIcon [field]="'numero'"></p-treeTableSortIcon>
+                    </th>
+                    <th [ttSortableColumn]="'libelle'">Nom
+                        <p-treeTableSortIcon [field]="'libelle'"></p-treeTableSortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                <tr [ttRow]="rowNode" #rowNodeTemplate [ttSelectableRow]="rowNode" [ttContextMenuRow]="rowNode">
+                    <td>
+                        <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                        {{rowData?.numero}}
+                    </td>
+                    <td [class.d-flex]="rowData.type === 'compte'" class="justify-content-between">
+                        {{rowData?.libelle}}
+                        <div *ngIf="rowData.type === 'compte'" class="badge badge-success"
+                            style="font-size: 15px; font-weight: bold;">750000F CFA</div>
+
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="columns?.length">
+                        No records found
+                    </td>
+                </tr>
+            </ng-template>
+        </p-treeTable>
+    </div>
 </p-fieldset>
+
+<ng-template #allocation>
+    <div class="modal-header new-sous-class-header">
+        <h4 class="modal-title" id="modal-title">Allocation Recettes - {{ budget.libelle }} </h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="stepper1" class="bs-stepper">
+                    <div class="bs-stepper-header">
+                        <div class="step" [class.active]="step === 0">
+                            <div class="step-trigger">
+                                <span class="bs-stepper-circle">1</span>
+                                <span class="bs-stepper-label" [class.active-text]="step === 0">Source
+                                    Financement</span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" [class.active]="step === 1">
+                            <div class="step-trigger">
+                                <span class="bs-stepper-circle">2</span>
+                                <span class="bs-stepper-label" [class.active-text]="step === 1">Allocation</span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" [class.active]="step === 2">
+                            <div class="step-trigger">
+                                <span class="bs-stepper-circle">3</span>
+                                <span class="bs-stepper-label" [class.active-text]="step === 2">Finalisation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel [disabled]="step!=0" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Source Financement
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Choisir la source de financement par rapport au budget.
+                                <mat-icon>business</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+
+                        <form class="form" role="form" #sourceFinForm="ngForm" autocomplete="off">
+                            <!-- debut body -->
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label form-control-label" for="typePassation">Source
+                                            Financement</label>
+                                        <p-dropdown [scrollHeight]="'130px'" required [(ngModel)]="exerciceSrcFin"
+                                            name="exerciceSrcFin" [showClear]="true"
+                                            [emptyFilterMessage]="'Aucun resultat trouvé'" [filter]="true"
+                                            placeholder="source financement"
+                                            [(ngModel)]="allocation.exerciceSourceFinancement"
+                                            [options]="exerciceSourceFinancements" optionLabel="libelle"></p-dropdown>
+
+                                    </div>
+                                </div>
+
+                                <div *ngIf="exerciceSrcFin" class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label form-control-label" for="libelle">Montant
+                                            Restant</label>
+                                        <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
+                                         suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                            currencyMask required [(ngModel)]="exerciceSrcFin.montant"
+                                            class="form-control" type="text" name="prixLocation" id="prixLocation">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="col-form-label form-control-label" for="libelle">Compte
+                                            Recettes</label>
+                                        <ng-select appendTo="body" name="selectedEntite" [items]="compteRecettes"
+                                            bindLabel="bindLabel" placeholder="Selectionner le(s) compte(s)"
+                                            [multiple]="true" [(ngModel)]="allocatedAccounts" [searchable]="true">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <mat-action-row>
+                                <button mat-raised-button [disabled]="sourceFinForm.invalid"
+                                    (click)="nextStep()">Suivant</button>
+                            </mat-action-row>
+                        </form>
+
+
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel [disabled]="step!=1" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Allocation
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Précisier la somme à mettre dans chaque compte.
+                                <mat-icon>vertical_split</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table *ngIf="step === 1 && allocatedAccounts.length"
+                                    class="table table-hover table-responsive-sm table-responsive-md table-responsive-lg mt-2">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Compte</th>
+                                            <th scope="col">Montant</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let account of allocatedAccounts">
+                                            <th>{{ account.bindLabel }}</th>
+                                            <td>
+                                                <input pInputText
+                                                    [options]="{ prefix: '',  suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                                    currencyMask required class="form-control" type="text"
+                                                    [(ngModel)]="money" name="montant{{ account.libelle }}" id="montant{{ account.libelle }}">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="prevStep()">Précedent</button>
+                            <button mat-raised-button (click)="nextStep()">Suivant</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel [disabled]="step!=2" [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Recapitulatif
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Finaliser les allocations sur les comptes recettes.
+                                <mat-icon>bar_chart</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="prevStep()">Précedent</button>
+                            <button mat-raised-button (click)="nextStep()">Suivant</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeModal()">
+            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+            Annuler</button>
+
+    </div>
+</ng-template>

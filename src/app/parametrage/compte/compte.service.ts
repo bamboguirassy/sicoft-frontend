@@ -40,6 +40,10 @@ export class CompteService {
     return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', comptes);
   }
 
+  findCompteRecette() {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + 'recette');
+  }
+
   public getRoutePrefix(): string {
     return this.routePrefix;
   }

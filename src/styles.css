@@ -16,4 +16,8 @@
 @import url("../src/assets/css/data-table/icons.css");
 @import url("../src/assets/css/demo.css"); */
  @import "~@ng-select/ng-select/themes/default.theme.css";
+ @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+ @import '~bs-stepper/dist/css/bs-stepper.min.css';
 /* @import "~@mondal/org-chart/_theming.scss"; */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
