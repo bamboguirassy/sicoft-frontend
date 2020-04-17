@@ -1,0 +1,54 @@
+
+<p-toast></p-toast>
+<!-- form allocation info -->
+<form *ngIf="'Allocation'|editable" class="form" role="form" #allocationForm="ngForm" autocomplete="off" (ngSubmit)="updateAllocation()">
+  <p-fieldset legend="Modification utilisateur" [toggleable]="true">
+    <p-toolbar>
+      <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
+          class="fa fa-eraser" aria-hidden="true"></i>
+        Retour</button>
+      <button [disabled]="allocationForm.invalid" type="submit" class="btn btn-warning pull-right">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+        Enregistrer</button>
+    </p-toolbar>
+    <!-- debut body -->
+    <div class="row">
+                            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="montantInitial">MontantInitial</label>
+                    <input [(ngModel)]="allocation.montantInitial" class="form-control" type="text" name="montantInitial" id="montantInitial">
+                </div>
+            </div>
+                            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="creditInscrit">CreditInscrit</label>
+                    <input [(ngModel)]="allocation.creditInscrit" class="form-control" type="text" name="creditInscrit" id="creditInscrit">
+                </div>
+            </div>
+                            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="engagementAnterieur">EngagementAnterieur</label>
+                    <input [(ngModel)]="allocation.engagementAnterieur" class="form-control" type="text" name="engagementAnterieur" id="engagementAnterieur">
+                </div>
+            </div>
+                            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-form-label form-control-label" for="montantRestant">MontantRestant</label>
+                    <input [(ngModel)]="allocation.montantRestant" class="form-control" type="text" name="montantRestant" id="montantRestant">
+                </div>
+            </div>
+                
+      
+    </div>
+    <!-- fin body -->
+    <p-toolbar>
+      <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
+          class="fa fa-eraser" aria-hidden="true"></i>
+        Retour</button>
+      <button [disabled]="allocationForm.invalid" type="submit" class="btn btn-warning pull-right">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+        Enregistrer</button>
+    </p-toolbar>
+  </p-fieldset>
+</form>
+<!-- /form allocation info -->

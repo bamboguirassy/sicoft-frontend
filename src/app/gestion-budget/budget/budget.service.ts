@@ -42,9 +42,10 @@ export class BudgetService {
 
   findBudgetByEntiteAccess() {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + 'entite/access');
+  }
 
-  findBudgetByEntiteAccessAndExercice(id: number){
-    return this.httpSrv.get(this.getRoutePrefixWithSlash() + 'entite/access/exercice/' +  id);
+  findBudgetByEntiteAccessAndExercice(id: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + 'entite/access/exercice/' + id);
 
   }
 
