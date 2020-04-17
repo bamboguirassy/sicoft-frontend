@@ -8,9 +8,10 @@
             <h5>Aucune année en cours paramétrée. Veuillez contacter l'administrateur!</h5>
         </span>
         </div>
+
         <div class="modal-header new-budget-header">
-            <h4 class="modal-title">L'exercice en cour </h4>
-            <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+            <h4 class="modal-title">L'exercice en cour par Creation de budget</h4>
+            <button type="button" class="close" aria-label="Close" (click)="closeModal()">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -22,7 +23,7 @@
                         <label class="col-form-label form-control-label" for="entite">Entite</label>
                         <br>
                         <p-dropdown [options]="entites" required="true" name="entites" [(ngModel)]="budget.entite" placeholder="Selectionner entite"
-                            optionLabel="nom" [showClear]="true"></p-dropdown>
+                            optionLabel="nom" [showClear]="true"  [style]="{ width: '100%' }"></p-dropdown>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,8 @@
 <div class="row" *ngIf="'Exercice'|listable">
     <div class="col-sm-12 col-md-12 col-lg-12">
         <p-fieldset legend="Liste des exercices" [toggleable]="true">
+                <p-tabView>
+                        <p-tabPanel header="Liste">
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <p-toolbar>
@@ -34,7 +36,7 @@
                                 <button *ngIf="'Exercice'|listable" type="button" pButton icon="pi pi-file-excel"
                                     iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;"
                                     class="ui-button-success pull-right"></button>
-                                    <app-process-flow-diagram [items]="exercices" bindLabel="libelle"></app-process-flow-diagram>
+                                    
                             </div>
                         </ng-template>
                         <ng-template pTemplate="colgroup">
@@ -131,6 +133,12 @@
                     </p-toolbar>
                 </div>
             </div>
+            </p-tabPanel>
+            <p-tabPanel header="Representation Graphique">
+                <br><br>
+                    <app-process-flow-diagram [items]="exercices" bindLabel="libelle"></app-process-flow-diagram>
+            </p-tabPanel>
+            </p-tabView>
         </p-fieldset>
     </div>
 </div>

@@ -28,13 +28,13 @@ export class BudgetEditComponent implements OnInit {
 
   ngOnInit() {
     this.budget = this.activatedRoute.snapshot.data['budget'];
-    //this.exercices = this.activatedRoute.snapshot.data['exercices'];
-    //this.entites = this.activatedRoute.snapshot.data['entites'];
+    // this.exercices = this.activatedRoute.snapshot.data['exercices'];
+    // this.entites = this.activatedRoute.snapshot.data['entites'];
     this.findExerciceEncours();
     this.findBudgetByAndAccessEntity();
   }
 
-  findExerciceEncours(){
+  findExerciceEncours() {
     this.exerciceSrv.findExerciceEncours()
     .subscribe(
       (data: any) => {this.exercices = data; },
