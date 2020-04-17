@@ -112,10 +112,5 @@ export class BudgetListComponent implements OnInit {
     });
 
 }
-public closeModal() {
-  this.modalSrv.dismissAll('Cross click');
-}
-dissmissModal(param: string) {
-  this.modalSrv.dismissAll(param);
-}
+
 }

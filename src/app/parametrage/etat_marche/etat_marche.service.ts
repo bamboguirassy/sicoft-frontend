@@ -52,7 +52,7 @@ export class EtatMarcheService {
     return this.httpSrv.get(`${this.getRoutePrefix()}/${id}/users`);
   }
   getEtatMarcheByTypePassation(id: number) {
-    return this.httpSrv.get(this.getRoutePrefixWithSlash()+ id + '/typePassaton');
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() +  id + '/typePassaton');
   }
 
 }
