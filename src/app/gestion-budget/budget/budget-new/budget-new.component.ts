@@ -39,7 +39,16 @@ export class BudgetNewComponent implements OnInit {
   findExerciceEncours() {
     this.exerciceSrv.findExerciceEncours()
     .subscribe(
-      (data: any) => {this.exercices = data; this.budget.exercice = data[0] },
+      (data: any) => {
+        if (data == null){
+          this.exercices = null
+        } else{
+          this.exercices = data; this.budget.exercice = data 
+        }
+        console.log(this.exercices);
+        
+       
+      },
       error => this.exerciceSrv.httpSrv.handleError(error)
     );
   }
