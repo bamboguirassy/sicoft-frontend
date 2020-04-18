@@ -1,4 +1,4 @@
-<p-toast baseZIndex="8000"></p-toast>
+<p-toast [baseZIndex]="12000"></p-toast>
 <p-fieldset *ngIf="'Budget'|showable" legend="Allocations Budgetaires" [toggleable]="true">
     <p-toolbar>
         <!--<button *ngIf="'Budget'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
@@ -98,8 +98,9 @@
                     </td>
                     <td [class.d-flex]="rowData.type === 'compte'" class="justify-content-between">
                         {{rowData?.libelle}}
-                        <div *ngIf="rowData.type === 'compte'" class="badge badge-success"
-                            style="font-size: 15px; font-weight: bold;">750000F CFA</div>
+                        <div *ngIf="rowData.type === 'compte' && rowData.allocations" class="badge badge-success"
+                            style="font-size: 15px;">
+                            {{ rowData?.allocations?.montantInitial | currency:'F CFA':'code':'3.2-2':'fr' }}</div>
 
                     </td>
                 </tr>
@@ -107,7 +108,7 @@
             <ng-template pTemplate="emptymessage" let-columns>
                 <tr>
                     <td [attr.colspan]="columns?.length">
-                        No records found
+                        Aucune classe trouvée.
                     </td>
                 </tr>
             </ng-template>
@@ -175,8 +176,10 @@
                                     <div class="form-group">
                                         <label class="col-form-label form-control-label" for="typePassation">Source
                                             Financement</label>
-                                        <p-dropdown [scrollHeight]="'130px'" required [(ngModel)]="exerciceSrcFin"
-                                            name="exerciceSrcFin" [showClear]="true"
+                                        <p-dropdown [scrollHeight]="'130px'" required
+                                            [(ngModel)]="selectedExerciceSrcFin" name="selectedExerciceSrcFin"
+                                            [showClear]="true"
+                                            (onChange)="montantTotalInitial = selectedExerciceSrcFin.montant; cashRemaining = selectedExerciceSrcFin.montant"
                                             [emptyFilterMessage]="'Aucun resultat trouvé'" [filter]="true"
                                             placeholder="source financement"
                                             [(ngModel)]="allocation.exerciceSourceFinancement"
@@ -185,14 +188,14 @@
                                     </div>
                                 </div>
 
-                                <div *ngIf="exerciceSrcFin" class="col-lg-6">
+                                <div *ngIf="selectedExerciceSrcFin" class="col-lg-6">
                                     <div class="form-group">
                                         <label class="col-form-label form-control-label" for="libelle">Montant
                                             Restant</label>
                                         <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
                                          suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
-                                            currencyMask required [(ngModel)]="exerciceSrcFin.montant"
-                                            class="form-control" type="text" name="prixLocation" id="prixLocation">
+                                            currencyMask required [(ngModel)]="selectedExerciceSrcFin.montant"
+                                            class="form-control" type="text" name="montantSrcFin" id="montantSrcFin">
                                     </div>
                                 </div>
 
@@ -200,16 +203,20 @@
                                     <div class="form-group">
                                         <label class="col-form-label form-control-label" for="libelle">Compte
                                             Recettes</label>
-                                        <ng-select appendTo="body" name="selectedEntite" [items]="compteRecettes"
-                                            bindLabel="bindLabel" placeholder="Selectionner le(s) compte(s)"
-                                            [multiple]="true" [(ngModel)]="allocatedAccounts" [searchable]="true">
+                                        <ng-select [closeOnSelect]="false" appendTo="body" name="selectedEntite"
+                                            [items]="compteRecettes" bindLabel="bindLabel"
+                                            (remove)="handleRemovedItem($event)"
+                                            notFoundText="Aucun compte recette (vide) trouvé!"
+                                            placeholder="Selectionner le(s) compte(s)" [multiple]="true"
+                                            [(ngModel)]="allocatedAccounts" [searchable]="true">
                                         </ng-select>
                                     </div>
                                 </div>
                             </div>
                             <mat-action-row>
-                                <button mat-raised-button [disabled]="sourceFinForm.invalid"
-                                    (click)="nextStep()">Suivant</button>
+                                <button mat-raised-button
+                                    [disabled]="sourceFinForm.invalid || allocatedAccounts.length === 0"
+                                    (click)="nextStep('init-alloc')">Suivant</button>
                             </mat-action-row>
                         </form>
 
@@ -226,50 +233,101 @@
                                 <mat-icon>vertical_split</mat-icon>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <table *ngIf="step === 1 && allocatedAccounts.length"
-                                    class="table table-hover table-responsive-sm table-responsive-md table-responsive-lg mt-2">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Compte</th>
-                                            <th scope="col">Montant</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let account of allocatedAccounts">
-                                            <th>{{ account.bindLabel }}</th>
-                                            <td>
-                                                <input pInputText
-                                                    [options]="{ prefix: '',  suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
-                                                    currencyMask required class="form-control" type="text"
-                                                    [(ngModel)]="money" name="montant{{ account.libelle }}" id="montant{{ account.libelle }}">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <form role="form" class="form" autocomplete="off" #allocationForm="ngForm">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <ngb-alert *ngIf="showAlert" [type]="'warning'" [dismissible]="false">Attention vous
+                                        êtes entrain de dépasser la fourchette permise.</ngb-alert>
+                                </div>
                             </div>
-                        </div>
-                        <mat-action-row>
-                            <button mat-button color="warn" (click)="prevStep()">Précedent</button>
-                            <button mat-raised-button (click)="nextStep()">Suivant</button>
-                        </mat-action-row>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <table *ngIf="step === 1 && allocatedAccounts.length"
+                                        class="table table-hover table-responsive-sm table-responsive-md table-responsive-lg mt-2">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Compte</th>
+                                                <th scope="col">Montant</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let allocation of allocations">
+                                                <th>{{ allocation.compte.bindLabel }}</th>
+                                                <td>
+                                                    <input pInputText (keyup)="onAmountTyped()" [max]="cashRemaining"
+                                                        [options]="{ prefix: '',  suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                                        currencyMask required class="form-control" type="text"
+                                                        [(ngModel)]="allocation.montantInitial"
+                                                        name="montant{{ allocation.compte.bindLabel }}"
+                                                        id="montant{{ allocation.compte.bindLabel }}">
+                                                </td>
+                                            </tr>
+                                            <tr [class.table-danger]="cashRemaining === 0">
+                                                <th>Total Restant</th>
+                                                <td>
+                                                    <input pInputText default="0" [disabled]="true"
+                                                        [options]="{ prefix: '', suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                                        currencyMask required [(ngModel)]="cashRemaining"
+                                                        class="form-control" type="text" name="montantSrcFinRest"
+                                                        id="montantSrcFinRest">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-lg-12">
+                                    <p-progressBar [class]="'customProgress'" [value]="progressBarValue">
+                                    </p-progressBar>
+                                </div>
+                            </div>
+                            <mat-action-row>
+                                <button mat-button color="warn" (click)="prevStep()">Précedent</button>
+                                <button mat-raised-button [disabled]="allocationForm.invalid || verifyAllocation()"
+                                    (click)="nextStep()">Suivant</button>
+                            </mat-action-row>
+                        </form>
+
                     </mat-expansion-panel>
 
-                    <mat-expansion-panel [disabled]="step!=2" [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                    <mat-expansion-panel #step3 [disabled]="step!=2" [expanded]="step === 2" (opened)="setStep(2)"
+                        hideToggle>
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 Recapitulatif
                             </mat-panel-title>
                             <mat-panel-description>
-                                Finaliser les allocations sur les comptes recettes.
+                                Valider vos ventilations sur les comptes recettes.
                                 <mat-icon>bar_chart</mat-icon>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
-
+                        <table *ngIf="step === 2 && allocatedAccounts.length"
+                            class="table table-hover table-responsive-sm table-responsive-md table-responsive-lg mt-2">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Compte</th>
+                                    <th scope="col">Montant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let allocation of allocations">
+                                    <th>{{ allocation.compte.bindLabel }}</th>
+                                    <td>
+                                        {{ allocation.montantInitial | currency:'F CFA':'code':'3.2-2':'fr' }}
+                                    </td>
+                                </tr>
+                                <tr class="table-info">
+                                    <th>Total</th>
+                                    <td>
+                                        {{ sum | currency:'F CFA':'code':'3.2-2':'fr' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <mat-action-row>
                             <button mat-button color="warn" (click)="prevStep()">Précedent</button>
-                            <button mat-raised-button (click)="nextStep()">Suivant</button>
+                            <button mat-raised-button (click)="createAllocations(step3)">Valider</button>
                         </mat-action-row>
                     </mat-expansion-panel>
                 </mat-accordion>
@@ -280,7 +338,7 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" (click)="closeModal()">
             <i class="fa fa-minus-circle" aria-hidden="true"></i>
-            Annuler</button>
+            Fermer</button>
 
     </div>
 </ng-template>

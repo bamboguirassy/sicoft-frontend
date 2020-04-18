@@ -24,3 +24,16 @@
 .active .bs-stepper-circle {
     background-color: #16647A !important;
 }
+
+.customProgress .ui-progressbar .ui-progressbar-label {
+  color: yellow;
+}
+
+.customProgress .ui-progressbar .ui-progressbar-value {
+  background: red;
+}
+
+:host >>> .alert-custom {
+  color:white;
+  background-color: red;
+}

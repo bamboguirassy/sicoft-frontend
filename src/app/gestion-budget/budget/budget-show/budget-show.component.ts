@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, TemplateRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Budget } from '../budget';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BudgetService } from '../budget.service';
 import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { allowedBudgetFieldsForFilter } from '../budget.columns';
-import { TreeNode, MenuItem } from 'primeng';
+import { TreeNode } from 'primeng';
 import { Classe } from 'app/parametrage/classe/classe';
 import { ClasseService } from 'app/parametrage/classe/classe.service';
 import { CompteService } from 'app/parametrage/compte/compte.service';
@@ -13,17 +13,14 @@ import { CompteDivisionnaireService } from 'app/parametrage/compte_divisionnaire
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExerciceSourceFinancementService } from 'app/parametrage/exercice_source_financement/exercice_source_financement.service';
 import { Compte } from 'app/parametrage/compte/compte';
+import { Allocation } from 'app/gestion-budget/allocation/allocation';
+import { ExerciceSourceFinancement } from 'app/parametrage/exercice_source_financement/exercice_source_financement';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { MatExpansionPanel } from '@angular/material/expansion';
+import { AllocationService } from 'app/gestion-budget/allocation/allocation.service';
+registerLocaleData(localeFr, 'fr');
 
-
-class Allocation {
-  budget?: Budget;
-  compte: Compte;
-  montantIntial: string;
-  creditInscrit?: string;
-  engagementAnterieur?: string;
-  montantRestant?: string;
-  exerciceSourceFinancement?: ExerciceSourceFinancementService;
-}
 
 @Component({
   selector: 'app-budget-show',
@@ -31,27 +28,31 @@ class Allocation {
   styleUrls: ['./budget-show.component.scss']
 })
 export class BudgetShowComponent implements OnInit {
- 
+
   globalFilterFields = allowedBudgetFieldsForFilter;
   treeNodes: TreeNode[] = [];
   loading = false;
   classes: Classe[] = [];
-  montantTotal: any;
-  exerciceSrcFin: any = undefined;
-  activeIndex: number = 1;
+  montantTotalInitial: number;
+  selectedExerciceSrcFin: ExerciceSourceFinancement = undefined;
+  cashRemaining: number = 1;
   compteRecettes: Compte[] = [];
   exerciceSourceFinancements: any;
   step = 0;
-  money;
+  sum = 0;
+  showAlert = false;
   allocatedAccounts: Compte[] = [];
-  allocation: Allocation = new Allocation();
+  allocations: Allocation[] = [];
+  progressBarValue = 0;
   @ViewChild('allocation', { static: false }) allocationModalRef: TemplateRef<any>;
+
 
   budget: Budget;
   constructor(public activatedRoute: ActivatedRoute,
     public budgetSrv: BudgetService, public location: Location, public classeSrv: ClasseService,
     public compteSrv: CompteService, public compteDivisionnaireSrv: CompteDivisionnaireService,
     public modalSrv: NgbModal, public exerciceSourceFinancementSrv: ExerciceSourceFinancementService,
+    public allocationSrv: AllocationService,
     public router: Router, public notificationSrv: NotificationService) {
   }
 
@@ -67,31 +68,21 @@ export class BudgetShowComponent implements OnInit {
     this.findCompteRecette();
   }
 
-  setStep(index: number) {
-    this.step = index;
-  }
 
-  nextStep() {
-    this.step++;
-  }
-
-  prevStep() {
-    this.step--;
-  }
 
   findCompteRecette() {
     this.compteSrv.findCompteRecette()
       .subscribe((data: any) => {
         this.compteRecettes = data;
-        this.compteRecettes.forEach(compteRecette => compteRecette.bindLabel = compteRecette.numero + ' - ' + compteRecette.libelle);
+        this.compteRecettes.forEach(compteRecette => {
+          compteRecette.bindLabel = compteRecette.numero + ' - ' + compteRecette.libelle;
+          compteRecette.allocations = compteRecette.allocations[0];
+        });
       }, error => {
         this.compteSrv.httpSrv.handleError(error);
       });
   }
 
-  public selectCampaign(): void {
-    
-  }
 
 
   findExerciceSourceFinancement() {
@@ -136,6 +127,7 @@ export class BudgetShowComponent implements OnInit {
         const accountNode: TreeNode[] = [];
         data.forEach((account: any) => {
           account.type = 'compte';
+          account.allocations = account.allocations[0];
           accountNode.push({ data: account, children: [], leaf: true, parent: node });
         });
         node.children = accountNode;
@@ -168,7 +160,7 @@ export class BudgetShowComponent implements OnInit {
       }, error => {
         this.notificationSrv.showError(error.error.message);
         this.loading = false;
-      })
+      });
   }
 
   fetchSubClasses(node: any) {
@@ -228,6 +220,11 @@ export class BudgetShowComponent implements OnInit {
   }
 
   closeModal() {
+    this.allocations = [];
+    this.selectedExerciceSrcFin = undefined;
+    this.allocatedAccounts = [];
+    this.step = 0;
+    this.showAlert = false;
     this.modalSrv.dismissAll('Cross Click');
   }
 
@@ -239,6 +236,93 @@ export class BudgetShowComponent implements OnInit {
       keyboard: false,
       backdrop: 'static'
     });
+  }
+
+  onAmountTyped() {
+    this.sum = 0;
+    this.showAlert = false;
+    this.allocations.forEach(allocation => {
+      this.sum += allocation.montantInitial;
+    });
+    if (this.sum <= this.montantTotalInitial) {
+      this.showAlert = false;
+      this.progressBarValue = Math.floor(100 * (this.sum / this.selectedExerciceSrcFin.montant));
+      this.cashRemaining = this.sum - this.montantTotalInitial;
+    } else {
+      this.showAlert = true;
+      this.progressBarValue = 0;
+      this.cashRemaining = 0;
+    }
+
+  }
+
+  verifyAllocation() {
+    let sum = 0;
+    let containsNullAccount = false;
+    this.allocations.forEach(allocation => {
+      sum += allocation.montantInitial;
+      if (allocation.montantInitial === 0) {
+        containsNullAccount = true;
+      }
+    });
+    return !containsNullAccount && sum !== 0 && sum <= this.montantTotalInitial ? false : true;
+  }
+
+  handleRemovedItem(removedItem: any) {
+    this.allocations = this.allocations.filter(allocation => allocation.compte.numero !== removedItem.value.numero);
+  }
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  onExpansionClicked(expansionPanel: MatExpansionPanel) {
+    if (this.step !== 0) {
+      expansionPanel.close();
+    }
+  }
+
+  nextStep(param?: string) {
+    this.step++;
+    if (param === 'init-alloc') {
+      this.onAmountTyped();
+      this.allocatedAccounts.forEach(allocatedAccount => {
+        if (this.allocations.filter(allocation => allocation.compte.numero === allocatedAccount.numero).length === 0) {
+          this.allocations.push({
+            compte: allocatedAccount,
+            montantInitial: 0
+          });
+        }
+      });
+    }
+  }
+
+  prevStep() {
+    this.step--;
+  }
+
+  createAllocations(step: MatExpansionPanel) {
+    step.close();
+    this.step = 4;
+    console.log(this.allocations);
+    const allocatedAccounts: Compte[] = [];
+    this.allocations.forEach(allocation => {
+      allocatedAccounts.push(allocation.compte);
+      allocation.compte = allocation.compte.id;
+      allocation.exerciceSourceFinancement = this.selectedExerciceSrcFin.id;
+    });
+    this.allocationSrv.createMultiple(this.allocations)
+      .subscribe((data: any) => {
+        this.selectedExerciceSrcFin.montant = this.montantTotalInitial - this.sum;
+        this.exerciceSourceFinancementSrv.update(this.selectedExerciceSrcFin)
+          .subscribe((data: any) => {
+            this.closeModal();
+            this.refreshTreeTable();
+            this.findCompteRecette();
+          })
+      }, error => {
+        this.allocationSrv.httpSrv.handleError(error);
+      });
   }
 }
 

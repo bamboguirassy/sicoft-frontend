@@ -44,7 +44,7 @@ export class BudgetListComponent implements OnInit {
     this.exercices = this.activatedRoute.snapshot.data['exerices'];
     this.entites = this.activatedRoute.snapshot.data['entites'];
     if (this.authSrv.checkShowAccess('Budget')) {
-      this.cMenuItems.push({ label: 'Afficher détails', icon: 'pi pi-eye', command: (event) => this.viewBudget(this.selectedBudget) });
+      this.cMenuItems.push({ label: 'Allocations', icon: 'pi pi-list', command: (event) => this.viewBudget(this.selectedBudget) });
     }
     if (this.authSrv.checkEditAccess('Budget')) {
       this.cMenuItems.push({ label: 'Modifier', icon: 'pi pi-pencil', command: (event) => this.editBudget(this.selectedBudget) })

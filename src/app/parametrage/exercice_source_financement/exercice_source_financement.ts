@@ -5,7 +5,7 @@ import { Budget } from 'app/gestion-budget/budget/budget';
 
 export class ExerciceSourceFinancement {
     id: any;
-    montant: string;
+    montant: number;
     sourceFinancement: SourceFinancement;
     //exercice: Exercice;
     //entite: Entite;

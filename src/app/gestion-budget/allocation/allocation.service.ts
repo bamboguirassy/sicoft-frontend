@@ -40,6 +40,10 @@ export class AllocationService {
     return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',allocations);
   }
 
+  createMultiple(allocations: Allocation[]) {
+    return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple', allocations);
+  }
+
   public getRoutePrefix(): string {
     return this.routePrefix;
   }
