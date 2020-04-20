@@ -25,22 +25,22 @@ export class AllocationService {
   }
 
   update(allocation: Allocation) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+allocation.id+'/edit', allocation);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + allocation.id + '/edit', allocation);
   }
 
   clone(original: Allocation, clone: Allocation) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash()+original.id+'/clone', clone);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + original.id + '/clone', clone);
   }
 
   remove(allocation: Allocation) {
-    return this.httpSrv.delete(this.getRoutePrefixWithSlash()+allocation.id);
+    return this.httpSrv.delete(this.getRoutePrefixWithSlash() + allocation.id);
   }
 
   removeSelection(allocations: Allocation[]) {
-    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash()+'delete-selection/',allocations);
+    return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', allocations);
   }
 
-  createMultiple(allocations: Allocation[]) {
+  createMultipleAndUpdateSrcFinAmount(allocations: Allocation[]) {
     return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple', allocations);
   }
 
@@ -49,7 +49,19 @@ export class AllocationService {
   }
 
   private getRoutePrefixWithSlash(): string {
-    return this.routePrefix+'/';
+    return this.routePrefix + '/';
+  }
+
+  findAllocationsByExerciceSrcFin(idExSourcFin: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idExSourcFin + '/esf')
+  }
+
+  findAllocationsByBudgetAndCompteDivisionnaireBudget(idCompteDiv: number, idBudget: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/' + idCompteDiv + '/budget-cd')
+  }
+
+  updateMultipleAndSrcFinAmount(allocations: Allocation[]) {
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'edit-multiple', allocations);
   }
 
 }

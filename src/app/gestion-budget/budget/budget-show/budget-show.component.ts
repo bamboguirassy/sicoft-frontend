@@ -35,8 +35,10 @@ export class BudgetShowComponent implements OnInit {
   classes: Classe[] = [];
   montantTotalInitial: number;
   selectedExerciceSrcFin: ExerciceSourceFinancement = undefined;
+  selectedExerciceSrcFinUpdate: ExerciceSourceFinancement = undefined;
   cashRemaining: number = 1;
   compteRecettes: Compte[] = [];
+  recetteAllocationToUpdate: Allocation[];
   exerciceSourceFinancements: any;
   step = 0;
   sum = 0;
@@ -45,6 +47,8 @@ export class BudgetShowComponent implements OnInit {
   allocations: Allocation[] = [];
   progressBarValue = 0;
   @ViewChild('allocation', { static: false }) allocationModalRef: TemplateRef<any>;
+  @ViewChild('updateAllocation', { static: false }) UpdateAllocationModalRef: TemplateRef<any>;
+
 
 
   budget: Budget;
@@ -76,7 +80,6 @@ export class BudgetShowComponent implements OnInit {
         this.compteRecettes = data;
         this.compteRecettes.forEach(compteRecette => {
           compteRecette.bindLabel = compteRecette.numero + ' - ' + compteRecette.libelle;
-          compteRecette.allocations = compteRecette.allocations[0];
         });
       }, error => {
         this.compteSrv.httpSrv.handleError(error);
@@ -109,14 +112,14 @@ export class BudgetShowComponent implements OnInit {
     } else if (node.data.type === 'sousClasse') {
       this.fetchDivsionalAccount(node);
     } else if (node.data.type === 'compteDivisionnaire') {
-      this.fetchAccount(node);
+      this.fetchAllocations(node);
     }
   }
 
 
-  fetchAccount(node: any) {
+  fetchAllocations(node: any) {
     this.loading = true;
-    this.compteSrv.findNotAllocatedAccountByBudgetAndCompteDivisionnaire(node.data.id, this.budget.id)
+    this.allocationSrv.findAllocationsByBudgetAndCompteDivisionnaireBudget(node.data.id, this.budget.id)
       .subscribe((data: any) => {
         if (data.length === 0) {
           this.loading = false;
@@ -124,13 +127,12 @@ export class BudgetShowComponent implements OnInit {
           this.notificationSrv.showWarning('Aucun compte ventilé trouvé.');
           return;
         }
-        const accountNode: TreeNode[] = [];
-        data.forEach((account: any) => {
-          account.type = 'compte';
-          account.allocations = account.allocations[0];
-          accountNode.push({ data: account, children: [], leaf: true, parent: node });
+        const allocationNode: TreeNode[] = [];
+        data.forEach((allocation: any) => {
+          allocation.type = 'allocation';
+          allocationNode.push({ data: allocation, children: [], leaf: true, parent: node });
         });
-        node.children = accountNode;
+        node.children = allocationNode;
         this.treeNodes = [...this.treeNodes];
         this.loading = false;
       }, error => {
@@ -219,12 +221,16 @@ export class BudgetShowComponent implements OnInit {
       });
   }
 
-  closeModal() {
+  closeModal(param?: string) {
     this.allocations = [];
     this.selectedExerciceSrcFin = undefined;
     this.allocatedAccounts = [];
     this.step = 0;
     this.showAlert = false;
+    if (param === 'update') {
+      this.recetteAllocationToUpdate = undefined;
+      this.selectedExerciceSrcFinUpdate = undefined;
+    }
     this.modalSrv.dismissAll('Cross Click');
   }
 
@@ -246,8 +252,8 @@ export class BudgetShowComponent implements OnInit {
     });
     if (this.sum <= this.montantTotalInitial) {
       this.showAlert = false;
-      this.progressBarValue = Math.floor(100 * (this.sum / this.selectedExerciceSrcFin.montant));
-      this.cashRemaining = this.sum - this.montantTotalInitial;
+      this.progressBarValue = Math.floor(100 * (this.sum / this.selectedExerciceSrcFin.montantInitial));
+      this.cashRemaining = this.selectedExerciceSrcFin.montantInitial - this.sum;
     } else {
       this.showAlert = true;
       this.progressBarValue = 0;
@@ -256,10 +262,39 @@ export class BudgetShowComponent implements OnInit {
 
   }
 
+  onAmountTypedForUpdate(param?: string) {
+    this.sum = 0;
+    this.showAlert = false;
+    this.recetteAllocationToUpdate.forEach(allocation => {
+      this.sum += allocation.montantInitial;
+    });
+    if (this.sum <= this.montantTotalInitial) {
+      this.showAlert = false;
+      this.progressBarValue = Math.floor(100 * (this.sum / this.selectedExerciceSrcFinUpdate.montantInitial));
+      this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantInitial - this.sum;
+    } else {
+      this.showAlert = true;
+      this.progressBarValue = 0;
+      this.cashRemaining = 0;
+    }
+  }
+
   verifyAllocation() {
     let sum = 0;
     let containsNullAccount = false;
     this.allocations.forEach(allocation => {
+      sum += allocation.montantInitial;
+      if (allocation.montantInitial === 0) {
+        containsNullAccount = true;
+      }
+    });
+    return !containsNullAccount && sum !== 0 && sum <= this.montantTotalInitial ? false : true;
+  }
+
+  verifyAllocationForUpdate() {
+    let sum = 0;
+    let containsNullAccount = false;
+    this.recetteAllocationToUpdate.forEach(allocation => {
       sum += allocation.montantInitial;
       if (allocation.montantInitial === 0) {
         containsNullAccount = true;
@@ -310,23 +345,60 @@ export class BudgetShowComponent implements OnInit {
       allocation.compte = allocation.compte.id;
       allocation.exerciceSourceFinancement = this.selectedExerciceSrcFin.id;
     });
-    this.allocationSrv.createMultiple(this.allocations)
+    this.allocationSrv.createMultipleAndUpdateSrcFinAmount(this.allocations)
       .subscribe((data: any) => {
-        this.selectedExerciceSrcFin.montant = this.montantTotalInitial - this.sum;
-        this.exerciceSourceFinancementSrv.update(this.selectedExerciceSrcFin)
-          .subscribe((data: any) => {
-            this.closeModal();
-            this.refreshTreeTable();
-            this.findCompteRecette();
-          })
+        this.closeModal();
+        this.refreshTreeTable();
+        this.findCompteRecette();
       }, error => {
         this.allocationSrv.httpSrv.handleError(error);
       });
   }
 
-  handleExSourceFinChange() {
-    this.montantTotalInitial = this.selectedExerciceSrcFin.montant; 
-    this.cashRemaining = this.selectedExerciceSrcFin.montant;
+  handleExSourceFinChange(param?: string) {
+    this.sum = 0;
+    if (param === 'update') {
+      this.montantTotalInitial = this.selectedExerciceSrcFinUpdate.montantInitial;
+      this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant;
+      this.findAllocationsByBudget(this.selectedExerciceSrcFinUpdate.id);
+    } else {
+      this.montantTotalInitial = this.selectedExerciceSrcFin.montantInitial;
+      this.cashRemaining = this.selectedExerciceSrcFin.montantRestant;
+    }
+  }
+
+  findAllocationsByBudget(id: number) {
+    this.allocationSrv.findAllocationsByExerciceSrcFin(this.selectedExerciceSrcFinUpdate.id)
+      .subscribe((data: any) => {
+        data.forEach(allocation => {
+          allocation.compte.bindLabel = allocation.compte.numero + ' - ' + allocation.compte.libelle;
+        });
+        this.recetteAllocationToUpdate = data;
+        this.onAmountTypedForUpdate('update');
+      }, error => {
+        this.compteSrv.httpSrv.handleError(error);
+      })
+  }
+
+  toggleUpdateAllocationModal() {
+    this.modalSrv.open(this.UpdateAllocationModalRef, {
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
+      centered: true,
+      keyboard: false,
+      backdrop: 'static'
+    });
+  }
+
+  updateAllocations() {
+    this.allocationSrv.updateMultipleAndSrcFinAmount(this.recetteAllocationToUpdate)
+      .subscribe((data: any) => {
+        this.selectedExerciceSrcFinUpdate.montantRestant = this.selectedExerciceSrcFinUpdate.montantInitial - this.sum;
+        this.closeModal('update');
+        this.refreshTreeTable();
+      }, error => {
+        this.allocationSrv.httpSrv.handleError(error);
+      })
   }
 }
 

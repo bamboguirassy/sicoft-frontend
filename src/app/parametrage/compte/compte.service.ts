@@ -56,11 +56,13 @@ export class CompteService {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/compte-divisionnaire');
   }
 
-  findNotAllocatedAccountByBudgetAndCompteDivisionnaire(compteDivId: number, budgetId: number) {
+  findAllocatedAccountByBudgetAndCompteDivisionnaire(compteDivId: number, budgetId: number) {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + budgetId + '/' + compteDivId + '/allocated')
   }
 
   createMultiple(comptes: Compte[] ) {
     return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple', comptes);
   }
+
+ 
 }
