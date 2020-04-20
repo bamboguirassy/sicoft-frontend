@@ -33,7 +33,6 @@ export class BudgetShowComponent implements OnInit {
   treeNodes: TreeNode[] = [];
   loading = false;
   classes: Classe[] = [];
-  montantTotalInitial: number;
   selectedExerciceSrcFin: ExerciceSourceFinancement = undefined;
   selectedExerciceSrcFinUpdate: ExerciceSourceFinancement = undefined;
   cashRemaining: number = 1;
@@ -226,6 +225,7 @@ export class BudgetShowComponent implements OnInit {
     this.selectedExerciceSrcFin = undefined;
     this.allocatedAccounts = [];
     this.step = 0;
+    this.sum = 0;
     this.showAlert = false;
     if (param === 'update') {
       this.recetteAllocationToUpdate = undefined;
@@ -250,7 +250,7 @@ export class BudgetShowComponent implements OnInit {
     this.allocations.forEach(allocation => {
       this.sum += allocation.montantInitial;
     });
-    if (this.sum <= this.montantTotalInitial) {
+    if (this.sum <= this.selectedExerciceSrcFin.montantRestant) {
       this.showAlert = false;
       this.progressBarValue = Math.floor(100 * (this.sum / this.selectedExerciceSrcFin.montantInitial));
       this.cashRemaining = this.selectedExerciceSrcFin.montantInitial - this.sum;
@@ -268,10 +268,14 @@ export class BudgetShowComponent implements OnInit {
     this.recetteAllocationToUpdate.forEach(allocation => {
       this.sum += allocation.montantInitial;
     });
-    if (this.sum <= this.montantTotalInitial) {
+    if (this.sum <= this.selectedExerciceSrcFinUpdate.montantRestant) {
       this.showAlert = false;
       this.progressBarValue = Math.floor(100 * (this.sum / this.selectedExerciceSrcFinUpdate.montantInitial));
-      this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantInitial - this.sum;
+      if (param === 'first') {
+        this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant;
+      } else {
+        this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantInitial - this.sum;
+      }
     } else {
       this.showAlert = true;
       this.progressBarValue = 0;
@@ -288,7 +292,7 @@ export class BudgetShowComponent implements OnInit {
         containsNullAccount = true;
       }
     });
-    return !containsNullAccount && sum !== 0 && sum <= this.montantTotalInitial ? false : true;
+    return !containsNullAccount && sum !== 0 && sum <= this.selectedExerciceSrcFin.montantRestant ? false : true;
   }
 
   verifyAllocationForUpdate() {
@@ -300,7 +304,7 @@ export class BudgetShowComponent implements OnInit {
         containsNullAccount = true;
       }
     });
-    return !containsNullAccount && sum !== 0 && sum <= this.montantTotalInitial ? false : true;
+    return !containsNullAccount && sum !== 0 && sum <= this.selectedExerciceSrcFinUpdate.montantRestant ? false : true;
   }
 
   handleRemovedItem(removedItem: any) {
@@ -347,6 +351,7 @@ export class BudgetShowComponent implements OnInit {
     });
     this.allocationSrv.createMultipleAndUpdateSrcFinAmount(this.allocations)
       .subscribe((data: any) => {
+        this.selectedExerciceSrcFin.montantRestant = this.selectedExerciceSrcFin.montantInitial - this.sum;
         this.closeModal();
         this.refreshTreeTable();
         this.findCompteRecette();
@@ -358,11 +363,9 @@ export class BudgetShowComponent implements OnInit {
   handleExSourceFinChange(param?: string) {
     this.sum = 0;
     if (param === 'update') {
-      this.montantTotalInitial = this.selectedExerciceSrcFinUpdate.montantInitial;
       this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant;
       this.findAllocationsByBudget(this.selectedExerciceSrcFinUpdate.id);
     } else {
-      this.montantTotalInitial = this.selectedExerciceSrcFin.montantInitial;
       this.cashRemaining = this.selectedExerciceSrcFin.montantRestant;
     }
   }
@@ -374,7 +377,7 @@ export class BudgetShowComponent implements OnInit {
           allocation.compte.bindLabel = allocation.compte.numero + ' - ' + allocation.compte.libelle;
         });
         this.recetteAllocationToUpdate = data;
-        this.onAmountTypedForUpdate('update');
+        this.onAmountTypedForUpdate('first');
       }, error => {
         this.compteSrv.httpSrv.handleError(error);
       })
