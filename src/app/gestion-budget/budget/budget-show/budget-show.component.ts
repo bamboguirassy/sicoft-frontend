@@ -71,7 +71,7 @@ export class BudgetShowComponent implements OnInit {
 
 
   findCompteRecette() {
-    this.compteSrv.findCompteRecette()
+    this.compteSrv.findCompteRecetteByBudget(this.budget.id)
       .subscribe((data: any) => {
         this.compteRecettes = data;
         this.compteRecettes.forEach(compteRecette => {
@@ -116,12 +116,12 @@ export class BudgetShowComponent implements OnInit {
 
   fetchAccount(node: any) {
     this.loading = true;
-    this.compteSrv.findByCompteDivisionnaire(node.data.id)
+    this.compteSrv.findNotAllocatedAccountByBudgetAndCompteDivisionnaire(node.data.id, this.budget.id)
       .subscribe((data: any) => {
         if (data.length === 0) {
           this.loading = false;
           window.scrollTo(0, 0);
-          this.notificationSrv.showWarning('Aucun compte trouvé.');
+          this.notificationSrv.showWarning('Aucun compte ventilé trouvé.');
           return;
         }
         const accountNode: TreeNode[] = [];
@@ -304,7 +304,6 @@ export class BudgetShowComponent implements OnInit {
   createAllocations(step: MatExpansionPanel) {
     step.close();
     this.step = 4;
-    console.log(this.allocations);
     const allocatedAccounts: Compte[] = [];
     this.allocations.forEach(allocation => {
       allocatedAccounts.push(allocation.compte);
@@ -323,6 +322,11 @@ export class BudgetShowComponent implements OnInit {
       }, error => {
         this.allocationSrv.httpSrv.handleError(error);
       });
+  }
+
+  handleExSourceFinChange() {
+    this.montantTotalInitial = this.selectedExerciceSrcFin.montant; 
+    this.cashRemaining = this.selectedExerciceSrcFin.montant;
   }
 }
 

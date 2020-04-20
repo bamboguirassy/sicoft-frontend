@@ -1,13 +1,6 @@
 <p-toast [baseZIndex]="12000"></p-toast>
 <p-fieldset *ngIf="'Budget'|showable" legend="Allocations Budgetaires" [toggleable]="true">
     <p-toolbar>
-        <!--<button *ngIf="'Budget'|editable" type="button" class="btn btn-outline-warning pull-right ml-1"
-            [routerLink]="['/'+budgetSrv.getRoutePrefix(),budget.id,'edit']"><i class="fa fa-pencil-square-o ml-1"></i>
-            Modifier</button>
-        <button *ngIf="'Budget'|clonable" [routerLink]="['/'+budgetSrv.getRoutePrefix(),budget.id,'clone']"
-            type="button" class="btn btn-outline-secondary pull-right ml-1">
-            <i class="fa fa-clone" aria-hidden="true"></i> Cloner
-        </button>-->
         <button *ngIf="'Budget'|deletable" type="button" class="btn btn-outline-primary pull-right ml-1"
             (click)="toggleAllocationModal()"><i class="fa fa-money" aria-hidden="true"></i> Allouer Recette</button>
         <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
@@ -64,13 +57,17 @@
             (onNodeExpand)="onNodeExpand($event)">
 
             <ng-template pTemplate="caption">
-                ETATS DES ALLOCATIONS
+                <h5> ETATS DES ALLOCATIONS - {{ budget.libelle }} </h5>
                 <div class="row justify-content-center">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon bg-primary"><i class="fa fa-search text-white-50"></i></span>
-                        <input class="form-control" type="text" pInputText size="50"
-                            placeholder="Rechercher dans le tableau"
-                            (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    <div class="col-lg-8 my-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text bg-primary"><i class="fa fa-search text-white-50"></i></div>
+                            </div>
+                            <input class="form-control" type="text" pInputText size="20"
+                                placeholder="Rechercher dans le tableau"
+                                (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                        </div>
                     </div>
                 </div>
             </ng-template>
@@ -178,8 +175,7 @@
                                             Financement</label>
                                         <p-dropdown [scrollHeight]="'130px'" required
                                             [(ngModel)]="selectedExerciceSrcFin" name="selectedExerciceSrcFin"
-                                            [showClear]="true"
-                                            (onChange)="montantTotalInitial = selectedExerciceSrcFin.montant; cashRemaining = selectedExerciceSrcFin.montant"
+                                            [showClear]="true" (onChange)="handleExSourceFinChange()"
                                             [emptyFilterMessage]="'Aucun resultat trouvé'" [filter]="true"
                                             placeholder="source financement"
                                             [(ngModel)]="allocation.exerciceSourceFinancement"
