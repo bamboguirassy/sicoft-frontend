@@ -81,6 +81,7 @@
                 <colgroup>
                     <col>
                     <col>
+                    <col>
                 </colgroup>
             </ng-template>
             <ng-template pTemplate="header">
@@ -91,6 +92,9 @@
                     <th [ttSortableColumn]="'libelle'">Nom
                         <p-treeTableSortIcon [field]="'libelle'"></p-treeTableSortIcon>
                     </th>
+                    <th [ttSortableColumn]="'montant'">Montant
+                        <p-treeTableSortIcon [field]="'montant'"></p-treeTableSortIcon>
+                    </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
@@ -100,13 +104,13 @@
                         {{rowData?.numero}}
                         <span *ngIf="rowData.type==='allocation'"> {{rowData?.compte?.numero}} </span>
                     </td>
-                    <td *ngIf="rowData.type!=='allocation'" class="justify-content-between">
+                    <td >
                         {{rowData?.libelle}}
+                        <span *ngIf="rowData.type==='allocation'"> {{rowData?.compte?.libelle}} </span>
                     </td>
-                    <td *ngIf="rowData.type==='allocation'" class="justify-content-between d-flex">
-                        {{rowData?.compte?.libelle}}
-                        <div class="badge badge-success" style="font-size: 15px;">
-                            {{ rowData?.montantInitial | currency:'F CFA':'code':'3.2-2':'fr' }}</div>
+                    <td>
+                        <span *ngIf="rowData.type==='allocation'" class="badge badge-success" style="font-size: 15px;">
+                            {{ rowData?.montantInitial | currency:'F CFA':'code':'3.2-2':'fr' }}</span>
 
                     </td>
                 </tr>
@@ -178,7 +182,7 @@
                         <form class="form" role="form" #sourceFinForm="ngForm" autocomplete="off">
                             <!-- debut body -->
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label class="col-form-label form-control-label" for="typePassation">Source
                                             Financement</label>
@@ -193,9 +197,20 @@
                                     </div>
                                 </div>
 
-                                <div *ngIf="selectedExerciceSrcFin" class="col-lg-6">
+                                <div *ngIf="selectedExerciceSrcFin" class="col-lg-4">
                                     <div class="form-group">
-                                        <label class="col-form-label form-control-label" for="libelle">Montant
+                                        <label class="col-form-label form-control-label" for="montantSrcFinInit">Montant
+                                            Initial</label>
+                                        <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
+                                         suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                            currencyMask required [(ngModel)]="selectedExerciceSrcFin.montantInitial"
+                                            class="form-control" type="text" name="montantSrcFinInit" id="montantSrcFinInit">
+                                    </div>
+                                </div>
+
+                                <div *ngIf="selectedExerciceSrcFin" class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label form-control-label" for="montantSrcFin">Montant
                                             Restant</label>
                                         <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
                                          suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
@@ -270,7 +285,7 @@
                                             <tr [class.table-danger]="cashRemaining === 0">
                                                 <th>Total Restant</th>
                                                 <td>
-                                                    <input pInputText default="0" [disabled]="true"
+                                                    <input pInputText [disabled]="true"
                                                         [options]="{ prefix: '', suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
                                                         currencyMask required [(ngModel)]="cashRemaining"
                                                         class="form-control" type="text" name="montantSrcFinRest"
@@ -380,9 +395,9 @@
                         <label class="col-form-label form-control-label" for="montantSrcFinUpdate">Montant
                             Restant</label>
                         <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
-                         suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
-                            currencyMask required [(ngModel)]="selectedExerciceSrcFinUpdate.montantRestant"
-                            class="form-control" type="text" name="montantSrcFinUpdate" id="montantSrcFinUpdate">
+                         suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }" currencyMask required
+                            [(ngModel)]="selectedExerciceSrcFinUpdate.montantRestant" class="form-control" type="text"
+                            name="montantSrcFinUpdate" id="montantSrcFinUpdate">
                     </div>
                 </div>
             </div>
@@ -417,9 +432,8 @@
                                 <td>
                                     <input pInputText [disabled]="true"
                                         [options]="{ prefix: '', suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
-                                        currencyMask required [(ngModel)]="cashRemaining"
-                                        class="form-control" type="text" name="montantSrcFinRestUpdate"
-                                        id="montantSrcFinRestUpdate">
+                                        currencyMask required [(ngModel)]="cashRemaining" class="form-control"
+                                        type="text" name="montantSrcFinRestUpdate" id="montantSrcFinRestUpdate">
                                 </td>
                             </tr>
                         </tbody>

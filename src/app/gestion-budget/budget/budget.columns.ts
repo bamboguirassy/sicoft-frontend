@@ -12,4 +12,11 @@ const allowedBudgetFieldsForFilter = [
     'verrouille',
 ];
 
-export { budgetColumns,allowedBudgetFieldsForFilter };
+const allowedCompteFieldForFilter = [
+    'numero',
+    'nom',
+    'libelle',
+    'montant',
+]
+
+export { budgetColumns, allowedBudgetFieldsForFilter, allowedCompteFieldForFilter };
