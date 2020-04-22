@@ -257,7 +257,6 @@ export class BudgetShowComponent implements OnInit {
   }
 
   onAmountTyped() {
-    //const allocatedAmount = this.selectedExerciceSrcFin.montantInitial - this.selectedExerciceSrcFin.montantRestant;
     this.sum = 0;
     this.showAlert = false;
     this.allocations.forEach(allocation => {
@@ -393,6 +392,11 @@ export class BudgetShowComponent implements OnInit {
         if (this.selectedExerciceSrcFin.montantRestant === 0) {
           this.exerciceSourceFinancements = this.exerciceSourceFinancements.filter(esf => esf.id !== this.selectedExerciceSrcFin.id);
         }
+        this.allExerciceSourceFinancements.forEach(esf => {
+          if (esf.id === this.selectedExerciceSrcFin.id) {
+            esf.montantRestant = this.selectedExerciceSrcFin.montantRestant;
+          }
+        });
         this.closeModal();
         this.refreshTreeTable();
         this.findCompteRecette();
@@ -433,6 +437,11 @@ export class BudgetShowComponent implements OnInit {
       .subscribe((data: any) => {
         this.selectedExerciceSrcFinUpdate.montantRestant
           = this.cashRemaining;
+        this.exerciceSourceFinancements.forEach(esf => {
+          if (esf.id === this.selectedExerciceSrcFinUpdate.id) {
+            esf.montantRestant = this.selectedExerciceSrcFinUpdate.montantRestant;
+          }
+        });
         if (this.selectedExerciceSrcFinUpdate.montantRestant === 0) {
           this.exerciceSourceFinancements = this.exerciceSourceFinancements.filter(esf => esf.id !== this.selectedExerciceSrcFinUpdate.id);
         } else {
