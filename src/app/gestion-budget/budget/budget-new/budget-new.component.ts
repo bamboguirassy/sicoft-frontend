@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Budget } from '../budget';
 import { BudgetService } from '../budget.service';
 import { NotificationService } from 'app/shared/services/notification.service';
@@ -19,53 +19,51 @@ export class BudgetNewComponent implements OnInit {
   budget: Budget;
   exercices: Exercice[] = [];
   entites: Entite[] = [];
+  @Output() created: EventEmitter<Budget> = new EventEmitter();
 
   constructor(public budgetSrv: BudgetService,
     public notificationSrv: NotificationService, public entiteSrv: EntiteService,
     public activateRoute: ActivatedRoute, public exerciceSrv: ExerciceService,
     public router: Router, public location: Location, public modalSercive: NgbModal) {
     this.budget = new Budget();
-    }
+  }
 
   ngOnInit() {
     this.exercices = this.activateRoute.snapshot.data['exercices'];
     this.entites = this.activateRoute.snapshot.data['entites'];
     this.findBudgetByAndAccessEntity();
-     this.findExerciceEncours();
+    this.findExerciceEncours();
     //  this.saveBudget();
     //  this.saveBudgetAndExit();
   }
 
   findExerciceEncours() {
     this.exerciceSrv.findExerciceEncours()
-    .subscribe(
-      (data: any) => {
-        if (data == null){
-          this.exercices = null
-        } else{
-          this.exercices = data; this.budget.exercice = data 
-        }
-        console.log(this.exercices);
-        
-       
-      },
-      error => this.exerciceSrv.httpSrv.handleError(error)
-    );
+      .subscribe(
+        (data: any) => {
+          if (data == null) {
+            this.exercices = null
+          } else {
+            this.exercices = data; this.budget.exercice = data
+          }
+        },
+        error => this.exerciceSrv.httpSrv.handleError(error)
+      );
   }
 
   findBudgetByAndAccessEntity() {
     this.entiteSrv.findAll()
-    .subscribe(
-      (data: any) => this.entites = data,
-      error => this.entiteSrv.httpSrv.handleError(error)
-    );
+      .subscribe(
+        (data: any) => this.entites = data,
+        error => this.entiteSrv.httpSrv.handleError(error)
+      );
   }
 
   saveBudget() {
     let tempExercice;
     let tempEntite;
-     tempExercice = this.budget.exercice;
-     tempEntite = this.budget.entite;
+    tempExercice = this.budget.exercice;
+    tempEntite = this.budget.entite;
     this.budget.exercice = this.budget.exercice.id;
     this.budget.entite = this.budget.entite.id;
     this.budgetSrv.create(this.budget)
@@ -93,12 +91,12 @@ export class BudgetNewComponent implements OnInit {
     }
     this.budgetSrv.create(this.budget)
       .subscribe((data: any) => {
-        this.router.navigate([this.budgetSrv.getRoutePrefix(), data.id]);
+        this.created.emit(data);
         this.closeModal();
         this.budget = new Budget();
       }, error => {
         this.budget.entite = tempEntite;
-          this.budget.exercice = tempExercice;
+        this.budget.exercice = tempExercice;
         this.budgetSrv.httpSrv.handleError(error);
       });
   }

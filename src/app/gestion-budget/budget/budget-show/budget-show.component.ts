@@ -5,6 +5,11 @@ import { BudgetService } from '../budget.service';
 import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { allowedCompteFieldForFilter } from '../budget.columns';
+import {
+  allowedExerciceSourceFinancementFieldsForFilter
+    as allowedESFFields
+} from '../../../parametrage/exercice_source_financement/exercice_source_financement.columns';
+
 import { TreeNode } from 'primeng';
 import { Classe } from 'app/parametrage/classe/classe';
 import { ClasseService } from 'app/parametrage/classe/classe.service';
@@ -30,6 +35,7 @@ registerLocaleData(localeFr, 'fr');
 export class BudgetShowComponent implements OnInit {
 
   globalFilterFields = allowedCompteFieldForFilter;
+  globalFilterFieldESF = allowedESFFields;
   treeNodes: TreeNode[] = [];
   loading = false;
   classes: Classe[] = [];
@@ -78,7 +84,11 @@ export class BudgetShowComponent implements OnInit {
     this.exerciceSourceFinancementSrv.findAllByBudget(this.budget.id)
       .subscribe((data: any) => {
         this.allExerciceSourceFinancements = data;
-        this.allExerciceSourceFinancements.forEach((esf: any) => esf.libelle = `${esf.sourceFinancement.libelle}`);
+        this.allExerciceSourceFinancements.forEach((esf: any) => {
+          esf.libelle = `${esf.sourceFinancement.libelle}`
+          esf.montantAlloue = esf.montantInitial - esf.montantRestant
+          esf.allocatedPercent = Math.floor(100 * ((esf.montantInitial - esf.montantRestant) / esf.montantInitial))
+        });
       }, error => this.classeSrv.httpSrv.handleError(error));
   }
 
@@ -400,6 +410,7 @@ export class BudgetShowComponent implements OnInit {
         this.closeModal();
         this.refreshTreeTable();
         this.findCompteRecette();
+        this.findAllExerciceSourceFinancement();
       }, error => {
         this.allocationSrv.httpSrv.handleError(error);
       });
@@ -451,6 +462,7 @@ export class BudgetShowComponent implements OnInit {
         }
         this.closeModal('update');
         this.refreshTreeTable();
+        this.findAllExerciceSourceFinancement();
       }, error => {
         this.allocationSrv.httpSrv.handleError(error);
       })
