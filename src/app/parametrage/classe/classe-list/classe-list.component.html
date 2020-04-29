@@ -94,7 +94,7 @@
                             </tr>
                         </ng-template>
                     </p-treeTable>
-                    <p-contextMenu #contextMenu [model]="cMenuItems" (onShow)="toggleContextMenu()"></p-contextMenu>
+                    <p-contextMenu appendTo="body" #contextMenu [model]="cMenuItems" (onShow)="toggleContextMenu()"></p-contextMenu>
                     <p-toolbar>
                         <button *ngIf="'Classe'|creable" (click)="toggleAddModal()" type="button"
                             class="btn btn-outline-primary mr-1">
