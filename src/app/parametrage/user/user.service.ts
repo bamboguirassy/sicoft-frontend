@@ -69,9 +69,8 @@ export class UserService {
     return this.httpSrv.put(this.getRoutePrefixWithSlash() + user.id + '/edit_profil', user);
   }
 
-  uploadFileProfil(image) {
-    console.log(image);
-    
-    return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'change_image_profil', image);
+  uploadFileProfil(photo: string) {
+    console.log(photo);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'change_image_profil', photo);
   }
 }

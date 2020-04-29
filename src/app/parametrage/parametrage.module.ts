@@ -8,7 +8,7 @@ import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserShowComponent } from './user/user-show/user-show.component';
 import { TableModule } from 'primeng/table';
 import {
-  ContextMenuModule, PickListModule, DialogModule,
+  ContextMenuModule, PickListModule, DialogModule, FileUploadModule,
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
   ToolbarModule, TabViewModule,
@@ -266,6 +266,7 @@ import { EntiteOrgchartComponent } from './entite/entite-orgchart/entite-orgchar
     TreeTableModule,
     PasswordModule,
     OrganizationChartModule,
+    FileUploadModule,
     StepsModule  ]
 })
 export class ParametrageModule { }

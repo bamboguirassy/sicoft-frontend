@@ -25,7 +25,7 @@ export class UserProfilePageComponent implements OnInit {
     type_entites: TypeEntite[] = [];
     selectedTypeEntites: TypeEntite[];
     selectedTypeEntite: TypeEntite;
-
+    uploadedFiles: any[] = [];
     // Variable Declaration
     currentPage = 'About';
 
@@ -66,7 +66,7 @@ export class UserProfilePageComponent implements OnInit {
             centered: true
         });
     }
-    toggleModalPhoto(contentPhoto) {
+    /*toggleModalPhoto(contentPhoto) {
         this.modalPhoto.open(contentPhoto, {
             size: 'lg',
             backdropClass: 'light-blue-backdrop',
@@ -74,7 +74,7 @@ export class UserProfilePageComponent implements OnInit {
             keyboard: false,
             backdrop: 'static'
         });
-    }
+    }*/
     updatePassword() {
         this.showAlert = false;
         this.user.currentPassword = this.user.currentPassword;
@@ -90,26 +90,29 @@ export class UserProfilePageComponent implements OnInit {
                 error => this.userSrv.httpSrv.handleError(error));
     }
 
-    onFileSelected(event) {
+    /*onFileSelected(event) {
         this.fileToUpload = <File>event.target.files[0];
         const reader = new FileReader();
         reader.onload = (event: any) => {
             this.imageUrl = event.target.result;
         }
         reader.readAsDataURL(this.fileToUpload);
-    };
+    };*/
 
-    onUpload() {
-        let fd = new FormData();
-        const hearder = new Headers();
-        hearder.append('content-type', 'application/json');
-        fd.append('image', this.imageUrl);
-        fd.append('content', JSON.stringify(this.content));
-        //let body = {photoUrl: this.fileToUpload, content: JSON.stringify(this.contenu)}
-
-        this.userSrv.uploadFileProfil(this.fileToUpload)
+    onUpload(event) {
+        let file : any;
+        let stringFile : string;
+        this.fileToUpload = event.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(this.fileToUpload);
+        reader.onload = function(){
+            //file = reader.result.split(',')[1];
+            console.log(file);
+        }
+         stringFile = file;
+         this.userSrv.uploadFileProfil(stringFile)
             .subscribe((data: any) => {
-                console.log(data)
+                console.log(stringFile);
             }, error => this.userSrv.httpSrv.handleError(error)
             );
     }
