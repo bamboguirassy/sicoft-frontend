@@ -5,7 +5,8 @@ const exercice_source_financementColumns = [
 const allowedExerciceSourceFinancementFieldsForFilter = [
     'libelle',
     'montantInitial',
-    'montantRestant'
+    'montantAlloue',
+    'allocatedPercent'
 ];
 
 export { exercice_source_financementColumns,allowedExerciceSourceFinancementFieldsForFilter };

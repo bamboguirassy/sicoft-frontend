@@ -56,7 +56,7 @@ export class AllocationService {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + idExSourcFin + '/esf')
   }
 
-  findAllocationsByBudgetAndCompteDivisionnaireBudget(idCompteDiv: number, idBudget: number) {
+  findAllocationsByBudgetAndCompteDivisionnaire(idCompteDiv: number, idBudget: number) {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/' + idCompteDiv + '/budget-cd')
   }
 
