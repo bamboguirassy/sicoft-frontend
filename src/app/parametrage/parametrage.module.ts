@@ -8,7 +8,7 @@ import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserShowComponent } from './user/user-show/user-show.component';
 import { TableModule } from 'primeng/table';
 import {
-  ContextMenuModule, PickListModule, DialogModule,
+  ContextMenuModule, PickListModule, DialogModule, FileUploadModule,
   MenuModule, ButtonModule,
   CardModule, FieldsetModule,
   ToolbarModule, TabViewModule,
@@ -133,7 +133,7 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EntiteOrgchartComponent } from './entite/entite-orgchart/entite-orgchart.component';
 @NgModule({
-  entryComponents: [ClasseNewComponent],
+  entryComponents: [ClasseNewComponent, ClasseEditComponent],
   declarations: [
     UserCloneComponent,
     UserEditComponent,
@@ -266,6 +266,7 @@ import { EntiteOrgchartComponent } from './entite/entite-orgchart/entite-orgchar
     TreeTableModule,
     PasswordModule,
     OrganizationChartModule,
+    FileUploadModule,
     StepsModule  ]
 })
 export class ParametrageModule { }

@@ -11,11 +11,15 @@ import { MultipleCategorieClasseResolver } from '../categorie_classe/multiple-ca
 
 const classeRoutes: Route = {
     path: 'classe', children: [
-        { path: '', component: ClasseListComponent, resolve: { classes: MultipleClasseResolver, categorieClasses: MultipleCategorieClasseResolver, typeClasses: MultipleTypeClasseResolver } },
+        {
+            path: '', component: ClasseListComponent,
+            resolve: {
+                classes: MultipleClasseResolver,
+                categorieClasses: MultipleCategorieClasseResolver,
+                typeClasses: MultipleTypeClasseResolver
+            }
+        },
         // tslint:disable-next-line: max-line-length
-        { path: 'new', component: ClasseNewComponent, resolve: { categorieClasses: MultipleCategorieClasseResolver, typeClasses: MultipleTypeClasseResolver } },
-        // tslint:disable-next-line: max-line-length
-        { path: ':id/edit', component: ClasseEditComponent, resolve: { classe: OneClasseResolver, categorieClasses: MultipleCategorieClasseResolver, typeClasses: MultipleTypeClasseResolver } },
         // tslint:disable-next-line: max-line-length
         { path: ':id/clone', component: ClasseCloneComponent, resolve: { classe: OneClasseResolver, categorieClasses: MultipleCategorieClasseResolver, typeClasses: MultipleTypeClasseResolver } },
         { path: ':id', component: ClasseShowComponent, resolve: { classe: OneClasseResolver } }

@@ -1,10 +1,10 @@
 <p-toast></p-toast>
 <div class="row" *ngIf="'ExerciceSourceFinancement'|listable">
-    <span *ngIf="verouille == false" style="text-align: center;" class="col-sm-12 col-md-12 col-lg-12 alert alert-warning"> 
+    <span *ngIf="verouille == true" style="text-align: center;" class="col-sm-12 col-md-12 col-lg-12 alert alert-warning"> 
         <h4>Ce budget est vérouillé!</h4> 
     </span>
     <span *ngIf="existeBudget == true" style="text-align: center;" class="col-sm-12 col-md-12 col-lg-12 alert alert-warning"> 
-        <h4>Aucune entité disponible pour les budgets de l'exercice {{exerciceSouceFinancement.exercice.libelle}}!</h4> 
+        <h4>Aucune entité disponible pour les budgets de l'exercice {{exerciceSouceFinancement?.exercice?.libelle}}!</h4> 
     </span>
     <div class="col-sm-12 col-md-12 col-lg-12">
         <p-fieldset legend="Gestion de la repartition des sources de financement" [toggleable]="true">
@@ -65,7 +65,7 @@
                                     filterBy="libelle" [dragdrop]="false" [responsive]="true">
                                     <ng-template let-tabItem pTemplate="sourceFinancements">
                                         <div class="ui-helper-clearfix">
-                                            <span style="font-size:15px;float:left;margin:0 0 0 0 ">{{tabItem.libelle}}</span>
+                                            <span style="font-size:15px;float:left;margin:0 0 0 0 ">{{tabItem?.libelle}}</span>
                                         </div>
                                     </ng-template>
                                 </p-pickList>
@@ -88,7 +88,7 @@
                                         'height': '200px', 'width': '250px'} " [targetStyle]="{ 'height': '200px', 'width': '250px'} " filterBy="libelle " [dragdrop]="false " [responsive]="true">
                                     <ng-template let-tabItem pTemplate="sourceFinancements ">
                                         <div class="ui-helper-clearfix ">
-                                            <span style="font-size:15px;float:left;margin:0 0 0 0 ">{{tabItem.libelle}}</span>
+                                            <span style="font-size:15px;float:left;margin:0 0 0 0 ">{{tabItem?.libelle}}</span>
                                         </div>
                                     </ng-template>
                                 </p-pickList>
@@ -120,7 +120,7 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-exercice_source_financement>
                                         <tr>
-                                            <td style="text-align: left;">{{exercice_source_financement.sourceFinancement.libelle}}</td>
+                                            <td style="text-align: left;">{{exercice_source_financement?.sourceFinancement?.libelle}}</td>
                                         </tr>
                                     </ng-template>
                                 </p-table>
@@ -139,15 +139,15 @@
                                 <ng-template pTemplate="header">
                                     <tr style="text-align: center;">
                                         <th>Source financement</th>
-                                        <th>Montant</th>
+                                        <th>Montant initial</th>
                                         <th>Supprimer de la sélection</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-tab_choiceData>
                                     <tr>
-                                        <td style="text-align: left;">{{tab_choiceData.libelle}}</td>
+                                        <td style="text-align: left;">{{tab_choiceData?.libelle}}</td>
                                         <td style="text-align: left;">
-                                            <input required [(ngModel)]="tab_choiceData.montant" class="form-control" type="text" name="montant" id="montant" placeholder="Montant" min="1">
+                                            <input required [(ngModel)]="tab_choiceData.montantInitial" class="form-control" type="text" name="montantInitial" id="montantInitial" placeholder="Montant initial" min="1">
                                         </td>
                                         <td style="text-align: center;">
                                             <button (click)="deletedItemSelect(tab_choiceData)">
@@ -177,14 +177,14 @@
                             <thead>
                                 <tr>
                                     <th>Libelle</th>
-                                    <th>Montant</th>
+                                    <th>Montant Initial</th>
                                     <th colspan="2" *ngIf="verouille==true">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let exerciceSourceFin of paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements">
-                                    <td>{{exerciceSourceFin.sourceFinancement.libelle}}</td>
-                                    <td>{{exerciceSourceFin.montant}}</td>
+                                    <td>{{exerciceSourceFin?.sourceFinancement?.libelle}}</td>
+                                    <td>{{exerciceSourceFin?.montantInitial}}</td>
                                     <td *ngIf="verouille==true">
                                         <button (click)="modalUpdateMontant(exerciceSourceFin)">
                                                 <i class="fa fa-pencil"></i>
@@ -198,7 +198,7 @@
                             <tfoot>
                                 <tr>
                                     <th> Somme totale </th>
-                                    <th colspan="2">{{paramTabExerciceSourceFinancements.montantTotal}}</th>
+                                    <th colspan="2">{{paramTabExerciceSourceFinancements?.montantTotal}}</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -225,21 +225,21 @@
                                     <th>Source financement</th>
                                     <th>Type</th>
                                     <th>Budget</th>
-                                    <th>Montant</th>
+                                    <th>Montant initial</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-sourceFinItem>
                                 <tr style="text-align:center;">
-                                    <td>{{sourceFinItem.sourceFinancement.libelle}}</td>
-                                    <td>{{sourceFinItem.sourceFinancement.type.libelle}}</td>
-                                    <td>{{sourceFinItem.budget.libelle}}</td>
-                                    <td>{{sourceFinItem.montant}}</td>
+                                    <td>{{sourceFinItem?.sourceFinancement?.libelle}}</td>
+                                    <td>{{sourceFinItem?.sourceFinancement?.type?.libelle}}</td>
+                                    <td>{{sourceFinItem?.budget?.libelle}}</td>
+                                    <td>{{sourceFinItem?.montantInitial}}</td>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="footer">
                                 <tr style="text-align:center;">
                                     <td colspan="3"> Somme totale </td>
-                                    <td>{{paramTabExerciceSourceFinancements.montantTotal}}</td>
+                                    <td>{{paramTabExerciceSourceFinancements?.montantTotal}}</td>
                                 </tr>
                             </ng-template>
 
@@ -267,15 +267,15 @@
                                         <th>Source financement</th>
                                         <th>Type</th>
                                         <th>Budget</th>
-                                        <th>Montant</th>
+                                        <th>Montant Initial</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body " let-sourceFinItem>
                                     <tr>
-                                        <td>{{sourceFinItem.sourceFinancement.libelle}}</td>
-                                        <td>{{sourceFinItem.sourceFinancement.type.libelle}}</td>
-                                        <td>{{sourceFinItem.budget.libelle}}</td>
-                                        <td>{{sourceFinItem.montant}}</td>
+                                        <td>{{sourceFinItem?.sourceFinancement?.libelle}}</td>
+                                        <td>{{sourceFinItem?.sourceFinancement?.type?.libelle}}</td>
+                                        <td>{{sourceFinItem?.budget?.libelle}}</td>
+                                        <td>{{sourceFinItem?.montant}}</td>
                                     </tr>
                                 </ng-template>
                             </p-table>
@@ -296,8 +296,8 @@
                                     </ng-template>
                                     <ng-template pTemplate="body " let-sourceFinancement>
                                         <tr>
-                                            <td>{{sourceFinancement.libelle}}</td>
-                                            <td>{{sourceFinancement.type.libelle}}</td>
+                                            <td>{{sourceFinancement?.libelle}}</td>
+                                            <td>{{sourceFinancement?.type.libelle}}</td>
                                         </tr>
                                     </ng-template>
                                 </p-table>

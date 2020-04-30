@@ -264,8 +264,8 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
       // exerciceSouceFinancementItem.exercice = tempExercice.id;
       exerciceSouceFinancementItem.budget = tempBudget.id;
       exerciceSouceFinancementItem.sourceFinancement = element.id;
-      exerciceSouceFinancementItem.montantInitial = element.montant;
-      exerciceSouceFinancementItem.montantRestant = element.montant;
+      exerciceSouceFinancementItem.montantInitial = element.montantInitial;
+      exerciceSouceFinancementItem.montantRestant = element.montantInitial;
       this.exerciceSourceFinancements.push(exerciceSouceFinancementItem);
     });
     this.exercice_source_financementSrv.createMultiple(this.exerciceSourceFinancements)
