@@ -115,9 +115,6 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width: 3em">
-                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
                         <th [pSortableColumn]="'libelle'" pResizableColumn>
                             Libelle
                             <p-sortIcon [field]="'libelle'"></p-sortIcon>
@@ -139,9 +136,6 @@
                 <ng-template pTemplate="body" let-exerciceSourcFin let-editing="editing">
                     <tr [pEditableRow]="exerciceSourcFin" [pSelectableRow]="exerciceSourcFin"
                         [pContextMenuRow]="exerciceSourcFin">
-                        <td style="width: 3em">
-                            <p-tableCheckbox [value]="exerciceSourcFin"></p-tableCheckbox>
-                        </td>
                         <td class="ui-resizable-column">
                             {{ exerciceSourcFin.libelle }}
                         </td>
@@ -154,7 +148,6 @@
                                 {{ exerciceSourcFin?.montantAlloue | currency:'F CFA':'code':'3.2-2':'fr' }}</span>
                         </td>
                         <td class="ui-resizable-column">
-                            <!--{{ exerciceSourcFin.allocatedPercent }} %-->
                             <p-progressBar  [value]="exerciceSourcFin.allocatedPercent">
                             </p-progressBar>
                         </td>
@@ -450,7 +443,7 @@
                         êtes entrain de dépasser la fourchette permise.</ngb-alert>
                 </div>
                 <div class="col-lg-12">
-                    <table *ngIf="recetteAllocationToUpdate && recetteAllocationToUpdate.length"
+                    <table *ngIf="recetteAllocationToUpdate && recetteAllocationToUpdate.length && selectedExerciceSrcFinUpdate"
                         class="table table-hover table-responsive-sm table-responsive-md table-responsive-lg mt-2">
                         <thead>
                             <tr>
@@ -491,7 +484,7 @@
                 </div>
 
             </div>
-            <div class="mb-2 row" *ngIf="recetteAllocationToUpdate && recetteAllocationToUpdate.length">
+            <div class="mb-2 row" *ngIf="recetteAllocationToUpdate && recetteAllocationToUpdate.length && selectedExerciceSrcFinUpdate">
                 <div class="col-lg-12">
                     <p-progressBar [class]="'customProgress'" [value]="progressBarValue">
                     </p-progressBar>

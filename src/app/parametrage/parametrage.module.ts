@@ -133,7 +133,7 @@ import { ExerciceSourceFinancementShowComponent } from './exercice_source_financ
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EntiteOrgchartComponent } from './entite/entite-orgchart/entite-orgchart.component';
 @NgModule({
-  entryComponents: [ClasseNewComponent],
+  entryComponents: [ClasseNewComponent, ClasseEditComponent],
   declarations: [
     UserCloneComponent,
     UserEditComponent,

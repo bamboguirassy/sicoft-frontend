@@ -16,6 +16,7 @@ import { ExportService } from 'app/shared/services/export.service';
 import { MenuItem, TreeNode } from 'primeng/api';
 import { AuthService } from 'app/shared/services/auth.service';
 import { NotificationService } from 'app/shared/services/notification.service';
+import { ClasseEditComponent } from '../classe-edit/classe-edit.component';
 
 
 
@@ -360,7 +361,6 @@ export class ClasseListComponent implements OnInit {
   toggleAddModal() {
     const modalRef = this.modalSrv.open(ClasseNewComponent, {
       size: 'lg',
-      backdropClass: 'light-blue-backdrop',
       centered: true,
       keyboard: false,
       backdrop: 'static'
@@ -376,8 +376,7 @@ export class ClasseListComponent implements OnInit {
 
   /** Gestion du menu contextuelle dynamique **/
   toggleContextMenu() {
-    // this.maxlength = this.selectedItem.data.type === 'classe' ? 1 : (this.selectedItem.data.type === 'sousClasse' ? 1 : 1);
-    this.maxlength = 1;
+    this.maxlength =  this.selectedItem.data.type === 'compteDivisionnaire' ? 3 : 1; 
     if (this.selectedItem.data.type === 'classe') {
       this.modalTitle = 'Sous Classe - ' + this.selectedItem.data.libelle;
       this.showClassMenu();
@@ -442,6 +441,10 @@ export class ClasseListComponent implements OnInit {
           command: (event) => this.toggleSubClassModal(this.subClassemodalContentRef)
         },
         {
+          label: 'Modifier', icon: 'pi pi-pencil',
+          command: (event) => this.toggleEditModal()
+        },
+        {
           label: 'Supprimer', icon: 'pi pi-trash',
           command: (event) => this.toggleConfirmModal()
         }
@@ -449,8 +452,34 @@ export class ClasseListComponent implements OnInit {
     }
   }
 
-  /** fin Gestion du menu contextuelle dynamique **/
 
+
+
+  /** fin Gestion du menu contextuelle dynamique **/
+  openModal(template: any ) {
+    return this.modalSrv.open(template, {
+      size: 'lg',
+      centered: true,
+      keyboard: false,
+      backdrop: 'static'
+    });
+  }
+
+  toggleEditModal() {
+    if (this.selectedItem.data.type === 'classe') {
+      const modalRef = this.openModal(ClasseEditComponent);
+      modalRef.componentInstance.classe = this.selectedItem.data;
+      modalRef.componentInstance.typeClasses = this.typeClasses;
+      modalRef.componentInstance.categorieClasses = this.categorieClasses;
+      modalRef.componentInstance.updated
+        .subscribe((data: Classe) => {
+          window.scrollTo(0, 0);
+          this.notificationSrv.showInfo('Modification Réussi');
+          this.modalSrv.dismissAll('Cross Click');
+          this.refreshList()
+        });
+    }
+  }
 
   toggleSubClassModal(content: TemplateRef<any>) {
     this.modalSrv.open(content, {

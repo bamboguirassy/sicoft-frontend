@@ -139,7 +139,7 @@ export class BudgetShowComponent implements OnInit {
 
   fetchAllocations(node: any) {
     this.loading = true;
-    this.allocationSrv.findAllocationsByBudgetAndCompteDivisionnaireBudget(node.data.id, this.budget.id)
+    this.allocationSrv.findAllocationsByBudgetAndCompteDivisionnaire(node.data.id, this.budget.id)
       .subscribe((data: any) => {
         if (data.length === 0) {
           this.loading = false;
@@ -259,7 +259,6 @@ export class BudgetShowComponent implements OnInit {
   toggleAllocationModal() {
     this.modalSrv.open(this.allocationModalRef, {
       size: 'lg',
-      backdropClass: 'light-blue-backdrop',
       centered: true,
       keyboard: false,
       backdrop: 'static'
@@ -370,14 +369,19 @@ export class BudgetShowComponent implements OnInit {
   handleExSourceFinChange(param?: string) {
     this.sum = 0;
     if (param === 'update') {
-      this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant;
-      this.allocatedAmount
-        = this.allocatedAmount + (this.selectedExerciceSrcFinUpdate.montantInitial - this.selectedExerciceSrcFinUpdate.montantRestant);
-      this.findAllocationsByBudget(this.selectedExerciceSrcFinUpdate.id);
+      if(this.selectedExerciceSrcFinUpdate) {
+        this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant;
+        this.allocatedAmount
+          = this.allocatedAmount + (this.selectedExerciceSrcFinUpdate.montantInitial - this.selectedExerciceSrcFinUpdate.montantRestant);
+        this.findAllocationsByBudget(this.selectedExerciceSrcFinUpdate.id);
+      }
+     
     } else {
-      this.allocatedAmount
-        = this.allocatedAmount + (this.selectedExerciceSrcFin.montantInitial - this.selectedExerciceSrcFin.montantRestant);
-      this.cashRemaining = this.selectedExerciceSrcFin.montantRestant;
+      if (this.selectedExerciceSrcFin) {
+        this.allocatedAmount
+          = this.allocatedAmount + (this.selectedExerciceSrcFin.montantInitial - this.selectedExerciceSrcFin.montantRestant);
+        this.cashRemaining = this.selectedExerciceSrcFin.montantRestant;
+      }
     }
   }
 
