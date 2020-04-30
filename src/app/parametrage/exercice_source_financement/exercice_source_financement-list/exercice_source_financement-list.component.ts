@@ -166,7 +166,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
           this.refreshList();
           // this.exerciceSouceFinancement.exercice = tempExercice;
           this.exerciceSouceFinancement.budget = tempBudget;
-          if (!this.verouille) {
+          if (this.verouille) {
             this.step = 4;
           }
 
