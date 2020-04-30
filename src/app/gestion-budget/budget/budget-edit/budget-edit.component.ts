@@ -29,7 +29,7 @@ export class BudgetEditComponent implements OnInit {
   ngOnInit() {
     this.budget = this.activatedRoute.snapshot.data['budget'];
     // this.exercices = this.activatedRoute.snapshot.data['exercices'];
-    // this.entites = this.activatedRoute.snapshot.data['entites'];
+    this.entites = this.activatedRoute.snapshot.data['entites'];
     this.findExerciceEncours();
     this.findBudgetByAndAccessEntity();
   }
@@ -42,17 +42,17 @@ export class BudgetEditComponent implements OnInit {
     );
   }
 
-  findBudgetByAndAccessEntity(){
+  findBudgetByAndAccessEntity() {
     this.entiteSrv.findAll()
     .subscribe(
-      (data:any) => this.entites = data,
+      (data: any) => this.entites = data,
       error => this.entiteSrv.httpSrv.handleError(error)
     );
   }
 
   updateBudget() {
-    let tempExercice = this.budget.exercice;
-    let tempEntite = this.budget.entite;
+    const tempExercice = this.budget.exercice;
+    const tempEntite = this.budget.entite;
     this.budget.exercice = this.budget.exercice.id;
     this.budget.entite = this.budget.entite.id;
     this.budgetSrv.update(this.budget)

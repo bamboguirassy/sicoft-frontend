@@ -2,7 +2,7 @@
 </p-toast>
 <!-- form budget info -->
 <form *ngIf="'Budget'|editable" class="form" role="form" #budgetForm="ngForm" autocomplete="off" (ngSubmit)="updateBudget()">
-    <p-fieldset legend="Modification utilisateur" [toggleable]="true">
+    <p-fieldset legend="Modification budget" [toggleable]="true">
         <p-toolbar>
             <button type="button" (click)="location.back()" class="btn btn-outline-secondary pull-left"><i
           class="fa fa-eraser" aria-hidden="true"></i>
@@ -16,13 +16,14 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="exercice">Exercice en cours</label> <br>
-                    <p-dropdown [disabled]="true" required="true" [options]="exercices" name="exercices" [(ngModel)]="budget.exercice" optionLabel="libelle" [showClear]="true" [filter]="true"></p-dropdown>
+                    <input disabled class="form-control" [(ngModel)]="budget.exercice.libelle" required="true" class="form-control" type="text" name="exercices" id="exercices">
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-form-label form-control-label" for="entite">Entite</label> <br>
-                    <p-dropdown [options]="entites" required="true" name="entites" [(ngModel)]="budget.entite" optionLabel="nom" [showClear]="true"></p-dropdown>
+                    <input disabled class="form-control" [(ngModel)]="budget.entite.code" required="true" class="form-control" type="text" name="entites" id="entites">
+                    
                 </div>
             </div>
             <div class="col-lg-6">
