@@ -40,8 +40,8 @@ export class CompteService {
     return this.httpSrv.deleteMultiple(this.getRoutePrefixWithSlash() + 'delete-selection/', comptes);
   }
 
-  findCompteRecette() {
-    return this.httpSrv.get(this.getRoutePrefixWithSlash() + 'recette');
+  findCompteRecetteByBudget(id: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/recette');
   }
 
   public getRoutePrefix(): string {
@@ -56,7 +56,13 @@ export class CompteService {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/compte-divisionnaire');
   }
 
+  findAllocatedAccountByBudgetAndCompteDivisionnaire(compteDivId: number, budgetId: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + budgetId + '/' + compteDivId + '/allocated')
+  }
+
   createMultiple(comptes: Compte[] ) {
     return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple', comptes);
   }
+
+ 
 }

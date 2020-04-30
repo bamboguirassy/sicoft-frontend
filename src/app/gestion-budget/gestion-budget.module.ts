@@ -15,12 +15,19 @@ import {
   AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule, ProgressSpinnerModule, ConfirmDialogModule
 } from 'primeng';
 import { StepsModule } from 'primeng/steps';
-import { NgxCurrencyModule } from "ngx-currency";
+import { ProgressBarModule } from 'primeng/progressbar';
+
+
+import { NgxCurrencyModule } from 'ngx-currency';
+
+
+
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+
 
 
 
@@ -33,11 +40,17 @@ import { BudgetEditComponent } from './budget/budget-edit/budget-edit.component'
 import { BudgetListComponent } from './budget/budget-list/budget-list.component';
 import { BudgetNewComponent } from './budget/budget-new/budget-new.component';
 import { BudgetShowComponent } from './budget/budget-show/budget-show.component';
+import { AllocationNewComponent } from './allocation/allocation-new/allocation-new.component';
+import { AllocationCloneComponent } from './allocation/allocation-clone/allocation-clone.component';
+import { AllocationListComponent } from './allocation/allocation-list/allocation-list.component';
+import { AllocationEditComponent } from './allocation/allocation-edit/allocation-edit.component';
+import { AllocationShowComponent } from './allocation/allocation-show/allocation-show.component';
 
 @NgModule({
   declarations: [
     BudgetCloneComponent, BudgetEditComponent, BudgetListComponent,
-    BudgetNewComponent, BudgetShowComponent
+    BudgetNewComponent, BudgetShowComponent, AllocationNewComponent, AllocationCloneComponent,
+    AllocationListComponent, AllocationEditComponent, AllocationShowComponent,
   ],
   imports: [
     CommonModule,
@@ -65,6 +78,7 @@ import { BudgetShowComponent } from './budget/budget-show/budget-show.component'
     AccordionModule,
     MatIconModule,
     NgxCurrencyModule,
+    ProgressBarModule,
     MatInputModule,
     BreadcrumbModule,
     MatButtonModule,

@@ -1,11 +1,16 @@
-import { Component, OnInit, ViewChild, TemplateRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Budget } from '../budget';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BudgetService } from '../budget.service';
 import { Location } from '@angular/common';
 import { NotificationService } from 'app/shared/services/notification.service';
-import { allowedBudgetFieldsForFilter } from '../budget.columns';
-import { TreeNode, MenuItem } from 'primeng';
+import { allowedCompteFieldForFilter } from '../budget.columns';
+import {
+  allowedExerciceSourceFinancementFieldsForFilter
+    as allowedESFFields
+} from '../../../parametrage/exercice_source_financement/exercice_source_financement.columns';
+
+import { TreeNode } from 'primeng';
 import { Classe } from 'app/parametrage/classe/classe';
 import { ClasseService } from 'app/parametrage/classe/classe.service';
 import { CompteService } from 'app/parametrage/compte/compte.service';
@@ -13,17 +18,14 @@ import { CompteDivisionnaireService } from 'app/parametrage/compte_divisionnaire
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExerciceSourceFinancementService } from 'app/parametrage/exercice_source_financement/exercice_source_financement.service';
 import { Compte } from 'app/parametrage/compte/compte';
+import { Allocation } from 'app/gestion-budget/allocation/allocation';
+import { ExerciceSourceFinancement } from 'app/parametrage/exercice_source_financement/exercice_source_financement';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { MatExpansionPanel } from '@angular/material/expansion';
+import { AllocationService } from 'app/gestion-budget/allocation/allocation.service';
+registerLocaleData(localeFr, 'fr');
 
-
-class Allocation {
-  budget?: Budget;
-  compte: Compte;
-  montantIntial: string;
-  creditInscrit?: string;
-  engagementAnterieur?: string;
-  montantRestant?: string;
-  exerciceSourceFinancement?: ExerciceSourceFinancementService;
-}
 
 @Component({
   selector: 'app-budget-show',
@@ -31,27 +33,37 @@ class Allocation {
   styleUrls: ['./budget-show.component.scss']
 })
 export class BudgetShowComponent implements OnInit {
- 
-  globalFilterFields = allowedBudgetFieldsForFilter;
+
+  globalFilterFields = allowedCompteFieldForFilter;
+  globalFilterFieldESF = allowedESFFields;
   treeNodes: TreeNode[] = [];
   loading = false;
   classes: Classe[] = [];
-  montantTotal: any;
-  exerciceSrcFin: any = undefined;
-  activeIndex: number = 1;
+  selectedExerciceSrcFin: ExerciceSourceFinancement = undefined;
+  selectedExerciceSrcFinUpdate: ExerciceSourceFinancement = undefined;
+  cashRemaining: number = undefined;
+  allocatedAmount: number = 0;
   compteRecettes: Compte[] = [];
-  exerciceSourceFinancements: any;
+  recetteAllocationToUpdate: Allocation[];
+  exerciceSourceFinancements: ExerciceSourceFinancement[];
+  allExerciceSourceFinancements: ExerciceSourceFinancement[];
   step = 0;
-  money;
+  sum = 0;
+  showAlert = false;
   allocatedAccounts: Compte[] = [];
-  allocation: Allocation = new Allocation();
+  allocations: Allocation[] = [];
+  progressBarValue = 0;
   @ViewChild('allocation', { static: false }) allocationModalRef: TemplateRef<any>;
+  @ViewChild('updateAllocation', { static: false }) UpdateAllocationModalRef: TemplateRef<any>;
+
+
 
   budget: Budget;
   constructor(public activatedRoute: ActivatedRoute,
     public budgetSrv: BudgetService, public location: Location, public classeSrv: ClasseService,
     public compteSrv: CompteService, public compteDivisionnaireSrv: CompteDivisionnaireService,
     public modalSrv: NgbModal, public exerciceSourceFinancementSrv: ExerciceSourceFinancementService,
+    public allocationSrv: AllocationService,
     public router: Router, public notificationSrv: NotificationService) {
   }
 
@@ -63,35 +75,37 @@ export class BudgetShowComponent implements OnInit {
     this.classes.forEach(classe => {
       classe.type = 'classe';
     });
-    this.findExerciceSourceFinancement();
+    this.findExerciceSourceFinancement(); //recupere que les esf avec un montant disponible
+    this.findAllExerciceSourceFinancement(); //recupére tous les esf 
     this.findCompteRecette();
   }
 
-  setStep(index: number) {
-    this.step = index;
+  findAllExerciceSourceFinancement() {
+    this.exerciceSourceFinancementSrv.findAllByBudget(this.budget.id)
+      .subscribe((data: any) => {
+        this.allExerciceSourceFinancements = data;
+        this.allExerciceSourceFinancements.forEach((esf: any) => {
+          esf.libelle = `${esf.sourceFinancement.libelle}`
+          esf.montantAlloue = esf.montantInitial - esf.montantRestant
+          esf.allocatedPercent = Math.floor(100 * ((esf.montantInitial - esf.montantRestant) / esf.montantInitial))
+        });
+      }, error => this.classeSrv.httpSrv.handleError(error));
   }
 
-  nextStep() {
-    this.step++;
-  }
 
-  prevStep() {
-    this.step--;
-  }
 
   findCompteRecette() {
-    this.compteSrv.findCompteRecette()
+    this.compteSrv.findCompteRecetteByBudget(this.budget.id)
       .subscribe((data: any) => {
         this.compteRecettes = data;
-        this.compteRecettes.forEach(compteRecette => compteRecette.bindLabel = compteRecette.numero + ' - ' + compteRecette.libelle);
+        this.compteRecettes.forEach(compteRecette => {
+          compteRecette.bindLabel = compteRecette.numero + ' - ' + compteRecette.libelle;
+        });
       }, error => {
         this.compteSrv.httpSrv.handleError(error);
       });
   }
 
-  public selectCampaign(): void {
-    
-  }
 
 
   findExerciceSourceFinancement() {
@@ -118,27 +132,27 @@ export class BudgetShowComponent implements OnInit {
     } else if (node.data.type === 'sousClasse') {
       this.fetchDivsionalAccount(node);
     } else if (node.data.type === 'compteDivisionnaire') {
-      this.fetchAccount(node);
+      this.fetchAllocations(node);
     }
   }
 
 
-  fetchAccount(node: any) {
+  fetchAllocations(node: any) {
     this.loading = true;
-    this.compteSrv.findByCompteDivisionnaire(node.data.id)
+    this.allocationSrv.findAllocationsByBudgetAndCompteDivisionnaireBudget(node.data.id, this.budget.id)
       .subscribe((data: any) => {
         if (data.length === 0) {
           this.loading = false;
           window.scrollTo(0, 0);
-          this.notificationSrv.showWarning('Aucun compte trouvé.');
+          this.notificationSrv.showWarning('Aucun compte ventilé trouvé.');
           return;
         }
-        const accountNode: TreeNode[] = [];
-        data.forEach((account: any) => {
-          account.type = 'compte';
-          accountNode.push({ data: account, children: [], leaf: true, parent: node });
+        const allocationNode: TreeNode[] = [];
+        data.forEach((allocation: any) => {
+          allocation.type = 'allocation';
+          allocationNode.push({ data: allocation, children: [], leaf: true, parent: node });
         });
-        node.children = accountNode;
+        node.children = allocationNode;
         this.treeNodes = [...this.treeNodes];
         this.loading = false;
       }, error => {
@@ -168,7 +182,7 @@ export class BudgetShowComponent implements OnInit {
       }, error => {
         this.notificationSrv.showError(error.error.message);
         this.loading = false;
-      })
+      });
   }
 
   fetchSubClasses(node: any) {
@@ -227,7 +241,18 @@ export class BudgetShowComponent implements OnInit {
       });
   }
 
-  closeModal() {
+  closeModal(param?: string) {
+    this.allocations = [];
+    this.selectedExerciceSrcFin = undefined;
+    this.allocatedAccounts = [];
+    this.step = 0;
+    this.sum = 0;
+    this.cashRemaining = 0;
+    this.showAlert = false;
+    if (param === 'update') {
+      this.recetteAllocationToUpdate = undefined;
+      this.selectedExerciceSrcFinUpdate = undefined;
+    }
     this.modalSrv.dismissAll('Cross Click');
   }
 
@@ -239,6 +264,208 @@ export class BudgetShowComponent implements OnInit {
       keyboard: false,
       backdrop: 'static'
     });
+  }
+
+  onAmountTyped() {
+    this.sum = 0;
+    this.showAlert = false;
+    this.allocations.forEach(allocation => {
+      this.sum += allocation.montantInitial;
+    });
+    if (this.sum <= this.selectedExerciceSrcFin.montantRestant) {
+      this.showAlert = false;
+      this.progressBarValue = Math.floor(100 * ((this.sum + this.allocatedAmount) / this.selectedExerciceSrcFin.montantInitial));
+      this.cashRemaining = this.selectedExerciceSrcFin.montantRestant - this.sum;
+    } else {
+      this.showAlert = true;
+      this.progressBarValue = 0;
+      this.cashRemaining = 0;
+    }
+
+  }
+
+  onAmountTypedForUpdate(param?: string) {
+    this.sum = 0;
+    this.showAlert = false;
+    this.recetteAllocationToUpdate.forEach(allocation => {
+      this.sum += allocation.montantInitial;
+    });
+    if (this.sum <= this.selectedExerciceSrcFinUpdate.montantInitial) {
+      this.showAlert = false;
+      const montantReelementAlloue = this.selectedExerciceSrcFinUpdate.montantRestant + this.allocatedAmount - this.sum;
+      this.progressBarValue
+        = Math.floor(100 * ((this.selectedExerciceSrcFinUpdate.montantInitial - montantReelementAlloue)
+          / this.selectedExerciceSrcFinUpdate.montantInitial));
+      if (param === 'first') {
+        this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant;
+      } else {
+        this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant + this.allocatedAmount - this.sum;
+      }
+    } else {
+      this.showAlert = true;
+      this.progressBarValue = 0;
+      this.cashRemaining = 0;
+    }
+  }
+
+  verifyAllocation() {
+    let sum = 0;
+    let containsNullAccount = false;
+    this.allocations.forEach(allocation => {
+      sum += allocation.montantInitial;
+      if (allocation.montantInitial === 0) {
+        containsNullAccount = true;
+      }
+    });
+    return !containsNullAccount && sum !== 0 && sum <= this.selectedExerciceSrcFin.montantRestant ? false : true;
+  }
+
+  verifyAllocationForUpdate() {
+    let sum = 0;
+    let containsNullAccount = false;
+    this.recetteAllocationToUpdate.forEach(allocation => {
+      sum += allocation.montantInitial;
+      if (allocation.montantInitial === 0) {
+        containsNullAccount = true;
+      }
+    });
+    return !containsNullAccount
+      && sum !== 0
+      && sum <= this.selectedExerciceSrcFinUpdate.montantRestant + this.allocatedAmount
+      ? false : true;
+  }
+
+  handleRemovedItem(removedItem: any) {
+    this.allocations = this.allocations.filter(allocation => allocation.compte.numero !== removedItem.value.numero);
+  }
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  onExpansionClicked(expansionPanel: MatExpansionPanel) {
+    if (this.step !== 0) {
+      expansionPanel.close();
+    }
+  }
+
+  nextStep(param?: string) {
+    this.step++;
+    if (param === 'init-alloc') {
+      this.progressBarValue = Math.floor(100 * (this.allocatedAmount / this.selectedExerciceSrcFin.montantInitial));
+      this.allocatedAmount = this.selectedExerciceSrcFin.montantInitial - this.selectedExerciceSrcFin.montantRestant;
+      this.allocatedAccounts.forEach(allocatedAccount => {
+        if (this.allocations.filter(allocation => allocation.compte.numero === allocatedAccount.numero).length === 0) {
+          this.allocations.push({
+            compte: allocatedAccount,
+            montantInitial: 0
+          });
+        }
+      });
+      this.onAmountTyped();
+    }
+  }
+
+
+  handleExSourceFinChange(param?: string) {
+    this.sum = 0;
+    if (param === 'update') {
+      this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant;
+      this.allocatedAmount
+        = this.allocatedAmount + (this.selectedExerciceSrcFinUpdate.montantInitial - this.selectedExerciceSrcFinUpdate.montantRestant);
+      this.findAllocationsByBudget(this.selectedExerciceSrcFinUpdate.id);
+    } else {
+      this.allocatedAmount
+        = this.allocatedAmount + (this.selectedExerciceSrcFin.montantInitial - this.selectedExerciceSrcFin.montantRestant);
+      this.cashRemaining = this.selectedExerciceSrcFin.montantRestant;
+    }
+  }
+
+  prevStep() {
+    this.step--;
+  }
+
+  createAllocations(step: MatExpansionPanel) {
+    step.close();
+    this.step = 4;
+    let sum = 0;
+    const allocatedAccounts: Compte[] = [];
+    this.allocations.forEach(allocation => {
+      sum += allocation.montantInitial;
+      allocatedAccounts.push(allocation.compte);
+      allocation.compte = allocation.compte.id;
+      allocation.exerciceSourceFinancement = this.selectedExerciceSrcFin.id;
+    });
+    this.allocationSrv.createMultipleAndUpdateSrcFinAmount(this.allocations)
+      .subscribe((data: any) => {
+        this.selectedExerciceSrcFin.montantRestant = this.selectedExerciceSrcFin.montantRestant - sum;
+        if (this.selectedExerciceSrcFin.montantRestant === 0) {
+          this.exerciceSourceFinancements = this.exerciceSourceFinancements.filter(esf => esf.id !== this.selectedExerciceSrcFin.id);
+        }
+        this.allExerciceSourceFinancements.forEach(esf => {
+          if (esf.id === this.selectedExerciceSrcFin.id) {
+            esf.montantRestant = this.selectedExerciceSrcFin.montantRestant;
+          }
+        });
+        this.closeModal();
+        this.refreshTreeTable();
+        this.findCompteRecette();
+        this.findAllExerciceSourceFinancement();
+      }, error => {
+        this.allocationSrv.httpSrv.handleError(error);
+      });
+  }
+
+
+  findAllocationsByBudget(id: number) {
+    let s = 0;
+    this.allocationSrv.findAllocationsByExerciceSrcFin(this.selectedExerciceSrcFinUpdate.id)
+      .subscribe((data: any) => {
+        data.forEach(allocation => {
+          allocation.compte.bindLabel = allocation.compte.numero + ' - ' + allocation.compte.libelle;
+          s += allocation.montantInitial;
+        });
+        this.recetteAllocationToUpdate = data;
+        this.allocatedAmount = s;
+        this.onAmountTypedForUpdate('first');
+      }, error => {
+        this.compteSrv.httpSrv.handleError(error);
+      })
+  }
+
+  toggleUpdateAllocationModal() {
+    this.modalSrv.open(this.UpdateAllocationModalRef, {
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
+      centered: true,
+      keyboard: false,
+      backdrop: 'static'
+    });
+  }
+
+  updateAllocations() {
+    this.allocationSrv.updateMultipleAndSrcFinAmount(this.recetteAllocationToUpdate)
+      .subscribe((data: any) => {
+        this.selectedExerciceSrcFinUpdate.montantRestant
+          = this.cashRemaining;
+        this.exerciceSourceFinancements.forEach(esf => {
+          if (esf.id === this.selectedExerciceSrcFinUpdate.id) {
+            esf.montantRestant = this.selectedExerciceSrcFinUpdate.montantRestant;
+          }
+        });
+        if (this.selectedExerciceSrcFinUpdate.montantRestant === 0) {
+          this.exerciceSourceFinancements = this.exerciceSourceFinancements.filter(esf => esf.id !== this.selectedExerciceSrcFinUpdate.id);
+        } else {
+          if (this.exerciceSourceFinancements.filter(esf => esf.id === this.selectedExerciceSrcFinUpdate.id).length === 0) {
+            this.exerciceSourceFinancements.push(this.selectedExerciceSrcFinUpdate);
+          }
+        }
+        this.closeModal('update');
+        this.refreshTreeTable();
+        this.findAllExerciceSourceFinancement();
+      }, error => {
+        this.allocationSrv.httpSrv.handleError(error);
+      })
   }
 }
 

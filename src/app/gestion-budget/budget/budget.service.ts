@@ -7,15 +7,18 @@ import { Budget } from './budget';
   providedIn: 'root'
 })
 export class BudgetService {
-  /*findBudgetByEntiteAccessAndExercice(arg0: any): any {
-    throw new Error('Method not implemented.');
-  }*/
-
   // tslint:disable-next-line:member-ordering
   private routePrefix = 'budget';
 
   constructor(public httpSrv: HttpService) { }
 
+  public getRoutePrefix(): string {
+    return this.routePrefix;
+  }
+
+  private getRoutePrefixWithSlash(): string {
+    return this.routePrefix + '/';
+  }
   findAll() {
     return this.httpSrv.get(this.getRoutePrefixWithSlash());
   }
@@ -50,14 +53,6 @@ export class BudgetService {
   
   findBudgetByEntiteAccessAndExercice(id: number){
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + 'entite/access/exercice/' +  id);
-  }
-
-  public getRoutePrefix(): string {
-    return this.routePrefix;
-  }
-
-  private getRoutePrefixWithSlash(): string {
-    return this.routePrefix + '/';
   }
 
 }

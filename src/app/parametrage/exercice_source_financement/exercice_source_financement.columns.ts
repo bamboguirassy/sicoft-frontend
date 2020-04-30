@@ -3,7 +3,9 @@ const exercice_source_financementColumns = [
         ];
 
 const allowedExerciceSourceFinancementFieldsForFilter = [
-    'montant',
+    'libelle',
+    'montantInitial',
+    'montantRestant'
 ];
 
 export { exercice_source_financementColumns,allowedExerciceSourceFinancementFieldsForFilter };

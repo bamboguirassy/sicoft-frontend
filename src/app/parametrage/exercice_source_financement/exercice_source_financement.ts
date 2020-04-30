@@ -1,13 +1,15 @@
 import { SourceFinancement } from '../source_financement/source_financement';
-import { Exercice } from '../exercice/exercice';
-import { Entite } from '../entite/entite';
 import { Budget } from 'app/gestion-budget/budget/budget';
 
 export class ExerciceSourceFinancement {
     id: any;
-    montant: string;
+    montantInitial: number;
+    montantRestant: number;
     sourceFinancement: SourceFinancement;
-    //exercice: Exercice;
-    //entite: Entite;
     budget: Budget;
+
+    // calculatedFields
+    montantAlloue?: number;
+    libelle?: string;
+    allocatedPercent?: number;
 }

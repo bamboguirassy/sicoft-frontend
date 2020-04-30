@@ -236,7 +236,8 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     this.exerciceSouceFinancement.budget = this.exerciceSouceFinancement.budget.id;
     // this.exerciceSouceFinancement.exercice = this.exerciceSouceFinancement.exercice.id;
     this.exerciceSouceFinancement.sourceFinancement = tab_choiceData.id;
-    this.exerciceSouceFinancement.montant = tab_choiceData.montant;
+    this.exerciceSouceFinancement.montantInitial = tab_choiceData.montant;
+    this.exerciceSouceFinancement.montantRestant = tab_choiceData.montant;
     this.exercice_source_financementSrv.create(this.exerciceSouceFinancement)
       .subscribe((data: any) => {
         this.notificationSrv.showInfo('Exercice Source-Financement créé avec succès');
@@ -263,7 +264,8 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
       // exerciceSouceFinancementItem.exercice = tempExercice.id;
       exerciceSouceFinancementItem.budget = tempBudget.id;
       exerciceSouceFinancementItem.sourceFinancement = element.id;
-      exerciceSouceFinancementItem.montant = element.montant;
+      exerciceSouceFinancementItem.montantInitial = element.montantInitial;
+      exerciceSouceFinancementItem.montantRestant = element.montantInitial;
       this.exerciceSourceFinancements.push(exerciceSouceFinancementItem);
     });
     this.exercice_source_financementSrv.createMultiple(this.exerciceSourceFinancements)
@@ -322,7 +324,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
         });
       }
       if (result.value) {
-        exerciceSourceFin.montant = result.value;
+        exerciceSourceFin.montantInitial = result.value;
         this.updateExerciceSourceFinancement(exerciceSourceFin);
         // this.exerciceSouceFinancement.exercice = tempExerice.id;
         this.exerciceSouceFinancement.budget = tempBudget.id;
@@ -337,7 +339,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
   handleConfirmeDeleted(exerciceSourceFin) {
     Swal.fire({
       title: 'Etes vous sure de vouloir supprimer?',
-      text: 'Source Financement: ' + exerciceSourceFin.sourceFinancement.libelle + ',' + ' Montant: ' + exerciceSourceFin.montant,
+      text: 'Source Financement: ' + exerciceSourceFin.sourceFinancement.libelle + ',' + ' Montant: ' + exerciceSourceFin.montantInitial,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -350,7 +352,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
         this.paramTabExerciceSourceFinancements.tabExerciceSourceFinancements = this.paramTabExerciceSourceFinancements.tabExerciceSourceFinancements.filter(data => data.id !== exerciceSourceFin.id);
         this.sourceFinancements.push(exerciceSourceFin.sourceFinancement);
         // tslint:disable-next-line:max-line-length
-        this.paramTabExerciceSourceFinancements.montantTotal = this.paramTabExerciceSourceFinancements.montantTotal - exerciceSourceFin.montant;
+        this.paramTabExerciceSourceFinancements.montantTotal = this.paramTabExerciceSourceFinancements.montantTotal - exerciceSourceFin.montantInitial;
         // this.tempTabParamMontant.tabExerciceSourceFinancements.length = this.tempTabParamMontant.tabExerciceSourceFinancements.length-1;
         if (this.tempTabParamMontant.tabExerciceSourceFinancements.length === 0) {
           this.step = 1;
