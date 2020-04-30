@@ -27,7 +27,7 @@ const budgetRoutes: Route = {
         {
             path: ':id',
             component: BudgetShowComponent,
-            resolve: { 
+            resolve: {
                 budget: OneBudgetResolver,
                 classes: MultipleClasseResolver,
              }
