@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
 import { Budget } from '../budget';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BudgetService } from '../budget.service';
@@ -24,6 +24,8 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AllocationService } from 'app/gestion-budget/allocation/allocation.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 registerLocaleData(localeFr, 'fr');
 
 
@@ -56,8 +58,6 @@ export class BudgetShowComponent implements OnInit {
   @ViewChild('allocation', { static: false }) allocationModalRef: TemplateRef<any>;
   @ViewChild('updateAllocation', { static: false }) UpdateAllocationModalRef: TemplateRef<any>;
 
-
-
   budget: Budget;
   constructor(public activatedRoute: ActivatedRoute,
     public budgetSrv: BudgetService, public location: Location, public classeSrv: ClasseService,
@@ -66,6 +66,7 @@ export class BudgetShowComponent implements OnInit {
     public allocationSrv: AllocationService,
     public router: Router, public notificationSrv: NotificationService) {
   }
+  
 
 
   ngOnInit() {
@@ -78,7 +79,10 @@ export class BudgetShowComponent implements OnInit {
     this.findExerciceSourceFinancement(); //recupere que les esf avec un montant disponible
     this.findAllExerciceSourceFinancement(); //recupére tous les esf 
     this.findCompteRecette();
+
   }
+
+ 
 
   findAllExerciceSourceFinancement() {
     this.exerciceSourceFinancementSrv.findAllByBudget(this.budget.id)
@@ -135,7 +139,6 @@ export class BudgetShowComponent implements OnInit {
       this.fetchAllocations(node);
     }
   }
-
 
   fetchAllocations(node: any) {
     this.loading = true;
