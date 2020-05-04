@@ -1,9 +1,9 @@
 <p-toast [baseZIndex]="12000"></p-toast>
 <p-fieldset *ngIf="'Budget'|showable" legend="Allocations Budgetaires" [toggleable]="true">
     <p-toolbar>
-        <button *ngIf="'Allocation'|creable" type="button" class="btn btn-outline-primary pull-right ml-1"
+        <button *ngIf="!budget.verrouille &&'Allocation'|creable" type="button" class="btn btn-outline-primary pull-right ml-1"
             (click)="toggleAllocationModal()"><i class="fa fa-money" aria-hidden="true"></i> Allouer Recette</button>
-        <button *ngIf="'Allocation'|editable" type="button" class="btn btn-outline-dark pull-right ml-1"
+        <button *ngIf="!budget.verrouille && 'Allocation'|editable" type="button" class="btn btn-outline-dark pull-right ml-1"
             (click)="toggleUpdateAllocationModal()">
             <i class="fa fa-pencil-square" aria-hidden="true"></i>
             Modifier Allocation Recette
@@ -16,7 +16,7 @@
             <div class="card-body">
                 <p-treeTable #tt [value]="treeNodes" [autoLayout]="true" [paginator]="true" [rows]="10"
                     sortMode="multiple" [globalFilterFields]="globalFilterFields" dataKey="numero" [loading]="loading"
-                    (onNodeExpand)="onNodeExpand($event)">
+                    (onNodeExpand)="onNodeExpand($event)" >
 
                     <ng-template pTemplate="caption">
                         <h5> ETATS DES ALLOCATIONS - {{ budget.libelle }} </h5>
@@ -318,7 +318,7 @@
                                                         id="montant{{ allocation.compte.bindLabel }}">
                                                 </td>
                                             </tr>
-                                            <tr [class.table-danger]="cashRemaining === 0">
+                                            <tr [class.table-success]="cashRemaining === 0">
                                                 <th>Total Restant</th>
                                                 <td>
                                                     <input pInputText [disabled]="true"
@@ -463,7 +463,7 @@
                                         id="montantmontantUpdate{{ allocation.compte.bindLabel }}">
                                 </td>
                             </tr>
-                            <tr [class.table-danger]="cashRemaining === 0">
+                            <tr [class.table-success]="cashRemaining === 0">
                                 <th>Total Restant</th>
                                 <td>
                                     <input pInputText [disabled]="true"

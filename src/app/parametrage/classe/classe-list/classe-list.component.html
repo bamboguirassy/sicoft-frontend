@@ -23,9 +23,9 @@
 
                     <p-treeTable #tt [value]="treeNodes" [autoLayout]="true" [paginator]="true" [rows]="10"
                         sortMode="multiple" [globalFilterFields]="globalFilterFields" [(selection)]="selectedClasses"
-                        dataKey="numero" [contextMenu]="contextMenu"
-                        [(contextMenuSelection)]="selectedItem" [loading]="loading" (onEditComplete)="update($event)"
-                        (onEditCancel)="rollbackChanges($event)" (onNodeExpand)="onNodeExpand($event)">
+                        dataKey="numero" [contextMenu]="contextMenu" [(contextMenuSelection)]="selectedItem"
+                        [loading]="loading" (onEditComplete)="update($event)" (onNodeExpand)="onNodeExpand($event)"
+                        (onEditCancel)="rollbackChanges($event)">
                         <ng-template pTemplate="caption">
                             PLAN DES COMPTES ET ETATS FINANCIERS
                             <div class="row justify-content-center">
@@ -94,7 +94,8 @@
                             </tr>
                         </ng-template>
                     </p-treeTable>
-                    <p-contextMenu appendTo="body" #contextMenu [model]="cMenuItems" (onShow)="toggleContextMenu()"></p-contextMenu>
+                    <p-contextMenu appendTo="body" #contextMenu [model]="cMenuItems" (onShow)="toggleContextMenu()">
+                    </p-contextMenu>
                     <p-toolbar>
                         <button *ngIf="'Classe'|creable" (click)="toggleAddModal()" type="button"
                             class="btn btn-outline-primary mr-1">
