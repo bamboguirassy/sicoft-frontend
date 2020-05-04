@@ -14,6 +14,7 @@ import {
   ToolbarModule, TabViewModule,
   AccordionModule, BreadcrumbModule, DropdownModule, AutoCompleteModule, ProgressSpinnerModule, ConfirmDialogModule
 } from 'primeng';
+import { NgxCurrencyModule } from 'ngx-currency';
 import { OrganizationChartModule } from 'primeng/organizationchart';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
@@ -267,6 +268,7 @@ import { EntiteOrgchartComponent } from './entite/entite-orgchart/entite-orgchar
     PasswordModule,
     OrganizationChartModule,
     FileUploadModule,
+    NgxCurrencyModule,
     StepsModule  ]
 })
 export class ParametrageModule { }

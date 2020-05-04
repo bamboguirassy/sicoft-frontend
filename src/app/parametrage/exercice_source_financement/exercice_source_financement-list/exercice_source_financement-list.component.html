@@ -59,7 +59,7 @@
                             </span>
 
                         <div class="col-sm-9 mb-10 mb-md-0 mt-2" style="text-align: center; margin-left: -15px;">
-                            <div *ngIf="step == 1">
+                            <div *ngIf="step == 1 && budgets?.length > 0 ">
                                 <!--picklist active-->
                                 <p-pickList [source]="sourceFinancements" [target]="tab_choiceDatas" sourceHeader="Sources financements disponibles" targetHeader="Sources financements sélectionnées" [sourceStyle]="{'height':'200px','width': '250px'}" [targetStyle]="{'height':'200px','width': '250px'}"
                                     filterBy="libelle" [dragdrop]="false" [responsive]="true">
@@ -96,9 +96,9 @@
                                     <button *ngIf="step == 1" (click)="activeStepParamMontant() " class="btn btn-outline-primary pull-right ml-1 mt-2"> <i class="fa fa-save " aria-hidden="true "></i>
                                           Suivant
                                           </button>
-                                    <button *ngIf="verouille==true" [disabled]="step==1 && verouille==true" class="btn btn-outline-warning pull-right mt-2" (click)="activePicklist()">
+                                    <!--button *ngIf="verouille==false" [disabled]="step==1 && verouille==true" class="btn btn-outline-warning pull-right mt-2" (click)="activePicklist()">
                                           <i class="fa fa-edit " aria-hidden="true "></i>Modifier
-                                          </button>
+                                          </button-->
                                     <button *ngIf="verouille==false" [disabled]="step==4 && verouille==true" class="btn btn-outline-warning pull-right mt-2" (click)="activePicklist()">
                                             <i class="fa fa-edit " aria-hidden="true "></i>Modifier
                                             </button>
@@ -147,7 +147,8 @@
                                     <tr>
                                         <td style="text-align: left;">{{tab_choiceData?.libelle}}</td>
                                         <td style="text-align: left;">
-                                            <input required [(ngModel)]="tab_choiceData.montantInitial" class="form-control" type="text" name="montantInitial" id="tab_choiceData.id" placeholder="Montant initial" min="1">
+                                            <input [options]="{ prefix: '', precision:'0', inputMode:'NATURAL', thousands: '.', nullable:'false', suffix: ' F CFA ', decimal: ',' , allowNegative: false }"
+                                            currencyMask required [(ngModel)]="tab_choiceData.montantInitial" class="form-control" type="text" name="montantInitial" id="tab_choiceData.id" placeholder="Montant initial">
                                         </td>
                                         <td style="text-align: center;">
                                             <button (click)="deletedItemSelect(tab_choiceData)">
@@ -178,13 +179,13 @@
                                 <tr>
                                     <th>Libelle</th>
                                     <th>Montant Initial</th>
-                                    <th colspan="2" *ngIf="verouille==true">Actions</th>
+                                    <th colspan="2" *ngIf="verouille==false">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let exerciceSourceFin of paramTabExerciceSourceFinancements?.tabExerciceSourceFinancements">
                                     <td>{{exerciceSourceFin?.sourceFinancement?.libelle}}</td>
-                                    <td>{{exerciceSourceFin?.montantInitial}}</td>
+                                    <td>{{exerciceSourceFin?.montantInitial | currency:'F CFA':'symbol':'4.2-2':'fr'}}</td>
                                     <td *ngIf="verouille==false">
                                         <button (click)="modalUpdateMontant(exerciceSourceFin)">
                                                 <i class="fa fa-pencil"></i>
@@ -198,7 +199,7 @@
                             <tfoot>
                                 <tr>
                                     <th> Somme totale </th>
-                                    <th colspan="2">{{paramTabExerciceSourceFinancements?.montantTotal}}</th>
+                                    <th colspan="2">{{paramTabExerciceSourceFinancements?.montantTotal | currency:'F CFA':'symbol':'4.2-2':'fr'}}</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -233,13 +234,13 @@
                                     <td>{{sourceFinItem?.sourceFinancement?.libelle}}</td>
                                     <td>{{sourceFinItem?.sourceFinancement?.type?.libelle}}</td>
                                     <td>{{sourceFinItem?.budget?.libelle}}</td>
-                                    <td>{{sourceFinItem?.montantInitial}}</td>
+                                    <td>{{sourceFinItem?.montantInitial | currency:'F CFA':'symbol':'4.2-2':'fr'}}</td>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="footer">
                                 <tr style="text-align:center;">
                                     <td colspan="3"> Somme totale </td>
-                                    <td>{{paramTabExerciceSourceFinancements?.montantTotal}}</td>
+                                    <td>{{paramTabExerciceSourceFinancements?.montantTotal | currency:'F CFA':'symbol':'4.2-2':'fr'}}</td>
                                 </tr>
                             </ng-template>
 
@@ -275,7 +276,7 @@
                                         <td>{{sourceFinItem?.sourceFinancement?.libelle}}</td>
                                         <td>{{sourceFinItem?.sourceFinancement?.type?.libelle}}</td>
                                         <td>{{sourceFinItem?.budget?.libelle}}</td>
-                                        <td>{{sourceFinItem?.montant}}</td>
+                                        <td>{{sourceFinItem?.montantInitial | currency:'F CFA':'symbol':'4.2-2':'fr'}}</td>
                                     </tr>
                                 </ng-template>
                             </p-table>
