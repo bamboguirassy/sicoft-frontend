@@ -1,22 +1,33 @@
 <p-toast [baseZIndex]="12000"></p-toast>
 <p-fieldset *ngIf="'Budget'|showable" legend="Allocations Budgetaires" [toggleable]="true">
     <p-toolbar>
-        <button *ngIf="!budget.verrouille &&'Allocation'|creable" type="button" class="btn btn-outline-primary pull-right ml-1"
-            (click)="toggleAllocationModal()"><i class="fa fa-money" aria-hidden="true"></i> Allouer Recette</button>
-        <button *ngIf="!budget.verrouille && 'Allocation'|editable" type="button" class="btn btn-outline-dark pull-right ml-1"
-            (click)="toggleUpdateAllocationModal()">
+        <button *ngIf="!budget.verrouille &&'Allocation'|creable" type="button"
+            class="btn btn-outline-primary pull-right ml-1" (click)="toggleAllocationModal()"><i class="fa fa-money"
+                aria-hidden="true"></i> Allouer Recette</button>
+        <button *ngIf="!budget.verrouille && 'Allocation'|editable" type="button"
+            class="btn btn-outline-dark pull-right ml-1" (click)="toggleUpdateAllocationModal()">
             <i class="fa fa-pencil-square" aria-hidden="true"></i>
             Modifier Allocation Recette
         </button>
-        <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()"><i
-                class="fa fa-reply"></i> Retour</button>
+        <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()">
+            <i class="fa fa-reply"></i>
+            Retour
+        </button>
+        <button type="button" class="btn btn-outline-dark pull-left ml-1">
+            <i class="fa fa-pencil-square"></i>
+            Modifier Allocations Dépenses
+        </button>
+        <button type="button" class="btn btn-outline-primary pull-left ml-1" (click)="toggleAllocationDepenseModal()">
+            <i class="fa fa-money"></i>
+            Allouer Dépenses
+        </button>
     </p-toolbar>
     <p-tabView>
         <p-tabPanel header="Allocations" leftIcon="pi pi-list">
             <div class="card-body">
                 <p-treeTable #tt [value]="treeNodes" [autoLayout]="true" [paginator]="true" [rows]="10"
                     sortMode="multiple" [globalFilterFields]="globalFilterFields" dataKey="numero" [loading]="loading"
-                    (onNodeExpand)="onNodeExpand($event)" >
+                    (onNodeExpand)="onNodeExpand($event)">
 
                     <ng-template pTemplate="caption">
                         <h5> ETATS DES ALLOCATIONS - {{ budget.libelle }} </h5>
@@ -67,7 +78,8 @@
                                 <span *ngIf="rowData.type==='allocation'"> {{rowData?.compte?.libelle}} </span>
                             </td>
                             <td>
-                                <span *ngIf="rowData.type==='allocation'" class="badge badge-success"
+                                <span *ngIf="rowData.type==='allocation'" class="badge"
+                                    [class.badge-orange]="rowData.budget" [class.badge-success]="!rowData.budget"
                                     style="font-size: 15px;">
                                     {{ rowData?.montantInitial | currency:'F CFA':'code':'3.2-2':'fr' }}</span>
 
@@ -87,75 +99,76 @@
         <p-tabPanel header="General" leftIcon="fa fa-bar-chart">
             <div class="card-body">
                 <p-table #tt [value]="allExerciceSourceFinancements" [paginator]="true" [rows]="50" sortMode="multiple"
-                selectionMode="multiple" [resizableColumns]="true" [responsive]="true" [scrollable]="true"
-                scrollHeight="400px" [globalFilterFields]="globalFilterFieldESF" dataKey="id">
-                <ng-template pTemplate="caption">
-                    <h5> SOURCES DE FINANCEMENT - {{ budget.libelle }} </h5>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8 my-1">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text bg-primary"><i class="fa fa-search text-white-50"></i>
+                    selectionMode="multiple" [resizableColumns]="true" [responsive]="true" [scrollable]="true"
+                    scrollHeight="400px" [globalFilterFields]="globalFilterFieldESF" dataKey="id">
+                    <ng-template pTemplate="caption">
+                        <h5> SOURCES DE FINANCEMENT - {{ budget.libelle }} </h5>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 my-1">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text bg-primary"><i
+                                                class="fa fa-search text-white-50"></i>
+                                        </div>
                                     </div>
+                                    <input class="form-control" type="text" pInputText size="10"
+                                        placeholder="Rechercher dans le tableau"
+                                        (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
                                 </div>
-                                <input class="form-control" type="text" pInputText size="10"
-                                    placeholder="Rechercher dans le tableau"
-                                    (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
                             </div>
                         </div>
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="colgroup">
-                    <colgroup>
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-                    </colgroup>
-                </ng-template>
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th [pSortableColumn]="'libelle'" pResizableColumn>
-                            Libelle
-                            <p-sortIcon [field]="'libelle'"></p-sortIcon>
-                        </th>
-                        <th [pSortableColumn]="'montantInitial'" pResizableColumn>
-                            Montant Allocation
-                            <p-sortIcon [field]="'montantInitial'"></p-sortIcon>
-                        </th>
-                        <th [pSortableColumn]="'montantAlloue'" pResizableColumn>
-                            Montant Alloué
-                            <p-sortIcon [field]="'montantAlloue'"></p-sortIcon>
-                        </th>
-                        <th [pSortableColumn]="'allocatedPercent'" pResizableColumn>
-                            Taux d'allocation
-                            <p-sortIcon [field]="'allocatedPercent'"></p-sortIcon>
-                        </th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-exerciceSourcFin let-editing="editing">
-                    <tr [pEditableRow]="exerciceSourcFin" [pSelectableRow]="exerciceSourcFin"
-                        [pContextMenuRow]="exerciceSourcFin">
-                        <td class="ui-resizable-column">
-                            {{ exerciceSourcFin.libelle }}
-                        </td>
-                        <td class="ui-resizable-column">
-                            <span class="badge badge-success" style="font-size: 15px;">
-                                {{ exerciceSourcFin?.montantInitial | currency:'F CFA':'code':'3.2-2':'fr' }}</span>
-                        </td>
-                        <td class="ui-resizable-column">
-                            <span class="badge badge-success" style="font-size: 15px;">
-                                {{ exerciceSourcFin?.montantAlloue | currency:'F CFA':'code':'3.2-2':'fr' }}</span>
-                        </td>
-                        <td class="ui-resizable-column">
-                            <p-progressBar  [value]="exerciceSourcFin.allocatedPercent">
-                            </p-progressBar>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+                    </ng-template>
+                    <ng-template pTemplate="colgroup">
+                        <colgroup>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                        </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th [pSortableColumn]="'libelle'" pResizableColumn>
+                                Libelle
+                                <p-sortIcon [field]="'libelle'"></p-sortIcon>
+                            </th>
+                            <th [pSortableColumn]="'montantInitial'" pResizableColumn>
+                                Montant Allocation
+                                <p-sortIcon [field]="'montantInitial'"></p-sortIcon>
+                            </th>
+                            <th [pSortableColumn]="'montantAlloue'" pResizableColumn>
+                                Montant Alloué
+                                <p-sortIcon [field]="'montantAlloue'"></p-sortIcon>
+                            </th>
+                            <th [pSortableColumn]="'allocatedPercent'" pResizableColumn>
+                                Taux d'allocation
+                                <p-sortIcon [field]="'allocatedPercent'"></p-sortIcon>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-exerciceSourcFin let-editing="editing">
+                        <tr [pEditableRow]="exerciceSourcFin" [pSelectableRow]="exerciceSourcFin"
+                            [pContextMenuRow]="exerciceSourcFin">
+                            <td class="ui-resizable-column">
+                                {{ exerciceSourcFin.libelle }}
+                            </td>
+                            <td class="ui-resizable-column">
+                                <span class="badge badge-success" style="font-size: 15px;">
+                                    {{ exerciceSourcFin?.montantInitial | currency:'F CFA':'code':'3.2-2':'fr' }}</span>
+                            </td>
+                            <td class="ui-resizable-column">
+                                <span class="badge badge-success" style="font-size: 15px;">
+                                    {{ exerciceSourcFin?.montantAlloue | currency:'F CFA':'code':'3.2-2':'fr' }}</span>
+                            </td>
+                            <td class="ui-resizable-column">
+                                <p-progressBar [value]="exerciceSourcFin.allocatedPercent">
+                                </p-progressBar>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
             </div>
-            
+
         </p-tabPanel>
     </p-tabView>
 
@@ -443,7 +456,8 @@
                         êtes entrain de dépasser la fourchette permise.</ngb-alert>
                 </div>
                 <div class="col-lg-12">
-                    <table *ngIf="recetteAllocationToUpdate && recetteAllocationToUpdate.length && selectedExerciceSrcFinUpdate"
+                    <table
+                        *ngIf="recetteAllocationToUpdate && recetteAllocationToUpdate.length && selectedExerciceSrcFinUpdate"
                         class="table table-hover table-responsive-sm table-responsive-md table-responsive-lg mt-2">
                         <thead>
                             <tr>
@@ -484,7 +498,8 @@
                 </div>
 
             </div>
-            <div class="mb-2 row" *ngIf="recetteAllocationToUpdate && recetteAllocationToUpdate.length && selectedExerciceSrcFinUpdate">
+            <div class="mb-2 row"
+                *ngIf="recetteAllocationToUpdate && recetteAllocationToUpdate.length && selectedExerciceSrcFinUpdate">
                 <div class="col-lg-12">
                     <p-progressBar [class]="'customProgress'" [value]="progressBarValue">
                     </p-progressBar>
@@ -504,4 +519,245 @@
 
         </div>
     </form>
+</ng-template>
+
+<ng-template #allocationDepenseWizard>
+    <div class="modal-header new-sous-class-header">
+        <h4 class="modal-title" id="modal-title">Allocation Depenses - {{ budget.libelle }} </h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="stepper1" class="bs-stepper">
+                    <div class="bs-stepper-header">
+                        <div class="step" [class.active]="step === 0">
+                            <div class="step-trigger">
+                                <span class="bs-stepper-circle">1</span>
+                                <span class="bs-stepper-label" [class.active-text]="step === 0">
+                                    Compte de Dépenses
+                                </span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" [class.active]="step === 1">
+                            <div class="step-trigger">
+                                <span class="bs-stepper-circle">2</span>
+                                <span class="bs-stepper-label" [class.active-text]="step === 1">Allocation</span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" [class.active]="step === 2">
+                            <div class="step-trigger">
+                                <span class="bs-stepper-circle">3</span>
+                                <span class="bs-stepper-label" [class.active-text]="step === 2">Finalisation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel [disabled]="step!=0" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Source Financement
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Choisir la source de financement par rapport au budget.
+                                <mat-icon>business</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+
+                        <form class="form" role="form" #allocationDepenseForm="ngForm" autocomplete="off">
+                            <!-- debut body -->
+                            <div class="row">
+
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label form-control-label" for="totalRecette">
+                                            Montant Total Recettes
+                                        </label>
+                                        <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
+                                         suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                            currencyMask required class="form-control" type="text"
+                                            [(ngModel)]="totalRecette" name="totalRecette" id="totalRecette">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label form-control-label" for="totalRecetteRestant">
+                                            Montant Recette Restant
+                                        </label>
+                                        <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
+                                         suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                            currencyMask required class="form-control" type="text"
+                                            [(ngModel)]="totalRecetteRestant" name="totalRecetteRestant" id="totalRecetteRestant">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label form-control-label" for="totalDepense">
+                                            Montant Depense Alloue
+                                        </label>
+                                        <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
+                                         suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                            currencyMask required class="form-control" type="text"
+                                            [(ngModel)]="totalDepense" name="totalDepense" id="totalDepense">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="col-form-label form-control-label" for="libelle">Compte
+                                            Depenses</label>
+                                        <ng-select [closeOnSelect]="false" appendTo="body" name="selectedEntite"
+                                            [items]="compteDepenses" bindLabel="bindLabel"
+                                            (remove)="handleRemovedItem($event, 'depense')"
+                                            notFoundText="Aucun compte recette (vide) trouvé!"
+                                            placeholder="Selectionner le(s) compte(s) de dépense" [multiple]="true"
+                                            [(ngModel)]="allocatedDepenseAccounts" [searchable]="true">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <mat-action-row>
+                                <button mat-raised-button
+                                    [disabled]="allocationDepenseForm.invalid || allocatedDepenseAccounts.length === 0"
+                                    (click)="nextStep('init-alloc', 'depense')">Suivant</button>
+                            </mat-action-row>
+                        </form>
+
+
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel [disabled]="step!=1" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Allocation
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Précisier la somme à mettre dans chaque compte.
+                                <mat-icon>vertical_split</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <form role="form" class="form" autocomplete="off" #allocationDepenseForm="ngForm">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <ngb-alert *ngIf="showAlert" [type]="'warning'" [dismissible]="false">Attention vous
+                                        êtes entrain de dépasser la fourchette permise.</ngb-alert>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <table *ngIf="step === 1 && allocatedDepenseAccounts.length"
+                                        class="table table-hover table-responsive-sm table-responsive-md table-responsive-lg mt-2">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Compte</th>
+                                                <th scope="col">Montant</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let allocation of allocationDepenses">
+                                                <th>{{ allocation.compte.bindLabel }}</th>
+                                                <td>
+                                                    <input pInputText (keyup)="onAmountTyped('depense')"
+                                                        [max]="cashRemaining"
+                                                        [options]="{ prefix: '',  suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                                        currencyMask required class="form-control" type="text"
+                                                        [(ngModel)]="allocation.montantInitial"
+                                                        name="montant{{ allocation.compte.bindLabel }}"
+                                                        id="montant{{ allocation.compte.bindLabel }}">
+                                                </td>
+                                            </tr>
+                                            <tr [class.table-success]="cashRemaining === 0">
+                                                <th>Total Restant</th>
+                                                <td>
+                                                    <input pInputText [disabled]="true"
+                                                        [options]="{ prefix: '', suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                                        currencyMask required [(ngModel)]="cashRemaining"
+                                                        class="form-control" type="text" name="montantSrcFinRest"
+                                                        id="montantSrcFinRest">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-lg-12">
+                                    <p-progressBar [class]="'customProgress'" [value]="progressBarValue">
+                                    </p-progressBar>
+                                </div>
+                            </div>-
+                            <mat-action-row>
+                                <button mat-button color="warn" (click)="prevStep()">Précedent</button>
+                                <button mat-raised-button
+                                    [disabled]="allocationDepenseForm.invalid || verifyAllocation('depense')"
+                                    (click)="nextStep()">Suivant</button>
+                            </mat-action-row>
+                        </form>
+
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel #step3 [disabled]="step!=2" [expanded]="step === 2" (opened)="setStep(2)"
+                        hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Recapitulatif
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Valider vos ventilations sur les comptes de dépenses.
+                                <mat-icon>bar_chart</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <table *ngIf="step === 2 && allocatedDepenseAccounts.length"
+                            class="table table-hover table-responsive-sm table-responsive-md table-responsive-lg mt-2">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Compte</th>
+                                    <th scope="col">Montant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let allocation of allocationDepenses">
+                                    <th>{{ allocation.compte.bindLabel }}</th>
+                                    <td>
+                                        {{ allocation.montantInitial | currency:'F CFA':'code':'3.2-2':'fr' }}
+                                    </td>
+                                </tr>
+                                <tr class="table-info">
+                                    <th>Total</th>
+                                    <td>
+                                        {{ sum | currency:'F CFA':'code':'3.2-2':'fr' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="prevStep()">Précedent</button>
+                            <button mat-raised-button (click)="createAllocationDepenses(step3)">Valider</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeModal()">
+            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+            Fermer</button>
+
+    </div>
 </ng-template>

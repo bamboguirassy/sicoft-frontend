@@ -41,7 +41,11 @@ export class AllocationService {
   }
 
   createMultipleAndUpdateSrcFinAmount(allocations: Allocation[]) {
-    return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple', allocations);
+    return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple-recette', allocations);
+  }
+
+  createMultipleDepense(allocations: Allocation[]) {
+    return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple-depense', allocations);
   }
 
   public getRoutePrefix(): string {
@@ -56,8 +60,13 @@ export class AllocationService {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + idExSourcFin + '/esf')
   }
 
-  findAllocationsByBudgetAndCompteDivisionnaire(idCompteDiv: number, idBudget: number) {
-    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/' + idCompteDiv + '/budget-cd')
+  findAllocationsByBudgetAndCompteDivisionnaire(idCompteDiv: number, idBudget: number, code: string) {
+    const accountType = code === '2' ? 'depense' : 'recette';
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/' + idCompteDiv + '/budget-cd?accountType=' + accountType)
+  }
+
+  findTotalAllocationsRecetteAndDepenseByBudget(budgetId: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + budgetId + '/budget');
   }
 
   updateMultipleAndSrcFinAmount(allocations: Allocation[]) {
