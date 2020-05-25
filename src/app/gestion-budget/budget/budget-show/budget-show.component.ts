@@ -49,19 +49,22 @@ export class BudgetShowComponent implements OnInit {
   totalRecetteRestant: number = 0;
   totalRecette: number = 0;
   recetteAllocationToUpdate: Allocation[];
+  depenseAllocationToUpdate: Allocation[];
   exerciceSourceFinancements: ExerciceSourceFinancement[];
   allExerciceSourceFinancements: ExerciceSourceFinancement[];
   step = 0;
   sum = 0;
+  showSpinner = false;
   showAlert = false;
   allocatedAccounts: Compte[] = [];
   allocatedDepenseAccounts: Compte[] = [];
-  allocations: Allocation[] = [];
+  allocationRecettes: Allocation[] = [];
   allocationDepenses: Allocation[] = [];
   progressBarValue = 0;
   @ViewChild('allocation', { static: false }) allocationModalRef: TemplateRef<any>;
-  @ViewChild('updateAllocation', { static: false }) UpdateAllocationModalRef: TemplateRef<any>;
+  @ViewChild('updateAllocation', { static: false }) updateAllocationModalRef: TemplateRef<any>;
   @ViewChild('allocationDepenseWizard', { static: false }) allocationDepenseWizardRef: TemplateRef<any>;
+  @ViewChild('updateAllocationDepense', { static: false }) updateAllocationDepenseRef: TemplateRef<any>;
 
   budget: Budget;
   constructor(public activatedRoute: ActivatedRoute,
@@ -127,14 +130,17 @@ export class BudgetShowComponent implements OnInit {
       });
   }
 
-  findTotalAllocationsRecetteByBudget() {
-    this.allocationSrv.findTotalAllocationsRecetteAndDepenseByBudget(this.budget.id)
+  findTotalAllocationsRecetteAndDepenseByBudget() {
+    this.showSpinner = true;
+    this.allocationSrv.findTotalRecetteAndDepenseByBudget(this.budget.id)
       .subscribe((data: any) => {
         this.totalRecetteRestant = parseFloat(data.totalRecette);
         this.totalDepense = parseFloat(data.totalDepense)
         this.totalRecette = this.totalRecetteRestant + this.totalDepense;
+        this.showSpinner = false;
       }, error => {
         this.allocationSrv.httpSrv.handleError(error);
+        this.showSpinner = false;
       })
   }
 
@@ -145,8 +151,6 @@ export class BudgetShowComponent implements OnInit {
         this.exerciceSourceFinancements.forEach((esf: any) => esf.libelle = `${esf.sourceFinancement.libelle}`);
       }, error => this.classeSrv.httpSrv.handleError(error));
   }
-
-
 
 
   removeBudget() {
@@ -169,7 +173,7 @@ export class BudgetShowComponent implements OnInit {
   fetchAllocations(node: TreeNode) {
     this.loading = true;
     const classe = node.parent.parent.data as Classe;
-    this.allocationSrv.findAllocationsByBudgetAndCompteDivisionnaire(node.data.id, this.budget.id, classe.typeClasse.code)
+    this.allocationSrv.findByBudgetAndCompteDivisionnaire(node.data.id, this.budget.id, classe.typeClasse.code)
       .subscribe((data: any) => {
         if (data.length === 0) {
           this.loading = false;
@@ -271,8 +275,8 @@ export class BudgetShowComponent implements OnInit {
       });
   }
 
-  closeModal(param?: string) {
-    this.allocations = [];
+  closeModal(param?: string, operation: 'recette' | 'depense' = 'recette') {
+    this.allocationRecettes = [];
     this.allocationDepenses = [];
     this.selectedExerciceSrcFin = undefined;
     this.allocatedAccounts = [];
@@ -280,10 +284,17 @@ export class BudgetShowComponent implements OnInit {
     this.step = 0;
     this.sum = 0;
     this.cashRemaining = 0;
+    this.progressBarValue = 0;
     this.showAlert = false;
+    this.showSpinner = false;
     if (param === 'update') {
-      this.recetteAllocationToUpdate = undefined;
-      this.selectedExerciceSrcFinUpdate = undefined;
+      if (operation === 'recette') {
+        this.recetteAllocationToUpdate = undefined;
+        this.selectedExerciceSrcFinUpdate = undefined;
+      } else {
+        this.depenseAllocationToUpdate = undefined;
+      }
+
     }
     this.modalSrv.dismissAll('Cross Click');
   }
@@ -298,9 +309,30 @@ export class BudgetShowComponent implements OnInit {
   }
 
   toggleAllocationDepenseModal() {
-    this.findTotalAllocationsRecetteByBudget();
+    this.findTotalAllocationsRecetteAndDepenseByBudget();
     this.modalSrv.open(this.allocationDepenseWizardRef, {
       size: 'lg',
+      centered: true,
+      keyboard: false,
+      backdrop: 'static'
+    });
+  }
+
+  toggleUpdateAllocationModal() {
+    this.modalSrv.open(this.updateAllocationModalRef, {
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
+      centered: true,
+      keyboard: false,
+      backdrop: 'static'
+    });
+  }
+
+  toggleUpdateAllocationDepenseModal() {
+    this.findAllocationsDepenseByBudget();
+    this.modalSrv.open(this.updateAllocationDepenseRef, {
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
       centered: true,
       keyboard: false,
       backdrop: 'static'
@@ -311,7 +343,7 @@ export class BudgetShowComponent implements OnInit {
     this.sum = 0;
     this.showAlert = false;
     if (operation === 'recette') {
-      this.allocations.forEach(allocation => {
+      this.allocationRecettes.forEach(allocation => {
         this.sum += allocation.montantInitial;
       });
       if (this.sum <= this.selectedExerciceSrcFin.montantRestant) {
@@ -339,35 +371,57 @@ export class BudgetShowComponent implements OnInit {
     }
   }
 
-  onAmountTypedForUpdate(param?: string) {
+  onAmountTypedForUpdate(param?: string, operation: 'recette' | 'depense' = 'recette') {
     this.sum = 0;
     this.showAlert = false;
-    this.recetteAllocationToUpdate.forEach(allocation => {
-      this.sum += allocation.montantInitial;
-    });
-    if (this.sum <= this.selectedExerciceSrcFinUpdate.montantInitial) {
-      this.showAlert = false;
-      const montantReelementAlloue = this.selectedExerciceSrcFinUpdate.montantRestant + this.allocatedAmount - this.sum;
-      this.progressBarValue
-        = Math.floor(100 * ((this.selectedExerciceSrcFinUpdate.montantInitial - montantReelementAlloue)
-          / this.selectedExerciceSrcFinUpdate.montantInitial));
-      if (param === 'first') {
-        this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant;
+    if (operation === 'recette') {
+      this.recetteAllocationToUpdate.forEach(allocation => {
+        this.sum += allocation.montantInitial;
+      });
+      if (this.sum <= this.selectedExerciceSrcFinUpdate.montantInitial) {
+        this.showAlert = false;
+        const montantReelementAlloue = this.selectedExerciceSrcFinUpdate.montantRestant + this.allocatedAmount - this.sum;
+        this.progressBarValue
+          = Math.floor(100 * ((this.selectedExerciceSrcFinUpdate.montantInitial - montantReelementAlloue)
+            / this.selectedExerciceSrcFinUpdate.montantInitial));
+        if (param === 'first') {
+          this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant;
+        } else {
+          this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant + this.allocatedAmount - this.sum;
+        }
       } else {
-        this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant + this.allocatedAmount - this.sum;
+        this.showAlert = true;
+        this.progressBarValue = 0;
+        this.cashRemaining = 0;
       }
     } else {
-      this.showAlert = true;
-      this.progressBarValue = 0;
-      this.cashRemaining = 0;
+      this.depenseAllocationToUpdate.forEach(allocation => {
+        this.sum += allocation.montantInitial;
+      });
+      if (this.sum <= (this.totalRecetteRestant + this.totalDepense)) {
+        this.showAlert = false;
+        this.progressBarValue
+          = Math.floor(100 * ( (this.totalRecette - (this.totalRecetteRestant + this.totalDepense - this.sum))
+            / this.totalRecette));
+        if (param === 'first') {
+          this.cashRemaining = this.totalRecetteRestant;
+        } else {
+          this.cashRemaining = this.totalRecetteRestant + this.totalDepense - this.sum;
+        }
+      } else {
+        this.showAlert = true;
+        this.progressBarValue = 0;
+        this.cashRemaining = 0;
+      }
     }
+
   }
 
   verifyAllocation(operation: 'depense' | 'recette' = 'recette') {
     let sum = 0;
     let containsNullAccount = false;
     if (operation === 'recette') {
-      this.allocations.forEach(allocation => {
+      this.allocationRecettes.forEach(allocation => {
         sum += allocation.montantInitial;
         if (allocation.montantInitial === 0) {
           containsNullAccount = true;
@@ -385,24 +439,38 @@ export class BudgetShowComponent implements OnInit {
     }
   }
 
-  verifyAllocationForUpdate() {
+  verifyAllocationForUpdate(operation: 'recette' | 'depense' = 'recette') {
     let sum = 0;
     let containsNullAccount = false;
-    this.recetteAllocationToUpdate.forEach(allocation => {
-      sum += allocation.montantInitial;
-      if (allocation.montantInitial === 0) {
-        containsNullAccount = true;
-      }
-    });
-    return !containsNullAccount
-      && sum !== 0
-      && sum <= this.selectedExerciceSrcFinUpdate.montantRestant + this.allocatedAmount
-      ? false : true;
+    if (operation === 'recette') {
+      this.recetteAllocationToUpdate.forEach(allocation => {
+        sum += allocation.montantInitial;
+        if (allocation.montantInitial === 0) {
+          containsNullAccount = true;
+        }
+      });
+      return !containsNullAccount
+        && sum !== 0
+        && sum <= this.selectedExerciceSrcFinUpdate.montantRestant + this.allocatedAmount
+        ? false : true;
+    } else {
+      this.depenseAllocationToUpdate.forEach(allocation => {
+        sum += allocation.montantInitial;
+        if (allocation.montantInitial === 0) {
+          containsNullAccount = true;
+        }
+      });
+      return !containsNullAccount
+        && sum !== 0
+        && sum <= this.totalRecetteRestant + this.totalDepense
+        ? false : true;
+    }
+
   }
 
   handleRemovedItem(removedItem: any, operation: 'recette' | 'depense' = 'recette') {
     if (operation === 'recette') {
-      this.allocations = this.allocations.filter(allocation => allocation.compte.numero !== removedItem.value.numero);
+      this.allocationRecettes = this.allocationRecettes.filter(allocation => allocation.compte.numero !== removedItem.value.numero);
     } else {
       this.allocationDepenses = this.allocationDepenses.filter(allocation => allocation.compte.numero !== removedItem.value.numero)
     }
@@ -426,8 +494,8 @@ export class BudgetShowComponent implements OnInit {
         this.progressBarValue = Math.floor(100 * (this.allocatedAmount / this.selectedExerciceSrcFin.montantInitial));
         this.allocatedAmount = this.selectedExerciceSrcFin.montantInitial - this.selectedExerciceSrcFin.montantRestant;
         this.allocatedAccounts.forEach(allocatedAccount => {
-          if (this.allocations.filter(allocation => allocation.compte.numero === allocatedAccount.numero).length === 0) {
-            this.allocations.push({
+          if (this.allocationRecettes.filter(allocation => allocation.compte.numero === allocatedAccount.numero).length === 0) {
+            this.allocationRecettes.push({
               compte: allocatedAccount,
               montantInitial: 0
             });
@@ -457,7 +525,7 @@ export class BudgetShowComponent implements OnInit {
         this.cashRemaining = this.selectedExerciceSrcFinUpdate.montantRestant;
         this.allocatedAmount
           = this.allocatedAmount + (this.selectedExerciceSrcFinUpdate.montantInitial - this.selectedExerciceSrcFinUpdate.montantRestant);
-        this.findAllocationsByBudget(this.selectedExerciceSrcFinUpdate.id);
+        this.findAllocationsByExerciceSrcFin();
       }
 
     } else {
@@ -478,13 +546,13 @@ export class BudgetShowComponent implements OnInit {
     this.step = 4;
     let sum = 0;
     const allocatedAccounts: Compte[] = [];
-    this.allocations.forEach(allocation => {
+    this.allocationRecettes.forEach(allocation => {
       sum += allocation.montantInitial;
       allocatedAccounts.push(allocation.compte);
       allocation.compte = allocation.compte.id;
       allocation.exerciceSourceFinancement = this.selectedExerciceSrcFin.id;
     });
-    this.allocationSrv.createMultipleAndUpdateSrcFinAmount(this.allocations)
+    this.allocationSrv.createMultipleAndUpdateSrcFinAmount(this.allocationRecettes)
       .subscribe((data: any) => {
         this.selectedExerciceSrcFin.montantRestant = this.selectedExerciceSrcFin.montantRestant - sum;
         if (this.selectedExerciceSrcFin.montantRestant === 0) {
@@ -523,10 +591,12 @@ export class BudgetShowComponent implements OnInit {
       });
   }
 
-
-  findAllocationsByBudget(id: number) {
+  /**
+   * Trouve les allocations recette en fonction du ESF
+   */
+  findAllocationsByExerciceSrcFin() {
     let s = 0;
-    this.allocationSrv.findAllocationsByExerciceSrcFin(this.selectedExerciceSrcFinUpdate.id)
+    this.allocationSrv.findRecetteByExerciceSrcFin(this.selectedExerciceSrcFinUpdate.id)
       .subscribe((data: any) => {
         data.forEach(allocation => {
           allocation.compte.bindLabel = allocation.compte.numero + ' - ' + allocation.compte.libelle;
@@ -540,14 +610,23 @@ export class BudgetShowComponent implements OnInit {
       })
   }
 
-  toggleUpdateAllocationModal() {
-    this.modalSrv.open(this.UpdateAllocationModalRef, {
-      size: 'lg',
-      backdropClass: 'light-blue-backdrop',
-      centered: true,
-      keyboard: false,
-      backdrop: 'static'
-    });
+  findAllocationsDepenseByBudget() {
+    this.showSpinner = true;
+    this.allocationSrv.findDepenseByBudget(this.budget.id)
+      .subscribe((data: any) => {
+        data.allocationDepenses.forEach(allocation => {
+          allocation.compte.bindLabel = allocation.compte.numero + ' - ' + allocation.compte.libelle;
+        });
+        this.depenseAllocationToUpdate = data.allocationDepenses;
+        this.totalRecetteRestant = parseFloat(data.totalRecette);
+        this.totalDepense = parseFloat(data.totalDepense)
+        this.totalRecette = this.totalRecetteRestant + this.totalDepense;
+        this.onAmountTypedForUpdate('first', 'depense');
+        this.showSpinner = false;
+      }, error => {
+        this.compteSrv.httpSrv.handleError(error);
+        this.showSpinner = false;
+      })
   }
 
   updateAllocations() {
@@ -570,6 +649,16 @@ export class BudgetShowComponent implements OnInit {
         this.closeModal('update');
         this.refreshTreeTable();
         this.findAllExerciceSourceFinancement();
+      }, error => {
+        this.allocationSrv.httpSrv.handleError(error);
+      })
+  }
+
+  updateAllocationDepenses() {
+    this.allocationSrv.updateMultipleDepense(this.depenseAllocationToUpdate)
+      .subscribe((data: any) => {
+        this.closeModal('update', 'depense');
+        this.refreshTreeTable();
       }, error => {
         this.allocationSrv.httpSrv.handleError(error);
       })

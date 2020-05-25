@@ -13,11 +13,13 @@
             <i class="fa fa-reply"></i>
             Retour
         </button>
-        <button type="button" class="btn btn-outline-dark pull-left ml-1">
+        <button *ngIf="!budget.verrouille && 'Allocation'|editable" (click)="toggleUpdateAllocationDepenseModal()"
+            type="button" class="btn btn-outline-dark pull-left ml-1">
             <i class="fa fa-pencil-square"></i>
             Modifier Allocations Dépenses
         </button>
-        <button type="button" class="btn btn-outline-primary pull-left ml-1" (click)="toggleAllocationDepenseModal()">
+        <button type="button" *ngIf="!budget.verrouille &&'Allocation'|creable"
+            class="btn btn-outline-primary pull-left ml-1" (click)="toggleAllocationDepenseModal()">
             <i class="fa fa-money"></i>
             Allouer Dépenses
         </button>
@@ -320,7 +322,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let allocation of allocations">
+                                            <tr *ngFor="let allocation of allocationRecettes">
                                                 <th>{{ allocation.compte.bindLabel }}</th>
                                                 <td>
                                                     <input pInputText (keyup)="onAmountTyped()" [max]="cashRemaining"
@@ -380,7 +382,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let allocation of allocations">
+                                <tr *ngFor="let allocation of allocationRecettes">
                                     <th>{{ allocation.compte.bindLabel }}</th>
                                     <td>
                                         {{ allocation.montantInitial | currency:'F CFA':'code':'3.2-2':'fr' }}
@@ -474,7 +476,7 @@
                                         currencyMask required class="form-control" type="text"
                                         [(ngModel)]="allocation.montantInitial"
                                         name="montantUpdate{{ allocation.compte.bindLabel }}"
-                                        id="montantmontantUpdate{{ allocation.compte.bindLabel }}">
+                                        id="montantUpdate{{ allocation.compte.bindLabel }}">
                                 </td>
                             </tr>
                             <tr [class.table-success]="cashRemaining === 0">
@@ -513,6 +515,129 @@
                 Fermer</button>
             <button (click)="updateAllocations()"
                 [disabled]="updateAllocationForm.invalid || recetteAllocationToUpdate && verifyAllocationForUpdate()"
+                type="button" class="btn btn-outline-primary">
+                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                Valider</button>
+
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #updateAllocationDepense>
+    <form class="form" role="form" #updateAllocationDepenseForm="ngForm" autocomplete="off">
+
+        <div class="modal-header new-sous-class-header">
+            <h4 class="modal-title" id="modal-title">Allocation Dépenses - {{ budget.libelle }} </h4>
+            <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+                (click)="closeModal('update')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <!-- debut body -->
+            <div *ngIf="showSpinner" class="row d-flex">
+                <div class="col-sm-7 offset-sm-5">
+                    <p-progressSpinner animationDuration=".3s"></p-progressSpinner>
+                </div>
+            </div>
+            <div class="row" *ngIf="!showSpinner">
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="col-form-label form-control-label" for="totalRecetteUpdate">
+                            Montant Total Recettes
+                        </label>
+                        <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
+                         suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }" currencyMask required
+                            class="form-control" type="text" [(ngModel)]="totalRecette" name="totalRecetteUpdate"
+                            id="totalRecetteUpdate">
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="col-form-label form-control-label" for="totalRecetteRestantUpdate">
+                            Montant Recette Restant
+                        </label>
+                        <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
+                         suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }" currencyMask required
+                            class="form-control" type="text" [(ngModel)]="totalRecetteRestant"
+                            name="totalRecetteRestantUpdate" id="totalRecetteRestantUpdate">
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="col-form-label form-control-label" for="totalDepenseUpdate">
+                            Montant Depense Alloue
+                        </label>
+                        <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
+                         suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }" currencyMask required
+                            class="form-control" type="text" [(ngModel)]="totalDepense" name="totalDepenseUpdate"
+                            id="totalDepenseUpdate">
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center" *ngIf="!showSpinner">
+                <div *ngIf="showAlert" class="col-lg-12">
+                    <ngb-alert [type]="'warning'" [dismissible]="false">Attention vous
+                        êtes entrain de dépasser la fourchette permise.</ngb-alert>
+                </div>
+                <div class="col-lg-12">
+                    <table *ngIf="depenseAllocationToUpdate && depenseAllocationToUpdate.length"
+                        class="table table-hover table-responsive-sm table-responsive-md table-responsive-lg mt-2">
+                        <thead>
+                            <tr>
+                                <th scope="col">Compte</th>
+                                <th scope="col">Montant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let allocation of depenseAllocationToUpdate">
+                                <th>{{ allocation.compte.bindLabel }}</th>
+                                <td>
+                                    <input pInputText (keyup)="onAmountTypedForUpdate(null, 'depense')"
+                                        [options]="{ prefix: '',  suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                        currencyMask required class="form-control" type="text"
+                                        [(ngModel)]="allocation.montantInitial"
+                                        name="montanDepensetUpdate{{ allocation.compte.bindLabel }}"
+                                        id="montantDepenseUpdate{{ allocation.compte.bindLabel }}">
+                                </td>
+                            </tr>
+                            <tr [class.table-success]="cashRemaining === 0">
+                                <th>Total Restant</th>
+                                <td>
+                                    <input pInputText [disabled]="true"
+                                        [options]="{ prefix: '', suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
+                                        currencyMask required [(ngModel)]="cashRemaining" class="form-control"
+                                        type="text" name="montantRestUpdate" id="montantRestUpdate">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf=" depenseAllocationToUpdate && depenseAllocationToUpdate.length === 0" class="col-lg-12">
+                        <ngb-alert [type]="'warning'" [dismissible]="false">Aucune allocation sur les comptes de
+                            dépenses.</ngb-alert>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="mb-2 row"
+                *ngIf="depenseAllocationToUpdate && depenseAllocationToUpdate.length && !showSpinner">
+                <div class="col-lg-12">
+                    <p-progressBar [class]="'customProgress'" [value]="progressBarValue">
+                    </p-progressBar>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="closeModal('update')">
+                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                Fermer</button>
+            <button (click)="updateAllocationDepenses()"
+                [disabled]="updateAllocationDepenseForm.invalid || depenseAllocationToUpdate && verifyAllocationForUpdate('depense')"
                 type="button" class="btn btn-outline-primary">
                 <i class="fa fa-check-circle" aria-hidden="true"></i>
                 Valider</button>
@@ -560,7 +685,12 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div *ngIf="showSpinner" class="row d-flex">
+            <div class="col-sm-7 offset-sm-5">
+                <p-progressSpinner animationDuration=".3s"></p-progressSpinner>
+            </div>
+        </div>
+        <div class="row" *ngIf="!showSpinner">
             <div class="col-lg-12">
                 <mat-accordion class="example-headers-align">
                     <mat-expansion-panel [disabled]="step!=0" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
@@ -599,7 +729,8 @@
                                         <input pInputText default="0" [disabled]="true" [options]="{ prefix: '',
                                          suffix: ' F CFA ', thousands: '.', decimal: ',', allowNegative: false }"
                                             currencyMask required class="form-control" type="text"
-                                            [(ngModel)]="totalRecetteRestant" name="totalRecetteRestant" id="totalRecetteRestant">
+                                            [(ngModel)]="totalRecetteRestant" name="totalRecetteRestant"
+                                            id="totalRecetteRestant">
                                     </div>
                                 </div>
 

@@ -56,21 +56,29 @@ export class AllocationService {
     return this.routePrefix + '/';
   }
 
-  findAllocationsByExerciceSrcFin(idExSourcFin: number) {
+  findRecetteByExerciceSrcFin(idExSourcFin: number) {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + idExSourcFin + '/esf')
   }
 
-  findAllocationsByBudgetAndCompteDivisionnaire(idCompteDiv: number, idBudget: number, code: string) {
+  findByBudgetAndCompteDivisionnaire(idCompteDiv: number, idBudget: number, code: string) {
     const accountType = code === '2' ? 'depense' : 'recette';
-    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/' + idCompteDiv + '/budget-cd?accountType=' + accountType)
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/' + idCompteDiv + '/budget-cd?compteType=' + accountType)
   }
 
-  findTotalAllocationsRecetteAndDepenseByBudget(budgetId: number) {
-    return this.httpSrv.get(this.getRoutePrefixWithSlash() + budgetId + '/budget');
+  findDepenseByBudget(idBudget: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/budget-depense')
+  }
+
+  findTotalRecetteAndDepenseByBudget(idBudget: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/montant-recette-depense');
   }
 
   updateMultipleAndSrcFinAmount(allocations: Allocation[]) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'edit-multiple', allocations);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'edit-multiple-recette', allocations);
+  }
+
+  updateMultipleDepense(allocations: Allocation[]) {
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'edit-multiple-depense', allocations);
   }
 
 }
