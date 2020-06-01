@@ -1,28 +1,54 @@
 <p-toast [baseZIndex]="12000"></p-toast>
 <p-fieldset *ngIf="'Budget'|showable" legend="Allocations Budgetaires" [toggleable]="true">
     <p-toolbar>
-        <button *ngIf="!budget.verrouille &&'Allocation'|creable" type="button"
-            class="btn btn-outline-primary pull-right ml-1" (click)="toggleAllocationModal()"><i class="fa fa-money"
-                aria-hidden="true"></i> Allouer Recette</button>
-        <button *ngIf="!budget.verrouille && 'Allocation'|editable" type="button"
-            class="btn btn-outline-dark pull-right ml-1" (click)="toggleUpdateAllocationModal()">
-            <i class="fa fa-pencil-square" aria-hidden="true"></i>
-            Modifier Allocation Recette
-        </button>
+
         <button type="button" class="btn btn-outline-secondary pull-left ml-1" (click)="location.back()">
             <i class="fa fa-reply"></i>
             Retour
         </button>
-        <button *ngIf="!budget.verrouille && 'Allocation'|editable" (click)="toggleUpdateAllocationDepenseModal()"
-            type="button" class="btn btn-outline-dark pull-left ml-1">
-            <i class="fa fa-pencil-square"></i>
-            Modifier Allocations Dépenses
+
+        <!-- Debut popover allocations recette -->
+        <ng-template #popContentRecette>
+            <button type="button" class="btn btn-outline-primary pull-right ml-1" (click)="toggleAllocationRecetteModal()">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Ajouter
+            </button>
+            <button type="button" class="btn btn-outline-dark pull-right ml-1" (click)="toggleUpdateAllocationRecetteModal()">
+                <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                Modifier
+            </button>
+        </ng-template>
+        <ng-template #popTitleRecette>Allocations - Recette</ng-template>
+        <button *ngIf="!budget.verrouille && 'Allocation'|editable" type="button"
+            class="btn btn-outline-dark pull-right ml-1" [autoClose]="'outside'" placement="left"
+            [ngbPopover]="popContentRecette" [popoverTitle]="popTitleRecette">
+            <i class="fa fa-money" aria-hidden="true"></i>
+            Recettes
         </button>
-        <button type="button" *ngIf="!budget.verrouille &&'Allocation'|creable"
-            class="btn btn-outline-primary pull-left ml-1" (click)="toggleAllocationDepenseModal()">
-            <i class="fa fa-money"></i>
-            Allouer Dépenses
+        <!-- fin popover allocations recette -->
+
+        <!-- Debut popover allocations depense -->
+        <ng-template #popContentDepense>
+            <button (click)="toggleUpdateAllocationDepenseModal()" type="button"
+                class="btn btn-outline-dark pull-left ml-1">
+                <i class="fa fa-pencil-square"></i>
+                Modifier
+            </button>
+            <button type="button" class="btn btn-outline-primary pull-left ml-1"
+                (click)="toggleAllocationDepenseModal()">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Ajouter
+            </button>
+        </ng-template>
+        <ng-template #popTitleDepense>Allocations - Dépenses</ng-template>
+        <button *ngIf="!budget.verrouille && 'Allocation'|editable" type="button"
+            class="btn btn-outline-primary pull-left ml-1" [autoClose]="'outside'" placement="bottom"
+            [ngbPopover]="popContentDepense" [popoverTitle]="popTitleDepense">
+            <i class="fa fa-money" aria-hidden="true"></i>
+            Dépenses
         </button>
+        <!-- fin popover allocations recette -->
+
     </p-toolbar>
     <p-tabView>
         <p-tabPanel header="Allocations" leftIcon="pi pi-list">
@@ -101,8 +127,8 @@
         <p-tabPanel header="General" leftIcon="fa fa-bar-chart">
             <div class="card-body">
                 <p-table #tt [value]="allExerciceSourceFinancements" [paginator]="true" [rows]="50" sortMode="multiple"
-                    selectionMode="multiple" [resizableColumns]="true" [responsive]="true" [scrollable]="true"
-                    scrollHeight="400px" [globalFilterFields]="globalFilterFieldESF" dataKey="id">
+                    [resizableColumns]="true" [responsive]="true" [scrollable]="true" scrollHeight="400px"
+                    [globalFilterFields]="globalFilterFieldESF" dataKey="id">
                     <ng-template pTemplate="caption">
                         <h5> SOURCES DE FINANCEMENT - {{ budget.libelle }} </h5>
                         <div class="row justify-content-center">
@@ -176,7 +202,7 @@
 
 </p-fieldset>
 
-<ng-template #allocation>
+<ng-template #allocationRecetteWizard>
     <div class="modal-header new-sous-class-header">
         <h4 class="modal-title" id="modal-title">Allocation Recettes - {{ budget.libelle }} </h4>
         <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
@@ -415,7 +441,7 @@
 </ng-template>
 
 
-<ng-template #updateAllocation>
+<ng-template #updateAllocationRecette>
     <form class="form" role="form" #updateAllocationForm="ngForm" autocomplete="off">
 
         <div class="modal-header new-sous-class-header">
@@ -623,8 +649,7 @@
                 </div>
 
             </div>
-            <div class="mb-2 row"
-                *ngIf="depenseAllocationToUpdate && depenseAllocationToUpdate.length && !showSpinner">
+            <div class="mb-2 row" *ngIf="depenseAllocationToUpdate && depenseAllocationToUpdate.length && !showSpinner">
                 <div class="col-lg-12">
                     <p-progressBar [class]="'customProgress'" [value]="progressBarValue">
                     </p-progressBar>

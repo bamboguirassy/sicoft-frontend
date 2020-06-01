@@ -61,8 +61,8 @@ export class BudgetShowComponent implements OnInit {
   allocationRecettes: Allocation[] = [];
   allocationDepenses: Allocation[] = [];
   progressBarValue = 0;
-  @ViewChild('allocation', { static: false }) allocationModalRef: TemplateRef<any>;
-  @ViewChild('updateAllocation', { static: false }) updateAllocationModalRef: TemplateRef<any>;
+  @ViewChild('allocationRecetteWizard', { static: false }) allocationRecetteModalRef: TemplateRef<any>;
+  @ViewChild('updateAllocationRecette', { static: false }) updateAllocationRecetteModalRef: TemplateRef<any>;
   @ViewChild('allocationDepenseWizard', { static: false }) allocationDepenseWizardRef: TemplateRef<any>;
   @ViewChild('updateAllocationDepense', { static: false }) updateAllocationDepenseRef: TemplateRef<any>;
 
@@ -299,8 +299,8 @@ export class BudgetShowComponent implements OnInit {
     this.modalSrv.dismissAll('Cross Click');
   }
 
-  toggleAllocationModal() {
-    this.modalSrv.open(this.allocationModalRef, {
+  toggleAllocationRecetteModal() {
+    this.modalSrv.open(this.allocationRecetteModalRef, {
       size: 'lg',
       centered: true,
       keyboard: false,
@@ -318,8 +318,8 @@ export class BudgetShowComponent implements OnInit {
     });
   }
 
-  toggleUpdateAllocationModal() {
-    this.modalSrv.open(this.updateAllocationModalRef, {
+  toggleUpdateAllocationRecetteModal() {
+    this.modalSrv.open(this.updateAllocationRecetteModalRef, {
       size: 'lg',
       backdropClass: 'light-blue-backdrop',
       centered: true,
