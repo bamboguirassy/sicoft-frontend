@@ -17,6 +17,7 @@ import { NgbModal } from '../../../../../node_modules/@ng-bootstrap/ng-bootstrap
 })
 export class BudgetNewComponent implements OnInit {
   budget: Budget;
+  exercice: Exercice;
   exercices: Exercice[] = [];
   entites: Entite[] = [];
   @Output() created: EventEmitter<Budget> = new EventEmitter();
