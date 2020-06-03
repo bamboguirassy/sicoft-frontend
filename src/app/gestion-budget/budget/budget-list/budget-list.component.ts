@@ -102,7 +102,6 @@ export class BudgetListComponent implements OnInit {
   saveAsExcelFile(buffer: any, fileName: string): void {
     this.exportSrv.saveAsExcelFile(buffer, fileName);
   }
-  
   toggleAddModal() {
     const modalRef = this.modalSrv.open(BudgetNewComponent, {
       size: 'lg',
