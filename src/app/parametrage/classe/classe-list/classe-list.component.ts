@@ -7,7 +7,7 @@ import { SousClasse } from './../../sous_classe/sous_classe';
 import { TypeClasse } from 'app/parametrage/type_classe/type_classe';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClasseNewComponent } from './../classe-new/classe-new.component';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
 import { Classe } from '../classe';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClasseService } from '../classe.service';
@@ -56,7 +56,6 @@ export class ClasseListComponent implements OnInit {
   selectedSousClasses: SousClasse[] = [];
   @ViewChild('subClassModal', { static: false }) subClassemodalContentRef: TemplateRef<any>;
   @ViewChild('deletionConfirm', { static: false }) deletionModalContentRef: TemplateRef<any>;
-
   treeNodes: TreeNode[] = [];
   loading: boolean;
 
@@ -71,7 +70,7 @@ export class ClasseListComponent implements OnInit {
     private router: Router, public authSrv: AuthService, public sousClasseSrv: SousClasseService,
     public compteDivisionnaireSrv: CompteDivisionnaireService, public compteSrv: CompteService,
     public notificationSrv: NotificationService) { }
-
+ 
   ngOnInit() {
     this.loading = false;
 
@@ -376,7 +375,7 @@ export class ClasseListComponent implements OnInit {
 
   /** Gestion du menu contextuelle dynamique **/
   toggleContextMenu() {
-    this.maxlength =  this.selectedItem.data.type === 'compteDivisionnaire' ? 3 : 1; 
+    this.maxlength = this.selectedItem.data.type === 'compteDivisionnaire' ? 3 : 1;
     if (this.selectedItem.data.type === 'classe') {
       this.modalTitle = 'Sous Classe - ' + this.selectedItem.data.libelle;
       this.showClassMenu();
@@ -456,7 +455,7 @@ export class ClasseListComponent implements OnInit {
 
 
   /** fin Gestion du menu contextuelle dynamique **/
-  openModal(template: any ) {
+  openModal(template: any) {
     return this.modalSrv.open(template, {
       size: 'lg',
       centered: true,
@@ -751,7 +750,7 @@ export class ClasseListComponent implements OnInit {
 
   rollbackChildChanges(node: TreeNode) {
     let msg = '';
-    const validLength = node.parent.data.numero.toString().length + 1;
+    const validLength = node.data.type === 'compte' ? 6 : node.parent.data.numero.toString().length + 1;
     if (!this.hasValidNumero(node)) {
       msg += 'Le numero doit commencer par ' + node.parent.data.numero + '.\n';
     }
@@ -767,7 +766,7 @@ export class ClasseListComponent implements OnInit {
   }
 
   hasValidNumero(node: TreeNode): boolean {
-    const validLength = node.parent.data.numero.toString().length + 1;
+    const validLength = node.data.type === 'compte' ? 6 : node.parent.data.numero.toString().length + 1;
     return node.data.numero && node.data.numero.toString().startsWith(node.parent.data.numero)
       && node.data.numero.toString().length <= validLength
       ? true : false;

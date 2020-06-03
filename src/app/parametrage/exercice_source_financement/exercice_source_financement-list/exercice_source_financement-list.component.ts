@@ -15,6 +15,11 @@ import { NgbModal, ModalDismissReasons, NgbAlert } from '@ng-bootstrap/ng-bootst
 import { Budget } from 'app/gestion-budget/budget/budget';
 import { BudgetService } from 'app/gestion-budget/budget/budget.service';
 import { ExerciceService } from 'app/parametrage/exercice/exercice.service';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+// the second parameter 'fr-FR' is optional
+registerLocaleData(localeFr, 'fr');
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -166,7 +171,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
           this.refreshList();
           // this.exerciceSouceFinancement.exercice = tempExercice;
           this.exerciceSouceFinancement.budget = tempBudget;
-          if (!this.verouille) {
+          if (this.verouille) {
             this.step = 4;
           }
 
@@ -307,7 +312,7 @@ export class ExerciceSourceFinancementListComponent implements OnInit {
     Swal.fire({
 
       title: 'Saisir le nouveau montant',
-      text: 'Source Financement: ' + exerciceSourceFin.sourceFinancement.libelle + ',' + ' Montant: ' + exerciceSourceFin.montant,
+      text: 'Source Financement: ' + exerciceSourceFin.sourceFinancement.libelle + ',' + ' Montant: ' + exerciceSourceFin.montantInitial,
       input: 'text',
       showLoaderOnConfirm: true,
       showCancelButton: true,

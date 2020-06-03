@@ -43,6 +43,9 @@ export class CompteService {
   findCompteRecetteByBudget(id: number) {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/recette');
   }
+  findCompteDepenseByBudget(id: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/depense');
+  }
 
   public getRoutePrefix(): string {
     return this.routePrefix;

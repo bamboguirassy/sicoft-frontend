@@ -41,7 +41,11 @@ export class AllocationService {
   }
 
   createMultipleAndUpdateSrcFinAmount(allocations: Allocation[]) {
-    return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple', allocations);
+    return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple-recette', allocations);
+  }
+
+  createMultipleDepense(allocations: Allocation[]) {
+    return this.httpSrv.post(this.getRoutePrefixWithSlash() + 'create-multiple-depense', allocations);
   }
 
   public getRoutePrefix(): string {
@@ -52,16 +56,29 @@ export class AllocationService {
     return this.routePrefix + '/';
   }
 
-  findAllocationsByExerciceSrcFin(idExSourcFin: number) {
+  findRecetteByExerciceSrcFin(idExSourcFin: number) {
     return this.httpSrv.get(this.getRoutePrefixWithSlash() + idExSourcFin + '/esf')
   }
 
-  findAllocationsByBudgetAndCompteDivisionnaire(idCompteDiv: number, idBudget: number) {
-    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/' + idCompteDiv + '/budget-cd')
+  findByBudgetAndCompteDivisionnaire(idCompteDiv: number, idBudget: number, code: string) {
+    const accountType = code === '2' ? 'depense' : 'recette';
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/' + idCompteDiv + '/budget-cd?compteType=' + accountType)
+  }
+
+  findDepenseByBudget(idBudget: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/budget-depense')
+  }
+
+  findTotalRecetteAndDepenseByBudget(idBudget: number) {
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + idBudget + '/montant-recette-depense');
   }
 
   updateMultipleAndSrcFinAmount(allocations: Allocation[]) {
-    return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'edit-multiple', allocations);
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'edit-multiple-recette', allocations);
+  }
+
+  updateMultipleDepense(allocations: Allocation[]) {
+    return this.httpSrv.put(this.getRoutePrefixWithSlash() + 'edit-multiple-depense', allocations);
   }
 
 }

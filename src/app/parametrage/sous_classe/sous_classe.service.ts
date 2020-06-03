@@ -49,7 +49,7 @@ export class SousClasseService {
   }
 
   findByClasse(id: number) {
-    return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/classe');
+    return this.httpSrv.get(this.getRoutePrefixWithSlash() + id + '/classe/');
   }
 
   createMultiple(subClasses: SousClasse[]) {
