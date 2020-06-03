@@ -60,7 +60,7 @@
         <p-toolbar>
             <button type="reset" class="btn btn-secondary pull-left"><i class="fa fa-eraser" aria-hidden="true"></i>
                 Vider le formulaire</button>
-            <button [disabled]="classeForm.invalid && !validNumero" type="button" (click)="saveClasse()"
+            <button #saveButton [disabled]="classeForm.invalid && !validNumero" type="button" (click)="saveClasse()"
                 class="btn btn-outline-primary pull-right ml-1"> <i class="fa fa-save" aria-hidden="true"></i>
                 Enregistrer</button>
         </p-toolbar>

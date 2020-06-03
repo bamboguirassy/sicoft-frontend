@@ -38,6 +38,7 @@ export class ClasseListComponent implements OnInit {
   modalTitle: string;
   maxlength = 2;
   isFormValid = false;
+  displayToast = true;
   inputObject: {
     id: number,
     value: SousClasse | CompteDivisionnaire | Compte | any,
@@ -70,10 +71,9 @@ export class ClasseListComponent implements OnInit {
     private router: Router, public authSrv: AuthService, public sousClasseSrv: SousClasseService,
     public compteDivisionnaireSrv: CompteDivisionnaireService, public compteSrv: CompteService,
     public notificationSrv: NotificationService) { }
- 
+
   ngOnInit() {
     this.loading = false;
-
     this.classes = this.activatedRoute.snapshot.data['classes'];
     this.typeClasses = this.activatedRoute.snapshot.data['typeClasses'];
     this.categorieClasses = this.activatedRoute.snapshot.data['categorieClasses'];
@@ -368,6 +368,7 @@ export class ClasseListComponent implements OnInit {
     modalRef.componentInstance.categorieClasses = this.categorieClasses;
     modalRef.componentInstance.onAddedClasse
       .subscribe((data: any) => {
+        data.type = 'classe';
         this.treeNodes.push({ data: data, children: [], leaf: false });
         this.treeNodes = [...this.treeNodes];
       }, (error: any) => this.classeSrv.httpSrv.handleError(error));
@@ -465,18 +466,21 @@ export class ClasseListComponent implements OnInit {
   }
 
   toggleEditModal() {
+    this.displayToast = false;
     if (this.selectedItem.data.type === 'classe') {
       const modalRef = this.openModal(ClasseEditComponent);
       modalRef.componentInstance.classe = this.selectedItem.data;
       modalRef.componentInstance.typeClasses = this.typeClasses;
       modalRef.componentInstance.categorieClasses = this.categorieClasses;
+
       modalRef.componentInstance.updated
         .subscribe((data: Classe) => {
           window.scrollTo(0, 0);
-          this.notificationSrv.showInfo('Modification Réussi');
           this.modalSrv.dismissAll('Cross Click');
+          this.notificationSrv.showInfo('Modification Réussi');
           this.refreshList()
         });
+
     }
   }
 
