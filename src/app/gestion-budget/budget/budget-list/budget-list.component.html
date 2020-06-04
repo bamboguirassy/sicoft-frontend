@@ -65,7 +65,10 @@
                                 <td class="ui-resizable-column">{{ budget.libelle }}</td>
                                 <td class="ui-resizable-column">{{ budget.exercice.libelle }}</td>
                                 <td class="ui-resizable-column">{{ budget.entite.nom}}</td>
-                                <td class="ui-resizable-column">{{ budget.verrouille ? 'Yes' : 'No' }}</td>
+                                 <td class="ui-resizable-column">
+                                     <span class="badge badge-success" *ngIf="budget.verrouille">ouvert</span>
+                                    <span class="badge badge-danger" *ngIf="!budget.verrouille">fermé</span></td>
+            
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="footer" let-columns>
