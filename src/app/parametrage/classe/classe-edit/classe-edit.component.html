@@ -3,7 +3,7 @@
 <form *ngIf="'Classe'|creable" class="form" role="form" #updateClasseForm="ngForm" autocomplete="off">
     <!-- debut body -->
     <div class="modal-header new-sous-class-header">
-        <h4 class="modal-title">Modification {{ classe.type }} - {{ classe.libelle }} </h4>
+        <h4 class="modal-title">Modification {{ classe.type }} - {{ libelle }} </h4>
         <button type="button" class="close" (click)="modalSrv.dismissAll('Cross Click')" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>

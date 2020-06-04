@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ClasseService } from '../classe.service';
 import { Classe } from '../classe';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,6 +20,7 @@ export class ClasseEditComponent implements OnInit {
   @Input() typeClasses: TypeClasse[];
   @Input() categorieClasses: CategorieClasse[];
   @Output() updated: EventEmitter<Classe> = new EventEmitter();
+  libelle: string;
 
   constructor(public classeSrv: ClasseService,
     public activatedRoute: ActivatedRoute, public modalSrv: NgbModal,
@@ -28,6 +29,7 @@ export class ClasseEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.libelle = this.classe.libelle;
   }
 
   updateClasse() {
